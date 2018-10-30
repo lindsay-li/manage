@@ -42,16 +42,24 @@
                             <Icon type="ios-paper" />
                             关键数据
                         </template>
-                        <MenuItem name="1-1">及时数据</MenuItem>
-                        <MenuItem name="1-2">近期数据</MenuItem>
+                        <MenuItem name="1-1">
+                        <router-link to="/cruxdata" tag="span">即时数据</router-link>
+                        </MenuItem>
+                        <MenuItem name="1-2">
+                        <router-link to="/recentdata" tag="span">近期数据</router-link>
+                        </MenuItem>
                     </Submenu>
                     <Submenu name="2">
                         <template slot="title">
                             <Icon type="ios-people" />
                             用户管理
                         </template>
-                        <MenuItem name="2-1">用户信息</MenuItem>
-                        <MenuItem name="2-2">折扣券</MenuItem>
+                        <MenuItem name="2-1">
+                        <router-link to="/user" tag="span">用户信息</router-link>
+                        </MenuItem>
+                        <MenuItem name="2-2">
+                        <router-link to="/coupon" tag="span">折扣券</router-link>
+                        </MenuItem>
                         <MenuItem name="2-3">葡萄园</MenuItem>
                         <MenuItem name="2-4">评酒贴文列表</MenuItem>
                         <MenuItem name="2-5">用户购物车</MenuItem>

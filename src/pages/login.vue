@@ -84,12 +84,7 @@ input::-webkit-input-placeholder{
     height: 48px;
     margin-left: 20px;
 }
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus {
-box-shadow:0 0 0 60px transparent inset;
--webkit-text-fill-color: transparent;
-}
+
 .box_code{
     background-color: transparent;
     justify-content: space-between;

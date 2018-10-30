@@ -31,6 +31,9 @@ export default {
   font-size: 16px;
   height: 100vh;
 }
+*{
+ list-style: none;
+}
 a{
   color: #17233d;
   font-weight: bold;
@@ -38,6 +41,12 @@ a{
 a:hover{
   color: #17233d;
   font-weight: bold;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+box-shadow:0 0 0 60px transparent inset;
+-webkit-text-fill-color: transparent;
 }
 .ivu-dropdown-menu {
     min-width: 90px;
@@ -54,5 +63,17 @@ a:hover{
 }
 .ivu-table-wrapper{
   width: 100%;
+}
+/*临时数据*/
+.ivu-table .demo-table-info-row td{
+    background-color: #fff;
+    color: #515a6e;
+    font-weight: bold;
+    
+}
+td .ivu-table-cell,
+.ivu-table-header th  {
+  text-align: center;
+  font-size: 16px;
 }
 </style>
