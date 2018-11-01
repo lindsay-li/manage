@@ -16,7 +16,7 @@
         <div class="serch">查询</div>
     </div>
     <div class="car">
-        <Table border  :columns="columns1" :data="data1"  @on-selection-change="selectChange1"></Table>
+        <Table border  :columns="columns1" :data="data1"  @on-selection-change="selectChange1" class="post"></Table>
     </div>
     <div class="page">
         <div class="delet">批量删除</div>
@@ -55,7 +55,7 @@ export default {
                     key: 'order5'
                 },
                 {
-                    title:'',
+                    title:'操作',
                     key:'order6',
                     render: (h, params) => {
                         return h('div', [
@@ -77,7 +77,10 @@ export default {
             data1: [
                 {
                     order1:'发哥',
-                    order2:'葡萄酒'
+                    order2:'葡萄酒',
+                    order3:'1',
+                    order4:'12',
+                    order5:'红酒'
                 }
             ]
         }

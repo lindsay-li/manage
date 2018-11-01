@@ -55,14 +55,14 @@
                         <MenuItem name="2-3" to="/wallet">钱包明细</MenuItem>
                         <MenuItem name="2-4" to="/posts">评酒贴文列表</MenuItem>
                         <MenuItem name="2-5" to="/car">用户购物车</MenuItem>
-                        <MenuItem name="2-6">用户收藏</MenuItem>
+                        <MenuItem name="2-6" to='/collect'>用户收藏</MenuItem>
                     </Submenu>
                     <Submenu name="3">
                         <template slot="title">
                             <Icon type="md-beer" />
                             酒窖
                         </template>
-                        <MenuItem name="3-1">酒类管理</MenuItem>
+                        <MenuItem name="3-1" to="/wine">酒类管理</MenuItem>
                         <MenuItem name="3-2">用户酒窖</MenuItem>
                     </Submenu>
                     <Submenu name="4">

@@ -9,6 +9,8 @@ import Coupon from '@/components/coupon'
 import wallet from '@/components/wallet'
 import posts from '@/components/posts'
 import car from '@/components/car'
+import collect from '@/components/collect'
+import wine from '@/components/wine'
 
 Vue.use(Router)
 
@@ -49,6 +51,14 @@ export default new Router({
         {
           path:'/car',
           component:car
+        },
+        {
+          path:'/collect',
+          component:collect
+        },
+        {
+          path:'/wine',
+          component:wine
         }
       ]
     },
