@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <div class="nav">
+        <div class="navs">
             <div class="user">
                 <span>测试一会</span>
                 <span>欢迎你！</span>
@@ -31,7 +31,7 @@
         </div>
         <div class="contant">
             <div class="menu">
-                <Menu :theme="theme2" :open-names="['1']" accordion>
+                <Menu :theme="theme2" :open-names="['1']" accordion active-name='1-1'>
                     <div class="menu-nav">
                         <Icon type="ios-grid" color="#ffffff"/>
                         <span >导航功能</span>
@@ -42,27 +42,19 @@
                             <Icon type="ios-paper" />
                             关键数据
                         </template>
-                        <MenuItem name="1-1">
-                        <router-link to="/cruxdata" tag="span">即时数据</router-link>
-                        </MenuItem>
-                        <MenuItem name="1-2">
-                        <router-link to="/recentdata" tag="span">近期数据</router-link>
-                        </MenuItem>
+                        <MenuItem name="1-1" to='/cruxdata'> 即时数据</MenuItem>
+                        <MenuItem name="1-2" to="/recentdata">近期数据</MenuItem>
                     </Submenu>
                     <Submenu name="2">
                         <template slot="title">
                             <Icon type="ios-people" />
                             用户管理
                         </template>
-                        <MenuItem name="2-1">
-                        <router-link to="/user" tag="span">用户信息</router-link>
-                        </MenuItem>
-                        <MenuItem name="2-2">
-                        <router-link to="/coupon" tag="span">折扣券</router-link>
-                        </MenuItem>
-                        <MenuItem name="2-3">葡萄园</MenuItem>
-                        <MenuItem name="2-4">评酒贴文列表</MenuItem>
-                        <MenuItem name="2-5">用户购物车</MenuItem>
+                        <MenuItem name="2-1" to="/user">用户信息</MenuItem>
+                        <MenuItem name="2-2" to="/coupon">折扣券</MenuItem>
+                        <MenuItem name="2-3" to="/wallet">钱包明细</MenuItem>
+                        <MenuItem name="2-4" to="/posts">评酒贴文列表</MenuItem>
+                        <MenuItem name="2-5" to="/car">用户购物车</MenuItem>
                         <MenuItem name="2-6">用户收藏</MenuItem>
                     </Submenu>
                     <Submenu name="3">
@@ -224,7 +216,7 @@ export default {
         width: 100%;
         height:100vh;
     }
-    .nav{
+    .navs{
         width: 100%;
         height: 100px;
         position: relative;
@@ -315,5 +307,8 @@ export default {
     .tables{
         padding: 20px;
         width: calc(100% - 240px);
+    }
+    .routers{
+        display: inline-block;
     }
 </style>

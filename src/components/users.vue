@@ -1,5 +1,5 @@
 <template>
-<div class="wrapper">
+<div class="wrappar">
     <div class="nav">
         <div class="option">
             <span>用户名：</span>
@@ -103,40 +103,7 @@ export default {
 }
 </script>
 <style scoped>
-.wrapper{
-    width: inherit;
-    height: inherit;
-    margin: 0 auto;
-}
-.nav{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-.option{
-    font-weight: bold;
-    margin:0 20px;
-}
-.option input{
-    outline: none;
-    border:1px solid #A9A9A9; 
-    background-color: #fff;
-    width: 150px;
-    height: 36px;
-    border-radius: 4px;
-}
-.serch{
-    width: 80px;
-    height: 36px;
-    background-color: #2d8cf0;
-    border-radius: 4px;
-    color: #fff;
-    text-align: center;
-    line-height: 36px;
-    margin-left: 60px;
-    cursor: pointer;
-}
+
 ul li{
     width: 1100px;
     display: flex;

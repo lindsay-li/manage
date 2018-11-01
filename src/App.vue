@@ -76,4 +76,57 @@ td .ivu-table-cell,
   text-align: center;
   font-size: 16px;
 }
+/*posts*/
+.post .ivu-table-header th{
+  background-color: #2d8cf0;
+  color: #fff;
+}
+.post th.ivu-table-column-center{
+  background-color: #fff;
+}
+/*公共样式*/
+.nav{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.option{
+    font-weight: bold;
+    margin:0 20px;
+}
+.option input{
+    outline: none;
+    border:1px solid #A9A9A9; 
+    background-color: #fff;
+    width: 150px;
+    height: 36px;
+    border-radius: 4px;
+}
+.serch{
+    width: 80px;
+    height: 36px;
+    background-color: #2d8cf0;
+    border-radius: 4px;
+    color: #fff;
+    text-align: center;
+    line-height: 36px;
+    margin-left: 60px;
+    cursor: pointer;
+}
+.page{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+.delet{
+    width: 180px;
+    height: 36px;
+    color: #fff;
+    line-height: 36px;
+    text-align: center;
+    border-radius: 4px;
+    background-color: #2d8cf0;
+    cursor: pointer;
+}
 </style>

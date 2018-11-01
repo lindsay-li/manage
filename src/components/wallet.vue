@@ -1,35 +1,26 @@
 <template>
-<div class="coupon">
+<div class="wrappar">
     <div class="nav">
         <div class="option">
             <span>用户名：</span>
             <input type="text" >
         </div>
         <div class="option">
-            <span>金额：</span>
+            <span>会员编号：</span>
             <input type="text" name="phone">
-        </div>
-        <div class="option">
-            <span>使用时间：</span>
-            <input type="text" name="time">
-        </div>
-        <div class="option">
-            <span>活动名称：</span>
-            <input type="text" name="address">
         </div>
         <div class="serch">查询</div>
     </div>
-    <div class="content">
+    <div class="wallet">
         <Table border  :columns="columns1" :data="data1"></Table>
     </div>
     <div class="page">
         <Page :total="100" show-total show-elevator prev-text='上一页' next-text='下一页'/>
     </div>
-</div>    
+</div>   
 </template>
 <script>
 export default {
-    name:'coupon',
     data(){
         return{
             columns1: [
@@ -39,24 +30,33 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '活动名称',
+                    title: '会员编号',
                     key: 'order1'
                 },
                 {
-                    title: '金额',
+                    title: '用户姓名',
                     key: 'order2'
                 },
                 {
-                    title: '折扣%数',
+                    title: '时间',
                     key: 'order3'
                 },
                 {
-                    title: '使用时间',
+                    title: '操作',
                     key: 'order4'
                 },
                 {
-                    title: '范围',
+                    title: '支出消耗',
                     key: 'order5'
+                },
+                {
+                    title:'结账',
+                    key:'order6'
+                },
+                {
+                    title:'备注',
+                    key:'order7',
+                    width:400
                 }
             ],
             data1: [
@@ -101,5 +101,4 @@ export default {
 }
 </script>
 <style scoped>
-
 </style>

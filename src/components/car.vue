@@ -1,35 +1,31 @@
 <template>
-<div class="coupon">
+<div class="wrappar">
     <div class="nav">
         <div class="option">
-            <span>用户名：</span>
+            <span>商品名称：</span>
             <input type="text" >
         </div>
         <div class="option">
-            <span>金额：</span>
+            <span>类型：</span>
             <input type="text" name="phone">
         </div>
         <div class="option">
-            <span>使用时间：</span>
+            <span>售价：</span>
             <input type="text" name="time">
-        </div>
-        <div class="option">
-            <span>活动名称：</span>
-            <input type="text" name="address">
         </div>
         <div class="serch">查询</div>
     </div>
-    <div class="content">
-        <Table border  :columns="columns1" :data="data1"></Table>
+    <div class="car">
+        <Table border  :columns="columns1" :data="data1"  @on-selection-change="selectChange1"></Table>
     </div>
     <div class="page">
+        <div class="delet">批量删除</div>
         <Page :total="100" show-total show-elevator prev-text='上一页' next-text='下一页'/>
     </div>
-</div>    
+</div>  
 </template>
 <script>
 export default {
-    name:'coupon',
     data(){
         return{
             columns1: [
@@ -39,24 +35,39 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '活动名称',
+                    title: '日期',
                     key: 'order1'
                 },
                 {
-                    title: '金额',
+                    title: '类型',
                     key: 'order2'
                 },
                 {
-                    title: '折扣%数',
+                    title: '名称',
                     key: 'order3'
                 },
                 {
-                    title: '使用时间',
+                    title: '内容',
                     key: 'order4'
                 },
                 {
-                    title: '范围',
-                    key: 'order5'
+                    title:'删除贴文',
+                    key:'order5',
+                    render: (h, params) => {
+                        return h('div', [
+                            h('Button', {
+                                props: {
+                                    type: 'error',
+                                    size: 'small'
+                                },
+                                on: {
+                                    click: () => {
+                                        this.remove(params.index)
+                                    }
+                                }
+                            }, '删除')
+                        ]);
+                    }
                 }
             ],
             data1: [
@@ -97,9 +108,21 @@ export default {
                 },
             ]
         }
+    },
+    methods:{
+        remove (index) {
+            this.data1.splice(index, 1);
+        },
+        selectChange1(selection){
+            console.log(selection)
+        }
     }
+   
 }
 </script>
 <style scoped>
+.page{
+    justify-content: space-between;
+}
 
 </style>
