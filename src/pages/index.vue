@@ -63,7 +63,7 @@
                             酒窖
                         </template>
                         <MenuItem name="3-1" to="/wine">酒类管理</MenuItem>
-                        <MenuItem name="3-2">用户酒窖</MenuItem>
+                        <MenuItem name="3-2" to="/userwine">用户酒窖</MenuItem>
                     </Submenu>
                     <Submenu name="4">
                         <template slot="title">

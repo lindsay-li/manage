@@ -11,6 +11,7 @@ import posts from '@/components/posts'
 import car from '@/components/car'
 import collect from '@/components/collect'
 import wine from '@/components/wine'
+import userWine from '@/components/userWine'
 
 Vue.use(Router)
 
@@ -59,6 +60,10 @@ export default new Router({
         {
           path:'/wine',
           component:wine
+        },
+        {
+          path:'/userwine',
+          component:userWine
         }
       ]
     },
