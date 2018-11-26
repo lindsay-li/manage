@@ -12,6 +12,7 @@ import car from '@/components/car'
 import collect from '@/components/collect'
 import wine from '@/components/wine'
 import userWine from '@/components/userWine'
+import createGoods from '@/components/createGoods'
 
 Vue.use(Router)
 
@@ -64,6 +65,10 @@ export default new Router({
         {
           path:'/userwine',
           component:userWine
+        },
+        {
+          path:'/createGoods',
+          component:createGoods
         }
       ]
     },

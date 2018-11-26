@@ -70,7 +70,7 @@
                             <Icon type="ios-stats" />
                             商品管理
                         </template>
-                        <MenuItem name="4-1">建立商品</MenuItem>
+                        <MenuItem name="4-1" to="/createGoods">建立商品</MenuItem>
                         <MenuItem name="4-2">商品查询</MenuItem>
                         <MenuItem name="4-3">库存管理</MenuItem>
                     </Submenu>
@@ -220,7 +220,8 @@ export default {
         width: 100%;
         height: 100px;
         position: relative;
-        background-color: #08A2BA;
+        /* background-color: #08A2BA; */
+        background-color:#2d8cf0;
         overflow: hidden;
     }
     /* .nav::before,

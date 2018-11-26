@@ -119,7 +119,7 @@ td .ivu-table-cell,
     justify-content: flex-end;
     margin-top: 20px;
 }
-.delet{
+.delet,.add_goods{
     width: 180px;
     height: 36px;
     color: #fff;
