@@ -89,7 +89,7 @@ export default {
                                         size: 'small'
                                     },
                                     style: {
-                                        fontSize: '16px'
+                                        fontSize: '14px'
                                     },
                                     // on: {
                                     //     click: () => {

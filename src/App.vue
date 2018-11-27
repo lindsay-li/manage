@@ -64,6 +64,27 @@ box-shadow:0 0 0 60px transparent inset;
 .ivu-table-wrapper{
   width: 100%;
 }
+.ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item-active, .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item-active:hover{
+  background-color: #009688 !important;
+}
+.ivu-checkbox-checked .ivu-checkbox-inner{
+  border-color: #009688;
+  background-color: #009688;
+}
+.ivu-page-item-active{
+  border-color: #009688;
+}
+.ivu-page-item-active a, .ivu-page-item-active:hover a{
+  color: #009688;
+}
+.ivu-btn-primary{
+  background-color: #009688;
+  border-color: #009688;
+}
+.ivu-btn-primary:hover{
+  background-color: #009688;
+  border-color: #009688;
+}
 /*临时数据*/
 .ivu-table .demo-table-info-row td{
     background-color: #fff;
@@ -74,11 +95,11 @@ box-shadow:0 0 0 60px transparent inset;
 td .ivu-table-cell,
 .ivu-table-header th  {
   text-align: center;
-  font-size: 16px;
+  font-size: 14px;
 }
 /*posts*/
 .post .ivu-table-header th{
-  background-color: #2d8cf0;
+  background-color: #009688;
   color: #fff;
 }
 .post th.ivu-table-column-center{
@@ -106,7 +127,7 @@ td .ivu-table-cell,
 .serch{
     width: 80px;
     height: 36px;
-    background-color: #2d8cf0;
+    background-color: #009688;
     border-radius: 4px;
     color: #fff;
     text-align: center;
@@ -126,7 +147,7 @@ td .ivu-table-cell,
     line-height: 36px;
     text-align: center;
     border-radius: 4px;
-    background-color: #2d8cf0;
+    background-color: #009688;
     cursor: pointer;
 }
 </style>

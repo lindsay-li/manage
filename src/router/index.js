@@ -13,6 +13,9 @@ import collect from '@/components/collect'
 import wine from '@/components/wine'
 import userWine from '@/components/userWine'
 import createGoods from '@/components/createGoods'
+import goodsQuery from '@/components/goodsQuery'
+import orderQuery from '@/components/orderQuery'
+import homeDelivery from '@/components/homeDelivery'
 
 Vue.use(Router)
 
@@ -69,6 +72,18 @@ export default new Router({
         {
           path:'/createGoods',
           component:createGoods
+        },
+        {
+          path:'/goodsQuery',
+          component:goodsQuery
+        },
+        {
+          path:'/orderQuery',
+          component:orderQuery
+        },
+        {
+          path:'/homeDelivery',
+          component:homeDelivery
         }
       ]
     },

@@ -2,7 +2,7 @@
 <div class="wrappar">
     <div class="nav">
         <div class="option">
-            <span>商品编号：</span>
+            <span>会商品编号：</span>
             <input type="text" >
         </div>
         <div class="option">
@@ -19,106 +19,14 @@
         </div>
         <div class="serch">查询</div>
     </div>
-    <div class="goods">
+    <div class="query">
         <Table border  :columns="columns1" :data="data1"  @on-selection-change="selectChange1" class="post"></Table>
     </div>
     <div class="page">
         <div class="add_goods"  @click="openCreatePage">添加商品</div>
         <Page :total="100" show-total show-elevator prev-text='上一页' next-text='下一页'/>
     </div>
-    <!-- 创建商品弹窗 -->
-    <div class="create_model" v-show="createPage">
-        <div class="create_box">
-            <div class="c_title">建立商品</div>
-            <div class="c_table">
-                <table  >
-                    <tr>
-                        <td>商品编号</td>
-                        <td>名称</td>
-                        <td>数量</td>
-                        <td>售价</td>
-                        <td>年份</td>
-                        <td>类型</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="text" v-model="c_data1">
-                        </td>
-                        <td>
-                            <input type="text" v-model="c_data1">
-                        </td>
-                        <td>
-                            <input type="text" v-model="c_data1">
-                        </td>
-                        <td>
-                            <input type="text" v-model="c_data1">
-                        </td>
-                        <td>
-                            <input type="text" v-model="c_data1">
-                        </td>
-                        <td>
-                            <input type="text" v-model="c_data1">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>年产量</td>
-                        <td>酒精浓度</td>
-                        <td>适合温度</td>
-                        <td>进口原包装</td>
-                        <td>酒庄</td>
-                        <td>葡萄品种</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="text" v-model="c_data1">
-                        </td>
-                        <td>
-                            <input type="text" v-model="c_data1">
-                        </td>
-                        <td>
-                            <input type="text" v-model="c_data1">
-                        </td>
-                        <td>
-                            <input type="text" v-model="c_data1">
-                        </td>
-                        <td>
-                            <input type="text" v-model="c_data1">
-                        </td>
-                        <td>
-                            <input type="text" v-model="c_data1">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>酒标照片</td>
-                        <td>沙龙照</td>
-                        <td>详细说明</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr >
-                        <td>
-                            <input type="text" v-model="c_data1">
-                        </td>
-                        <td>
-                            <input type="text" v-model="c_data1">
-                        </td>
-                        <td>
-                            <input type="text" v-model="c_data1">
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="c_btns">
-                <div class="cancel" @click='closeProp'>取消</div>
-                <div class="sure">确定</div>
-            </div>
-        </div>
-    </div>    
-</div>        
+</div>    
 </template>
 <script>
 export default {
@@ -169,6 +77,7 @@ export default {
                 },
                 {
                     title:'进口原包装',
+                    width:124,
                     key:'order10'
                 },
                 {
@@ -176,12 +85,16 @@ export default {
                     key:'order11'
                 },
                 {
-                    title:'葡萄品种',
+                    title:'产品',
                     key:'order12'
                 },
                 {
+                    title:'葡萄品种',
+                    key:'order13'
+                },
+                {
                     title:'酒标照片',
-                    key:'order13',
+                    key:'order14',
                     render: (h, params) => {
                         if(params.row.order9==''){
                             return h('Upload',
@@ -211,7 +124,7 @@ export default {
                 },
                 {
                     title:'沙龙照',
-                    key:'order14',
+                    key:'order15',
                     render: (h, params) => {
                         if(params.row.order9==''){
                             return h('Upload',
@@ -240,8 +153,27 @@ export default {
                 },
                 {
                     title:'详细说明',
-                    key:'order15'
+                    width:150,
+                    key:'order16'
                 },
+                {
+                    title:'编辑',
+                    key:'order17',
+                    render:(h,params)=>{
+                        return h('span',{
+                            style:{
+                                fontSize:'14px',
+                                color:'#ED4014',
+                                cursor:'pointer'
+                            },
+                            on: {
+                                click: () => {
+                                    this.updateData(params)
+                                }
+                            }
+                        },'编辑')
+                    }
+                }
             ],
             data1: [
                 {
@@ -281,101 +213,15 @@ export default {
         },
         closeProp(){
             this.createPage = false;
+        },
+        updateData(data){
+
         }
     }  
 }
 </script>
 <style scoped>
-.wrapper{
-    position: relative;
-}
 .page{
     justify-content: space-between;
-}
-.create_model{
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-}
-.create_box{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -220px 0 0 -380px;
-    width: 720px;
-    height: 440px;
-    background-color:#fff;
-    border-radius: 4px; 
-}
-.c_title{
-    width: 90%;
-    height:38px;
-    border-radius: 6px;
-    background-color: #169BD5;
-    text-align: center;
-    line-height: 38px;
-    font-size: 16px;
-    color: #fff;
-    font-weight: 600;
-    margin: 20px auto ;
-}
-.c_table{
-    width: 90%;
-    height: 220px;
-    margin: 0 auto 30px;
-}
-table,table tr th, table tr td { border:1px solid #555; }
-table{
-    border-collapse: collapse;
-    padding:2px;
-}
-td{
-    /* width: 98px; */
-    height: 37px;
-    box-sizing: border-box;
-    line-height: 30px;
-    text-align: center;
-    /* border: 1px solid #555; */
-    /* border-left:0;
-    border-bottom: 0; */
-}
-
-td input{
-    width: 98%;
-    height: 98%;
-    border: none;
-    outline: none;
-    text-align: center;
-}
-.c_btns{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-.cancel,
-.sure{
-    width: 140px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 6px;
-    box-sizing: border-box;
-}
-.cancel{
-    color: #222;
-    border: 1px solid #999;
-}
-.sure{
-    color: #fff;
-    background-color: #169BD5;
-    margin-left: 30px;
 }
 </style>

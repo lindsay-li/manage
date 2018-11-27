@@ -38,7 +38,7 @@ export default {
 </script>
 <style scoped>
 .wrapper{
-    background-color: #2d8cf0;
+    background-color: #009688;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -112,7 +112,7 @@ img{
     font-size: 20px;
     font-weight: bold;
     color: #fff;
-    background-color: #2d8cf0;
+    background-color: #009688;
     border-radius: 10px;
     margin: 0 auto 30px;
     cursor: pointer;

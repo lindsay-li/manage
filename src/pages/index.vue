@@ -71,7 +71,7 @@
                             商品管理
                         </template>
                         <MenuItem name="4-1" to="/createGoods">建立商品</MenuItem>
-                        <MenuItem name="4-2">商品查询</MenuItem>
+                        <MenuItem name="4-2" to="/goodsQuery">商品查询</MenuItem>
                         <MenuItem name="4-3">库存管理</MenuItem>
                     </Submenu>
                     <Submenu name="5">
@@ -79,7 +79,7 @@
                             <Icon type="ios-list" />
                             订单查询
                         </template>
-                        <MenuItem name="5-1">订单查询</MenuItem>
+                        <MenuItem name="5-1" to="/orderQuery">订单查询</MenuItem>
                         <MenuItem name="5-2">取消订单</MenuItem>
                     </Submenu>
                     <Submenu name="6">
@@ -87,7 +87,7 @@
                             <Icon type="md-bicycle" />
                             宅配出货
                         </template>
-                        <MenuItem name="6-1">宅配订单确定</MenuItem>
+                        <MenuItem name="6-1" to="/homeDelivery">宅配订单确定</MenuItem>
                         <MenuItem name="6-2">宅配出货</MenuItem>
                     </Submenu>
                     <Submenu name="7">
@@ -221,7 +221,7 @@ export default {
         height: 100px;
         position: relative;
         /* background-color: #08A2BA; */
-        background-color:#2d8cf0;
+        background-color:#009688;
         overflow: hidden;
     }
     /* .nav::before,
@@ -308,6 +308,7 @@ export default {
     .tables{
         padding: 20px;
         width: calc(100% - 240px);
+        position: relative;
     }
     .routers{
         display: inline-block;

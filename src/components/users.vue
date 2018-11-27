@@ -114,7 +114,7 @@ ul li{
 }
 li .title{
     width:180px;
-    background-color: #2d8cf0; 
+    background-color:#009688;
     color: #fff;
 }
 li .data1{
