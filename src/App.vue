@@ -36,7 +36,7 @@ export default {
 }
 a{
   color: #17233d;
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 a:hover{
   color: #17233d;

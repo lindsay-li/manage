@@ -19,14 +19,11 @@
         </div>
         <div class="serch">查询</div>
     </div>
-    <div class="homeDelivery">
+    <div class="delivery_goods">
         <Table border  :columns="columns1" :data="data1"  class="post"></Table>
     </div>
     <div class="page">
-        <div class="btns">
-            <div class="b_delete">批量删除</div>
-            <div class="send">一键发货</div>
-        </div>
+        <div class="b_delete">批量删除</div>
         <Page :total="100" show-total show-elevator prev-text='上一页' next-text='下一页'/>
     </div>
 </div>           
@@ -129,6 +126,17 @@ export default {
                             h('Option',{props:{value:"待出货"}}),h('Option',{props:{value:"出货中"}}),
                         ])
                     }
+                },
+                {
+                    title:'可改状态',
+                    key:'order12',
+                    width:110,
+                    render:(h,params)=>{
+                        return h('div',{},[
+                            h('p',{style:{marginLeft:'-10px',color:'#ED4014'}},'待出货'),
+                            h('p',{style:{marginLeft:'10px',color:'#ED4014'}},'出货中')
+                        ])
+                    }
                 }
             ],
             data1: [
@@ -157,11 +165,7 @@ export default {
 .page{
     justify-content: space-between;
 }
-.btns{
-    display: flex;
-}
-.btns .b_delete,
-.btns .send{
+.b_delete{
     width: 200px;
     height: 42px;
     line-height: 42px;
@@ -170,11 +174,8 @@ export default {
     border-radius: 6px;
     border: 1px solid #777;
 }
-.btns .send{
-    margin-left: 20px;
-}
-.btns .b_delete:hover,
-.btns .send:hover{
+
+.b_delete:hover{
     background-color: #009688;
     color:#fff;
 }

@@ -88,24 +88,24 @@
                             宅配出货
                         </template>
                         <MenuItem name="6-1" to="/homeDelivery">宅配订单确定</MenuItem>
-                        <MenuItem name="6-2">宅配出货</MenuItem>
+                        <MenuItem name="6-2" to="/homeDeliveryGoods">宅配出货</MenuItem>
                     </Submenu>
                     <Submenu name="7">
                         <template slot="title">
                             <Icon type="ios-alarm" />
                             超取出货
                         </template>
-                        <MenuItem name="7-1">超取订单确认</MenuItem>
-                        <MenuItem name="7-2">超取出货</MenuItem>
+                        <MenuItem name="7-1" to="/overtime">超取订单确认</MenuItem>
+                        <MenuItem name="7-2" to="/overtimeGoods">超取出货</MenuItem>
                     </Submenu>
                     <Submenu name="8">
                         <template slot="title">
                             <Icon type="md-cog" />
                             门市操作
                         </template>
-                        <MenuItem name="8-1">门市订单确认</MenuItem>
-                        <MenuItem name="8-2">门市宝贝</MenuItem>
-                        <MenuItem name="8-3">门市取货</MenuItem>
+                        <MenuItem name="8-1" to="/retailSalesOrder">门市订单确认</MenuItem>
+                        <MenuItem name="8-2" to="/retailSales">门市宝贝</MenuItem>
+                        <MenuItem name="8-3" to="/retailSalesUp">门市取货</MenuItem>
                     </Submenu>
                     <Submenu name="9">
                         <template slot="title">
@@ -309,6 +309,7 @@ export default {
         padding: 20px;
         width: calc(100% - 240px);
         position: relative;
+        overflow-x:scroll; 
     }
     .routers{
         display: inline-block;

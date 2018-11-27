@@ -19,7 +19,7 @@
         </div>
         <div class="serch">查询</div>
     </div>
-    <div class="homeDelivery">
+    <div class="retailSales_up">
         <Table border  :columns="columns1" :data="data1"  class="post"></Table>
     </div>
     <div class="page">
@@ -127,6 +127,17 @@ export default {
                             width:100
                         }},[
                             h('Option',{props:{value:"待出货"}}),h('Option',{props:{value:"出货中"}}),
+                        ])
+                    }
+                },
+                {
+                    title:'可改状态',
+                    key:'order12',
+                    width:110,
+                    render:(h,params)=>{
+                        return h('div',{},[
+                            h('p',{style:{marginLeft:'-10px',color:'#ED4014'}},'待出货'),
+                            h('p',{style:{marginLeft:'10px',color:'#ED4014'}},'出货中')
                         ])
                     }
                 }

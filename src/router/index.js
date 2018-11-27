@@ -16,6 +16,12 @@ import createGoods from '@/components/createGoods'
 import goodsQuery from '@/components/goodsQuery'
 import orderQuery from '@/components/orderQuery'
 import homeDelivery from '@/components/homeDelivery'
+import homeDeliveryGoods from '@/components/homeDeliveryGoods'
+import overtime from '@/components/overtime'
+import overtimeGoods from '@/components/overtimeGoods'
+import retailSalesUp from '@/components/retailSalesUp'
+import retailSales from '@/components/retailSales'
+import retailSalesOrder from '@/components/retailSalesOrder'
 
 Vue.use(Router)
 
@@ -84,6 +90,30 @@ export default new Router({
         {
           path:'/homeDelivery',
           component:homeDelivery
+        },
+        {
+          path:'/homeDeliveryGoods',
+          component:homeDeliveryGoods
+        },
+        {
+          path:'/overtime',
+          component:overtime
+        },
+        {
+          path:'/overtimeGoods',
+          component:overtimeGoods
+        },
+        {
+          path:'/retailSalesUp',
+          component:retailSalesUp
+        },
+        {
+          path:'/retailSales',
+          component:retailSales
+        },
+        {
+          path:'/retailSalesOrder',
+          component:retailSalesOrder
         }
       ]
     },

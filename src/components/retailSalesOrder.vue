@@ -19,7 +19,7 @@
         </div>
         <div class="serch">查询</div>
     </div>
-    <div class="homeDelivery">
+    <div class="retailSales_order">
         <Table border  :columns="columns1" :data="data1"  class="post"></Table>
     </div>
     <div class="page">
