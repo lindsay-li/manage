@@ -35,24 +35,29 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '日期',
-                    key: 'order1'
+                    title: '商品名称',
+                    key: 'order1',
+                    minWidth:105
+                },
+                {
+                    title: '数量',
+                    key: 'order2',
+                    minWidth:105
+                },
+                {
+                    title: '售价',
+                    key: 'order3',
+                    minWidth:105
                 },
                 {
                     title: '类型',
-                    key: 'order2'
+                    key: 'order4',
+                    minWidth:105
                 },
                 {
-                    title: '名称',
-                    key: 'order3'
-                },
-                {
-                    title: '内容',
-                    key: 'order4'
-                },
-                {
-                    title:'删除贴文',
+                    title:'操作',
                     key:'order5',
+                    minWidth:105,
                     render: (h, params) => {
                         return h('div', [
                             h('Button', {

@@ -22,6 +22,12 @@ import overtimeGoods from '@/components/overtimeGoods'
 import retailSalesUp from '@/components/retailSalesUp'
 import retailSales from '@/components/retailSales'
 import retailSalesOrder from '@/components/retailSalesOrder'
+import barterHandle from '@/components/barterHandle'
+import barterQuery from '@/components/barterQuery'
+import returnHandle from '@/components/returnHandle'
+import returnQuery from '@/components/returnQuery'
+import newArticle from '@/components/newArticle'
+import articleList from '@/components/articleList'
 
 Vue.use(Router)
 
@@ -114,6 +120,30 @@ export default new Router({
         {
           path:'/retailSalesOrder',
           component:retailSalesOrder
+        },
+        {
+          path:"/barterHandle",
+          component:barterHandle
+        },
+        {
+          path:'/barterQuery',
+          component:barterQuery
+        },
+        {
+          path:'/returnQuery',
+          component:returnQuery
+        },
+        {
+          path:'/returnHandle',
+          component:returnHandle
+        },
+        {
+          path:'/newArticle',
+          component:newArticle
+        },
+        {
+          path:'/articleList',
+          component:articleList
         }
       ]
     },

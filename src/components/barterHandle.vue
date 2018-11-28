@@ -2,24 +2,11 @@
 <div class="wrappar">
     <div class="nav">
         <div class="option">
-            <span>订单编号：</span>
-            <input type="text" >
-        </div>
-        <div class="option">
-            <span>配送厂家：</span>
-            <input type="text" name="phone">
-        </div>
-        <div class="option">
-            <span>配送编号：</span>
-            <input type="text" name="time">
-        </div>
-        <div class="option">
-            <span>商品名称：</span>
-            <input type="text" name="time">
+            <input type="text" placeholder="输入关键字、多个用；隔开">
         </div>
         <div class="serch">查询</div>
     </div>
-    <div class="retailSales_order">
+    <div class="barterHandle">
         <Table border  :columns="columns1" :data="data1"  class="post"></Table>
     </div>
     <div class="page">
@@ -37,47 +24,66 @@ export default {
         return{
             columns1:[
                 {
-                    title: '负责门市',
+                    type: 'selection',
+                    width: 60,
+                    align: 'center'
+                },
+                {
+                    title: '订单编号',
                     key: 'order1',
-                    width:95
+                    minWidth:125,
+                    renderHeader:(h,params)=>{
+                        return h('div',{},
+                        [
+                            h('p',{},'订单编号'),h('p',{},'换货单编号')
+                        ]
+                        )
+                    }
                 },
                 {
                     title: '订单编号',
                     key: 'order2',
-                    width:100
+                    minWidth:125,
+                    renderHeader:(h,params)=>{
+                        return h('div',{},
+                        [
+                            h('p',{},'换货单状态'),h('p',{},'换货成立时间'),h('p',{},'换货状态时间')
+                        ]
+                        )
+                    }
                 },
                 {
                     title: '',
                     key: 'order3',
-                    width:164,
+                    minWidth:164,
                     renderHeader:(h,params)=>{
                         return h('div',{},
                         [
-                            h('p',{},'配送咨询'),h('p',{},'配送厂家'),h('p',{},'配送编号')
+                            h('p',{},'换货原因'),h('p',{},'换货描述')
                         ]
                         )
                     }
                 },
                 {
-                    title: '下单时间 预计出货日',
+                    title: '',
                     key: 'order4',
-                    width:164,
+                    minWidth:164,
                     renderHeader:(h,params)=>{
                         return h('div',{},
                         [
-                            h('p',{},'下单时间'),h('p',{},'预计出货日')
+                            h('p',{},'商品编号'),h('p',{},'商品名称')
                         ]
                         )
                     }
                 },
                 {
-                    title: '商品名称\n商品编号',
+                    title: '',
                     key: 'order5',
-                    width:104,
+                    minWidth:125,
                     renderHeader:(h,params)=>{
                         return h('div',{},
                         [
-                            h('p',{},'商品名称'),h('p',{},'商品编号')
+                            h('p',{},'数量'),h('p',{},'单价'),h('p',{},'折扣金额'),h('p',{},'销售金额')
                         ]
                         )
                     },
@@ -90,45 +96,28 @@ export default {
                     }
                 },
                 {
-                    title:'数量',
+                    title:'',
                     key:'order6',
-                    width:85
+                    minWidth:145,
+                    renderHeader:(h,params)=>{
+                        return h('div',{},
+                        [
+                            h('p',{},'折扣活动金额'),h('p',{},'折扣卷折扣金额')
+                        ]
+                        )
+                    },
                 },
                 {
-                    title:'销售金额',
+                    title:'',
                     key:'order7',
-                    width:160
-                },
-                {
-                    title:'收件人咨询',
-                    key:'order8',
-                    width:264,
-                },
-                {
-                    title:'备注',
-                    key:'order9',
-                    width:264
-                },
-                {
-                    title:'订单状态',
-                    key:'order10',
-                    width:100
-                },
-                {
-                    title:'修改',
-                    key:'order11',
-                    width:160,
-                    render:(h,params)=>{
-                        return h('Select',{props:{
-                            size:'small',
-                            placeholder:'编辑状态'
-                        },
-                        style:{
-                            width:100
-                        }},[
-                            h('Option',{props:{value:"待出货"}}),h('Option',{props:{value:"出货中"}}),
-                        ])
-                    }
+                    minWidth:160,
+                    renderHeader:(h,params)=>{
+                        return h('div',{},
+                        [
+                            h('p',{},'联络人'),h('p',{},'联络人电话'),h('p',{},'换货地址')
+                        ]
+                        )
+                    },
                 }
             ],
             data1: [
@@ -140,10 +129,6 @@ export default {
                     order5:{name:'',num:'BX124548'},
                     order6:'www.wdwd.ddd',
                     order7:'',
-                    order8:'',
-                    order9:'',
-                    order10:'',
-                    order11:''
                 }
             ],
         }
@@ -154,6 +139,9 @@ export default {
 }
 </script>
 <style scoped>
+input{
+    width: 380px;
+}
 .page{
     justify-content: space-between;
 }

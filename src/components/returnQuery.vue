@@ -2,31 +2,15 @@
 <div class="wrappar">
     <div class="nav">
         <div class="option">
-            <span>订单编号：</span>
-            <input type="text" >
-        </div>
-        <div class="option">
-            <span>配送厂家：</span>
-            <input type="text" name="phone">
-        </div>
-        <div class="option">
-            <span>配送编号：</span>
-            <input type="text" name="time">
-        </div>
-        <div class="option">
-            <span>商品名称：</span>
-            <input type="text" name="time">
+            <input type="text" placeholder="输入关键字、多个用；隔开">
         </div>
         <div class="serch">查询</div>
     </div>
-    <div class="retailSales_order">
+    <div class="returnQuery">
         <Table border  :columns="columns1" :data="data1"  class="post"></Table>
     </div>
     <div class="page">
-        <div class="btns">
-            <div class="b_delete">批量删除</div>
-            <div class="send">一键发货</div>
-        </div>
+        <div class="b_delete">批量删除</div>
         <Page :total="100" show-total show-elevator prev-text='上一页' next-text='下一页'/>
     </div>
 </div>           
@@ -37,43 +21,48 @@ export default {
         return{
             columns1:[
                 {
-                    title: '负责门市',
-                    key: 'order1',
-                    width:95
+                    type: 'selection',
+                    width: 60,
+                    align: 'center'
                 },
                 {
                     title: '订单编号',
+                    key: 'order1',
+                    minWidth:125
+                },
+                {
+                    title: '负责门市',
                     key: 'order2',
-                    width:100
+                    minWidth:125
                 },
                 {
                     title: '',
                     key: 'order3',
-                    width:164,
+                    minWidth:164,
                     renderHeader:(h,params)=>{
                         return h('div',{},
                         [
-                            h('p',{},'配送咨询'),h('p',{},'配送厂家'),h('p',{},'配送编号')
+                            h('p',{},'配送方式'),h('p',{},'配送编号'),h('p',{},'出货状态'),h('p',{},'出货状态时间')
                         ]
                         )
                     }
                 },
                 {
-                    title: '下单时间 预计出货日',
+                    title: '',
                     key: 'order4',
-                    width:164,
+                    minWidth:164,
                     renderHeader:(h,params)=>{
                         return h('div',{},
                         [
-                            h('p',{},'下单时间'),h('p',{},'预计出货日')
+                            h('p',{},'下单时间'),h('p',{},'订单状态'),h('p',{},'订单状态日'),h('p',{},'取消原因'),h('p',{},'订单来源')
                         ]
                         )
                     }
                 },
                 {
-                    title: '商品名称\n商品编号',
+                    title: '',
                     key: 'order5',
-                    width:104,
+                    minWidth:125,
                     renderHeader:(h,params)=>{
                         return h('div',{},
                         [
@@ -92,44 +81,42 @@ export default {
                 {
                     title:'数量',
                     key:'order6',
-                    width:85
+                    minWidth:105
                 },
                 {
-                    title:'销售金额',
+                    title:'',
                     key:'order7',
-                    width:160
+                    minWidth:160,
+                    renderHeader:(h,params)=>{
+                        return h('div',{},
+                        [
+                            h('p',{},'商品单价'),h('p',{},'折扣金额'),h('p',{},'销售金额(折扣后)')
+                        ]
+                        )
+                    },
                 },
                 {
-                    title:'收件人咨询',
+                    title:'',
                     key:'order8',
-                    width:264,
+                    minWidth:160,
+                    renderHeader:(h,params)=>{
+                        return h('div',{},
+                        [
+                            h('p',{},'会员编号'),h('p',{},'收件人'),h('p',{},'收件人电话'),h('p',{},'地址')
+                        ]
+                        )
+                    },
                 },
                 {
-                    title:'备注',
+                    title:'订单备注',
                     key:'order9',
-                    width:264
+                    minWidth:165
                 },
                 {
-                    title:'订单状态',
+                    title:'消费者备注',
                     key:'order10',
-                    width:100
+                    minWidth:165
                 },
-                {
-                    title:'修改',
-                    key:'order11',
-                    width:160,
-                    render:(h,params)=>{
-                        return h('Select',{props:{
-                            size:'small',
-                            placeholder:'编辑状态'
-                        },
-                        style:{
-                            width:100
-                        }},[
-                            h('Option',{props:{value:"待出货"}}),h('Option',{props:{value:"出货中"}}),
-                        ])
-                    }
-                }
             ],
             data1: [
                 {
@@ -143,7 +130,6 @@ export default {
                     order8:'',
                     order9:'',
                     order10:'',
-                    order11:''
                 }
             ],
         }
@@ -154,8 +140,24 @@ export default {
 }
 </script>
 <style scoped>
+input{
+    width: 380px;
+}
 .page{
     justify-content: space-between;
 }
+.b_delete{
+    width: 200px;
+    height: 42px;
+    line-height: 42px;
+    text-align: center;
+    cursor:pointer;
+    border-radius: 6px;
+    border: 1px solid #777;
+}
 
+.b_delete:hover{
+    background-color: #009688;
+    color:#fff;
+}
 </style>

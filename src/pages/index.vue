@@ -112,24 +112,24 @@
                             <Icon type="logo-pinterest" />
                             换货处理_预设
                         </template>
-                        <MenuItem name="9-1">换货处理</MenuItem>
-                        <MenuItem name="9-2">换货查询</MenuItem>
+                        <MenuItem name="9-1" to="/barterHandle">换货处理</MenuItem>
+                        <MenuItem name="9-2" to="/barterQuery">换货查询</MenuItem>
                     </Submenu>
                     <Submenu name="10">
                         <template slot="title">
                             <Icon type="md-return-right" />
                             退货处理
                         </template>
-                        <MenuItem name="10-1">退货处理</MenuItem>
-                        <MenuItem name="10-2">退货查询</MenuItem>
+                        <MenuItem name="10-1" to="/returnHandle">退货处理</MenuItem>
+                        <MenuItem name="10-2" to="returnQuery">退货查询</MenuItem>
                     </Submenu>
                     <Submenu name="11">
                         <template slot="title">
                             <Icon type="logo-buffer" />
                             文章日志
                         </template>
-                        <MenuItem name="11-1">新增文章</MenuItem>
-                        <MenuItem name="11-2">文章列表</MenuItem>
+                        <MenuItem name="11-1" to="/newArticle">新增文章</MenuItem>
+                        <MenuItem name="11-2" to="/articleList">文章列表</MenuItem>
                     </Submenu>
                     <Submenu name="12">
                         <template slot="title">

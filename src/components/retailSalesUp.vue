@@ -168,25 +168,5 @@ export default {
 .page{
     justify-content: space-between;
 }
-.btns{
-    display: flex;
-}
-.btns .b_delete,
-.btns .send{
-    width: 200px;
-    height: 42px;
-    line-height: 42px;
-    text-align: center;
-    cursor:pointer;
-    border-radius: 6px;
-    border: 1px solid #777;
-}
-.btns .send{
-    margin-left: 20px;
-}
-.btns .b_delete:hover,
-.btns .send:hover{
-    background-color: #009688;
-    color:#fff;
-}
+
 </style>
