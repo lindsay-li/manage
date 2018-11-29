@@ -136,8 +136,10 @@
                             <Icon type="md-megaphone" />
                             公告&广告管理
                         </template>
-                        <MenuItem name="12-1">编辑公告</MenuItem>
-                        <MenuItem name="12-2">审核公告</MenuItem>
+                        <MenuItem name="12-1" to="/editNotice">编辑公告</MenuItem>
+                        <MenuItem name="12-2" to="/auditingNotice">审核公告</MenuItem>
+                        <MenuItem name="12-3" to="/editNotice">编辑广告</MenuItem>
+                        <MenuItem name="12-4" to="/auditingNotice">审核广告</MenuItem>
                     </Submenu>
                     <Submenu name="13">
                         <template slot="title">
@@ -290,6 +292,7 @@ export default {
     .menu{
         height: 100%;
         overflow-y: scroll;
+        background-color: #283440;
     }
     ::-webkit-scrollbar {
     display: none;

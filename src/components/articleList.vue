@@ -267,17 +267,7 @@ export default {
 .page{
     justify-content: space-between;
 }
-.prop_model{
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-}
+
 .a_box{
     position: absolute;
     top: 50%;

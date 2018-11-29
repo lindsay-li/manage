@@ -171,4 +171,30 @@ td .ivu-table-cell,
     background-color: #009688;
     color:#fff;
 }
+.prop_model{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    animation:zoomIn 0.3s ease-out;
+}
+@keyframes zoomIn{0%{opacity:0;}50%{opacity:1}}
+.sure,
+.cancel{
+  text-align: center;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.sure{
+  background-color: #009688;
+}
+.cancel{
+  background-color: #ED4014;
+}
 </style>

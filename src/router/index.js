@@ -28,6 +28,8 @@ import returnHandle from '@/components/returnHandle'
 import returnQuery from '@/components/returnQuery'
 import newArticle from '@/components/newArticle'
 import articleList from '@/components/articleList'
+import editNotice from '@/components/editNotice'
+import auditingNotice from '@/components/auditingNotice'
 
 Vue.use(Router)
 
@@ -144,6 +146,14 @@ export default new Router({
         {
           path:'/articleList',
           component:articleList
+        },
+        {
+          path:'/editNotice',
+          component:editNotice
+        },
+        {
+          path:'/auditingNotice',
+          component:auditingNotice
         }
       ]
     },
