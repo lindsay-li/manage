@@ -34,7 +34,11 @@ const advertisementEdit = () => import('@/components/advertisementEdit');
 const advertisementAuditing = () => import('@/components/advertisementAuditing');
 const userHandle = () => import('@/components/userHandle');
 const userArticleHandle = () => import('@/components/userArticleHandle');
-const goodsActivity = () => import('@/components/goodsActivity');
+const goodsActivity = () => import('@/components/goodsActivity');//商品活动
+const memberLevel = () => import('@/components/memberLevel'); //会员分级
+const buygoods = () => import('@/components/buygoods');
+const freeMail = () => import('@/components/freeMail');
+const couponActivity = () => import('@/components/couponActivity');
 
 Vue.use(Router)
 
@@ -179,6 +183,22 @@ export default new Router({
         {
           path:'/goodsActivity',
           component:goodsActivity
+        },
+        {
+          path:'/memberLevel',
+          component:memberLevel
+        },
+        {
+          path:'/buygoods',
+          component:buygoods
+        },
+        {
+          path:'/freeMail',
+          component:freeMail
+        },
+        {
+          path:'/couponActivity',
+          component:couponActivity
         }
       ]
     },

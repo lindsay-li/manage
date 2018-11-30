@@ -149,10 +149,10 @@
                         <MenuItem name="13-1" to="/userHandle">用戶賬號操作</MenuItem>
                         <MenuItem name="13-2" to="/userArticleHandle">用戶貼文管理</MenuItem>
                         <MenuItem name="13-3" to="/goodsActivity">商品活動</MenuItem>
-                        <MenuItem name="13-4">會員分級</MenuItem>
-                        <MenuItem name="13-5">購買商品</MenuItem>
-                        <MenuItem name="13-6">免運活動</MenuItem>
-                        <MenuItem name="13-7">折扣券活動</MenuItem>
+                        <MenuItem name="13-4" to="/memberLevel">會員分級</MenuItem>
+                        <MenuItem name="13-5" to="/buygoods">加買商品</MenuItem>
+                        <MenuItem name="13-6" to="/freeMail">免運活動</MenuItem>
+                        <MenuItem name="13-7" to="/couponActivity">折扣券活動</MenuItem>
                         <MenuItem name="13-8">特價商品區</MenuItem>
                         <MenuItem name="13-9">生日禮</MenuItem>
                         <MenuItem name="13-10">多日活動</MenuItem>

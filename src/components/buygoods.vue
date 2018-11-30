@@ -2,7 +2,7 @@
 <div class="wrappar">
     <div class="title">設置活動</div>
     <div class="activity">
-        <Table border  :columns="columns1" :data="data1" @on-row-click="clickRows" class="post"></Table>
+        <Table border  :columns="columns1" :data="data1"  class="post"></Table>
     </div>
     <div class="page">
         <div class="add_goods" @click="openModel">添加</div>
@@ -15,35 +15,21 @@
                 <div class="list"style="width:100%;">
                     <table style="width:100%;">
                         <tr>
-                            <td style="text-align:right">活動類型:</td>
-                            <td>
-                                <Input v-model="a_types" placeholder="點擊輸入" style="width: 300px" />
-                            </td>
-                        </tr>
-                        <tr>
                             <td style="text-align:right">活動名稱:</td>
                             <td>
                                 <Input v-model="a_types" placeholder="點擊輸入" style="width: 300px" />
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">商品編號:</td>
+                            <td style="text-align:right">活動內容:</td>
                             <td>
-                                <Input v-model="a_types" placeholder="點擊輸入、多個用‘||’隔開" style="width: 300px" />
+                                <Input v-model="a_types" type="textarea" placeholder="點擊輸入" style="width: 300px" />
                             </td>
                         </tr>
                         <tr>
                             <td style="text-align:right">活動時間:</td>
                             <td>
                                 <DatePicker type="daterange" placement="bottom-end" placeholder="選擇日期" style="width: 300px"></DatePicker>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align:right">折扣:</td>
-                            <td>
-                                <Select v-model="select_model" style="width:300px">
-                                    <Option v-for="item in zhekList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                                </Select>
                             </td>
                         </tr>
                         <tr>
@@ -69,38 +55,33 @@ export default {
         return{
             columns1: [
                 {
-                    title: '活動類型',
+                    title: '活動名稱',
                     key: 'order1',
                     minWidth:105
                 },
                 {
-                    title: '活動名稱',
+                    title: '活動時間',
                     key: 'order2',
                     minWidth:105
                 },
                 {
-                    title: '活動時間',
-                    key: 'order3',
-                    minWidth:105
-                },
-                {
                     title: '商品編號',
-                    key: 'order4',
-                    minWidth:400
+                    key: 'order3',
+                    minWidth:160
                 },
                 {
-                    title: '折扣、價格',
-                    key: 'order5',
-                    minWidth:105
+                    title: '活動內容',
+                    key: 'order4',
+                    minWidth:165
                 },
                 {
                     title:'通知收藏者',
-                    key:'order6',
+                    key:'order5',
                     minWidth:105
                 },
                 {
                     title:'編輯',
-                    key:'order7',
+                    key:'order6',
                     minWidth:105,
                     render:(h,params)=>{
                         return h('Button',{
@@ -114,74 +95,47 @@ export default {
             ],
             data1: [
                 {
-                    order1: '促銷',
-                    order2: '520狂歡',
-                    order3: '2019.05.18-2019.05.21',
-                    order4: 'hj1982',
-                    order5:'20%',
-                    order6:'是'
+                    order1: '520促銷',
+                    order2: '2019.05.18-2019.05.21',
+                    order3: 'hj1982',
+                    order4:'消費滿1000元可用100元加買紅酒',
+                    order5:'是'
                 },
                 {
-                    order1: '促銷',
-                    order2: '520狂歡',
-                    order3: '2019.05.18-2019.05.21',
-                    order4: 'hj1982',
-                    order5:'20%',
-                    order6:'是'
+                    order1: '520促銷',
+                    order2: '2019.05.18-2019.05.21',
+                    order3: 'hj1982',
+                    order4:'消費滿1000元可用100元加買紅酒',
+                    order5:'是'
                 },
                 {
-                    order1: '促銷',
-                    order2: '520狂歡',
-                    order3: '2019.05.18-2019.05.21',
-                    order4: 'hj1982',
-                    order5:'20%',
-                    order6:'是'
+                    order1: '520促銷',
+                    order2: '2019.05.18-2019.05.21',
+                    order3: 'hj1982',
+                    order4:'消費滿1000元可用100元加買紅酒',
+                    order5:'是'
                 },
                 {
-                    order1: '促銷',
-                    order2: '520狂歡',
-                    order3: '2019.05.18-2019.05.21',
-                    order4: 'hj1982',
-                    order5:'20%',
-                    order6:'是'
+                    order1: '520促銷',
+                    order2: '2019.05.18-2019.05.21',
+                    order3: 'hj1982',
+                    order4:'消費滿1000元可用100元加買紅酒',
+                    order5:'是'
                 },
                 {
-                    order1: '促銷',
-                    order2: '520狂歡',
-                    order3: '2019.05.18-2019.05.21',
-                    order4: 'hj1982',
-                    order5:'20%',
-                    order6:'是'
+                    order1: '520促銷',
+                    order2: '2019.05.18-2019.05.21',
+                    order3: 'hj1982',
+                    order4:'消費滿1000元可用100元加買紅酒',
+                    order5:'是'
                 },
             ],
             a_types:'',
-            select_model:'',
             single:false,
             propModel:false,
-            zhekList:[
-                {
-                    value:'一件9折',
-                    label:'一件9折'
-                },
-                {
-                    value:'二件8折',
-                    label:'二件8折'
-                },
-                {
-                    value:'三件6折',
-                    label:'三件6折'
-                }
-            ]
         }
     },
     methods:{
-        selectChange(selection){//勾選
-            console.log(selection)
-        },
-        clickRows(data,index){//單機某一行觸發
-            console.log('data',data)
-            console.log(index)
-        },
         openModel(){
             this.propModel = true;
         },
@@ -221,11 +175,11 @@ export default {
 }
 ._box{
     width: 600px;
-    height: 600px;
+    height: 460px;
     position: absolute;
     top: 50%;
     left: 50%;
-    margin: -300px 0 0 -300px;
+    margin: -230px 0 0 -300px;
     border-radius: 4px;
     background-color: #fff;
 }
