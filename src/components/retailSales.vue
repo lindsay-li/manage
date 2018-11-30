@@ -2,11 +2,11 @@
 <div class="wrappar">
     <div class="nav">
         <div class="option">
-            <span>商品编号：</span>
+            <span>商品編號：</span>
             <input type="text" >
         </div>
         <div class="option">
-            <span>数量：</span>
+            <span>數量：</span>
             <input type="text" name="phone">
         </div>
         <div class="option">
@@ -14,16 +14,16 @@
             <input type="text" name="time">
         </div>
         <div class="option">
-            <span>类型：</span>
+            <span>類型：</span>
             <input type="text" name="time">
         </div>
-        <div class="serch">查询</div>
+        <div class="serch">查詢</div>
     </div>
     <div class="retailSales">
         <Table border  :columns="columns1" :data="data1"  class="post"></Table>
     </div>
     <div class="page">
-        <Page :total="100" show-total show-elevator prev-text='上一页' next-text='下一页'/>
+        <Page :total="100" show-total show-elevator prev-text='上一頁' next-text='下一頁'/>
     </div>
 </div>           
 </template>
@@ -33,22 +33,22 @@ export default {
         return{
             columns1:[
                 {
-                    title: '商品编号',
+                    title: '商品編號',
                     key: 'order1',
                     minWidth:95
                 },
                 {
-                    title: '名称',
+                    title: '名稱',
                     key: 'order2',
                     minWidth:100
                 },
                 {
-                    title: '数量',
+                    title: '數量',
                     key: 'order3',
                     minWidth:85
                 },
                 {
-                    title: '售价',
+                    title: '售價',
                     key: 'order4',
                     minWidth:95
                 },
@@ -58,7 +58,7 @@ export default {
                     minWidth:104
                 },
                 {
-                    title:'类型',
+                    title:'類型',
                     key:'order6',
                     minWidth:105
                 },
@@ -75,8 +75,8 @@ export default {
                     order3:'19',
                     order4:'1221',
                     order5:2015,
-                    order6:'红葡萄酒',
-                    order7:'门市售卖'
+                    order6:'紅葡萄酒',
+                    order7:'門市售賣'
                 }
             ],
         }

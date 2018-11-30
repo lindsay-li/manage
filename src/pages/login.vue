@@ -1,17 +1,17 @@
 <template>
 <div class="wrapper">
     <div class="content">
-        <div class="title">巴克斯运营管理平台</div>
+        <div class="title">巴克斯運營管理平臺</div>
         <div class="register">
             <div class="box">
-                <Icon type="ios-contact" size='36'/><input type="text" placeholder="请输入登录名">    
+                <Icon type="ios-contact" size='36'/><input type="text" placeholder="請輸入登錄名">    
             </div>   
             <div class="box">
-                <Icon type="ios-lock" size='36'/><input type="password" placeholder="请输入密码">    
+                <Icon type="ios-lock" size='36'/><input type="password" placeholder="請輸入密碼">    
             </div>
             <div class="box box_code">
                 <div class="code">
-                    <input type="text" placeholder="请输入验证码">
+                    <input type="text" placeholder="請輸入驗證碼">
                 </div> 
                 <div class="code_img">
                     <img src="../assets/u31.png" alt="">
@@ -19,7 +19,7 @@
             </div>
             
             <div class="logoin">
-                <span>登录</span>
+                <span>登錄</span>
             </div>
         </div>    
     </div>    

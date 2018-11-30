@@ -1,6 +1,6 @@
 <template>
 <div class="recent">
-    <div class="title">即时数据</div>
+    <div class="title">即時數據</div>
     <Table :columns="columns1" :data="data1" border  size='large' ></Table>
 </div>  
 </template>
@@ -10,79 +10,79 @@ export default {
         return{
             columns1: [
                 {
-                    title: '时间',
+                    title: '時間',
                     key: 'order1'
                 },
                 {
-                    title: '总订单数',
+                    title: '總訂單數',
                     key: 'order2'
                 },
                 {
-                    title: 'APP订单数',
+                    title: 'APP訂單數',
                     key: 'order3'
                 },
                 {
-                    title: 'web订单数',
+                    title: 'web訂單數',
                     key: 'order4'
                 },
                 {
-                    title: '线下订单数(门市专用)',
+                    title: '線下訂單數(門市專用)',
                     key: 'order5'
                 },
                 {
-                    title: '总订单金额',
+                    title: '總訂單金額',
                     key: 'order6'
                 },
                 {
-                    title: 'APP订单金额',
+                    title: 'APP訂單金額',
                     key: 'order7'
                 },
                 {
-                    title: 'web订单金额',
+                    title: 'web訂單金額',
                     key: 'order8'
                 },
                 {
-                    title: '线下订单金额(门市专用)',
+                    title: '線下訂單金額(門市專用)',
                     key: 'order9'
                 },
                 {
-                    title: '平均订单金额',
+                    title: '平均訂單金額',
                     key: 'order10'
                 },
                 {
-                    title: 'APP平均订单金额',
+                    title: 'APP平均訂單金額',
                     key: 'order11'
                 },
                 {
-                    title: 'web平均订单金额',
+                    title: 'web平均訂單金額',
                     key: 'order12'
                 },
                 {
-                    title: '线下平均订单金额(门市专用)',
+                    title: '線下平均訂單金額(門市專用)',
                     key: 'order13'
                 },
                 {
-                    title: '总会员数',
+                    title: '總會員數',
                     key: 'order14'
                 },
                 {
-                    title: 'web登入人数(IP排重)',
+                    title: 'web登入人數(IP排重)',
                     key: 'order15'
                 },
                 {
-                    title: 'APP登入人数(排重)',
+                    title: 'APP登入人數(排重)',
                     key: 'order16'
                 },
                 {
-                    title: '一次购物人数&占比',
+                    title: '一次購物人數&佔比',
                     key: 'order17'
                 },
                 {
-                    title: '二次购物人数&占比',
+                    title: '二次購物人數&佔比',
                     key: 'order18'
                 },
                 {
-                    title: '未次购物人数&占比',
+                    title: '未次購物人數&佔比',
                     key: 'order19'
                 },
             ],
@@ -147,7 +147,7 @@ export default {
 .title{
     width: 100%;
     height: 50px;
-    background-color: #2d8cf0;
+    background-color: #009688;
     border-radius: 4px;
     font-size: 16px;
     color: #fff;

@@ -2,19 +2,19 @@
 <div class="wrappar">
     <div class="nav">
         <div class="option">
-            <input type="text" placeholder="输入关键字、多个用；隔开">
+            <input type="text" placeholder="輸入關鍵字、多個用；隔開">
         </div>
-        <div class="serch">查询</div>
+        <div class="serch">查詢</div>
     </div>
     <div class="barterHandle">
         <Table border  :columns="columns1" :data="data1"  class="post"></Table>
     </div>
     <div class="page">
         <div class="btns">
-            <div class="b_delete">批量删除</div>
-            <div class="send">一键发货</div>
+            <div class="b_delete">批量刪除</div>
+            <div class="send">一鍵發貨</div>
         </div>
-        <Page :total="100" show-total show-elevator prev-text='上一页' next-text='下一页'/>
+        <Page :total="100" show-total show-elevator prev-text='上一頁' next-text='下一頁'/>
     </div>
 </div>           
 </template>
@@ -29,25 +29,25 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '订单编号',
+                    title: '訂單編號',
                     key: 'order1',
                     minWidth:125,
                     renderHeader:(h,params)=>{
                         return h('div',{},
                         [
-                            h('p',{},'订单编号'),h('p',{},'换货单编号')
+                            h('p',{},'訂單編號'),h('p',{},'換貨單編號')
                         ]
                         )
                     }
                 },
                 {
-                    title: '订单编号',
+                    title: '訂單編號',
                     key: 'order2',
                     minWidth:125,
                     renderHeader:(h,params)=>{
                         return h('div',{},
                         [
-                            h('p',{},'换货单状态'),h('p',{},'换货成立时间'),h('p',{},'换货状态时间')
+                            h('p',{},'換貨單狀態'),h('p',{},'換貨成立時間'),h('p',{},'換貨狀態時間')
                         ]
                         )
                     }
@@ -59,7 +59,7 @@ export default {
                     renderHeader:(h,params)=>{
                         return h('div',{},
                         [
-                            h('p',{},'换货原因'),h('p',{},'换货描述')
+                            h('p',{},'換貨原因'),h('p',{},'換貨描述')
                         ]
                         )
                     }
@@ -71,7 +71,7 @@ export default {
                     renderHeader:(h,params)=>{
                         return h('div',{},
                         [
-                            h('p',{},'商品编号'),h('p',{},'商品名称')
+                            h('p',{},'商品編號'),h('p',{},'商品名稱')
                         ]
                         )
                     }
@@ -83,7 +83,7 @@ export default {
                     renderHeader:(h,params)=>{
                         return h('div',{},
                         [
-                            h('p',{},'数量'),h('p',{},'单价'),h('p',{},'折扣金额'),h('p',{},'销售金额')
+                            h('p',{},'數量'),h('p',{},'單價'),h('p',{},'折扣金額'),h('p',{},'銷售金額')
                         ]
                         )
                     },
@@ -102,7 +102,7 @@ export default {
                     renderHeader:(h,params)=>{
                         return h('div',{},
                         [
-                            h('p',{},'折扣活动金额'),h('p',{},'折扣卷折扣金额')
+                            h('p',{},'折扣活動金額'),h('p',{},'折扣卷折扣金額')
                         ]
                         )
                     },
@@ -114,7 +114,7 @@ export default {
                     renderHeader:(h,params)=>{
                         return h('div',{},
                         [
-                            h('p',{},'联络人'),h('p',{},'联络人电话'),h('p',{},'换货地址')
+                            h('p',{},'聯絡人'),h('p',{},'聯絡人電話'),h('p',{},'換貨地址')
                         ]
                         )
                     },
@@ -122,7 +122,7 @@ export default {
             ],
             data1: [
                 {
-                    order1:'发哥',
+                    order1:'發哥',
                     order2:'葡萄酒',
                     order3:'1',
                     order4:'12',

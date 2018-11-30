@@ -2,32 +2,32 @@
 <div class="wrappar">
     <div class="nav">
         <div class="option">
-            <span>订单编号：</span>
+            <span>訂單編號：</span>
             <input type="text" >
         </div>
         <div class="option">
-            <span>配送厂家：</span>
+            <span>配送廠家：</span>
             <input type="text" name="phone">
         </div>
         <div class="option">
-            <span>配送编号：</span>
+            <span>配送編號：</span>
             <input type="text" name="time">
         </div>
         <div class="option">
-            <span>商品名称：</span>
+            <span>商品名稱：</span>
             <input type="text" name="time">
         </div>
-        <div class="serch">查询</div>
+        <div class="serch">查詢</div>
     </div>
     <div class="retailSales_up">
         <Table border  :columns="columns1" :data="data1"  class="post"></Table>
     </div>
     <div class="page">
         <div class="btns">
-            <div class="b_delete">批量删除</div>
-            <div class="send">一键发货</div>
+            <div class="b_delete">批量刪除</div>
+            <div class="send">一鍵發貨</div>
         </div>
-        <Page :total="100" show-total show-elevator prev-text='上一页' next-text='下一页'/>
+        <Page :total="100" show-total show-elevator prev-text='上一頁' next-text='下一頁'/>
     </div>
 </div>           
 </template>
@@ -37,12 +37,12 @@ export default {
         return{
             columns1:[
                 {
-                    title: '负责门市',
+                    title: '負責門市',
                     key: 'order1',
                     width:95
                 },
                 {
-                    title: '订单编号',
+                    title: '訂單編號',
                     key: 'order2',
                     width:100
                 },
@@ -53,31 +53,31 @@ export default {
                     renderHeader:(h,params)=>{
                         return h('div',{},
                         [
-                            h('p',{},'配送咨询'),h('p',{},'配送厂家'),h('p',{},'配送编号')
+                            h('p',{},'配送諮詢'),h('p',{},'配送廠家'),h('p',{},'配送編號')
                         ]
                         )
                     }
                 },
                 {
-                    title: '下单时间 预计出货日',
+                    title: '下單時間 預計出貨日',
                     key: 'order4',
                     width:164,
                     renderHeader:(h,params)=>{
                         return h('div',{},
                         [
-                            h('p',{},'下单时间'),h('p',{},'预计出货日')
+                            h('p',{},'下單時間'),h('p',{},'預計出貨日')
                         ]
                         )
                     }
                 },
                 {
-                    title: '商品名称\n商品编号',
+                    title: '商品名稱\n商品編號',
                     key: 'order5',
                     width:104,
                     renderHeader:(h,params)=>{
                         return h('div',{},
                         [
-                            h('p',{},'商品名称'),h('p',{},'商品编号')
+                            h('p',{},'商品名稱'),h('p',{},'商品編號')
                         ]
                         )
                     },
@@ -90,27 +90,27 @@ export default {
                     }
                 },
                 {
-                    title:'数量',
+                    title:'數量',
                     key:'order6',
                     width:85
                 },
                 {
-                    title:'销售金额',
+                    title:'銷售金額',
                     key:'order7',
                     width:160
                 },
                 {
-                    title:'收件人咨询',
+                    title:'收件人諮詢',
                     key:'order8',
                     width:264,
                 },
                 {
-                    title:'备注',
+                    title:'備註',
                     key:'order9',
                     width:264
                 },
                 {
-                    title:'订单状态',
+                    title:'訂單狀態',
                     key:'order10',
                     width:100
                 },
@@ -121,30 +121,30 @@ export default {
                     render:(h,params)=>{
                         return h('Select',{props:{
                             size:'small',
-                            placeholder:'编辑状态'
+                            placeholder:'編輯狀態'
                         },
                         style:{
                             width:100
                         }},[
-                            h('Option',{props:{value:"待出货"}}),h('Option',{props:{value:"出货中"}}),
+                            h('Option',{props:{value:"待出貨"}}),h('Option',{props:{value:"出貨中"}}),
                         ])
                     }
                 },
                 {
-                    title:'可改状态',
+                    title:'可改狀態',
                     key:'order12',
                     width:110,
                     render:(h,params)=>{
                         return h('div',{},[
-                            h('p',{style:{marginLeft:'-10px',color:'#ED4014'}},'待出货'),
-                            h('p',{style:{marginLeft:'10px',color:'#ED4014'}},'出货中')
+                            h('p',{style:{marginLeft:'-10px',color:'#ED4014'}},'待出貨'),
+                            h('p',{style:{marginLeft:'10px',color:'#ED4014'}},'出貨中')
                         ])
                     }
                 }
             ],
             data1: [
                 {
-                    order1:'发哥',
+                    order1:'發哥',
                     order2:'葡萄酒',
                     order3:'1',
                     order4:'12',

@@ -3,7 +3,7 @@
     <div class="nav">
         <div class="titles">公告&廣告</div>
     </div>
-    <div class="notice">
+    <div class="advertisement">
         <Table border  :columns="columns1" :data="data1"  @on-selection-change="selectChange1"></Table>
     </div>
     <div class="page">
@@ -22,7 +22,7 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '公告種類',
+                    title: '廣告告種類',
                     key: 'order1',
                     minWidth:105
                 },
@@ -69,7 +69,7 @@ export default {
             ],
             data1: [
                 {
-                    order1: '公告通知',
+                    order1: '廣告通知',
                     order2: '全部用戶',
                     order3: '法國紅酒特價',
                     order4: '2019.2.2',

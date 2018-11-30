@@ -6,21 +6,21 @@
             <input type="text" >
         </div>
         <div class="option">
-            <span>类型：</span>
+            <span>類型：</span>
             <input type="text" name="phone">
         </div>
         <div class="option">
-            <span>评分：</span>
+            <span>評分：</span>
             <input type="text" name="time">
         </div>
-        <div class="serch">查询</div>
+        <div class="serch">查詢</div>
     </div>
     <div class="posts">
         <Table border  :columns="columns1" :data="data1"  @on-selection-change="selectChange" class="post"></Table>
     </div>
     <div class="page">
-        <div class="delet">批量删除</div>
-        <Page :total="100" show-total show-elevator prev-text='上一页' next-text='下一页'/>
+        <div class="delet">批量刪除</div>
+        <Page :total="100" show-total show-elevator prev-text='上一頁' next-text='下一頁'/>
     </div>
 </div>   
 </template>
@@ -39,28 +39,28 @@ export default {
                     key: 'order1'
                 },
                 {
-                    title: '类型',
+                    title: '類型',
                     key: 'order2'
                 },
                 {
-                    title: '名称',
+                    title: '名稱',
                     key: 'order3'
                 },
                 {
-                    title: '内容',
+                    title: '內容',
                     key: 'order4',
                     width:400
                 },
                 {
-                    title: '分享数',
+                    title: '分享數',
                     key: 'order5'
                 },
                 {
-                    title:'收藏数',
+                    title:'收藏數',
                     key:'order6'
                 },
                 {
-                    title:'评分',
+                    title:'評分',
                     key:'order7'
                 },
                 {
@@ -68,7 +68,7 @@ export default {
                     key:'order8'
                 },
                 {
-                    title:'删除贴文',
+                    title:'刪除貼文',
                     key:'order9',
                     render: (h, params) => {
                         return h('div', [
@@ -85,42 +85,42 @@ export default {
                                         this.remove(params.index)
                                     }
                                 }
-                            }, '删除')
+                            }, '刪除')
                         ]);
                     }
                 }
             ],
             data1: [
                 {
-                    order1: '下载赠送',
+                    order1: '下載贈送',
                     order2: 200,
                     order3: '5%',
                     order4: '2016/10/03-2018/9/02',
                     order5:'官方APP商品'
                 },
                 {
-                    order1: '下载赠送',
+                    order1: '下載贈送',
                     order2: 200,
                     order3: '5%',
                     order4: '2016/10/03-2018/9/02',
                     order5:'官方APP商品'
                 },
                 {
-                    order1: '下载赠送',
+                    order1: '下載贈送',
                     order2: 200,
                     order3: '5%',
                     order4: '2016/10/03-2018/9/02',
                     order5:'官方APP商品'
                 },
                 {
-                    order1: '下载赠送',
+                    order1: '下載贈送',
                     order2: 200,
                     order3: '5%',
                     order4: '2016/10/03-2018/9/02',
                     order5:'官方APP商品'
                 },
                 {
-                    order1: '下载赠送',
+                    order1: '下載贈送',
                     order2: 200,
                     order3: '5%',
                     order4: '2016/10/03-2018/9/02',

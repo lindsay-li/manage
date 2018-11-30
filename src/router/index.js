@@ -1,35 +1,40 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Indexs from '@/pages/index'
-import login from '@/pages/login'
-import cruxdata from '@/components/cruxdata'
-import recentdata from '@/components/recentdata'
-import user from '@/components/users'
-import Coupon from '@/components/coupon'
-import wallet from '@/components/wallet'
-import posts from '@/components/posts'
-import car from '@/components/car'
-import collect from '@/components/collect'
-import wine from '@/components/wine'
-import userWine from '@/components/userWine'
-import createGoods from '@/components/createGoods'
-import goodsQuery from '@/components/goodsQuery'
-import orderQuery from '@/components/orderQuery'
-import homeDelivery from '@/components/homeDelivery'
-import homeDeliveryGoods from '@/components/homeDeliveryGoods'
-import overtime from '@/components/overtime'
-import overtimeGoods from '@/components/overtimeGoods'
-import retailSalesUp from '@/components/retailSalesUp'
-import retailSales from '@/components/retailSales'
-import retailSalesOrder from '@/components/retailSalesOrder'
-import barterHandle from '@/components/barterHandle'
-import barterQuery from '@/components/barterQuery'
-import returnHandle from '@/components/returnHandle'
-import returnQuery from '@/components/returnQuery'
-import newArticle from '@/components/newArticle'
-import articleList from '@/components/articleList'
-import editNotice from '@/components/editNotice'
-import auditingNotice from '@/components/auditingNotice'
+const Indexs = () => import('@/pages/index');
+const login = () => import('@/pages/login');
+const cruxdata = () => import('@/components/cruxdata');
+const recentdata = () => import('@/components/recentdata');
+const user = () => import('@/components/users');
+const Coupon = () => import('@/components/Coupon');
+const wallet = () => import('@/components/wallet');
+const posts = () => import('@/components/posts');
+const car = () => import('@/components/car');
+const collect = () => import('@/components/collect');
+const wine = () => import('@/components/wine');
+const userWine = () => import('@/components/userWine');
+const createGoods = () => import('@/components/createGoods');
+const goodsQuery = () => import('@/components/goodsQuery');
+const orderQuery = () => import('@/components/orderQuery');
+const homeDelivery = () => import('@/components/homeDelivery');
+const homeDeliveryGoods = () => import('@/components/homeDeliveryGoods');
+const overtime = () => import('@/components/overtime');
+const overtimeGoods = () => import('@/components/overtimeGoods');
+const retailSalesUp = () => import('@/components/retailSalesUp');
+const retailSales = () => import('@/components/retailSales');
+const retailSalesOrder = () => import('@/components/retailSalesOrder');
+const barterHandle = () => import('@/components/barterHandle');
+const barterQuery = () => import('@/components/barterQuery');
+const returnHandle = () => import('@/components/returnHandle');
+const returnQuery = () => import('@/components/returnQuery');
+const newArticle = () => import('@/components/newArticle');
+const articleList = () => import('@/components/articleList');
+const editNotice = () => import('@/components/editNotice');
+const auditingNotice = () => import('@/components/auditingNotice');
+const advertisementEdit = () => import('@/components/advertisementEdit');
+const advertisementAuditing = () => import('@/components/advertisementAuditing');
+const userHandle = () => import('@/components/userHandle');
+const userArticleHandle = () => import('@/components/userArticleHandle');
+const goodsActivity = () => import('@/components/goodsActivity');
 
 Vue.use(Router)
 
@@ -154,6 +159,26 @@ export default new Router({
         {
           path:'/auditingNotice',
           component:auditingNotice
+        },
+        {
+          path:'/advertisementAuditing',
+          component:advertisementAuditing
+        },
+        {
+          path:'/advertisementEdit',
+          component:advertisementEdit
+        },
+        {
+          path:'/userHandle',
+          component:userHandle
+        },
+        {
+          path:'/userArticleHandle',
+          component:userArticleHandle
+        },
+        {
+          path:'/goodsActivity',
+          component:goodsActivity
         }
       ]
     },

@@ -3,7 +3,7 @@
     <div class="nav">
         <div class="titles">公告&廣告</div>
     </div>
-    <div class="notice">
+    <div class="advertisement">
         <Table border  :columns="columns1" :data="data1"  @on-selection-change="selectChange1"></Table>
     </div>
     <div class="page">
@@ -13,10 +13,10 @@
     <div class="prop_model" v-show="propModel">
         <div class="n_box">
             <div class="n_content">
-                <div class="n_title">新增公告</div>
+                <div class="n_title">新增廣告</div>
                 <table style="width:100%">
                     <tr>
-                        <td>公告種類</td>
+                        <td>廣告種類</td>
                         <td>
                             <Select v-model="selectData" style="width:220px;">
                                 <Option v-for="item in noticeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
@@ -125,7 +125,7 @@ export default {
             ],
             data1: [
                 {
-                    order1: '公告',
+                    order1: '廣告告',
                     order2: '紅酒新增',
                     order3: 'www.dadd.cn',
                     order4: '否',

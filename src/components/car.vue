@@ -2,25 +2,25 @@
 <div class="wrappar">
     <div class="nav">
         <div class="option">
-            <span>商品名称：</span>
+            <span>商品名稱：</span>
             <input type="text" >
         </div>
         <div class="option">
-            <span>类型：</span>
+            <span>類型：</span>
             <input type="text" name="phone">
         </div>
         <div class="option">
-            <span>售价：</span>
+            <span>售價：</span>
             <input type="text" name="time">
         </div>
-        <div class="serch">查询</div>
+        <div class="serch">查詢</div>
     </div>
     <div class="car">
         <Table border  :columns="columns1" :data="data1"  @on-selection-change="selectChange1"></Table>
     </div>
     <div class="page">
-        <div class="delet">批量删除</div>
-        <Page :total="100" show-total show-elevator prev-text='上一页' next-text='下一页'/>
+        <div class="delet">批量刪除</div>
+        <Page :total="100" show-total show-elevator prev-text='上一頁' next-text='下一頁'/>
     </div>
 </div>  
 </template>
@@ -35,22 +35,22 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '商品名称',
+                    title: '商品名稱',
                     key: 'order1',
                     minWidth:105
                 },
                 {
-                    title: '数量',
+                    title: '數量',
                     key: 'order2',
                     minWidth:105
                 },
                 {
-                    title: '售价',
+                    title: '售價',
                     key: 'order3',
                     minWidth:105
                 },
                 {
-                    title: '类型',
+                    title: '類型',
                     key: 'order4',
                     minWidth:105
                 },
@@ -70,42 +70,42 @@ export default {
                                         this.remove(params.index)
                                     }
                                 }
-                            }, '删除')
+                            }, '刪除')
                         ]);
                     }
                 }
             ],
             data1: [
                 {
-                    order1: '下载赠送',
+                    order1: '下載贈送',
                     order2: 200,
                     order3: '5%',
                     order4: '2016/10/03-2018/9/02',
                     order5:'官方APP商品'
                 },
                 {
-                    order1: '下载赠送',
+                    order1: '下載贈送',
                     order2: 200,
                     order3: '5%',
                     order4: '2016/10/03-2018/9/02',
                     order5:'官方APP商品'
                 },
                 {
-                    order1: '下载赠送',
+                    order1: '下載贈送',
                     order2: 200,
                     order3: '5%',
                     order4: '2016/10/03-2018/9/02',
                     order5:'官方APP商品'
                 },
                 {
-                    order1: '下载赠送',
+                    order1: '下載贈送',
                     order2: 200,
                     order3: '5%',
                     order4: '2016/10/03-2018/9/02',
                     order5:'官方APP商品'
                 },
                 {
-                    order1: '下载赠送',
+                    order1: '下載贈送',
                     order2: 200,
                     order3: '5%',
                     order4: '2016/10/03-2018/9/02',

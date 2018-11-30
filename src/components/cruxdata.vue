@@ -1,6 +1,6 @@
 <template>
  <div class="contant">
-     <div class="title">即时数据</div>
+     <div class="title">即時數據</div>
     <Table :columns="columns1" :data="data1" border :row-class-name="rowClassName" size='large' height='229'></Table>
  </div>   
 </template>
@@ -10,31 +10,31 @@ export default {
         return {
             columns1: [
                 {
-                    title: '今日订单',
+                    title: '今日訂單',
                     key: 'order1'
                 },
                 {
-                    title: '今日订单总金额',
+                    title: '今日訂單總金額',
                     key: 'order2'
                 },
                 {
-                    title: '总商品数',
+                    title: '總商品數',
                     key: 'order3'
                 }
             ],
             data1: [
                 {
-                    order1: '7单',
+                    order1: '7單',
                     order2: 'xxx',
                     order3: 33  
                 },
                 {
-                    order1: '零库存商品数',
-                    order2: '待出货订单数',
-                    order3: '平均出货天数'   
+                    order1: '零庫存商品數',
+                    order2: '待出貨訂單數',
+                    order3: '平均出貨天數'   
                 },
                 {
-                    order1: '4单',
+                    order1: '4單',
                     order2: 'xxx',
                     order3: 33                   
                 }
@@ -60,7 +60,7 @@ export default {
 .title{
     width: 100%;
     height: 50px;
-    background-color: #2d8cf0;
+    background-color: #009688;
     border-radius: 4px;
     font-size: 16px;
     color: #fff;

@@ -2,11 +2,11 @@
 <div class="wrappar">
     <div class="nav">
         <div class="option">
-            <span>会商品编号：</span>
+            <span>會商品編號：</span>
             <input type="text" >
         </div>
         <div class="option">
-            <span>数量：</span>
+            <span>數量：</span>
             <input type="text" name="phone">
         </div>
         <div class="option">
@@ -14,17 +14,17 @@
             <input type="text" name="time">
         </div>
         <div class="option">
-            <span>类型：</span>
+            <span>類型：</span>
             <input type="text" name="time">
         </div>
-        <div class="serch">查询</div>
+        <div class="serch">查詢</div>
     </div>
     <div class="query">
         <Table border  :columns="columns1" :data="data1"  @on-selection-change="selectChange1" class="post"></Table>
     </div>
     <div class="page">
         <div class="add_goods"  @click="openCreatePage">添加商品</div>
-        <Page :total="100" show-total show-elevator prev-text='上一页' next-text='下一页'/>
+        <Page :total="100" show-total show-elevator prev-text='上一頁' next-text='下一頁'/>
     </div>
 </div>    
 </template>
@@ -39,19 +39,19 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '商品编号',
+                    title: '商品編號',
                     key: 'order1'
                 },
                 {
-                    title: '名称',
+                    title: '名稱',
                     key: 'order2'
                 },
                 {
-                    title: '数量',
+                    title: '數量',
                     key: 'order3'
                 },
                 {
-                    title: '售价',
+                    title: '售價',
                     key: 'order4'
                 },
                 {
@@ -59,41 +59,41 @@ export default {
                     key: 'order5'
                 },
                 {
-                    title:'类型',
+                    title:'類型',
                     key:'order6',
                     
                 },
                 {
-                    title:'年产量',
+                    title:'年產量',
                     key:'order7'
                 },
                 {
-                    title:'酒精浓度',
+                    title:'酒精濃度',
                     key:'order8'
                 },
                 {
-                    title:'适合温度',
+                    title:'適合溫度',
                     key:'order9'
                 },
                 {
-                    title:'进口原包装',
+                    title:'進口原包裝',
                     width:124,
                     key:'order10'
                 },
                 {
-                    title:'酒庄',
+                    title:'酒莊',
                     key:'order11'
                 },
                 {
-                    title:'产品',
+                    title:'產品',
                     key:'order12'
                 },
                 {
-                    title:'葡萄品种',
+                    title:'葡萄品種',
                     key:'order13'
                 },
                 {
-                    title:'酒标照片',
+                    title:'酒標照片',
                     key:'order14',
                     render: (h, params) => {
                         if(params.row.order9==''){
@@ -113,7 +113,7 @@ export default {
                                     style: {
                                         fontSize: '14px'
                                     },
-                                }, '上传')
+                                }, '上傳')
                             ]);
                         }else{
                             return h('span', {
@@ -123,7 +123,7 @@ export default {
                     }
                 },
                 {
-                    title:'沙龙照',
+                    title:'沙龍照',
                     key:'order15',
                     render: (h, params) => {
                         if(params.row.order9==''){
@@ -142,7 +142,7 @@ export default {
                                     style: {
                                         fontSize: '14px'
                                     },
-                                }, '上传')
+                                }, '上傳')
                             ]);
                         }else{
                             return h('span', {
@@ -152,12 +152,12 @@ export default {
                     }
                 },
                 {
-                    title:'详细说明',
+                    title:'詳細說明',
                     width:150,
                     key:'order16'
                 },
                 {
-                    title:'编辑',
+                    title:'編輯',
                     key:'order17',
                     render:(h,params)=>{
                         return h('span',{
@@ -171,17 +171,17 @@ export default {
                                     this.updateData(params)
                                 }
                             }
-                        },'编辑')
+                        },'編輯')
                     }
                 }
             ],
             data1: [
                 {
-                    order1:'发哥',
+                    order1:'發哥',
                     order2:'葡萄酒',
                     order3:'1',
                     order4:'12',
-                    order5:'红酒',
+                    order5:'紅酒',
                     order6:'www.wdwd.ddd',
                     order7:'',
                     order8:'',
@@ -208,7 +208,7 @@ export default {
         change(){
             console.log(111)
         },
-        openCreatePage(){ //打开创建商品弹窗
+        openCreatePage(){ //打開創建商品彈窗
             this.createPage = true;
         },
         closeProp(){

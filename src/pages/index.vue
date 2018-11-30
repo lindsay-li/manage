@@ -2,27 +2,27 @@
     <div class="wrapper">
         <div class="navs">
             <div class="user">
-                <span>测试一会</span>
-                <span>欢迎你！</span>
+                <span>測試一會</span>
+                <span>歡迎你！</span>
             </div>
             <div class="operation">
                 <Dropdown trigger="click" style="margin-left: 20px" :transfer="true">
                     <a href="javascript:void(0)">
-                        菜单管理
+                        菜單管理
                         <Icon type="ios-arrow-down" color="#17233d"></Icon>
                     </a>
                     <DropdownMenu slot="list">
-                        <DropdownItem>修改密码</DropdownItem>
-                        <DropdownItem>更换主题</DropdownItem>
+                        <DropdownItem>修改密碼</DropdownItem>
+                        <DropdownItem>更換主題</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
                 <Dropdown trigger="click" style="margin-left: 20px" :transfer="true">
                     <a href="javascript:void(0)">
-                        退出系统
+                        退出系統
                         <Icon type="ios-arrow-down" color="#17233d"></Icon>
                     </a>
                     <DropdownMenu slot="list">
-                        <DropdownItem>重新登录</DropdownItem>
+                        <DropdownItem>重新登錄</DropdownItem>
                         <DropdownItem>安全退出</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
@@ -34,36 +34,36 @@
                 <Menu :theme="theme2" :open-names="['1']" accordion active-name='1-1'>
                     <div class="menu-nav">
                         <Icon type="ios-grid" color="#ffffff"/>
-                        <span >导航功能</span>
+                        <span >導航功能</span>
                     </div>
                     
                     <Submenu name="1">
                         <template slot="title">
                             <Icon type="ios-paper" />
-                            关键数据
+                            關鍵數據
                         </template>
-                        <MenuItem name="1-1" to='/cruxdata'> 即时数据</MenuItem>
-                        <MenuItem name="1-2" to="/recentdata">近期数据</MenuItem>
+                        <MenuItem name="1-1" to='/cruxdata'> 即時數據</MenuItem>
+                        <MenuItem name="1-2" to="/recentdata">近期數據</MenuItem>
                     </Submenu>
                     <Submenu name="2">
                         <template slot="title">
                             <Icon type="ios-people" />
-                            用户管理
+                            用戶管理
                         </template>
-                        <MenuItem name="2-1" to="/user">用户信息</MenuItem>
+                        <MenuItem name="2-1" to="/user">用戶信息</MenuItem>
                         <MenuItem name="2-2" to="/coupon">折扣券</MenuItem>
-                        <MenuItem name="2-3" to="/wallet">钱包明细</MenuItem>
-                        <MenuItem name="2-4" to="/posts">评酒贴文列表</MenuItem>
-                        <MenuItem name="2-5" to="/car">用户购物车</MenuItem>
-                        <MenuItem name="2-6" to='/collect'>用户收藏</MenuItem>
+                        <MenuItem name="2-3" to="/wallet">錢包明細</MenuItem>
+                        <MenuItem name="2-4" to="/posts">評酒貼文列表</MenuItem>
+                        <MenuItem name="2-5" to="/car">用戶購物車</MenuItem>
+                        <MenuItem name="2-6" to='/collect'>用戶收藏</MenuItem>
                     </Submenu>
                     <Submenu name="3">
                         <template slot="title">
                             <Icon type="md-beer" />
                             酒窖
                         </template>
-                        <MenuItem name="3-1" to="/wine">酒类管理</MenuItem>
-                        <MenuItem name="3-2" to="/userwine">用户酒窖</MenuItem>
+                        <MenuItem name="3-1" to="/wine">酒類管理</MenuItem>
+                        <MenuItem name="3-2" to="/userwine">用戶酒窖</MenuItem>
                     </Submenu>
                     <Submenu name="4">
                         <template slot="title">
@@ -71,62 +71,62 @@
                             商品管理
                         </template>
                         <MenuItem name="4-1" to="/createGoods">建立商品</MenuItem>
-                        <MenuItem name="4-2" to="/goodsQuery">商品查询</MenuItem>
-                        <MenuItem name="4-3">库存管理</MenuItem>
+                        <MenuItem name="4-2" to="/goodsQuery">商品查詢</MenuItem>
+                        <MenuItem name="4-3">庫存管理</MenuItem>
                     </Submenu>
                     <Submenu name="5">
                         <template slot="title">
                             <Icon type="ios-list" />
-                            订单查询
+                            訂單查詢
                         </template>
-                        <MenuItem name="5-1" to="/orderQuery">订单查询</MenuItem>
-                        <MenuItem name="5-2">取消订单</MenuItem>
+                        <MenuItem name="5-1" to="/orderQuery">訂單查詢</MenuItem>
+                        <MenuItem name="5-2">取消訂單</MenuItem>
                     </Submenu>
                     <Submenu name="6">
                         <template slot="title">
                             <Icon type="md-bicycle" />
-                            宅配出货
+                            宅配出貨
                         </template>
-                        <MenuItem name="6-1" to="/homeDelivery">宅配订单确定</MenuItem>
-                        <MenuItem name="6-2" to="/homeDeliveryGoods">宅配出货</MenuItem>
+                        <MenuItem name="6-1" to="/homeDelivery">宅配訂單確定</MenuItem>
+                        <MenuItem name="6-2" to="/homeDeliveryGoods">宅配出貨</MenuItem>
                     </Submenu>
                     <Submenu name="7">
                         <template slot="title">
                             <Icon type="ios-alarm" />
-                            超取出货
+                            超取出貨
                         </template>
-                        <MenuItem name="7-1" to="/overtime">超取订单确认</MenuItem>
-                        <MenuItem name="7-2" to="/overtimeGoods">超取出货</MenuItem>
+                        <MenuItem name="7-1" to="/overtime">超取訂單確認</MenuItem>
+                        <MenuItem name="7-2" to="/overtimeGoods">超取出貨</MenuItem>
                     </Submenu>
                     <Submenu name="8">
                         <template slot="title">
                             <Icon type="md-cog" />
-                            门市操作
+                            門市操作
                         </template>
-                        <MenuItem name="8-1" to="/retailSalesOrder">门市订单确认</MenuItem>
-                        <MenuItem name="8-2" to="/retailSales">门市宝贝</MenuItem>
-                        <MenuItem name="8-3" to="/retailSalesUp">门市取货</MenuItem>
+                        <MenuItem name="8-1" to="/retailSalesOrder">門市訂單確認</MenuItem>
+                        <MenuItem name="8-2" to="/retailSales">門市寶貝</MenuItem>
+                        <MenuItem name="8-3" to="/retailSalesUp">門市取貨</MenuItem>
                     </Submenu>
                     <Submenu name="9">
                         <template slot="title">
                             <Icon type="logo-pinterest" />
-                            换货处理_预设
+                            換貨處理_預設
                         </template>
-                        <MenuItem name="9-1" to="/barterHandle">换货处理</MenuItem>
-                        <MenuItem name="9-2" to="/barterQuery">换货查询</MenuItem>
+                        <MenuItem name="9-1" to="/barterHandle">換貨處理</MenuItem>
+                        <MenuItem name="9-2" to="/barterQuery">換貨查詢</MenuItem>
                     </Submenu>
                     <Submenu name="10">
                         <template slot="title">
                             <Icon type="md-return-right" />
-                            退货处理
+                            退貨處理
                         </template>
-                        <MenuItem name="10-1" to="/returnHandle">退货处理</MenuItem>
-                        <MenuItem name="10-2" to="returnQuery">退货查询</MenuItem>
+                        <MenuItem name="10-1" to="/returnHandle">退貨處理</MenuItem>
+                        <MenuItem name="10-2" to="returnQuery">退貨查詢</MenuItem>
                     </Submenu>
                     <Submenu name="11">
                         <template slot="title">
                             <Icon type="logo-buffer" />
-                            文章日志
+                            文章日誌
                         </template>
                         <MenuItem name="11-1" to="/newArticle">新增文章</MenuItem>
                         <MenuItem name="11-2" to="/articleList">文章列表</MenuItem>
@@ -134,66 +134,69 @@
                     <Submenu name="12">
                         <template slot="title">
                             <Icon type="md-megaphone" />
-                            公告&广告管理
+                            公告&廣告管理
                         </template>
-                        <MenuItem name="12-1" to="/editNotice">编辑公告</MenuItem>
-                        <MenuItem name="12-2" to="/auditingNotice">审核公告</MenuItem>
-                        <MenuItem name="12-3" to="/editNotice">编辑广告</MenuItem>
-                        <MenuItem name="12-4" to="/auditingNotice">审核广告</MenuItem>
+                        <MenuItem name="12-1" to="/editNotice">編輯公告</MenuItem>
+                        <MenuItem name="12-2" to="/auditingNotice">審核公告</MenuItem>
+                        <MenuItem name="12-3" to="/advertisementEdit">編輯廣告</MenuItem>
+                        <MenuItem name="12-4" to="/advertisementAuditing">審核廣告</MenuItem>
                     </Submenu>
                     <Submenu name="13">
                         <template slot="title">
                             <Icon type="md-globe" />
-                            运营管理
+                            運營管理
                         </template>
-                        <MenuItem name="13-1">用户账号操作</MenuItem>
-                        <MenuItem name="13-2">用户贴文管理</MenuItem>
-                        <MenuItem name="13-3">商品活动</MenuItem>
-                        <MenuItem name="13-4">折扣券活动</MenuItem>
-                        <MenuItem name="13-5">特价商品区</MenuItem>
-                        <MenuItem name="13-6">生日礼</MenuItem>
-                        <MenuItem name="13-7">多日活动</MenuItem>
-                        <MenuItem name="13-8">签到活动</MenuItem>
-                        <MenuItem name="13-9">成就</MenuItem>
+                        <MenuItem name="13-1" to="/userHandle">用戶賬號操作</MenuItem>
+                        <MenuItem name="13-2" to="/userArticleHandle">用戶貼文管理</MenuItem>
+                        <MenuItem name="13-3" to="/goodsActivity">商品活動</MenuItem>
+                        <MenuItem name="13-4">會員分級</MenuItem>
+                        <MenuItem name="13-5">購買商品</MenuItem>
+                        <MenuItem name="13-6">免運活動</MenuItem>
+                        <MenuItem name="13-7">折扣券活動</MenuItem>
+                        <MenuItem name="13-8">特價商品區</MenuItem>
+                        <MenuItem name="13-9">生日禮</MenuItem>
+                        <MenuItem name="13-10">多日活動</MenuItem>
+                        <MenuItem name="13-11">簽到活動</MenuItem>
+                        <MenuItem name="13-12">成就</MenuItem>
                     </Submenu>
                     <Submenu name="14">
                         <template slot="title">
                             <Icon type="ios-key" />
-                            后台账号管理
+                            後臺賬號管理
                         </template>
-                        <MenuItem name="14-1">账号添加删除</MenuItem>
-                        <MenuItem name="14-2">账号分级设定</MenuItem>
-                        <MenuItem name="14-3">后台账号操作纪录</MenuItem>
+                        <MenuItem name="14-1">賬號添加刪除</MenuItem>
+                        <MenuItem name="14-2">賬號分級設定</MenuItem>
+                        <MenuItem name="14-3">後臺賬號操作紀錄</MenuItem>
                     </Submenu>
                     <Submenu name="15">
                         <template slot="title">
                             <Icon type="md-analytics" />
-                            数据分析
+                            數據分析
                         </template>
-                        <MenuItem name="15-1">综合报表</MenuItem>
-                        <MenuItem name="15-2">会员数据</MenuItem>
-                        <MenuItem name="15-3">留存数据</MenuItem>
-                        <MenuItem name="15-4">社群数据</MenuItem>
-                        <MenuItem name="15-5">商品数据</MenuItem>
-                        <MenuItem name="15-6">文章数据</MenuItem>
+                        <MenuItem name="15-1">綜合報表</MenuItem>
+                        <MenuItem name="15-2">會員數據</MenuItem>
+                        <MenuItem name="15-3">留存數據</MenuItem>
+                        <MenuItem name="15-4">社群數據</MenuItem>
+                        <MenuItem name="15-5">商品數據</MenuItem>
+                        <MenuItem name="15-6">文章數據</MenuItem>
                     </Submenu>
                     <Submenu name="16">
                         <template slot="title">
                             <Icon type="ios-call" />
-                            客服相关
+                            客服相關
                         </template>
                         <MenuItem name="16-1">客服信件</MenuItem>
-                        <MenuItem name="16-2">浦发功能</MenuItem>
-                        <MenuItem name="16-3">用户检举</MenuItem>
+                        <MenuItem name="16-2">浦發功能</MenuItem>
+                        <MenuItem name="16-3">用戶檢舉</MenuItem>
                     </Submenu>
                     <Submenu name="17">
                         <template slot="title">
                             <Icon type="logo-bitcoin" />
-                            账务管理
+                            賬務管理
                         </template>
-                        <MenuItem name="17-1">账务核对</MenuItem>
-                        <MenuItem name="17-2">出货资料核对</MenuItem>
-                        <MenuItem name="17-3">发票另寄</MenuItem>
+                        <MenuItem name="17-1">賬務核對</MenuItem>
+                        <MenuItem name="17-2">出貨資料核對</MenuItem>
+                        <MenuItem name="17-3">發票另寄</MenuItem>
                     </Submenu>
                 </Menu>
             </div>

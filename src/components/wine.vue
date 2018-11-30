@@ -2,28 +2,28 @@
 <div class="wrappar">
     <div class="nav">
         <div class="option">
-            <span>名称：</span>
+            <span>名稱：</span>
             <input type="text" >
         </div>
         <div class="option">
-            <span>类型：</span>
+            <span>類型：</span>
             <input type="text" name="phone">
         </div>
         <div class="option">
-            <span>酒庄：</span>
+            <span>酒莊：</span>
             <input type="text" name="time">
         </div>
         <div class="option">
-            <span>葡萄品种：</span>
+            <span>葡萄品種：</span>
             <input type="text" name="time">
         </div>
-        <div class="serch">查询</div>
+        <div class="serch">查詢</div>
     </div>
     <div class="car">
         <Table border  :columns="columns1" :data="data1"  @on-selection-change="selectChange1" class="post"></Table>
     </div>
     <div class="page">
-        <Page :total="100" show-total show-elevator prev-text='上一页' next-text='下一页'/>
+        <Page :total="100" show-total show-elevator prev-text='上一頁' next-text='下一頁'/>
     </div>    
 </div>  
 </template>
@@ -38,40 +38,40 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '名称',
+                    title: '名稱',
                     key: 'order1'
                 },
                 {
-                    title: '类型',
+                    title: '類型',
                     key: 'order2'
                 },
                 {
-                    title: '年产量',
+                    title: '年產量',
                     key: 'order3'
                 },
                 {
-                    title: '适合温度',
+                    title: '適合溫度',
                     key: 'order4'
                 },
                 {
-                    title: '酒庄',
+                    title: '酒莊',
                     key: 'order5'
                 },
                 {
-                    title:'产品',
+                    title:'產品',
                     key:'order6',
                     
                 },
                 {
-                    title:'葡萄品种',
+                    title:'葡萄品種',
                     key:'order7'
                 },
                 {
-                    title:'市场估值',
+                    title:'市場估值',
                     key:'order8'
                 },
                 {
-                    title:'酒标照片',
+                    title:'酒標照片',
                     key:'order9',
                     render: (h, params) => {
                         if(params.row.order9==''){
@@ -96,7 +96,7 @@ export default {
                                     //         this.remove(params.index)
                                     //     }
                                     // }
-                                }, '上传')
+                                }, '上傳')
                             ]);
                         }else{
                             return h('span', {
@@ -108,17 +108,17 @@ export default {
                     }
                 },
                 {
-                    title:'沙龙照',
+                    title:'沙龍照',
                     key:'order10'
                 },
             ],
             data1: [
                 {
-                    order1:'发哥',
+                    order1:'發哥',
                     order2:'葡萄酒',
                     order3:'1',
                     order4:'12',
-                    order5:'红酒',
+                    order5:'紅酒',
                     order6:'www.wdwd.ddd',
                     order9:''
                 }

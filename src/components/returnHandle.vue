@@ -2,16 +2,16 @@
 <div class="wrappar">
     <div class="nav">
         <div class="option">
-            <input type="text" placeholder="输入关键字、多个用；隔开">
+            <input type="text" placeholder="輸入關鍵字、多個用；隔開">
         </div>
-        <div class="serch">查询</div>
+        <div class="serch">查詢</div>
     </div>
     <div class="returnHandle">
         <Table border  :columns="columns1" :data="data1"  class="post"></Table>
     </div>
     <div class="page">
-        <div class="b_delete">批量删除</div>
-        <Page :total="100" show-total show-elevator prev-text='上一页' next-text='下一页'/>
+        <div class="b_delete">批量刪除</div>
+        <Page :total="100" show-total show-elevator prev-text='上一頁' next-text='下一頁'/>
     </div>
 </div>           
 </template>
@@ -26,12 +26,12 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '订单编号',
+                    title: '訂單編號',
                     key: 'order1',
                     minWidth:125
                 },
                 {
-                    title: '负责门市',
+                    title: '負責門市',
                     key: 'order2',
                     minWidth:125
                 },
@@ -42,7 +42,7 @@ export default {
                     renderHeader:(h,params)=>{
                         return h('div',{},
                         [
-                            h('p',{},'配送方式'),h('p',{},'配送编号'),h('p',{},'出货状态'),h('p',{},'出货状态时间')
+                            h('p',{},'配送方式'),h('p',{},'配送編號'),h('p',{},'出貨狀態'),h('p',{},'出貨狀態時間')
                         ]
                         )
                     }
@@ -54,7 +54,7 @@ export default {
                     renderHeader:(h,params)=>{
                         return h('div',{},
                         [
-                            h('p',{},'下单时间'),h('p',{},'订单状态'),h('p',{},'订单状态日'),h('p',{},'取消原因'),h('p',{},'订单来源')
+                            h('p',{},'下單時間'),h('p',{},'訂單狀態'),h('p',{},'訂單狀態日'),h('p',{},'取消原因'),h('p',{},'訂單來源')
                         ]
                         )
                     }
@@ -66,7 +66,7 @@ export default {
                     renderHeader:(h,params)=>{
                         return h('div',{},
                         [
-                            h('p',{},'商品名称'),h('p',{},'商品编号')
+                            h('p',{},'商品名稱'),h('p',{},'商品編號')
                         ]
                         )
                     },
@@ -79,7 +79,7 @@ export default {
                     }
                 },
                 {
-                    title:'数量',
+                    title:'數量',
                     key:'order6',
                     minWidth:105
                 },
@@ -90,7 +90,7 @@ export default {
                     renderHeader:(h,params)=>{
                         return h('div',{},
                         [
-                            h('p',{},'商品单价'),h('p',{},'折扣金额'),h('p',{},'销售金额(折扣后)')
+                            h('p',{},'商品單價'),h('p',{},'折扣金額'),h('p',{},'銷售金額(折扣後)')
                         ]
                         )
                     },
@@ -102,25 +102,25 @@ export default {
                     renderHeader:(h,params)=>{
                         return h('div',{},
                         [
-                            h('p',{},'会员编号'),h('p',{},'收件人'),h('p',{},'收件人电话'),h('p',{},'地址')
+                            h('p',{},'會員編號'),h('p',{},'收件人'),h('p',{},'收件人電話'),h('p',{},'地址')
                         ]
                         )
                     },
                 },
                 {
-                    title:'订单备注',
+                    title:'訂單備註',
                     key:'order9',
                     minWidth:165
                 },
                 {
-                    title:'消费者备注',
+                    title:'消費者備註',
                     key:'order10',
                     minWidth:165
                 },
             ],
             data1: [
                 {
-                    order1:'发哥',
+                    order1:'發哥',
                     order2:'葡萄酒',
                     order3:'1',
                     order4:'12',

@@ -8,35 +8,35 @@
             </Select>
         </div>
         <div class="option">
-            <span>发布时间：</span>
+            <span>發佈時間：</span>
             <input type="text" name="time">
         </div>
-        <div class="serch">查询</div>
+        <div class="serch">查詢</div>
     </div>
     <div class="new_article">
         <Table border  :columns="columns1" :data="data1"  class="post"></Table>
     </div>
     <div class="page">
         <div class="btns">
-            <div class="b_delete">批量删除</div>
+            <div class="b_delete">批量刪除</div>
             <div class="send" @click="openModel">新增文章</div>
         </div>
-        <Page :total="100" show-total show-elevator prev-text='上一页' next-text='下一页'/>
+        <Page :total="100" show-total show-elevator prev-text='上一頁' next-text='下一頁'/>
     </div>
     <div class="prop_model" v-show="propUpModel">
         <div class="a_box">
             <div class="a_content">
                 <div class="a_title">新增文章</div>
                 <div class="a_tit aflex">
-                    <span>文章标题：</span>
+                    <span>文章標題：</span>
                     <Input v-model="a_tit"  style="width: 486px" />
                 </div>
                 <div class="keyword aflex">
-                    <span>设定关键字：</span>
+                    <span>設定關鍵字：</span>
                     <Input v-model="keyword"  style="width: 486px" />
                 </div>
                 <div class="a_pic aflex">
-                    <span>内文图片：</span>
+                    <span>內文圖片：</span>
                     <div style="width:486px">
                         <div class="demo-upload-list" v-for="item in uploadList">
                             <template v-if="item.status === 'finished'">
@@ -74,26 +74,26 @@
                     </div>
                 </div>
                 <div class="a_video aflex">
-                    <span>置顶图片、影片：</span>
+                    <span>置頂圖片、影片：</span>
                     <Upload
                         multiple
                         action="//jsonplaceholder.typicode.com/posts/">
-                        <Button style="width:486px">上传</Button>
+                        <Button style="width:486px">上傳</Button>
                     </Upload>
                 </div>
                 <div class="classify aflex">
-                    <span>文章分类：</span>
+                    <span>文章分類：</span>
                     <Select v-model="s_modelData" style="width:486px">
                         <Option v-for="item in orderList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                 </div>
                 <div class="a_article aflex">
-                    <span>内文：</span>
+                    <span>內文：</span>
                     <Input v-model="a_article" type="textarea" :rows='5' style="width: 486px" />
                 </div>
                 <div class="a_btns">
                     <div class="a_cancel" @click="closeModels">取消</div>
-                    <div class="a_sure">确定</div>
+                    <div class="a_sure">確定</div>
                 </div>
             </div>
         </div>
@@ -111,37 +111,37 @@ export default {
                     align:'center'
                 },
                 {
-                    title: '发布时间',
+                    title: '發佈時間',
                     key: 'order1',
                     minWidth:95
                 },
                 {
-                    title: '文章标题',
+                    title: '文章標題',
                     key: 'order2',
                     minWidth:160
                 },
                 {
-                    title: '设定关键字',
+                    title: '設定關鍵字',
                     key: 'order3',
                     minWidth:120
                 },
                 {
-                    title: '内文',
+                    title: '內文',
                     key: 'order4',
                     minWidth:130
                 },
                 {
-                    title: '插入内文图片',
+                    title: '插入內文圖片',
                     key: 'order5',
                     minWidth:124
                 },
                 {
-                    title:'置顶图片、影片',
+                    title:'置頂圖片、影片',
                     key:'order6',
                     minWidth:160
                 },
                 {
-                    title:'文章分类',
+                    title:'文章分類',
                     key:'order7',
                     minWidth:120
                 }
@@ -151,10 +151,10 @@ export default {
                     order1:'2016',
                     order2:'葡萄酒文化',
                     order3:'葡萄酒、文化',
-                    order4:'葡萄酒故乡...',
+                    order4:'葡萄酒故鄉...',
                     order5:'dsdsd.png',
                     order6:'12315.jpg',
-                    order7:'热门'
+                    order7:'熱門'
                 }
             ],
             selectData:'',
@@ -169,8 +169,8 @@ export default {
                     label:'最新'
                 },
                 {
-                    value:'热门',
-                    label:'热门'
+                    value:'熱門',
+                    label:'熱門'
                 },
                 {
                     value:'音影',
@@ -181,24 +181,24 @@ export default {
                     label:'生活'
                 },
                 {
-                    value:'专栏',
-                    label:'专栏'
+                    value:'專欄',
+                    label:'專欄'
                 },
                 {
-                    value:'酒庄',
-                    label:'酒庄'
+                    value:'酒莊',
+                    label:'酒莊'
                 },
                 {
-                    value:'活动',
-                    label:'活动'
+                    value:'活動',
+                    label:'活動'
                 },
                 {
                     value:'深度',
                     label:'深度'
                 },
                 {
-                    value:'大师',
-                    label:'大师'
+                    value:'大師',
+                    label:'大師'
                 }
 
             ],
