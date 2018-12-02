@@ -101,13 +101,13 @@ td .ivu-table-cell,
   font-size: 14px;
 }
 /*posts*/
-.post .ivu-table-header th{
+/* .post .ivu-table-header th{
   background-color: #009688;
   color: #fff;
-}
-.post th.ivu-table-column-center{
+} */
+/* .post th.ivu-table-column-center{
   background-color: #fff;
-}
+} */
 /*公共样式*/
 .nav{
     width: 100%;
