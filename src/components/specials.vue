@@ -1,13 +1,13 @@
 <template>
 <div class="wrappar">
     <div class="title">設置活動</div>
-    <div class="activity">
-        <Table border  :columns="columns1" :data="data1" @on-row-click="clickRows" class="post"></Table>
-    </div>
-    <div class="page">
-        <div class="add_goods" @click="openModel">添加</div>
-        <Page :total="100" show-total show-elevator prev-text='上一頁' next-text='下一頁'/>
-    </div>
+        <div class="activity">
+            <Table border  :columns="columns1" :data="data1"  class="post"></Table>
+        </div>
+        <div class="page">
+            <div class="add_goods" @click="openModel">添加</div>
+            <Page :total="100" show-total show-elevator prev-text='上一頁' next-text='下一頁'/>
+        </div> 
     <div class="prop_model" v-show="propModel">
         <div class="_box">
             <div class="contant">
@@ -17,19 +17,31 @@
                         <tr>
                             <td style="text-align:right">活動類型:</td>
                             <td>
-                                <Input v-model="a_types" placeholder="點擊輸入" style="width: 300px" />
+                                <Input v-model="a_types"  placeholder="點擊輸入" style="width: 300px" />
                             </td>
                         </tr>
                         <tr>
                             <td style="text-align:right">活動名稱:</td>
                             <td>
-                                <Input v-model="a_types" placeholder="點擊輸入" style="width: 300px" />
+                                <Input v-model="a_types"  placeholder="點擊輸入" style="width: 300px" />
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">商品編號:</td>
+                            <td style="text-align:right">商品編號1:</td>
                             <td>
-                                <Input v-model="a_types" placeholder="點擊輸入、多個用‘||’隔開" style="width: 300px" />
+                                <Input v-model="a_types"  placeholder="點擊輸入" style="width: 300px" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right">商品編號2:</td>
+                            <td>
+                                <Input v-model="a_types"  placeholder="點擊輸入" style="width: 300px" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right">商品編號3:</td>
+                            <td>
+                                <Input v-model="a_types"  placeholder="點擊輸入" style="width: 300px" />
                             </td>
                         </tr>
                         <tr>
@@ -39,17 +51,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">折扣:</td>
+                            <td style="text-align:right">頁面鏈接:</td>
                             <td>
-                                <Select v-model="select_model" style="width:300px" @on-change="selectChange">
-                                    <Option v-for="item in zhekList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                                </Select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align:right">通知收藏者:</td>
-                            <td>
-                                <Checkbox v-model="single"></Checkbox>
+                                <Input v-model="a_types"  placeholder="點擊輸入" style="width: 300px" />
                             </td>
                         </tr>
                     </table>
@@ -69,34 +73,34 @@ export default {
         return{
             columns1: [
                 {
-                    title: '活動類型',
+                    title: '活動編號',
                     key: 'order1',
                     minWidth:105
                 },
                 {
                     title: '活動名稱',
                     key: 'order2',
-                    minWidth:105
+                    minWidth:165
                 },
                 {
-                    title: '活動時間',
+                    title: '開始時間',
                     key: 'order3',
-                    minWidth:105
+                    minWidth:165
+                },
+                {
+                    title: '結束時間',
+                    key: 'order4',
+                    minWidth:165
                 },
                 {
                     title: '商品編號',
-                    key: 'order4',
-                    minWidth:400
-                },
-                {
-                    title: '折扣、價格',
                     key: 'order5',
-                    minWidth:105
+                    minWidth:165
                 },
                 {
-                    title:'通知收藏者',
-                    key:'order6',
-                    minWidth:105
+                    title: '頁面鏈接',
+                    key: 'order6',
+                    minWidth:165
                 },
                 {
                     title:'編輯',
@@ -114,98 +118,76 @@ export default {
             ],
             data1: [
                 {
-                    order1: '促銷',
-                    order2: '520狂歡',
-                    order3: '2019.05.18-2019.05.21',
-                    order4: 'hj1982',
-                    order5:'20%',
-                    order6:'是'
+                    order1: '200元',
+                    order2: '2019.05.18-2019.05.21',
+                    order3: '20%',
+                    order4:'所有',
+                    order5:'充值送券',
+                    order6:'充值10000送200'
                 },
                 {
-                    order1: '促銷',
-                    order2: '520狂歡',
-                    order3: '2019.05.18-2019.05.21',
-                    order4: 'hj1982',
-                    order5:'20%',
-                    order6:'是'
+                    order1: '200元',
+                    order2: '2019.05.18-2019.05.21',
+                    order3: '20%',
+                    order4:'所有',
+                    order5:'充值送券',
+                    order6:'充值10000送200'
                 },
                 {
-                    order1: '促銷',
-                    order2: '520狂歡',
-                    order3: '2019.05.18-2019.05.21',
-                    order4: 'hj1982',
-                    order5:'20%',
-                    order6:'是'
+                    order1: '200元',
+                    order2: '2019.05.18-2019.05.21',
+                    order3: '20%',
+                    order4:'所有',
+                    order5:'充值送券',
+                    order6:'充值10000送200'
                 },
                 {
-                    order1: '促銷',
-                    order2: '520狂歡',
-                    order3: '2019.05.18-2019.05.21',
-                    order4: 'hj1982',
-                    order5:'20%',
-                    order6:'是'
+                    order1: '200元',
+                    order2: '2019.05.18-2019.05.21',
+                    order3: '20%',
+                    order4:'所有',
+                    order5:'充值送券',
+                    order6:'充值10000送200'
                 },
                 {
-                    order1: '促銷',
-                    order2: '520狂歡',
-                    order3: '2019.05.18-2019.05.21',
-                    order4: 'hj1982',
-                    order5:'20%',
-                    order6:'是'
+                    order1: '200元',
+                    order2: '2019.05.18-2019.05.21',
+                    order3: '20%',
+                    order4:'所有',
+                    order5:'充值送券',
+                    order6:'充值10000送200'
                 },
             ],
             a_types:'',
-            select_model:'二件8折',
             single:false,
             propModel:false,
             zhekList:[
                 {
-                    value:'一件9折',
-                    label:'一件9折'
+                    value:'50元',
+                    label:'50元'
                 },
                 {
-                    value:'二件8折',
-                    label:'二件8折'
+                    value:'100元',
+                    label:'100元'
                 },
                 {
-                    value:'三件6折',
-                    label:'三件6折'
+                    value:'250元',
+                    label:'250元'
                 }
             ]
         }
     },
     methods:{
-        selectChange(selection){//勾選
-            console.log(selection)
-        },
-        clickRows(data,index){//單機某一行觸發
-            console.log('data',data)
-            console.log(index)
-        },
         openModel(){
             this.propModel = true;
         },
         closeModel(){
             this.propModel = false;
-        },
-        selectChange(value){
-            alert(value)
         }
     }
 }
 </script>
 <style scoped>
-.title{
-    width: 100%;
-    height: 50px;
-    background-color: #009688;
-    border-radius: 4px;
-    font-size: 16px;
-    color: #fff;
-    text-align: center;
-    line-height: 50px;
-    margin-bottom: 30px;
-}
 .page{
     justify-content: space-between;
 }
@@ -224,11 +206,11 @@ export default {
 }
 ._box{
     width: 600px;
-    height: 600px;
+    height: 680px;
     position: absolute;
     top: 50%;
     left: 50%;
-    margin: -300px 0 0 -300px;
+    margin: -340px 0 0 -300px;
     border-radius: 4px;
     background-color: #fff;
 }

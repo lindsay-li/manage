@@ -39,6 +39,28 @@ const memberLevel = () => import('@/components/memberLevel'); //会员分级
 const buygoods = () => import('@/components/buygoods');
 const freeMail = () => import('@/components/freeMail');
 const couponActivity = () => import('@/components/couponActivity');
+const specials = () => import('@/components/specials');
+const birthdaygift = () => import('@/components/birthdaygift');
+const continuousActivity = () => import('@/components/continuousActivity');
+const signInActive = () => import('@/components/signInActive');
+const achievement = () => import('@/components/achievement');
+const accountManage = () => import('@/components/accountManage');
+const accountPower = () => import('@/components/accountPower');
+const accountHandRecord = () => import('@/components/accountHandRecord');
+const comprehensiveData = () => import('@/components/comprehensiveData');
+const memberData = () => import('@/components/memberData');
+const retainData = () => import('@/components/retainData');
+const communityData = () => import('@/components/communityData');
+const goodsData = () => import('@/components/goodsData');
+const articleData = () => import('@/components/articleData');
+const waiterLetter = () => import('@/components/waiterLetter');
+const repairFunc = () => import('@/components/repairFunc');
+const userImpeach = () => import('@/components/userImpeach');
+const financeCheck = () => import('@/components/financeCheck');
+const shipmentCheck = () => import('@/components/shipmentCheck');
+const invoice = () => import('@/components/invoice');
+
+
 
 Vue.use(Router)
 
@@ -199,6 +221,86 @@ export default new Router({
         {
           path:'/couponActivity',
           component:couponActivity
+        },
+        {
+          path:'/specials',
+          component:specials
+        },
+        {
+          path:'/birthdaygift',
+          component:birthdaygift
+        },
+        {
+          path:'/continuousActivity',
+          component:continuousActivity
+        },
+        {
+          path:"/signInActive",
+          component:signInActive
+        },
+        {
+          path:'/achievement',
+          component:achievement
+        },
+        {
+          path:'/accountManage',
+          component:accountManage
+        },
+        {
+          path:'/accountPower',
+          component:accountPower
+        },
+        {
+          path:'/accountHandRecord',
+          component:accountHandRecord
+        },
+        {
+          path:'/comprehensiveData',
+          component:comprehensiveData
+        },
+        {
+          path:'/memberData',
+          component:memberData
+        },
+        {
+          path:'/retainData',
+          component:retainData
+        },
+        {
+          path:'/communityData',
+          component:communityData
+        },
+        {
+          path:'/goodsData',
+          component:goodsData
+        },
+        {
+          path:'/articleData',
+          component:articleData
+        },
+        {
+          path:'/waiterLetter',
+          component:waiterLetter
+        },
+        {
+          path:'/repairFunc',
+          component:repairFunc
+        },
+        {
+          path:'/userImpeach',
+          component:userImpeach
+        },
+        {
+          path:'/financeCheck',
+          component:financeCheck
+        },
+        {
+          path:'/shipmentCheck',
+          component:shipmentCheck
+        },
+        {
+          path:'/invoice',
+          component:invoice
         }
       ]
     },

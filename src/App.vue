@@ -85,6 +85,9 @@ box-shadow:0 0 0 60px transparent inset;
   background-color: #009688;
   border-color: #009688;
 }
+.options .ivu-select{
+  width: auto;
+}
 /*临时数据*/
 .ivu-table .demo-table-info-row td{
     background-color: #fff;
@@ -138,6 +141,7 @@ td .ivu-table-cell,
 .page{
     display: flex;
     justify-content: flex-end;
+    align-items: center;
     margin-top: 20px;
 }
 .delet,.add_goods{
@@ -196,5 +200,16 @@ td .ivu-table-cell,
 }
 .cancel{
   background-color: #ED4014;
+}
+.title{
+    width: 100%;
+    height: 50px;
+    background-color: #009688;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #fff;
+    text-align: center;
+    line-height: 50px;
+    margin-bottom: 30px;
 }
 </style>

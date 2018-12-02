@@ -153,50 +153,50 @@
                         <MenuItem name="13-5" to="/buygoods">加買商品</MenuItem>
                         <MenuItem name="13-6" to="/freeMail">免運活動</MenuItem>
                         <MenuItem name="13-7" to="/couponActivity">折扣券活動</MenuItem>
-                        <MenuItem name="13-8">特價商品區</MenuItem>
-                        <MenuItem name="13-9">生日禮</MenuItem>
-                        <MenuItem name="13-10">多日活動</MenuItem>
-                        <MenuItem name="13-11">簽到活動</MenuItem>
-                        <MenuItem name="13-12">成就</MenuItem>
+                        <MenuItem name="13-8" to="/specials">特價商品區</MenuItem>
+                        <MenuItem name="13-9" to="/birthdaygift">生日禮</MenuItem>
+                        <MenuItem name="13-10" to="/continuousActivity">多日活動</MenuItem>
+                        <MenuItem name="13-11" to="/signInActive">簽到活動</MenuItem>
+                        <MenuItem name="13-12" to="/achievement">成就</MenuItem>
                     </Submenu>
                     <Submenu name="14">
                         <template slot="title">
                             <Icon type="ios-key" />
                             後臺賬號管理
                         </template>
-                        <MenuItem name="14-1">賬號添加刪除</MenuItem>
-                        <MenuItem name="14-2">賬號分級設定</MenuItem>
-                        <MenuItem name="14-3">後臺賬號操作紀錄</MenuItem>
+                        <MenuItem name="14-1" to="/accountManage">賬號添加刪除</MenuItem>
+                        <MenuItem name="14-2" to="/accountPower">賬號分級設定</MenuItem>
+                        <MenuItem name="14-3" to="/accountHandRecord">後臺賬號操作紀錄</MenuItem>
                     </Submenu>
                     <Submenu name="15">
                         <template slot="title">
                             <Icon type="md-analytics" />
                             數據分析
                         </template>
-                        <MenuItem name="15-1">綜合報表</MenuItem>
-                        <MenuItem name="15-2">會員數據</MenuItem>
-                        <MenuItem name="15-3">留存數據</MenuItem>
-                        <MenuItem name="15-4">社群數據</MenuItem>
-                        <MenuItem name="15-5">商品數據</MenuItem>
-                        <MenuItem name="15-6">文章數據</MenuItem>
+                        <MenuItem name="15-1" to="/comprehensiveData">綜合報表</MenuItem>
+                        <MenuItem name="15-2" to="/memberData">會員數據</MenuItem>
+                        <MenuItem name="15-3" to="/retainData">留存數據</MenuItem>
+                        <MenuItem name="15-4" to="/communityData">社群數據</MenuItem>
+                        <MenuItem name="15-5" to="/goodsData">商品數據</MenuItem>
+                        <MenuItem name="15-6" to="/articleData">文章數據</MenuItem>
                     </Submenu>
                     <Submenu name="16">
                         <template slot="title">
                             <Icon type="ios-call" />
                             客服相關
                         </template>
-                        <MenuItem name="16-1">客服信件</MenuItem>
-                        <MenuItem name="16-2">浦發功能</MenuItem>
-                        <MenuItem name="16-3">用戶檢舉</MenuItem>
+                        <MenuItem name="16-1" to="/waiterLetter">客服信件</MenuItem>
+                        <MenuItem name="16-2" to="/repairFunc">補發功能</MenuItem>
+                        <MenuItem name="16-3" to="/userImpeach">用戶檢舉</MenuItem>
                     </Submenu>
                     <Submenu name="17">
                         <template slot="title">
                             <Icon type="logo-bitcoin" />
                             賬務管理
                         </template>
-                        <MenuItem name="17-1">賬務核對</MenuItem>
-                        <MenuItem name="17-2">出貨資料核對</MenuItem>
-                        <MenuItem name="17-3">發票另寄</MenuItem>
+                        <MenuItem name="17-1" to="/financeCheck">賬務核對</MenuItem>
+                        <MenuItem name="17-2" to="/shipmentCheck">出貨資料核對</MenuItem>
+                        <MenuItem name="17-3" to="/invoice">發票另寄</MenuItem>
                     </Submenu>
                 </Menu>
             </div>
