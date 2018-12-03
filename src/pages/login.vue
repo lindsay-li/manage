@@ -33,7 +33,22 @@ export default {
 
        }
    },
-
+    created(){
+        this.login();
+    },
+    methods:{
+        login(){
+            this.$http.post('http://www.bakesi.com/login',{account:'admin',password:'123456'})
+            .then((res)=>{
+                console.log(res);
+                var data = JSON.parse(res.data);
+                console.log(data);
+                if(data.code==0){
+                    this.$router.push({path:'/'})
+                }
+            })
+        }
+    }
 }
 </script>
 <style scoped>

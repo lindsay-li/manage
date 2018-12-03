@@ -35,11 +35,11 @@ export default {
  list-style: none;
 }
 a{
-  color: #17233d;
+  color: #fff;
   /* font-weight: bold; */
 }
 a:hover{
-  color: #17233d;
+  color: #fff;
   font-weight: bold;
 }
 input:-webkit-autofill,
