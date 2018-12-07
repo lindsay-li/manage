@@ -1,11 +1,11 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import App from './App'
-import router from './router'
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import locale from 'iview/dist/locale/zh-TW';
+import App from './App'
+import router from './router'
 import axios from 'axios'
 Vue.use(iView,{locale});
 
@@ -47,15 +47,36 @@ Vue.prototype.$http = axios
 //   console.log(res);
 // })
 
+axios.interceptors.response.use(function (response) {
+  const {data}=response
+  // 对响应数据做点什么
+  // if(data.code=='0x000001'){
+  //     Vue.prototype.$user.logout();
+  //     // console.log(Vue)
+  // }
+  return data;
+}, function (error) {
+  // 对响应错误做点什么
+  throw error
+});
 
 
 router.beforeEach((to, from, next) => {
-  iView.LoadingBar.start();
-  next();
+  var userInfo =sessionStorage.getItem('user_info');
+  console.log(to.name)
+  if(to.name != 'login'){
+    if(!userInfo){
+      router.push({path:'/login'})
+    }
+  }
+  
+    iView.LoadingBar.start();
+    next();
 });
 
-router.afterEach(route => {
+router.afterEach((to,from,next) => {
   iView.LoadingBar.finish();
+  // next();
 });
 
 iView.LoadingBar.config({

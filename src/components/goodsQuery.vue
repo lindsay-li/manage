@@ -2,7 +2,7 @@
 <div class="wrappar">
     <div class="nav">
         <div class="option">
-            <span>會商品編號：</span>
+            <span>商品編號：</span>
             <input type="text" >
         </div>
         <div class="option">

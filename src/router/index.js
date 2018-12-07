@@ -14,7 +14,9 @@ const wine = () => import('@/components/wine');
 const userWine = () => import('@/components/userWine');
 const createGoods = () => import('@/components/createGoods');
 const goodsQuery = () => import('@/components/goodsQuery');
+const stockManage = () => import('@/components/stockManage');
 const orderQuery = () => import('@/components/orderQuery');
+const ordersCancel = () => import('@/components/ordersCancel');
 const homeDelivery = () => import('@/components/homeDelivery');
 const homeDeliveryGoods = () => import('@/components/homeDeliveryGoods');
 const overtime = () => import('@/components/overtime');
@@ -67,11 +69,15 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/index',
       component: Indexs,
       children:[
         {
           path:'/',
+          redirect:'/cruxdata'
+        },
+        {
+          path:'/cruxdata',
           component:cruxdata
         },
         {
@@ -123,8 +129,16 @@ export default new Router({
           component:goodsQuery
         },
         {
+          path:'/stockManage',
+          component:stockManage
+        },
+        {
           path:'/orderQuery',
           component:orderQuery
+        },
+        {
+          path:'/ordersCancel',
+          component:ordersCancel
         },
         {
           path:'/homeDelivery',
@@ -308,6 +322,10 @@ export default new Router({
       path:'/login',
       name:'login',
       component:login
+    },
+    {
+      path:'/',
+      redirect:'/index'
     }
   ]
 })

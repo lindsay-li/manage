@@ -33,7 +33,7 @@
         </div>
         <div class="contant">
             <div class="menu">
-                <Menu :theme="theme2" :open-names="['1']" accordion active-name='1-1' @on-open-change="selectChange" @on-select="selectItem">
+                <Menu :theme="theme2" :open-names="['關鍵數據']" accordion active-name='即時數據' @on-open-change="selectChange" @on-select="selectItem">
                     <div class="menu-nav">
                         <Icon type="ios-grid" color="#ffffff"/>
                         <span >導航功能</span>
@@ -74,7 +74,7 @@
                         </template>
                         <MenuItem name="建立商品" to="/createGoods">建立商品</MenuItem>
                         <MenuItem name="商品查詢" to="/goodsQuery">商品查詢</MenuItem>
-                        <MenuItem name="庫存管理">庫存管理</MenuItem>
+                        <MenuItem name="庫存管理" to="/stockManage">庫存管理</MenuItem>
                     </Submenu>
                     <Submenu name="訂單查詢">
                         <template slot="title">
@@ -82,7 +82,7 @@
                             訂單查詢
                         </template>
                         <MenuItem name="訂單查詢" to="/orderQuery">訂單查詢</MenuItem>
-                        <MenuItem name="取消訂單">取消訂單</MenuItem>
+                        <MenuItem name="取消訂單" to="/ordersCancel">取消訂單</MenuItem>
                     </Submenu>
                     <Submenu name="宅配出貨">
                         <template slot="title">

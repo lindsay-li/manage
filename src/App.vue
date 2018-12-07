@@ -144,7 +144,7 @@ td .ivu-table-cell,
     align-items: center;
     margin-top: 20px;
 }
-.delet,.add_goods{
+.delete,.add_goods{
     width: 180px;
     height: 36px;
     color: #fff;
