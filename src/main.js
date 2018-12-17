@@ -15,18 +15,18 @@ var users={
   account:'admin',
   password:123456
 }
-Mock.mock('http://www.bakesi.com/login','post',function(options){
-  console.log(options.body)
-  var option = JSON.parse(options.body)
-  console.log(option)
-  var account = option.account;
-  var password = option.password;
-  if(account == users.account && password == users.password){
-    return JSON.stringify({code:0,data:[{name:'admin'}],msg:'登陸成功'})
-  }else{
-    return JSON.stringify({code:1001,data:null,msg:'用戶名或密碼錯誤'})
-  }
-})
+// Mock.mock('http://www.bakesi.com/login','post',function(options){
+//   console.log(options.body)
+//   var option = JSON.parse(options.body)
+//   console.log(option)
+//   var account = option.account;
+//   var password = option.password;
+//   if(account == users.account && password == users.password){
+//     return JSON.stringify({code:0,data:[{name:'admin'}],msg:'登陸成功'})
+//   }else{
+//     return JSON.stringify({code:1001,data:null,msg:'用戶名或密碼錯誤'})
+//   }
+// })
 
 
 
@@ -34,19 +34,21 @@ Vue.config.productionTip = false
 
 Vue.prototype.$http = axios
 
-// axios({
-//   method: 'post',
-//   url: 'http://www.bakesi.com/login',
-//   data:{account:'admin',
-//   password:123456},
-//   headers: {
-//     'Content-Type': 'application/x-www-form-urlencoded'
-//   }
-
-// }).then((res)=>{
-//   console.log(res);
-// })
-
+// http request 拦截器
+axios.interceptors.request.use(
+  config => {
+      var accflg = JSON.parse(sessionStorage.getItem('user_info'));
+      console.log(config.data)
+      var data = config.data; 
+      if (data.method != 'login' && data.method != 'getCaptcha') {  // 判断是否存在token，如果存在的话，则每个http header都加上token
+          data.accflg = accflg;
+          config.data = data;
+      }
+      return config;
+  },
+  err => {
+      return err;
+});
 axios.interceptors.response.use(function (response) {
   const {data}=response
   // 对响应数据做点什么
@@ -54,6 +56,7 @@ axios.interceptors.response.use(function (response) {
   //     Vue.prototype.$user.logout();
   //     // console.log(Vue)
   // }
+  console.log(data);
   return data;
 }, function (error) {
   // 对响应错误做点什么
@@ -62,7 +65,7 @@ axios.interceptors.response.use(function (response) {
 
 
 router.beforeEach((to, from, next) => {
-  var userInfo =sessionStorage.getItem('user_info');
+  var userInfo =JSON.parse(sessionStorage.getItem('user_info'));
   console.log(to.name)
   if(to.name != 'login'){
     if(!userInfo){

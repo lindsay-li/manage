@@ -88,6 +88,15 @@ box-shadow:0 0 0 60px transparent inset;
 .options .ivu-select{
   width: auto;
 }
+.btns .ivu-btn{
+  height: 50px;
+  line-height: 50px;
+  padding: 0;
+  font-size: 16px;
+}
+.btns .ivu-btn>.ivu-icon{
+  line-height: 1;
+}
 /*临时数据*/
 .ivu-table .demo-table-info-row td{
     background-color: #fff;

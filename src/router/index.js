@@ -81,10 +81,6 @@ export default new Router({
           component:cruxdata
         },
         {
-          path:'/cruxdata',
-          component:cruxdata
-        },
-        {
           path:'/recentdata',
           component:recentdata
         },

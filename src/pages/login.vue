@@ -13,18 +13,21 @@
                 <div class="code">
                     <input type="text" placeholder="請輸入驗證碼" v-model="code">
                 </div> 
-                <div class="code_img">
-                    <img src="../assets/u31.png" alt="">
+                <div class="code_img" v-html="code_svg">
+                    
                 </div>
             </div>
             
             <!-- <div class="logoin">
                 <span @click="login">登錄</span>
             </div> -->
-            <Button type="primary" :loading="loading" @click="toLogin" style="width:400px;margin:0 auto">
-                <span v-if="!loading">登錄</span>
-                <span v-else>登錄中</span>
-            </Button>
+            <div class="btns">
+                <Button type="primary" :loading="loading" @click="toLogin" style="width:400px;margin:0 auto">
+                    <span v-if="!loading">登錄</span>
+                    <span v-else>登錄中</span>
+                </Button>
+            </div>
+            
         </div>    
     </div>    
 </div>    
@@ -37,43 +40,73 @@ export default {
            account:'',
            pwd:'',
            code:'',
+           code_svg:'',
+           captchaId:'', //验证码ID
            loading:false
        }
    },
     created(){
-            
+        this.getCode();    
     },
     methods:{
         toLogin(){
-            if(this.account != '' && this.pwd != ''){
-                this.loading = true;
-                this.$http.post('http://www.bakesi.com/login',{account:this.account,password:this.pwd})
-                .then((res)=>{
-                    this.loading = false;
-                    var data = JSON.parse(res.data);
-                    if(data.code==0){
-                        sessionStorage.setItem('user_info',JSON.stringify(data.data));
-                        this.$router.push({path:'/'})
-                    }else{
-                       this.$Modal.error({
-                            title: '错误',
-                            content: '错误的账户名或密码',
-                        }); 
-                    }
-                })
-            }else{
+            if(!this.account){
                 this.$Modal.warning({
-                        title: '警告',
-                        content: '请输入账户名或密码！'
-                    });
-                this.loading = false;
+                    title: '警告',
+                    content: '请输入账户名！'
+                });
+                return;
             }
-            var postdata = qs.stringify({
-                grade:encodeURI("小学2015级"),
-                school: encodeURI("上海市控江二村小学")
-            });
+            if(!this.pwd){
+                this.$Modal.warning({
+                    title: '警告',
+                    content: '请输入密码！'
+                });
+                return;
+            }
+            if(!this.code){
+                this.$Modal.warning({
+                    title: '警告',
+                    content: '请输入验证码！'
+                });
+                return;
+            }
+            this.loading = true;
+            var datas = {
+                api:'user',
+                method:'login',
+                captchaId:this.captchaId,
+                captchaCode:this.code,
+                username:this.account,
+                password:this.pwd
+            }
+            this.$http.post('/api',datas)
+            .then((res)=>{
+                this.loading = false;
+                if(res.status=='success'){
+                    sessionStorage.setItem('user_info',JSON.stringify(res.result.accflg));
+                    this.$router.push({path:'/cruxdata'})
+                }else{
+                    this.$Modal.error({
+                        content: res.result.remarks
+                    }); 
+                }
+            })
+        },
+        getCode(){//获取验证码
+            this.$http.post('/api',{api:'user',method:'getCaptcha'})
+            .then((res)=>{
+                console.log(res);
+                if(res.status=='success'){
+                    this.code_svg = res.result.captchaData;
+                    this.captchaId = res.result.captchaId;
+                }else{
+                    this.$Modal.error({
+                        content: res.result.remarks
+                    }); 
+                }
+            })
         }
-        
     }
 }
 </script>
@@ -141,6 +174,9 @@ input::-webkit-input-placeholder{
     height: 50px;
     cursor: pointer;
 }
+.code input{
+    width: 160px;
+}
 img{
     width: 100%;
     height: 100%;
@@ -157,5 +193,9 @@ img{
     border-radius: 10px;
     margin: 0 auto 30px;
     cursor: pointer;
+}
+.btns{
+    width: 100%;
+    padding-bottom: 30px;
 }
 </style>
