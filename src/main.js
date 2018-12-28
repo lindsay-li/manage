@@ -7,9 +7,11 @@ import locale from 'iview/dist/locale/zh-TW';
 import App from './App'
 import router from './router'
 import axios from 'axios'
+import qs from 'qs';
+Vue.prototype.$qs = qs;
 Vue.use(iView,{locale});
 
-
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 var Mock = require('mockjs');
 var users={
   account:'admin',
@@ -37,13 +39,14 @@ Vue.prototype.$http = axios
 // http request 拦截器
 axios.interceptors.request.use(
   config => {
-      var accflg = JSON.parse(sessionStorage.getItem('user_info'));
-      console.log(config.data)
-      var data = config.data; 
-      if (data.method != 'login' && data.method != 'getCaptcha') {  // 判断是否存在token，如果存在的话，则每个http header都加上token
-          data.accflg = accflg;
-          config.data = data;
-      }
+      // var accflg = JSON.parse(sessionStorage.getItem('user_info'));
+      console.log(config)
+      // var data = config.data; 
+      // if (data.method != 'login' && data.method != 'getCaptcha') {  // 判断是否存在token，如果存在的话，则每个http header都加上token
+      //     data.accflg = accflg;
+      //     config.data = data;
+      // }
+      // config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
       return config;
   },
   err => {

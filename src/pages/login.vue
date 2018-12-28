@@ -46,7 +46,7 @@ export default {
        }
    },
     created(){
-        this.getCode();    
+        // this.getCode();    
     },
     methods:{
         toLogin(){
@@ -64,33 +64,35 @@ export default {
                 });
                 return;
             }
-            if(!this.code){
-                this.$Modal.warning({
-                    title: '警告',
-                    content: '请输入验证码！'
-                });
-                return;
-            }
+            // if(!this.code){
+            //     this.$Modal.warning({
+            //         title: '警告',
+            //         content: '请输入验证码！'
+            //     });
+            //     return;
+            // }
             this.loading = true;
             var datas = {
-                api:'user',
+                service:'zAdminUserService',
                 method:'login',
-                captchaId:this.captchaId,
-                captchaCode:this.code,
-                username:this.account,
-                password:this.pwd
+                data:JSON.stringify({
+                    user_no:this.account,
+                    user_pwd:this.pwd
+                })
             }
-            this.$http.post('/api',datas)
+            // this.$http.post(`/api/op/in?service=zAdminUserService&method=login&data={"user_no":"${this.account}","user_pwd":"${this.pwd}"}`)
+            this.$http.post('/api/op/in',this.$qs.stringify(datas))
             .then((res)=>{
                 this.loading = false;
-                if(res.status=='success'){
-                    sessionStorage.setItem('user_info',JSON.stringify(res.result.accflg));
-                    this.$router.push({path:'/cruxdata'})
-                }else{
-                    this.$Modal.error({
-                        content: res.result.remarks
-                    }); 
-                }
+                console.log(res);
+                // if(res.status=='success'){
+                //     sessionStorage.setItem('user_info',JSON.stringify(res.result.accflg));
+                //     this.$router.push({path:'/cruxdata'})
+                // }else{
+                //     this.$Modal.error({
+                //         content: res.result.remarks
+                //     }); 
+                // }
             })
         },
         getCode(){//获取验证码
