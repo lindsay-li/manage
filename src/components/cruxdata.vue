@@ -47,34 +47,38 @@ export default {
     methods: {
             getDatas(){
                 var data = {
-                      api:'aCruxData',
-                      method:'getTimely'
+                      service:'keyDataService',
+                      method:'findTimelyData',
+                      data:JSON.stringify({
+                            start:0,
+                            rows:20
+                        })
                     };
-                this.$http.post('/api',data)
+                this.$http.post('/api/op/in',this.$qs.stringify(data))
                 .then((res)=>{
                     console.log(res);
-                    if(res.status == 'success'){
-                        var obj = {
-                            order1:res.result.num_count,
-                            order2:res.result.price_count,
-                            order3:res.result.goods_num
-                        }
-                        var obj1={
-                            order1:'零庫存商品數',
-                            order2:'待出貨訂單數',
-                            order3:'平均出貨天數'
-                        }
-                        var obj2 = {
-                            order1:res.result.nostock_num,
-                            order2:res.result.watfs_num,
-                            order3:0
-                        }
-                        var arr = []
-                        arr.push(obj);
-                        arr.push(obj1);
-                        arr.push(obj2);
-                        this.data1 = arr;
-                    }
+                    // if(res.status == 'success'){
+                    //     var obj = {
+                    //         order1:res.result.num_count,
+                    //         order2:res.result.price_count,
+                    //         order3:res.result.goods_num
+                    //     }
+                    //     var obj1={
+                    //         order1:'零庫存商品數',
+                    //         order2:'待出貨訂單數',
+                    //         order3:'平均出貨天數'
+                    //     }
+                    //     var obj2 = {
+                    //         order1:res.result.nostock_num,
+                    //         order2:res.result.watfs_num,
+                    //         order3:0
+                    //     }
+                    //     var arr = []
+                    //     arr.push(obj);
+                    //     arr.push(obj1);
+                    //     arr.push(obj2);
+                    //     this.data1 = arr;
+                    // }
                 })
             },
             rowClassName (row, index) {

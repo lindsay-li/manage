@@ -85,14 +85,14 @@ export default {
             .then((res)=>{
                 this.loading = false;
                 console.log(res);
-                // if(res.status=='success'){
-                //     sessionStorage.setItem('user_info',JSON.stringify(res.result.accflg));
-                //     this.$router.push({path:'/cruxdata'})
-                // }else{
-                //     this.$Modal.error({
-                //         content: res.result.remarks
-                //     }); 
-                // }
+                if(res.result=='success'){
+                    sessionStorage.setItem('user_info',JSON.stringify(res.data));
+                    this.$router.push({path:'/cruxdata'})
+                }else{
+                    this.$Modal.error({
+                        content: res.result.remarks
+                    }); 
+                }
             })
         },
         getCode(){//获取验证码
