@@ -61,7 +61,7 @@ const userImpeach = () => import('@/components/userImpeach');
 const financeCheck = () => import('@/components/financeCheck');
 const shipmentCheck = () => import('@/components/shipmentCheck');
 const invoice = () => import('@/components/invoice');
-
+const canvas = () => import('@/pages/canvas')
 
 
 Vue.use(Router)
@@ -322,6 +322,10 @@ export default new Router({
     {
       path:'/',
       redirect:'/index'
+    },
+    {
+      path:'/canvas',
+      component:canvas
     }
   ]
 })

@@ -3,21 +3,22 @@
     <div class="nav">
         <div class="option">
             <span>用户名：</span>
-            <input type="text" >
+            <input type="text" v-model="inputValue.user">
         </div>
         <div class="option">
             <span>手机号：</span>
-            <input type="text" name="phone">
+            <input type="text" name="phone"v-model="inputValue.phone">
         </div>
         <div class="option">
             <span>创建时间：</span>
-            <input type="text" name="time">
+            <!-- <input type="text" name="time"v-model="inputValue.time"> -->
+            <Date-picker type="date" placeholder="选择日期" style="width: 150px" @on-change="timeChange" ></Date-picker>
         </div>
         <div class="option">
             <span>城市：</span>
-            <input type="text" name="time">
+            <input type="text" name="city"v-model="inputValue.city">
         </div>
-        <div class="serch">查詢</div>
+        <div class="serch" @click="searchList">查詢</div>
     </div>
     <div class="activity">
         <Table border  :columns="columns1" :data="data1"  class="post"></Table>
@@ -68,6 +69,12 @@
 export default {
     data(){
         return{
+            inputValue:{
+                user:'',
+                phone:'',
+                time:'',
+                city:''
+            },
             columns1: [
                 {
                     type:'selection',
@@ -197,39 +204,7 @@ export default {
                     order4:'所有',
                     order5:'充值送券',
                     order6:'充值10000送200'
-                },
-                {
-                    order1: '200元',
-                    order2: '2019.05.18-2019.05.21',
-                    order3: '20%',
-                    order4:'所有',
-                    order5:'充值送券',
-                    order6:'充值10000送200'
-                },
-                {
-                    order1: '200元',
-                    order2: '2019.05.18-2019.05.21',
-                    order3: '20%',
-                    order4:'所有',
-                    order5:'充值送券',
-                    order6:'充值10000送200'
-                },
-                {
-                    order1: '200元',
-                    order2: '2019.05.18-2019.05.21',
-                    order3: '20%',
-                    order4:'所有',
-                    order5:'充值送券',
-                    order6:'充值10000送200'
-                },
-                {
-                    order1: '200元',
-                    order2: '2019.05.18-2019.05.21',
-                    order3: '20%',
-                    order4:'所有',
-                    order5:'充值送券',
-                    order6:'充值10000送200'
-                },
+                }
             ],
             a_types:'',
             single:false,
@@ -250,7 +225,81 @@ export default {
             ]
         }
     },
+    created(){
+        this.getList();
+    },
+
     methods:{
+        searchList(){
+            var data = {
+                service:'zAdminUserService',
+                method:'findDatas',
+                data:JSON.stringify({
+                    username:this.inputValue.user,
+                    tel:this.inputValue.phone,
+                    create_time:this.inputValue.time,
+                    city:this.inputValue.city
+                }) 
+            }
+            this.$http.post('/api/op/in',this.$qs.stringify(data))
+            .then((res)=>{
+                console.log('res',res)
+            })
+        },
+        getList(){
+            var data = {
+                service:'zAdminUserService',
+                method:'findDatas',
+                data:JSON.stringify({
+                    start:0,
+                    rows:20
+                })
+            }
+            this.$http.post('/api/op/in',this.$qs.stringify(data))
+            .then((res)=>{
+                if(res.rows){
+                    var arr = [];
+                    for(let i=0;i<res.rows.length;i++){
+                        var obj = {};
+                        obj.order1 = res.rows[i].id;
+                        obj.order2 = res.rows[i].username;
+                        var sexs = "";
+                        if(res.rows[i].sex==1){
+                            sexs = '男';
+                        }else if(res.rows[i].sex ==2){
+                            sexs = '女';
+                        }else{
+                            sexs ='未知';
+                        }
+                        obj.order3 = sexs;
+                        obj.order4 = res.rows[i].birth;
+                        obj.order5 = res.rows[i].tel;
+                        obj.order6 = res.rows[i].email;
+                        obj.order7 = res.rows[i].city;
+                        obj.order8 = res.rows[i].addr;
+                        obj.order9 = this.changeTime(res.rows[i].create_time);
+                        // obj.order10 = res.rows[i] 登入ip
+                        // obj.order11= res.rows[i] 登入次数
+                        // obj.order12 = res.rows[i] 最后登入时间
+                        // obj.order13 = res.rows[i] 粉丝数
+                        // obj.order14 = res.rows[i] 追踪数
+                        // obj.order15 = res.rows[i] 点赞次数
+                        // obj.order16 = res.rows[i] 我的收藏
+                        arr.push(obj);
+                    }
+                    this.data1 = arr;
+                }
+            })
+        },
+        changeTime(time){
+            var date = new Date(time);
+            var Y = date.getFullYear();
+            var M = date.getMonth() + 1;
+            var D = date.getDate();
+            var h = date.getHours() >10?date.getHours():'0'+date.getHours();
+            var m = date.getMinutes() >10?date.getMinutes():'0' + date.getMinutes();
+            return `${Y}-${M}-${D} ${h}:${m}`;
+        },
         openModel(){
             this.propModel = true;
         },
@@ -265,6 +314,10 @@ export default {
         },
         remove (index) {
             
+        },
+        timeChange(time){
+            console.log(time)
+            this.inputValue.time = time;
         }
     }
 }
