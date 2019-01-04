@@ -11,10 +11,10 @@
             </div>
             <div class="box box_code">
                 <div class="code">
-                    <input type="text" placeholder="請輸入驗證碼" v-model="code">
+                    <input type="text" placeholder="請輸入驗證碼" v-model="code" @keyup.enter="toLogin">
                 </div> 
-                <div class="code_img" v-html="code_svg">
-                    
+                <div class="code_img" @click="getCode">
+                    {{code_svg}}
                 </div>
             </div>
             
@@ -46,7 +46,7 @@ export default {
        }
    },
     created(){
-        // this.getCode();    
+        this.getCode();    
     },
     methods:{
         toLogin(){
@@ -64,13 +64,21 @@ export default {
                 });
                 return;
             }
-            // if(!this.code){
-            //     this.$Modal.warning({
-            //         title: '警告',
-            //         content: '请输入验证码！'
-            //     });
-            //     return;
-            // }
+            if(!this.code){
+                this.$Modal.warning({
+                    title: '警告',
+                    content: '请输入验证码！'
+                });
+                return;
+            }
+            if(!this.validateCode(this.code)){
+                this.$Modal.warning({
+                    title: '警告',
+                    content: '验证码错误！'
+                });
+                this.getCode();
+                return;
+            }
             this.loading = true;
             var datas = {
                 service:'zAdminUserService',
@@ -96,19 +104,40 @@ export default {
             })
         },
         getCode(){//获取验证码
-            this.$http.post('/api',{api:'user',method:'getCaptcha'})
-            .then((res)=>{
-                console.log(res);
-                if(res.status=='success'){
-                    this.code_svg = res.result.captchaData;
-                    this.captchaId = res.result.captchaId;
-                }else{
-                    this.$Modal.error({
-                        content: res.result.remarks
-                    }); 
-                }
-            })
-        }
+            // this.$http.post('/api',{api:'user',method:'getCaptcha'})
+            // .then((res)=>{
+            //     console.log(res);
+            //     if(res.status=='success'){
+            //         this.code_svg = res.result.captchaData;
+            //         this.captchaId = res.result.captchaId;
+            //     }else{
+            //         this.$Modal.error({
+            //             content: res.result.remarks
+            //         }); 
+            //     }
+            // })
+            var code = '';
+            var codeLength = 6; //验证码的长度
+            var codeChars = new Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
+            'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'); //所有候选组成验证码的字符，当然也可以用中文的
+            for (var i = 0; i < codeLength; i++) 
+            {
+                var charNum = Math.floor(Math.random() * 52);
+                code += codeChars[charNum];
+            }
+            console.log(code)
+            this.code_svg = code;
+        },
+        validateCode(code){
+            console.log(code.toUpperCase())
+            console.log(this.code_svg.toUpperCase())
+             if (code.toUpperCase() == this.code_svg.toUpperCase()){
+                return true;
+            }else {
+                return false;
+            }        
+        }    
     }
 }
 </script>
@@ -174,7 +203,15 @@ input::-webkit-input-placeholder{
 .code_img{
     width:135px;
     height: 50px;
+    color: blue;
+    letter-spacing: 3px;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 50px;
+    text-align: center;
     cursor: pointer;
+    background-color: #eee;
+    border-radius: 4px;
 }
 .code input{
     width: 160px;

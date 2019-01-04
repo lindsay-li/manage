@@ -39,26 +39,26 @@
                         <tr>
                             <td style="text-align:right">用户名:</td>
                             <td>
-                                <Input v-model="a_types"  placeholder="點擊輸入" style="width: 300px" />
+                                <Input v-model="setuser.username"  placeholder="點擊輸入" style="width: 300px" />
                             </td>
                         </tr>
                         <tr>
                             <td style="text-align:right">密码:</td>
                             <td>
-                                <Input v-model="a_types"  placeholder="點擊輸入" style="width: 300px" />
+                                <Input v-model="setuser.pwda"  placeholder="點擊輸入" style="width: 300px" />
                             </td>
                         </tr>
                         <tr>
                             <td style="text-align:right">确认密码:</td>
                             <td>
-                                <Input v-model="a_types"  placeholder="點擊輸入" style="width: 300px" />
+                                <Input v-model="setuser.pwdb"  placeholder="點擊輸入" style="width: 300px" />
                             </td>
                         </tr>
                     </table>
                 </div>
                 <div class="btns">
                     <div class="cancel" @click='closeModel'>取消</div>
-                    <div class="sure">確定</div>
+                    <div class="sure" @click="setUserHandle">確定</div>
                 </div>
             </div>
         </div>
@@ -74,6 +74,11 @@ export default {
                 phone:'',
                 time:'',
                 city:''
+            },
+            setuser:{
+                username:'',
+                pwda:'',
+                pwdb:''
             },
             columns1: [
                 {
@@ -177,7 +182,7 @@ export default {
                                 },
                                 on: {
                                     click: () => {
-                                        this.show(params.index)
+                                        this.show(params)
                                     }
                                 }
                             }, '编辑'),
@@ -188,7 +193,7 @@ export default {
                                 },
                                 on: {
                                     click: () => {
-                                        this.remove(params.index)
+                                        this.remove(params)
                                     }
                                 }
                             }, '删除')
@@ -244,6 +249,37 @@ export default {
             this.$http.post('/api/op/in',this.$qs.stringify(data))
             .then((res)=>{
                 console.log('res',res)
+            })
+        },
+        setUserHandle(){
+            if(!this.setuser.username){
+                this.$Modal.info({title:'用户名不能为空'})
+                return
+            }
+            if(!this.setuser.pwda){
+                this.$Modal.info({title:'密码不能为空'})
+                return
+            }
+            if(this.setuser.pwda != this.setuser.pwdb){
+                this.$Modal.info({title:'两次输入密码不一致'})
+                return
+            }
+            var data = {
+                service:'zAdminUserService',
+                method:'addOrUpdate',
+                data:JSON.stringify({
+                    username:this.setuser.username,
+                    password:this.setuser.pwda
+                })
+            }
+            this.$http.post('/api/op/in',this.$qs.stringify(data))
+            .then((res)=>{
+                console.log(res)
+                if(res.result == 'fail'){
+                    this.$Modal.info({title:res.message})
+                }else if(res.result == 'success'){
+                    this.$Modal.info({title:res.message})
+                }
             })
         },
         getList(){
@@ -306,13 +342,14 @@ export default {
         closeModel(){
             this.propModel = false;
         },
-        show (index) {
+        show (data) {
             this.$Modal.info({
                 title: 'User Info',
-                
+                content:index
             })
+            console.log(index)
         },
-        remove (index) {
+        remove (data){
             
         },
         timeChange(time){
