@@ -237,16 +237,12 @@ export default {
     methods:{
         searchList(){
             var data = {
-                service:'zAdminUserService',
-                method:'findDatas',
-                data:JSON.stringify({
                     username:this.inputValue.user,
                     tel:this.inputValue.phone,
                     create_time:this.inputValue.time,
                     city:this.inputValue.city
-                }) 
-            }
-            this.$http.post('/api/op/in',this.$qs.stringify(data))
+                }
+            this.$http.post('zAdminUserService','findDatas',data)
             .then((res)=>{
                 console.log('res',res)
             })
@@ -265,14 +261,10 @@ export default {
                 return
             }
             var data = {
-                service:'zAdminUserService',
-                method:'addOrUpdate',
-                data:JSON.stringify({
                     username:this.setuser.username,
                     password:this.setuser.pwda
-                })
-            }
-            this.$http.post('/api/op/in',this.$qs.stringify(data))
+                }
+            this.$http('zAdminUserService','addOrUpdate',data)
             .then((res)=>{
                 console.log(res)
                 if(res.result == 'fail'){
@@ -284,14 +276,10 @@ export default {
         },
         getList(){
             var data = {
-                service:'zAdminUserService',
-                method:'findDatas',
-                data:JSON.stringify({
                     start:0,
                     rows:20
-                })
-            }
-            this.$http.post('/api/op/in',this.$qs.stringify(data))
+                }
+            this.$http('zAdminUserService','findDatas',data)
             .then((res)=>{
                 if(res.rows){
                     var arr = [];
@@ -345,9 +333,9 @@ export default {
         show (data) {
             this.$Modal.info({
                 title: 'User Info',
-                content:index
+                content:data
             })
-            console.log(index)
+            console.log()
         },
         remove (data){
             

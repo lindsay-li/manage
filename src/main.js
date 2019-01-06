@@ -8,6 +8,7 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import qs from 'qs';
+import {postData} from './api/api'
 Vue.prototype.$qs = qs;
 Vue.use(iView,{locale});
 
@@ -34,37 +35,11 @@ var users={
 
 Vue.config.productionTip = false
 
-Vue.prototype.$http = axios
+Vue.prototype.$http = postData
 
 // http request 拦截器
-axios.interceptors.request.use(
-  config => {
-      // var accflg = JSON.parse(sessionStorage.getItem('user_info'));
-      console.log(config)
-      // var data = config.data; 
-      // if (data.method != 'login' && data.method != 'getCaptcha') {  // 判断是否存在token，如果存在的话，则每个http header都加上token
-      //     data.accflg = accflg;
-      //     config.data = data;
-      // }
-      // config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-      return config;
-  },
-  err => {
-      return err;
-});
-axios.interceptors.response.use(function (response) {
-  const {data}=response
-  // 对响应数据做点什么
-  // if(data.code=='0x000001'){
-  //     Vue.prototype.$user.logout();
-  //     // console.log(Vue)
-  // }
-  console.log(data);
-  return data;
-}, function (error) {
-  // 对响应错误做点什么
-  throw error
-});
+
+
 
 
 router.beforeEach((to, from, next) => {

@@ -81,15 +81,11 @@ export default {
             }
             this.loading = true;
             var datas = {
-                service:'zAdminUserService',
-                method:'login',
-                data:JSON.stringify({
-                    user_no:this.account,
-                    user_pwd:this.pwd
-                })
+                user_no:this.account,
+                user_pwd:this.pwd  
             }
             // this.$http.post(`/api/op/in?service=zAdminUserService&method=login&data={"user_no":"${this.account}","user_pwd":"${this.pwd}"}`)
-            this.$http.post('/api/op/in',this.$qs.stringify(datas))
+            this.$http('zAdminUserService','login',datas)
             .then((res)=>{
                 this.loading = false;
                 console.log(res);
@@ -98,7 +94,7 @@ export default {
                     this.$router.push({path:'/cruxdata'})
                 }else{
                     this.$Modal.error({
-                        content: res.result.remarks
+                        content: res.message
                     }); 
                 }
             })

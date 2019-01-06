@@ -42,19 +42,15 @@ export default {
         }
     } ,
     created(){
-        this.getDatas();
+        // this.getDatas();
     },
     methods: {
             getDatas(){
                 var data = {
-                      service:'keyDataService',
-                      method:'findTimelyData',
-                      data:JSON.stringify({
                             start:0,
                             rows:20
-                        })
-                    };
-                this.$http.post('/api/op/in',this.$qs.stringify(data))
+                        }
+                this.$http('keyDataService','findTimelyData',data)
                 .then((res)=>{
                     console.log(res);
                     // if(res.status == 'success'){
