@@ -61,7 +61,8 @@ const userImpeach = () => import('@/components/userImpeach');
 const financeCheck = () => import('@/components/financeCheck');
 const shipmentCheck = () => import('@/components/shipmentCheck');
 const invoice = () => import('@/components/invoice');
-const canvas = () => import('@/pages/canvas')
+const canvas = () => import('@/pages/canvas');
+const menumanage = () => import('@/views/menuManage');
 
 
 Vue.use(Router)
@@ -311,6 +312,10 @@ export default new Router({
         {
           path:'/invoice',
           component:invoice
+        },
+        {
+          path:'/menuManage',
+          component:menumanage
         }
       ]
     },

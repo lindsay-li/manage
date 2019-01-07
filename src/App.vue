@@ -163,27 +163,22 @@ td .ivu-table-cell,
     background-color: #009688;
     cursor: pointer;
 }
-.btns{
+._btn{
     display: flex;
 }
-.btns .b_delete,
-.btns .send{
-    width: 200px;
-    height: 42px;
-    line-height: 42px;
+._btn .b_delete,
+._btn .send{
+    width: 160px;
+    height: 36px;
+    line-height: 36px;
     text-align: center;
     cursor:pointer;
     border-radius: 6px;
-    border: 1px solid #777;
-}
-.btns .send{
-    margin-left: 20px;
-}
-.btns .b_delete:hover,
-.btns .send:hover{
     background-color: #009688;
     color:#fff;
 }
+
+
 .prop_model{
     position: fixed;
     width: 100%;
@@ -221,4 +216,5 @@ td .ivu-table-cell,
     line-height: 50px;
     margin-bottom: 30px;
 }
+
 </style>

@@ -7,9 +7,11 @@ import locale from 'iview/dist/locale/zh-TW';
 import App from './App'
 import router from './router'
 import axios from 'axios'
-import qs from 'qs';
+import TreeTable from 'tree-table-vue'
+
+Vue.use(TreeTable)
 import {postData} from './api/api'
-Vue.prototype.$qs = qs;
+import { changeTime } from './until/tool';
 Vue.use(iView,{locale});
 
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -36,7 +38,7 @@ var users={
 Vue.config.productionTip = false
 
 Vue.prototype.$http = postData
-
+Vue.prototype.$changeTime = changeTime;
 // http request 拦截器
 
 
