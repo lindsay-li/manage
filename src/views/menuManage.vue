@@ -1,10 +1,43 @@
 <template>
 <div class="wrapper">
     <div class="activity">
-        <TreeTable border expand-key="m_name" :expand-type="false" :selectable="true" :columns="columns1" :data="data1" :tree-type="true" class="post">
+        <TreeTable border expand-key="id" :expand-type="false" :selectable="false" :columns="columns1" :data="data1" :tree-type="true" class="post">
+            <template slot="menus" slot-scope="scope">
+                <Input type="text" v-model="tables.name" v-if="editIndex === scope.rowIndex" />
+                <span v-else>{{ scope.row.m_name }}</span>
+            </template>
+            <template slot="code" slot-scope="scope">
+                <Input type="text" v-model="tables.code" v-if="editIndex === scope.rowIndex" />
+                <span v-else>{{ scope.row.m_code }}</span>
+            </template>
+            <!-- <template slot="time" slot-scope="scope">
+                <Input type="text" v-model="tables.time" v-if="editIndex === scope.rowIndex" />
+                <span v-else>{{ scope.row.create_time }}</span>
+            </template> -->
+            <template slot="urls" slot-scope="scope">
+                <Input type="text" v-model="tables.url" v-if="editIndex === scope.rowIndex" />
+                <span v-else>{{ scope.row.m_url }}</span>
+            </template>
+            <!-- <template slot="user" slot-scope="scope">
+                <Input type="text" v-model="tables.user" v-if="editIndex === scope.rowIndex" />
+                <span v-else>{{ scope.row.create_user }}</span>
+            </template> -->
+            <template slot="status" slot-scope="scope">
+                <!-- <Input type="text" v-model="tables.status" v-if="editIndex === scope.rowIndex" /> -->
+                <Select v-model="tables.status" v-if="editIndex === scope.rowIndex">
+                    <Option v-for="(item,index) in statusList" :value="item.value" :key="index">{{ item.label }}</Option>
+                </Select>
+                <span v-else>{{ scope.row.status }}</span>
+            </template>
             <template slot="likes" slot-scope="scope">
-                <Button type="primary" @click="show(scope)">编辑</Button>
-                <Button type="error" @click="remove(scope)">删除</Button>
+                <div v-if="editIndex === scope.rowIndex">
+                    <Button size='small' type="primary" @click="saveHandle(scope.row,scope.row.id,scope.row.pid)" style="margin-right:5px">保存</Button>
+                    <Button size='small' type="error" @click="editIndex = -1">取消</Button>
+                </div>
+                <div v-else>
+                    <Button size='small' type="primary" @click="editHandle(scope.row,scope.rowIndex)" style="margin-right:5px">编辑</Button>
+                    <Button size='small' type="error" @click="remove(scope.row)">删除</Button>
+                </div>
             </template>
         </TreeTable>
     </div>
@@ -58,7 +91,7 @@
                 </div>
                 <div class="btns">
                     <div class="cancel" @click='closeModel'>取消</div>
-                    <div class="sure" @click="setUserHandle">確定</div>
+                    <div class="sure" @click="setMenuHandle">確定</div>
                 </div>
             </div>
         </div>
@@ -80,6 +113,14 @@ export default {
                 order:0,
                 url:'',
                 fid:null
+            },
+            editIndex:-1,
+            tables:{
+                name:'',
+                code:'',
+                url:'',
+                status:'',
+                order:''
             },
             options:[{
                 id: '1',
@@ -111,10 +152,19 @@ export default {
             ],
             columns1:[
                 {
+                    title: 'ID',
+                    key: 'id',
+                    align:'center',
+                    headerAlign:'center',
+                    minWidth:85
+                },
+                {
                     title: '菜单名称',
                     key: 'm_name',
                     align:'center',
                     headerAlign:'center',
+                    type: 'template',
+                    template: 'menus',
                     minWidth:145
                 },
                 {
@@ -122,6 +172,8 @@ export default {
                     key: 'm_code',
                     align:'center',
                     headerAlign:'center',
+                    type: 'template',
+                    template: 'code',
                     minWidth:105
                 },
                 {
@@ -136,6 +188,8 @@ export default {
                     key: 'm_url',
                     align:'center',
                     headerAlign:'center',
+                    type: 'template',
+                    template: 'urls',
                     minWidth:160
                 },
                 {
@@ -150,6 +204,8 @@ export default {
                     key: 'status',
                     align:'center',
                     headerAlign:'center',
+                    type: 'template',
+                    template: 'status',
                     minWidth:105
                 },
                 {
@@ -233,17 +289,44 @@ export default {
                         }
                         arr1[k].children = arr;
                     }
-                    
                     console.log(arr1)
                     this.data1 = arr1;
+                    this.options = this.getTree(arr1);
                 }
             })
         },
-        show(data){
-            console.log(data)
+        editHandle(row,index){ //编辑菜单
+            this.tables = {
+                name:row.m_name,
+                code:row.m_code,
+                url:row.m_url,
+                status:row.status,
+            }
+            this.editIndex = index;
         },
-        remove(data){
-
+        remove(row){ //删除菜单
+            // this.$Modal.confirm({
+            //     title: '警告',
+            //     content: '<p>The dialog box will be closed after 2 seconds</p>',
+            //     okText:'确定',
+            //     cancelText:"取消",
+            //     loading:true,
+            //     onOk:() => {
+                    var data = {
+                        id:row.id
+                    }
+                    this.$http('zAdminMenuService','deleteData',data)
+                    .then(res=>{
+                        this.$Modal.remove();
+                        if(res.result == 'success'){
+                            this.$Message.success(res.message);
+                            this.getList();
+                        }else{
+                            this.$Message.warning(res.message);
+                        }
+                    })
+            //     }
+            // });
         },
         openModel(){
             this.propModel = true;
@@ -251,9 +334,80 @@ export default {
         closeModel(){
             this.propModel = false;
         },
-        setUserHandle(){
+        setMenuHandle(){//新建菜单
             console.log(this.menus)
+            var da = this.menus;
+            var userInfo = JSON.parse(sessionStorage.getItem('user_info'));
+            var data = {
+                m_url:da.url,
+                m_name:da.name,
+                m_code:da.code,
+                m_order:da.order,
+                pid:da.fid?da.fid:'',
+                create_user:userInfo.dbUser.id,
+                status:da.status
+            }
+            this.$http('zAdminMenuService','addOrUpdate',data)
+            .then(res=>{
+                console.log(res);
+                if(res.result == 'success'){
+                    this.$Message.success(res.message);
+                    this.propModel = false;
+                    this.getList();
+                }else{
+                    this.$Message.warning(res.message);
+                }
+            })
+        },
+        saveHandle(row,id,pid){ //保存修改数据
+            console.log(row,'pid',pid)
+            console.log(this.tables)
+            var data = {
+                id:id
+            };
+            if(pid){
+                data.pid = pid;
+            }
+            var table = this.tables;
+            if(table.name != row.m_name){
+                data.m_name = table.name;
+            }
+            if(table.code != row.m_code){
+                data.m_code = table.code;
+            }
+            if(table.url != row.m_url){
+                data.m_url = table.url;
+            }
+            var da = row.status=='启用'?1:0;
+            if(table.status != da){
+                data.status = table.status=='启用'?1:0;
+            }
+            this.$http('zAdminMenuService','addOrUpdate',data)
+            .then(res=>{
+                if(res.result == 'success'){
+                    this.$Message.success(res.message);
+                    this.editIndex = -1;
+                    this.getList();
+                }else{
+                    this.$Message.warning(res.message);
+                }
+            })
+        },
+        getTree (tree = []) { //选择框树形结构
+            let arr = [];
+            if (tree.length !== 0) {
+            tree.forEach(item => {
+                let obj = {};
+                obj.label = item.m_name;
+                obj.id = item.id;
+                if(item.children) {
+                obj.children = this.getTree(item.children);
+                }
+                arr.push(obj);
+            });
         }
+        return arr
+      },
     }
 }
 </script>

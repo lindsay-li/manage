@@ -91,7 +91,8 @@ export default {
                 console.log(res);
                 if(res.result=='success'){
                     sessionStorage.setItem('user_info',JSON.stringify(res.data));
-                    this.$router.push({path:'/cruxdata'})
+                    this.$message.success('登录成功');
+                    this.$router.push({path:'/cruxdata'});
                 }else{
                     this.$Modal.error({
                         content: res.message
@@ -232,5 +233,7 @@ img{
 .btns{
     width: 100%;
     padding-bottom: 30px;
+    display: flex;
+    justify-content: center;
 }
 </style>

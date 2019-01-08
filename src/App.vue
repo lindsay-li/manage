@@ -128,14 +128,6 @@ td .ivu-table-cell,
     font-weight: bold;
     margin:0 20px;
 }
-.option input{
-    outline: none;
-    border:1px solid #A9A9A9; 
-    background-color: #fff;
-    width: 150px;
-    height: 36px;
-    border-radius: 4px;
-}
 .serch{
     width: 80px;
     height: 36px;
@@ -177,7 +169,10 @@ td .ivu-table-cell,
     background-color: #009688;
     color:#fff;
 }
-
+._btn .b_delete{
+  background-color: #ED4014;
+  margin-left: 20px;
+}
 
 .prop_model{
     position: fixed;

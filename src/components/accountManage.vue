@@ -3,30 +3,77 @@
     <div class="nav">
         <div class="option">
             <span>用户名：</span>
-            <input type="text" v-model="inputValue.user">
+            <Input type="text" v-model="inputValue.user" style="width:160px"/>
         </div>
         <div class="option">
             <span>手机号：</span>
-            <input type="text" name="phone"v-model="inputValue.phone">
+            <Input type="text" name="phone"v-model="inputValue.phone" style="width:160px"/>
         </div>
-        <div class="option">
+        <!-- <div class="option">
             <span>创建时间：</span>
-            <!-- <input type="text" name="time"v-model="inputValue.time"> -->
+            <input type="text" name="time"v-model="inputValue.time">
             <Date-picker type="date" placeholder="选择日期" style="width: 150px" @on-change="timeChange" ></Date-picker>
-        </div>
+        </div> -->
         <div class="option">
             <span>城市：</span>
-            <input type="text" name="city"v-model="inputValue.city">
+            <Input type="text" name="city"v-model="inputValue.city" style="width:160px"/>
         </div>
         <div class="serch" @click="searchList">查詢</div>
     </div>
     <div class="activity">
-        <Table border  :columns="columns1" :data="data1"  class="post"></Table>
+        <Table border  :columns="columns1" :data="data1"  class="post">
+            <template slot="username" slot-scope="{row,index}">
+                <Input type="text" v-model="editValue.username" v-if="editIndex === index" />
+                <span v-else>{{ row.username }}</span>
+            </template>
+            <template slot="user_no" slot-scope="{row,index}">
+                <Input type="text" v-model="editValue.user_no" v-if="editIndex === index" />
+                <span v-else>{{ row.user_no }}</span>
+            </template>
+            <template slot="sex" slot-scope="{row,index}">
+                <Input type="text" v-model="editValue.sex" v-if="editIndex === index" />
+                <span v-else>{{ row.sex }}</span>
+            </template>
+            <template slot="birth" slot-scope="{row,index}">
+                <Input type="text" v-model="editValue.birth" v-if="editIndex === index" />
+                <span v-else>{{ row.birth }}</span>
+            </template>
+            <template slot="tel" slot-scope="{row,index}">
+                <Input type="text" v-model="editValue.tel" v-if="editIndex === index" />
+                <span v-else>{{ row.tel }}</span>
+            </template>
+            <template slot="addr" slot-scope="{row,index}">
+                <Input type="text" v-model="editValue.addr" v-if="editIndex === index" />
+                <span v-else>{{ row.addr }}</span>
+            </template>
+            <template slot="city" slot-scope="{row,index}">
+                <Input type="text" v-model="editValue.city" v-if="editIndex === index" />
+                <span v-else>{{ row.city }}</span>
+            </template>
+            <template slot="email" slot-scope="{row,index}">
+                <Input type="text" v-model="editValue.email" v-if="editIndex === index" />
+                <span v-else>{{ row.email }}</span>
+            </template>
+            <template slot="password" slot-scope="{row,index}">
+                <Input type="text" v-model="editValue.password" v-if="editIndex === index" />
+                <span v-else>{{ row.password }}</span>
+            </template>
+            <template slot="action" slot-scope="{row,index}">
+                <div v-if="editIndex === index">
+                    <Button size='small' type="primary" @click="saveHandle(row,row.id)" style="margin-right:5px">保存</Button>
+                    <Button size='small' type="error" @click="editIndex = -1">取消</Button>
+                </div>
+                <div v-else>
+                    <Button size='small' type="primary" @click="editHandle(row,index)" style="margin-right:5px">编辑</Button>
+                    <Button size='small' type="error" @click="remove(row)">删除</Button>
+                </div>
+            </template>
+        </Table>
     </div>
     <div class="page">
-        <div class="btns">
-            <div class="send" @click="openModel">添加账户</div>
-            <div class="b_delete" >删除账号</div>
+        <div class="_btn">
+            <div class="send" @click="openModel">新增账户</div>
+            <div class="b_delete" >批量删除</div>
         </div>
         <Page :total="100" show-total show-elevator prev-text='上一頁' next-text='下一頁'/>
     </div> 
@@ -72,9 +119,20 @@ export default {
             inputValue:{
                 user:'',
                 phone:'',
-                time:'',
                 city:''
             },
+            editValue:{
+                city:'',
+                sex:'',
+                birth:'',
+                tel:'',
+                addr:'',
+                email:'',
+                user_no:'',
+                username:'',
+                password:""
+            },
+            editIndex:-1,
             setuser:{
                 username:'',
                 pwda:'',
@@ -87,147 +145,80 @@ export default {
                     width:60
                 },
                 {
-                    title: '会员編號',
-                    key: 'order1',
-                    minWidth:105
+                    title: 'ID',
+                    key: 'id',
+                    minWidth:85
                 },
                 {
                     title: '用户姓名',
-                    key: 'order2',
+                    slot: 'username',
+                    minWidth:120
+                },
+                {
+                    title: '用户账号',
+                    slot: 'user_no',
+                    minWidth:120
+                },
+                {
+                    title: '用户密码',
+                    slot: 'password',
                     minWidth:120
                 },
                 {
                     title: '性别',
-                    key: 'order3',
+                    slot: 'sex',
                     minWidth:85
                 },
                 {
                     title: '生日',
-                    key: 'order4',
+                    slot: 'birth',
                     minWidth:160
                 },
                 {
                     title: '手机号码',
-                    key: 'order5',
+                    slot: 'tel',
                     minWidth:160
                 },
                 {
-                    title: '电子邮件',
-                    key: 'order6',
+                    title: '邮箱',
+                    slot: 'email',
                     minWidth:165
                 },
                 {
                     title: '城市',
-                    key: 'order7',
+                    slot: 'city',
                     minWidth:160
                 },
                 {
                     title: '地址',
-                    key: 'order8',
+                    slot: 'addr',
                     minWidth:160
                 },
                 {
                     title: '创建时间',
-                    key: 'order9',
+                    key: 'create_time',
                     minWidth:160
                 },
                 {
-                    title: '登入IP',
-                    key: 'order10',
-                    minWidth:140
+                    title: '后台用户等级',
+                    key: 'user_level',
+                    minWidth:130
                 },
                 {
-                    title: '登入次数',
-                    key: 'order11',
-                    minWidth:105
+                    title: '负责门店id',
+                    key: 'shop_ids',
+                    minWidth:120
                 },
                 {
-                    title: '最后登入时间',
-                    key: 'order12',
-                    minWidth:160
-                },
-                {
-                    title: '粉丝数',
-                    key: 'order13',
-                    minWidth:95
-                },
-                {
-                    title: '追踪数',
-                    key: 'order14',
-                    minWidth:95
-                },
-                {
-                    title: '点赞次数',
-                    key: 'order15',
-                    minWidth:105
-                },
-                {
-                    title: '我的收藏',
-                    key: 'order16',
-                    minWidth:160
-                },
-                {
-                    title:'編輯',
-                    key:'order17',
-                    minWidth:135,
-                    render: (h, params) => {
-                        return h('div', [
-                            h('Button', {
-                                props: {
-                                    type: 'primary',
-                                    size: 'small'
-                                },
-                                style: {
-                                    marginRight: '5px'
-                                },
-                                on: {
-                                    click: () => {
-                                        this.show(params)
-                                    }
-                                }
-                            }, '编辑'),
-                            h('Button', {
-                                props: {
-                                    type: 'error',
-                                    size: 'small'
-                                },
-                                on: {
-                                    click: () => {
-                                        this.remove(params)
-                                    }
-                                }
-                            }, '删除')
-                        ]);
-                    }
+                    title:'操作',
+                    slot:'action',
+                    minWidth:135
                 }
             ],
-            data1: [
-                {
-                    order1: '200元',
-                    order2: '2019.05.18-2019.05.21',
-                    order3: '20%',
-                    order4:'所有',
-                    order5:'充值送券',
-                    order6:'充值10000送200'
-                }
-            ],
+            data1: [],
             a_types:'',
             single:false,
             propModel:false,
-            zhekList:[
-                {
-                    value:'50元',
-                    label:'50元'
-                },
-                {
-                    value:'100元',
-                    label:'100元'
-                },
-                {
-                    value:'250元',
-                    label:'250元'
-                }
-            ]
         }
     },
     created(){
@@ -235,19 +226,43 @@ export default {
     },
 
     methods:{
-        searchList(){
-            var data = {
-                    username:this.inputValue.user,
-                    tel:this.inputValue.phone,
-                    create_time:this.inputValue.time,
-                    city:this.inputValue.city
-                }
-            this.$http.post('zAdminUserService','findDatas',data)
+        searchList(){ //查询用户
+            var data = {};
+            if(this.inputValue.user){
+                data.username = this.inputValue.user;
+            }
+            if(this.inputValue.phone){
+                data.tel = this.inputValue.phone;
+            }
+            if(this.inputValue.city){
+                data.city = this.inputValue.city;
+            }
+           var len = Object.keys(data);
+           if(len == 0){
+               this.$Message.info('请输入查询参数');
+               return;
+           }
+            this.$http('zAdminUserService','findDatas',data)
             .then((res)=>{
                 console.log('res',res)
+                if(res.rows){
+                    for(let i=0;i<res.rows.length;i++){
+                        if(res.rows[i].sex==1){
+                            res.rows[i].sex = '男';
+                        }else if(res.rows[i].sex ==2){
+                            res.rows[i].sex = '女';
+                        }else{
+                            res.rows[i].sex ='未知';
+                        }
+                        res.rows[i].create_time = this.$changeTime(res.rows[i].create_time);
+                    }
+                    this.data1 = res.rows;
+                }else{
+                    this.$Message.warning('未查询到数据');
+                }
             })
         },
-        setUserHandle(){
+        setUserHandle(){ //新增账户
             if(!this.setuser.username){
                 this.$Modal.info({title:'用户名不能为空'})
                 return
@@ -268,13 +283,14 @@ export default {
             .then((res)=>{
                 console.log(res)
                 if(res.result == 'fail'){
-                    this.$Modal.info({title:res.message})
+                    this.$message.error({title:res.message})
                 }else if(res.result == 'success'){
-                    this.$Modal.info({title:res.message})
+                    this.$message.success({title:res.message});
+                    this.getList();
                 }
             })
         },
-        getList(){
+        getList(){ //h获取用户列表数据
             var data = {
                     start:0,
                     rows:20
@@ -282,47 +298,19 @@ export default {
             this.$http('zAdminUserService','findDatas',data)
             .then((res)=>{
                 if(res.rows){
-                    var arr = [];
                     for(let i=0;i<res.rows.length;i++){
-                        var obj = {};
-                        obj.order1 = res.rows[i].id;
-                        obj.order2 = res.rows[i].username;
-                        var sexs = "";
                         if(res.rows[i].sex==1){
-                            sexs = '男';
+                            res.rows[i].sex = '男';
                         }else if(res.rows[i].sex ==2){
-                            sexs = '女';
+                            res.rows[i].sex = '女';
                         }else{
-                            sexs ='未知';
+                            res.rows[i].sex ='未知';
                         }
-                        obj.order3 = sexs;
-                        obj.order4 = res.rows[i].birth;
-                        obj.order5 = res.rows[i].tel;
-                        obj.order6 = res.rows[i].email;
-                        obj.order7 = res.rows[i].city;
-                        obj.order8 = res.rows[i].addr;
-                        obj.order9 = this.changeTime(res.rows[i].create_time);
-                        // obj.order10 = res.rows[i] 登入ip
-                        // obj.order11= res.rows[i] 登入次数
-                        // obj.order12 = res.rows[i] 最后登入时间
-                        // obj.order13 = res.rows[i] 粉丝数
-                        // obj.order14 = res.rows[i] 追踪数
-                        // obj.order15 = res.rows[i] 点赞次数
-                        // obj.order16 = res.rows[i] 我的收藏
-                        arr.push(obj);
+                        res.rows[i].create_time = this.$changeTime(res.rows[i].create_time);
                     }
-                    this.data1 = arr;
+                    this.data1 = res.rows;
                 }
             })
-        },
-        changeTime(time){
-            var date = new Date(time);
-            var Y = date.getFullYear();
-            var M = date.getMonth() + 1;
-            var D = date.getDate();
-            var h = date.getHours() >10?date.getHours():'0'+date.getHours();
-            var m = date.getMinutes() >10?date.getMinutes():'0' + date.getMinutes();
-            return `${Y}-${M}-${D} ${h}:${m}`;
         },
         openModel(){
             this.propModel = true;
@@ -330,19 +318,26 @@ export default {
         closeModel(){
             this.propModel = false;
         },
-        show (data) {
-            this.$Modal.info({
-                title: 'User Info',
-                content:data
-            })
-            console.log()
-        },
         remove (data){
             
         },
-        timeChange(time){
-            console.log(time)
-            this.inputValue.time = time;
+        saveHandle(){
+
+        },
+        editHandle(row,index){
+          
+            this.editValue={
+                city:row.city,
+                sex:row.sex,
+                birth:row.birth,
+                tel:row.tel,
+                addr:row.addr,
+                email:row.email,
+                user_no:row.user_no,
+                username:row.username,
+                password:row.password
+            }
+            this.editIndex = index;
         }
     }
 }
