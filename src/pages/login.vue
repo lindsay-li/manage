@@ -91,7 +91,7 @@ export default {
                 console.log(res);
                 if(res.result=='success'){
                     sessionStorage.setItem('user_info',JSON.stringify(res.data));
-                    this.$message.success('登录成功');
+                    this.$Message.success('登录成功');
                     this.$router.push({path:'/cruxdata'});
                 }else{
                     this.$Modal.error({

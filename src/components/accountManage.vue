@@ -73,9 +73,9 @@
     <div class="page">
         <div class="_btn">
             <div class="send" @click="openModel">新增账户</div>
-            <div class="b_delete" >批量删除</div>
+            <!-- <div class="b_delete" >批量删除</div> -->
         </div>
-        <Page :total="100" show-total show-elevator prev-text='上一頁' next-text='下一頁'/>
+        <Page :total="total" show-total show-elevator prev-text='上一頁' next-text='下一頁' @on-change="pageChange"/>
     </div> 
     <div class="prop_model" v-show="propModel">
         <div class="_box">
@@ -116,6 +116,7 @@
 export default {
     data(){
         return{
+            total:0,
             inputValue:{
                 user:'',
                 phone:'',
@@ -219,12 +220,12 @@ export default {
             a_types:'',
             single:false,
             propModel:false,
+            current:0,  //当前页码
         }
     },
     created(){
-        this.getList();
+        this.getList(0);
     },
-
     methods:{
         searchList(){ //查询用户
             var data = {};
@@ -239,7 +240,10 @@ export default {
             }
            var len = Object.keys(data);
            if(len == 0){
-               this.$Message.info('请输入查询参数');
+               this.$Modal.warning({
+                    title:'警告',
+                    content: '<h3>请输入查询参数</h3>'
+                });
                return;
            }
             this.$http('zAdminUserService','findDatas',data)
@@ -283,17 +287,18 @@ export default {
             .then((res)=>{
                 console.log(res)
                 if(res.result == 'fail'){
-                    this.$message.error({title:res.message})
+                    this.$Message.error({title:res.message})
                 }else if(res.result == 'success'){
-                    this.$message.success({title:res.message});
-                    this.getList();
+                    this.$Message.success({title:res.message});
+                    this.getList(0);
                 }
             })
         },
-        getList(){ //h获取用户列表数据
+        getList(start){ //h获取用户列表数据
+        var curt =start>0?(start-1)*10:0
             var data = {
-                    start:0,
-                    rows:20
+                    start:curt,
+                    rows:10
                 }
             this.$http('zAdminUserService','findDatas',data)
             .then((res)=>{
@@ -309,6 +314,7 @@ export default {
                         res.rows[i].create_time = this.$changeTime(res.rows[i].create_time);
                     }
                     this.data1 = res.rows;
+                    this.total = res.total;
                 }
             })
         },
@@ -318,14 +324,58 @@ export default {
         closeModel(){
             this.propModel = false;
         },
-        remove (data){
-            
+        remove (row){ //删除数据
+            console.log(1)
+            this.$Modal.confirm({
+                title: '警告',
+                content: '<h3>此操作将删除数据，是否继续？</h3>',
+                onOk: () => {
+                    var data = {
+                        id:row.id
+                    }
+                    this.$http('zAdminUserService','deleteData',data)
+                    .then(res=>{
+                        if(res.result == 'success'){
+                            this.$Message.success('删除成功');
+                            this.getList(this.current);
+                        }else{
+                            this.$Message.error('操作失败');
+                        }
+                    })
+                },
+                onCancel: () => {
+                }
+            })
         },
-        saveHandle(){
+        saveHandle(row,id){ //保存修改数据
+            this.editIndex = -1;
+            var newrow = row;
+            var data = {};
+            newrow.sex = newrow.sex == '男'?(newrow.sex == '女'?2:1):3
+            if(newrow.sex=='男'){
+                newrow.sex = 1;
+            }else if(newrow.sex =='女'){
+                newrow.sex = 2;
+            }else{
+                newrow.sex =3;
+            }
+            for(let key in this.editValue){  //参数没改变的就不传接口
+                if(this.editValue[key] != newrow[key]){
+                    data[key] = this.editValue[key];
+                }
+            }
+            this.$http('zAdminUserService','addOrUpdate',data)
+            .then(res=>{
+                if(res.result == 'success'){
+                    this.$Message.success('修改成功');
+                    this.getList(this.current);
+                }else{
+                    this.$Message.error(res.message);
+                }
+            })
 
         },
-        editHandle(row,index){
-          
+        editHandle(row,index){//编辑table数据
             this.editValue={
                 city:row.city,
                 sex:row.sex,
@@ -338,6 +388,11 @@ export default {
                 password:row.password
             }
             this.editIndex = index;
+        },
+        pageChange(index){ //页码切换
+            console.log(index)
+            this.current = index;
+            this.getList(this.current);
         }
     }
 }

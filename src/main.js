@@ -8,11 +8,11 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import TreeTable from 'tree-table-vue'
-
+Vue.use(iView)
 Vue.use(TreeTable)
 import {postData} from './api/api'
 import { changeTime } from './until/tool';
-Vue.use(iView,{locale});
+// Vue.use(iView,{locale});
 
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 var Mock = require('mockjs');
@@ -62,11 +62,11 @@ router.afterEach((to,from,next) => {
   // next();
 });
 
-iView.LoadingBar.config({
-  color: '#ED4014',
-  failedColor: '#f0ad4e',
-  height: 2
-});
+// iView.LoadingBar.config({
+//   color: '#ED4014',
+//   failedColor: '#f0ad4e',
+//   height: 2
+// });
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
