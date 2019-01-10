@@ -166,8 +166,8 @@
                             <Icon type="ios-key" />
                             後臺賬號管理
                         </template>
-                        <MenuItem name="賬號添加刪除" to="/accountManage">賬號添加刪除</MenuItem>
-                        <MenuItem name="1賬號分級設定" to="/accountPower">賬號分級設定</MenuItem>
+                        <MenuItem name="賬號添加刪除" to="/accountManage">用户管理</MenuItem>
+                        <MenuItem name="1賬號分級設定" to="/accountPower">角色权限管理</MenuItem>
                         <MenuItem name="後臺賬號操作紀錄" to="/accountHandRecord">後臺賬號操作紀錄</MenuItem>
                     </Submenu>
                     <Submenu name="數據分析">

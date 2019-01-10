@@ -211,5 +211,7 @@ td .ivu-table-cell,
     line-height: 50px;
     margin-bottom: 30px;
 }
-
+.ivu-checkbox-wrapper{
+  font-size: 16px;
+}
 </style>

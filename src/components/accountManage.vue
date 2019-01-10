@@ -31,7 +31,10 @@
                 <span v-else>{{ row.user_no }}</span>
             </template>
             <template slot="sex" slot-scope="{row,index}">
-                <Input type="text" v-model="editValue.sex" v-if="editIndex === index" />
+                <!-- <Input type="text" v-model="editValue.sex" v-if="editIndex === index" /> -->
+                <Select v-model="editValue.sex" v-if="editIndex === index">
+                    <Option v-for="(item,index) in sexList" :value="item.value" :key="index">{{ item.label }}</Option>
+                </Select>
                 <span v-else>{{ row.sex }}</span>
             </template>
             <template slot="birth" slot-scope="{row,index}">
@@ -57,6 +60,16 @@
             <template slot="password" slot-scope="{row,index}">
                 <Input type="text" v-model="editValue.password" v-if="editIndex === index" />
                 <span v-else>{{ row.password }}</span>
+            </template>
+            <template slot="rolename" slot-scope="{row,index}">
+                <!-- <Input type="text" v-model="editValue.rolename" v-if="editIndex === index" /> -->
+                <!-- <Select v-model="editValue.roleId" multiple  v-if="editIndex === index">
+                    <Option v-for="item in roleList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                </Select> -->
+                <div class="rolename" @click="changeRole(row)">
+                    <span>{{row.rolename.join(',')}}</span>
+                </div>
+                <!-- <span v-else>{{ row.rolename }}</span> -->
             </template>
             <template slot="action" slot-scope="{row,index}">
                 <div v-if="editIndex === index">
@@ -110,6 +123,25 @@
             </div>
         </div>
     </div>
+    <div class="prop_model" v-show="roleModel">
+        <div class="_role">
+            <div class="contant">
+                <div class="r_tit">添加角色</div>
+                <div class="list"style="width:100%;">
+                    <!-- <Select v-model="roleId" multiple >
+                        <Option v-for="item in roleList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select> -->
+                    <CheckboxGroup v-model="fruit">
+                        <Checkbox :label="item.label" v-for="item in roleList" :key="item.value"></Checkbox>
+                    </CheckboxGroup>
+                </div>
+                <div class="btns">
+                    <div class="cancel" @click='closeModel'>取消</div>
+                    <div class="sure" @click="setRoleHandle">確定</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>   
 </template>
 <script>
@@ -117,6 +149,20 @@ export default {
     data(){
         return{
             total:0,
+            user_id:'',
+            roleModel:false,
+            roleId:['3'],
+            fruit:[],
+            sexList:[
+                {
+                    label:'男',
+                    value:1,
+                },
+                {
+                    label:'女',
+                    value:2
+                }
+            ],
             inputValue:{
                 user:'',
                 phone:'',
@@ -131,7 +177,7 @@ export default {
                 email:'',
                 user_no:'',
                 username:'',
-                password:""
+                password:"",
             },
             editIndex:-1,
             setuser:{
@@ -139,6 +185,7 @@ export default {
                 pwda:'',
                 pwdb:''
             },
+            roleList:[],
             columns1: [
                 {
                     type:'selection',
@@ -151,7 +198,7 @@ export default {
                     minWidth:85
                 },
                 {
-                    title: '用户姓名',
+                    title: '用户名称',
                     slot: 'username',
                     minWidth:120
                 },
@@ -164,6 +211,11 @@ export default {
                     title: '用户密码',
                     slot: 'password',
                     minWidth:120
+                },
+                {
+                    title:'所属角色',
+                    slot:'rolename',
+                    minWidth:200,
                 },
                 {
                     title: '性别',
@@ -225,6 +277,7 @@ export default {
     },
     created(){
         this.getList(0);
+        this.getroleid();
     },
     methods:{
         searchList(){ //查询用户
@@ -258,7 +311,9 @@ export default {
                         }else{
                             res.rows[i].sex ='未知';
                         }
+                        
                         res.rows[i].create_time = this.$changeTime(res.rows[i].create_time);
+                        
                     }
                     this.data1 = res.rows;
                 }else{
@@ -295,7 +350,7 @@ export default {
             })
         },
         getList(start){ //h获取用户列表数据
-        var curt =start>0?(start-1)*10:0
+         var curt =start>0?(start-1)*10:0
             var data = {
                     start:curt,
                     rows:10
@@ -311,10 +366,42 @@ export default {
                         }else{
                             res.rows[i].sex ='未知';
                         }
+                        var rolename = [];
+                        var roleid = [];
+                        if(res.rows[i].rolename){
+                            var role = res.rows[i].rolename.split(',');
+                            for(let j =0;j<role.length;j++){
+                                var str = role[j].split('#');
+                                rolename.push(str[1]);
+                                roleid.push(str[0])
+                            }
+                        }
                         res.rows[i].create_time = this.$changeTime(res.rows[i].create_time);
+                        res.rows[i].rolename = rolename;
+                        res.rows[i].roleId = roleid;
                     }
                     this.data1 = res.rows;
                     this.total = res.total;
+                }
+            })
+        },
+        getroleid(){
+            var data = {
+                start:0,
+                rows:40
+            }
+            this.$http('zAdminRoleService','findDatas',data)
+            .then(res=>{
+                if(res.rows){
+                    var arr= [];
+                    for(let i=0;i<res.rows.length;i++){
+                        var obj = {};
+                        obj.value = res.rows[i].id;
+                        obj.label = res.rows[i].r_name;
+                        arr.push(obj);
+                    }
+                this.roleList = arr;
+                console.log('role',this.roleList)
                 }
             })
         },
@@ -323,6 +410,7 @@ export default {
         },
         closeModel(){
             this.propModel = false;
+            this.roleModel = false;
         },
         remove (row){ //删除数据
             console.log(1)
@@ -350,7 +438,9 @@ export default {
         saveHandle(row,id){ //保存修改数据
             this.editIndex = -1;
             var newrow = row;
-            var data = {};
+            var data = {
+                id:id
+            };
             newrow.sex = newrow.sex == '男'?(newrow.sex == '女'?2:1):3
             if(newrow.sex=='男'){
                 newrow.sex = 1;
@@ -385,7 +475,7 @@ export default {
                 email:row.email,
                 user_no:row.user_no,
                 username:row.username,
-                password:row.password
+                password:row.password,
             }
             this.editIndex = index;
         },
@@ -393,6 +483,36 @@ export default {
             console.log(index)
             this.current = index;
             this.getList(this.current);
+        },
+        changeRole(row){  //点击编辑角色
+            this.fruit = row.rolename;
+            this.roleModel = true;
+            this.user_id = row.id;
+        },
+        setRoleHandle(){ //角色点击确定
+            console.log(this.fruit)
+            this.roleModel = false;
+            var roleid = [];
+            for(let i =0;i<this.roleList.length;i++){
+                for(let j =0;j<this.fruit.length;j++){
+                    if(this.roleList[i].label == this.fruit[j]){
+                        roleid.push(this.roleList[i].value)
+                    }
+                }
+            }
+            var data = {
+                user_id:this.user_id,
+                roleIds:roleid.join(',')
+            }
+            this.$http('zAdminUserService','addUserRole',data)
+            .then(res=>{
+                if(res.result == 'success'){
+                    this.$Message.success('修改成功');
+                    this.getList(this.current);
+                }else{
+                    this.$Message.error(res.message);
+                }
+            })
         }
     }
 }
@@ -405,6 +525,9 @@ export default {
 .page .btns{
     width: auto;
     margin-top: 0;
+}
+.btns{
+    display: flex;
 }
 .btns .send{
     margin-left: 0;
@@ -425,6 +548,19 @@ export default {
     margin-top: 30px;
     margin-bottom: 30px;
 }
+.r_tit{
+    width: 80px;
+    height: 36px;
+    background-color: #009688;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+    line-height: 36px;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 ._box{
     width: 600px;
     height: 380px;
@@ -432,6 +568,16 @@ export default {
     top: 50%;
     left: 50%;
     margin: -190px 0 0 -300px;
+    border-radius: 4px;
+    background-color: #fff;
+}
+._role{
+    width: 400px;
+    height: 300px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -150px 0 0 -100px;
     border-radius: 4px;
     background-color: #fff;
 }
@@ -443,7 +589,8 @@ export default {
 .btns{
     width: 100%;
     justify-content: center;
-    margin-top: 30px;
+    position: absolute;
+    bottom: 10px;
 }
 .cancel,
 .sure{
@@ -457,5 +604,22 @@ export default {
 table tr td{
     height: 60px;
     text-align: center;
+}
+.rolename{
+    height: 40px;
+    cursor: pointer;
+    position: relative;
+    line-height: 40px;
+}
+.rolename::after{
+    display: inline-block;
+    content: "";
+    width: 32px;
+    height: 32px;
+    background: url(../assets/edit.png) 0 0 no-repeat;
+    background-size:80%; 
+    position: absolute;
+    top: 8px;
+    right: 0px;
 }
 </style>

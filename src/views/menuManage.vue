@@ -65,9 +65,9 @@
                         <tr>
                             <td style="text-align:right">是否启用:</td>
                             <td>
-                                <i-select v-model.sync="menus.status" style="width:200px">
-                                    <i-option v-for="(item,index) in statusList" :value="item.value" :key="index">{{ item.label }}</i-option>
-                                </i-select>
+                                <Select v-model.sync="menus.status" style="width:200px">
+                                    <Option v-for="(item,index) in statusList" :value="item.value" :key="index">{{ item.label }}</Option>
+                                </Select>
                             </td>
                             <td style="text-align:right">菜单排序:</td>
                             <td>
@@ -292,6 +292,7 @@ export default {
                     console.log(arr1)
                     this.data1 = arr1;
                     this.options = this.getTree(arr1);
+                    sessionStorage.setItem('MENULIST',JSON.stringify(this.options));
                 }
             })
         },
