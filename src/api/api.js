@@ -48,7 +48,8 @@ export function postData(api,method,obj){
         }).then(res=>{  //axios返回的是一个promise对象
             resolve(res.data)  //resolve在promise执行器内部 
         }).catch(err=>{
-            console.log(err,'异常')
+            console.log(err,'异常');
+            reject(err);
         })
     })
         

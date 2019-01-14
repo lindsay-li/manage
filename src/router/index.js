@@ -63,7 +63,12 @@ const shipmentCheck = () => import('@/components/shipmentCheck');
 const invoice = () => import('@/components/invoice');
 const canvas = () => import('@/pages/canvas');
 const menumanage = () => import('@/views/menuManage');
-
+const branchInventory = () => import('@/views/branchInventory');
+const productArea = () => import('@/views/productArea');
+const country = () => import('@/views/country');
+const grape = () => import('@/views/grape');
+const winery = () => import('@/views/winery');
+const shopName = () => import('@/views/shopName');
 
 Vue.use(Router)
 
@@ -316,6 +321,30 @@ export default new Router({
         {
           path:'/menuManage',
           component:menumanage
+        },
+        {
+          path:'/branchInventory',
+          component:branchInventory
+        },
+        {
+          path:'/productArea',
+          component:productArea
+        },
+        {
+          path:'/country',
+          component:country
+        },
+        {
+          path:'/grape',
+          component:grape
+        },
+        {
+          path:'/winery',
+          component:winery
+        },
+        {
+          path:'/shopName',
+          component:shopName
         }
       ]
     },

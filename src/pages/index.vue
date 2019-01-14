@@ -72,9 +72,15 @@
                             <Icon type="ios-stats" />
                             商品管理
                         </template>
-                        <MenuItem name="建立商品" to="/createGoods">建立商品</MenuItem>
                         <MenuItem name="商品查詢" to="/goodsQuery">商品查詢</MenuItem>
-                        <MenuItem name="庫存管理" to="/stockManage">庫存管理</MenuItem>
+                        <MenuItem name="商品风格" to="/createGoods">商品风格</MenuItem>
+                        <MenuItem name="分店库存" to="/branchInventory">分店库存</MenuItem>
+                        <MenuItem name="产区风格" to="/productArea">产区风格</MenuItem>
+                        <MenuItem name="国家管理" to="/country">国家管理</MenuItem>
+                        <MenuItem name="葡萄种类" to="/grape">葡萄种类</MenuItem>
+                        <MenuItem name="酒庄管理" to="/winery">酒庄管理</MenuItem>
+                        <MenuItem name="门店管理" to="/shopName">门店管理</MenuItem>
+                        <!-- <MenuItem name="庫存管理" to="/stockManage">庫存管理</MenuItem> -->
                     </Submenu>
                     <Submenu name="訂單查詢">
                         <template slot="title">

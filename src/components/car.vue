@@ -1,28 +1,12 @@
 <template>
 <div class="wrappar">
-    <div class="nav">
-        <div class="option">
-            <span>商品名稱：</span>
-            <input type="text" >
-        </div>
-        <div class="option">
-            <span>類型：</span>
-            <input type="text" name="phone">
-        </div>
-        <div class="option">
-            <span>售價：</span>
-            <input type="text" name="time">
-        </div>
-        <div class="serch">查詢</div>
-    </div>
     <div class="car">
-        <Table border  :columns="columns1" :data="data1"  @on-selection-change="selectChange1"></Table>
+        <Table border  :columns="columns1" :data="data1"  class="post" :loading="loading"></Table>
     </div>
     <div class="page">
-        <div class="delet">批量刪除</div>
-        <Page :total="100" show-total show-elevator prev-text='上一頁' next-text='下一頁'/>
+        <Page :total="total" show-total show-elevator prev-text='上一頁' next-text='下一頁' @on-change="pageChange"/>
     </div>
-</div>  
+</div>
 </template>
 <script>
 export default {
@@ -35,29 +19,36 @@ export default {
                     align: 'center'
                 },
                 {
+                    title: '用戶名稱',
+                    key: 'user',
+                    minWidth:160
+                },
+                {
                     title: '商品名稱',
-                    key: 'order1',
-                    minWidth:105
+                    key: 'product_name',
+                    ellipsis:true,
+                    tooltip:true,
+                    minWidth:160
                 },
                 {
-                    title: '數量',
-                    key: 'order2',
-                    minWidth:105
+                    title: '商品類型',
+                    key: 'product_type',
+                    minWidth:160
                 },
                 {
-                    title: '售價',
-                    key: 'order3',
-                    minWidth:105
+                    title: '价格',
+                    key: 'price',
+                    minWidth:120
                 },
                 {
-                    title: '類型',
-                    key: 'order4',
-                    minWidth:105
+                    title: '数量',
+                    key: 'num',
+                    minWidth:120
                 },
                 {
                     title:'操作',
-                    key:'order5',
-                    minWidth:105,
+                    key:'action',
+                    width:90,
                     render: (h, params) => {
                         return h('div', [
                             h('Button', {
@@ -67,7 +58,7 @@ export default {
                                 },
                                 on: {
                                     click: () => {
-                                        this.remove(params.index)
+                                        this.remove(params.row.id)
                                     }
                                 }
                             }, '刪除')
@@ -75,59 +66,64 @@ export default {
                     }
                 }
             ],
-            data1: [
-                {
-                    order1: '下載贈送',
-                    order2: 200,
-                    order3: '5%',
-                    order4: '2016/10/03-2018/9/02',
-                    order5:'官方APP商品'
-                },
-                {
-                    order1: '下載贈送',
-                    order2: 200,
-                    order3: '5%',
-                    order4: '2016/10/03-2018/9/02',
-                    order5:'官方APP商品'
-                },
-                {
-                    order1: '下載贈送',
-                    order2: 200,
-                    order3: '5%',
-                    order4: '2016/10/03-2018/9/02',
-                    order5:'官方APP商品'
-                },
-                {
-                    order1: '下載贈送',
-                    order2: 200,
-                    order3: '5%',
-                    order4: '2016/10/03-2018/9/02',
-                    order5:'官方APP商品'
-                },
-                {
-                    order1: '下載贈送',
-                    order2: 200,
-                    order3: '5%',
-                    order4: '2016/10/03-2018/9/02',
-                    order5:'官方APP商品'
-                },
-            ]
+            data1: [],
+            loading:false,
+            current:0,
+            total:0
         }
     },
+    created(){
+        this.getList(0);
+    },
     methods:{
-        remove (index) {
-            this.data1.splice(index, 1);
+        getList(start){
+            var data = {
+                start:start,
+                rows:10
+            }
+            this.loading = true;
+            this.$http('shoppingTrolleyService','findDatas',data)
+            .then(res=>{
+                console.log(res)
+                this.loading = false;
+                if(res.rows){
+                    this.total = res.total;
+                    this.data1 = res.rows;
+                }
+            })
+            .catch(err=>{
+                this.loading = false;
+            })
         },
-        selectChange1(selection){
-            console.log(selection)
-        }
+        remove (id) {
+            this.$Modal.confirm({
+                title: '警告',
+                content: '<h3>此操作将删除数据，是否继续？</h3>',
+                onOk: () => {
+                     var data = {id:id};
+                    this.$http('shoppingTrolleyService','deleteData',data)
+                    .then(res=>{
+                        if(res.result == 'success'){
+                            this.$Message.success('删除成功');
+                            this.getList(this.current);
+                        }else{
+                            this.$Message.error('操作失败');
+                        }
+                    })
+                },
+                onCancel: () => {
+                }
+            })
+        },
+        pageChange(index){ //切换页数
+            this.current = index==1?0:(index-1)*10;
+            this.getList(this.current);
+        },
     }
-   
 }
 </script>
 <style scoped>
 .page{
-    justify-content: space-between;
+    justify-content: flex-end;
 }
-
 </style>

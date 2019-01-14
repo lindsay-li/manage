@@ -1,12 +1,5 @@
 <template>
 <div class="wrappar">
-    <div class="nav">
-        <div class="option">
-            <span>商品风格：</span>
-            <Input type="text"  v-model="product_style" style="width:160px" />
-        </div>
-        <div class="serch" @click="newAdd">新增</div>
-    </div>
     <div class="goods">
         <Table border  :columns="columns1" :data="data1"  @on-selection-change="selectChange1" class="post">
             <template slot="action" slot-scope="{row,index}">
@@ -15,7 +8,37 @@
         </Table>
     </div>
     <div class="page">
+        <div class="_btn">
+            <div class="send" @click="openModel">新增</div>
+        </div>
         <Page :total="total" show-total show-elevator prev-text='上一頁' next-text='下一頁'  @on-change="pageChange"/>
+    </div>
+    <div class="prop_model" v-show="propModel">
+        <div class="_box">
+            <div class="contant">
+                <div class="tit">新增</div>
+                <div class="list">
+                    <table style="width:100%;">
+                        <tr>
+                            <td style="text-align:right">产区名称:</td>
+                            <td>
+                                <Input v-model="inputValue.product_area"  placeholder="點擊輸入" style="width: 160px;" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right">国家ID:</td>
+                            <td>
+                                <Input v-model="inputValue.alcohol_country_id"  placeholder="點擊輸入" style="width: 160px" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="btns">
+                    <div class="cancel" @click='closeModel'>取消</div>
+                    <div class="sure" @click="newAdd">確定</div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>        
 </template>
@@ -30,8 +53,8 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '商品风格',
-                    key: 'product_style',
+                    title: '产区名称',
+                    key: 'product_area',
                     minWidth:180
                 },
                 {
@@ -40,7 +63,12 @@ export default {
                     minWidth:180
                 },
                 {
-                    title: 'ID',
+                    title: '国家ID',
+                    key: 'alcohol_country_id',
+                    minWidth:110
+                },
+                {
+                    title: 'id',
                     key: 'id',
                     minWidth:90
                 },
@@ -51,9 +79,13 @@ export default {
                 }
             ],
             data1: [],
-            product_style:'',
             total:0,
-            current:0
+            current:0,
+            propModel:false,
+            inputValue:{
+                alcohol_country_id:'',
+                product_area:''
+            }
         }
     },
     created(){
@@ -65,7 +97,7 @@ export default {
                 start:start,
                 rows:10
             }
-            this.$http('alcoholStyleService','findDatas',data)
+            this.$http('alcoholAreaStyleService','findDatas',data)
             .then(res=>{
                 console.log(res)
                 if(res.rows){
@@ -84,7 +116,7 @@ export default {
                 content: '<h3>此操作将删除数据，是否继续？</h3>',
                 onOk: () => {
                      var data = {id:id};
-                    this.$http('alcoholStyleService','deleteData',data)
+                    this.$http('alcoholAreaStyleService','deleteData',data)
                     .then(res=>{
                         if(res.result == 'success'){
                             this.$Message.success('删除成功');
@@ -102,17 +134,17 @@ export default {
             console.log(selection)
         },
         newAdd(){
-            if(!this.product_style){
-                 this.$Modal.info({
-                        content: '请输入产品风格'
-                    }); 
+            if(!this.inputValue.product_area || !this.inputValue.alcohol_country_id){
+                this.$Message.warning('请输入信息');
                 return;
             }
             var data = {
-                product_style:this.product_style
+                product_area:this.inputValue.product_area,
+                alcohol_country_id:parseInt(this.inputValue.alcohol_country_id)
             }
             this.$http('alcoholStyleService','addOrUpdate',data)
             .then(res=>{
+                this.propModel = false;
                 if(res.result == 'success'){
                     this.$Message.success('添加成功');
                     this.getList(0);
@@ -125,6 +157,12 @@ export default {
             this.current = index==1?0:(index-1)*10;
             this.getList(this.current);
         },
+        openModel(){
+            this.propModel = true;
+        },
+        closeModel(){
+            this.propModel = false;
+        },
     }  
 }
 </script>
@@ -135,5 +173,54 @@ export default {
 .page{
     justify-content: flex-end;
 }
-
+.page{
+    justify-content: space-between;
+}
+._box{
+    width: 360px;
+    height: 300px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -125px 0 0 -150px;
+    border-radius: 4px;
+    background-color: #fff;
+}
+.contant{
+    width: 90%;
+    margin: 0 auto;
+}
+.btns{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 30px;
+    position: absolute;
+    bottom: 20px;
+}
+.cancel,
+.sure{
+    width: 136px;
+    height:40px;
+    line-height: 40px; 
+}
+.sure{
+    margin-left: 20px;
+}
+.tit{
+    width: 100px;
+    height: 36px;
+    background-color: #009688;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+    line-height: 36px;
+    margin-left: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+table td{
+    height: 45px;
+}
 </style>

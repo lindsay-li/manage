@@ -2,8 +2,8 @@
 <div class="wrappar">
     <div class="nav">
         <div class="option">
-            <span>商品风格：</span>
-            <Input type="text"  v-model="product_style" style="width:160px" />
+            <span>葡萄种类：</span>
+            <Input type="text"  v-model="grape_type" style="width:160px" />
         </div>
         <div class="serch" @click="newAdd">新增</div>
     </div>
@@ -30,8 +30,8 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '商品风格',
-                    key: 'product_style',
+                    title: '葡萄种类',
+                    key: 'grape_type',
                     minWidth:180
                 },
                 {
@@ -51,7 +51,7 @@ export default {
                 }
             ],
             data1: [],
-            product_style:'',
+            grape_type:'',
             total:0,
             current:0
         }
@@ -65,7 +65,7 @@ export default {
                 start:start,
                 rows:10
             }
-            this.$http('alcoholStyleService','findDatas',data)
+            this.$http('alcoholGrapeService','findDatas',data)
             .then(res=>{
                 console.log(res)
                 if(res.rows){
@@ -84,7 +84,7 @@ export default {
                 content: '<h3>此操作将删除数据，是否继续？</h3>',
                 onOk: () => {
                      var data = {id:id};
-                    this.$http('alcoholStyleService','deleteData',data)
+                    this.$http('alcoholGrapeService','deleteData',data)
                     .then(res=>{
                         if(res.result == 'success'){
                             this.$Message.success('删除成功');
@@ -102,16 +102,16 @@ export default {
             console.log(selection)
         },
         newAdd(){
-            if(!this.product_style){
+            if(!this.grape_type){
                  this.$Modal.info({
-                        content: '请输入产品风格'
+                        content: '请输入葡萄种类'
                     }); 
                 return;
             }
             var data = {
-                product_style:this.product_style
+                grape_type:this.grape_type
             }
-            this.$http('alcoholStyleService','addOrUpdate',data)
+            this.$http('alcoholGrapeService','addOrUpdate',data)
             .then(res=>{
                 if(res.result == 'success'){
                     this.$Message.success('添加成功');
