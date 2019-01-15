@@ -1,11 +1,11 @@
 <template>
-    <div class="wrapper">
+    <div class="container">
         <div class="navs">
             <div class="logo">
                 巴克斯運營管理平臺
             </div>
             <div class="user">
-                <span>AdminTest</span>
+                <span>{{user.username}}</span>
                 <span>歡迎你！</span>
             </div>
             <div class="operation">
@@ -19,14 +19,14 @@
                         <DropdownItem>更換主題</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
-                <Dropdown trigger="click" style="margin-left: 20px" :transfer="true">
+                <Dropdown trigger="click" style="margin-left: 20px" :transfer="true" @on-click="outlogin">
                     <a href="javascript:void(0)">
                         退出系統
                         <Icon type="ios-arrow-down" color="#fff"></Icon>
                     </a>
-                    <DropdownMenu slot="list">
-                        <DropdownItem>重新登錄</DropdownItem>
-                        <DropdownItem>安全退出</DropdownItem>
+                    <DropdownMenu slot="list" >
+                        <DropdownItem name="重新登录">重新登錄</DropdownItem>
+                        <DropdownItem name="安全退出">安全退出</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
             </div>
@@ -172,8 +172,9 @@
                             <Icon type="ios-key" />
                             後臺賬號管理
                         </template>
-                        <MenuItem name="賬號添加刪除" to="/accountManage">用户管理</MenuItem>
-                        <MenuItem name="1賬號分級設定" to="/accountPower">角色权限管理</MenuItem>
+                        <MenuItem name="用户管理" to="/accountManage">用户管理</MenuItem>
+                        <MenuItem name="1角色权限管理" to="/accountPower">角色权限管理</MenuItem>
+                        <MenuItem name="菜单管理" to="/menuManage">菜单管理</MenuItem>
                         <MenuItem name="後臺賬號操作紀錄" to="/accountHandRecord">後臺賬號操作紀錄</MenuItem>
                     </Submenu>
                     <Submenu name="數據分析">
@@ -230,11 +231,14 @@ export default {
             theme2: 'dark',
             time:'',
             submenu:'',
-            menuitem:''
+            menuitem:'',
+            user:{}
         }
     },
     created(){
         this.getTime();
+        var userInfo = JSON.parse(sessionStorage.getItem('user_info'));
+        this.user = userInfo.dbUser;
     },
     watch:{
         submenu(val){
@@ -251,6 +255,12 @@ export default {
             var weekday=["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
             this.time = `${year}年${month}月${day}日 ${weekday[week]}`;
         },
+        outlogin(name){
+            console.log('...',name)
+            // return
+            sessionStorage.clear()
+            this.$router.push({path:'/login'});
+        },
         selectChange(name){
             console.log(name)
             this.submenu = name.join(' ');
@@ -263,9 +273,9 @@ export default {
 }
 </script>
 <style scoped>
-    .wrapper{
+    .container{
         width: 100%;
-        height:100vh;
+        height:100vh ;
     }
     .navs{
         width: 100%;
@@ -403,7 +413,7 @@ export default {
         background-color: #363E4F;
         text-align: center;
         color: #fff;
-        position: absolute;
+        position: fixed;
         left: 0;
         bottom: 0;
     }

@@ -2,22 +2,18 @@
 <div class="wrappar">
     <div class="nav">
         <div class="option">
-            <span>商品編號：</span>
-            <input type="text" >
-        </div>
-        <div class="option">
-            <span>數量：</span>
-            <input type="text" name="phone">
+            <span>商品名称：</span>
+            <Input type="text" style="width:160px" v-model="searchData.product_name"/>
         </div>
         <div class="option">
             <span>年份：</span>
-            <input type="text" name="time">
+            <Input type="text" name="time" style="width:160px" v-model="searchData.year"/>
         </div>
-        <div class="option">
+        <!-- <div class="option">
             <span>類型：</span>
-            <input type="text" name="time">
-        </div>
-        <div class="serch">查詢</div>
+            <Input type="text" name="time" style="width:160px"/>
+        </div> -->
+        <div class="serch" @click='search'>查詢</div>
     </div>
     <div class="query">
         <Table border  :columns="columns1" :data="data1"  @on-selection-change="selectChange1" height="550" class="post" :loading="loading">
@@ -124,14 +120,14 @@
                             <Input type="text" v-model="inputValue.specification" />
                         </td>
                         <td>
-                            <div v-if="inputValue.product_photo ==null">
+                            <div v-if="product_photo ==null">
                                 <Upload
                                     :before-upload="handleUpload"
                                     action="//jsonplaceholder.typicode.com/posts/">
                                     <Button icon="ios-cloud-upload-outline">选择文件</Button>
                                 </Upload>
                             </div>
-                            <span v-if="inputValue.product_photo">{{inputValue.product_photo}}</span>
+                            <span v-if="product_photo">{{product_photo}}</span>
                         </td>
                         <td colspan="4">
                             <Input type="textarea" v-model="inputValue.product_descr" />
@@ -354,6 +350,11 @@ export default {
                     }
                 }
             ],
+            searchData:{
+                product_name:"",
+                year:''
+
+            },
             data1: [],
             createPage:false,
             c_data1:'',
@@ -371,8 +372,8 @@ export default {
                 }
             ],
             wineryList:[],
+            product_photo:null,
             inputValue:{
-                product_photo:null,
                 product_descr:"",
                 specification:'',
                 grape:0,
@@ -522,9 +523,39 @@ export default {
                 if(res.result == 'success'){
                     this.$Message.success('新增成功');
                     this.getList(this.current);
+                    this.createPage = false
                 }else{
                     this.$Message.error(res.message);
                 }
+            })
+        },
+        search(){
+            var data = {};
+            console.log(this.searchData)
+            for(let key in this.searchData){
+                if(this.searchData[key] != ''){
+                    data[key] = this.searchData[key];
+                }
+            }
+            var arr = Object.keys(data).length;
+            if(arr<=0){
+                this.$Message.warning('请输入查询参数');
+                return;
+            }
+            this.loading = true;
+            this.$http('alcoholService','findDatas',data)
+            .then(res=>{
+                console.log(res)
+                this.loading = false;
+                if(res.rows.length>0){
+                    this.total = res.total;
+                    this.data1 = res.rows;
+                }else{
+                    this.$Message.warning('暂无数据')
+                }
+            })
+            .catch(err=>{
+                this.loading = false;
             })
         },
         getWinery(){//获取酒庄列表
