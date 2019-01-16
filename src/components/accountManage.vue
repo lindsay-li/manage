@@ -302,7 +302,7 @@ export default {
             this.$http('zAdminUserService','findDatas',data)
             .then((res)=>{
                 console.log('res',res)
-                if(res.rows){
+                if(res.rows.length>0){
                     for(let i=0;i<res.rows.length;i++){
                         if(res.rows[i].sex==1){
                             res.rows[i].sex = '男';

@@ -251,23 +251,23 @@ export default {
 
             console.log(this.treeData);
         },
-        getTree (tree = [],arr=[]) { //选择框树形结构
+        getTree(tree = [],arr=[]) { //选择框树形结构
             if (tree.length !== 0) {
-            tree.forEach(item => {
-                item.expand = true;
-                item.title = item.label;
-                arr.forEach(it =>{
-                    if(item.id ==it.id){
-                        item.checked = true;
+                tree.forEach(item => {
+                    item.expand = true;
+                    item.title = item.label;
+                    arr.forEach(it =>{
+                        if(item.id ==it.id){
+                            item.checked = true;
+                        }
+                    })
+                    if(item.children){
+                        this.getTree(item.children,arr);
                     }
-                })
-                if(item.children){
-                    this.getTree(item.children,arr);
-                }
-            });
-        }
-        return tree
-      },
+                });
+            }
+            return tree
+        },
         editHandle(row,index){ //编辑列表
             this.editValue={
                 r_name:row.r_name,
@@ -301,7 +301,7 @@ export default {
         closeModel(){
             this.propModel = false;
         },
-        setMenuHandle(){
+        setMenuHandle(){ //保存修改
             console.log(1)
             var str = this.newtreeData.join(',');
             var data = {
@@ -318,7 +318,7 @@ export default {
                 }
             })
         },
-        getmenusData(data){
+        getmenusData(data){ //在tree形树上点击确定
             console.log(data)
             this.newtreeData = data
         }

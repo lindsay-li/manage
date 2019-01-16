@@ -5,7 +5,7 @@ import vue from 'vue';
 
 // 创建axios实例
 const service = axios.create({
-//   baseURL: process.env.BASE_API, // api的base_url
+  baseURL: process.env.BASE_API, // api的base_url
   timeout: 10000                  // 请求超时时间
 });
 
@@ -48,7 +48,8 @@ export function postData(api,method,obj){
         }).then(res=>{  //axios返回的是一个promise对象
             resolve(res.data)  //resolve在promise执行器内部 
         }).catch(err=>{
-            console.log(err,'异常')
+            console.log(err,'异常');
+            reject(err);
         })
     })
         

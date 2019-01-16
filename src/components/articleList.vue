@@ -2,26 +2,24 @@
 <div class="wrappar">
     <div class="nav">
         <div class="option">
-            <span>排序方式：</span>
-            <Select v-model="selectData" style="width:160px">
-                <Option v-for="item in orderList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <span>分类查看：</span>
+            <Select  style="width:160px" @on-change="selecserch">
+                <Option v-for="item in selectserch" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
         </div>
-        <div class="option">
-            <span>發佈時間：</span>
-            <input type="text" name="time">
-        </div>
-        <div class="serch">查詢</div>
     </div>
     <div class="new_article">
-        <Table border  :columns="columns1" :data="data1"  class="post"></Table>
+        <Table border  :columns="columns1" :data="data1"  class="post" :loading="loading">
+            <template slot="action" slot-scope="{row,index}">
+                <Button size="small" type="error" @click="remove(row.id)">删除</Button>
+            </template>
+        </Table>
     </div>
     <div class="page">
-        <div class="btns">
-            <div class="b_delete">批量刪除</div>
+        <div class="_btn">
             <div class="send" @click="openModel">新增文章</div>
         </div>
-        <Page :total="100" show-total show-elevator prev-text='上一頁' next-text='下一頁'/>
+        <Page :total="total" show-total show-elevator prev-text='上一頁' next-text='下一頁' @on-change="pageChange"/>
     </div>
     <div class="prop_model" v-show="propUpModel">
         <div class="a_box">
@@ -29,11 +27,7 @@
                 <div class="a_title">新增文章</div>
                 <div class="a_tit aflex">
                     <span>文章標題：</span>
-                    <Input v-model="a_tit"  style="width: 486px" />
-                </div>
-                <div class="keyword aflex">
-                    <span>設定關鍵字：</span>
-                    <Input v-model="keyword"  style="width: 486px" />
+                    <Input v-model="inputValue.title"  style="width: 486px" />
                 </div>
                 <div class="a_pic aflex">
                     <span>內文圖片：</span>
@@ -74,7 +68,7 @@
                     </div>
                 </div>
                 <div class="a_video aflex">
-                    <span>置頂圖片、影片：</span>
+                    <span>置頂音频、视频：</span>
                     <Upload
                         multiple
                         action="//jsonplaceholder.typicode.com/posts/">
@@ -83,17 +77,17 @@
                 </div>
                 <div class="classify aflex">
                     <span>文章分類：</span>
-                    <Select v-model="s_modelData" style="width:486px">
-                        <Option v-for="item in orderList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    <Select v-model="inputValue.tag" style="width:486px">
+                        <Option v-for="item in tagList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                 </div>
                 <div class="a_article aflex">
-                    <span>內文：</span>
-                    <Input v-model="a_article" type="textarea" :rows='5' style="width: 486px" />
+                    <span>內容：</span>
+                    <Input v-model="inputValue.content" type="textarea" :rows='5' style="width: 486px" />
                 </div>
-                <div class="a_btns">
-                    <div class="a_cancel" @click="closeModels">取消</div>
-                    <div class="a_sure">確定</div>
+                <div class="btns">
+                    <div class="cancel" @click="closeModels">取消</div>
+                    <div class="sure" @click="suerBtn">確定</div>
                 </div>
             </div>
         </div>
@@ -112,117 +106,207 @@ export default {
                 },
                 {
                     title: '發佈時間',
-                    key: 'order1',
-                    minWidth:95
-                },
-                {
-                    title: '文章標題',
-                    key: 'order2',
+                    key: 'time',
                     minWidth:160
                 },
                 {
-                    title: '設定關鍵字',
-                    key: 'order3',
-                    minWidth:120
+                    title: '文章標題',
+                    key: 'title',
+                    ellipsis:true,
+                    tooltip:true,
+                    minWidth:160
                 },
                 {
-                    title: '內文',
-                    key: 'order4',
-                    minWidth:130
+                    title: '创建人id',
+                    key: 'user_id',
+                    minWidth:110
+                },
+                {
+                    title: '文章內容',
+                    key: 'content',
+                    ellipsis:true,
+                    tooltip:true,
+                    minWidth:160
                 },
                 {
                     title: '插入內文圖片',
-                    key: 'order5',
-                    minWidth:124
+                    key: 'photos',
+                    minWidth:160
                 },
                 {
-                    title:'置頂圖片、影片',
-                    key:'order6',
+                    title:'置頂音乐',
+                    key:'audio',
+                    minWidth:160
+                },
+                {
+                    title:'置頂影片',
+                    key:'video',
                     minWidth:160
                 },
                 {
                     title:'文章分類',
-                    key:'order7',
-                    minWidth:120
-                }
-            ],
-            data1: [
+                    key:'tag',
+                    minWidth:110
+                },
                 {
-                    order1:'2016',
-                    order2:'葡萄酒文化',
-                    order3:'葡萄酒、文化',
-                    order4:'葡萄酒故鄉...',
-                    order5:'dsdsd.png',
-                    order6:'12315.jpg',
-                    order7:'熱門'
+                    title:'操作',
+                    slot:'action',
+                    width:90
                 }
             ],
+            data1: [],
+            total:0,
+            current:0,
+            tags:['生活','酒庄','活动','深度','大师','特色','名人'],
+            tagList:[
+                {value:1,label:'生活'},
+                {value:2,label:'酒庄'},
+                {value:3,label:'活动'},
+                {value:4,label:'深度'},
+                {value:5,label:'大师'},
+                {value:6,label:'特色'},
+                {value:7,label:'名人'},
+            ],
+            inputValue:{
+                user_id:'',
+                tag:'',
+                title:'',
+                content:''
+            },
+            userId:'',
             selectData:'',
             s_modelData:"",
             a_tit:'',
             keyword:'',
             a_article:'',
             propUpModel:false,
-            orderList:[
-                {
-                    value:'最新',
-                    label:'最新'
-                },
-                {
-                    value:'熱門',
-                    label:'熱門'
-                },
-                {
-                    value:'音影',
-                    label:'音影'
-                },
+            contrastData:[],
+            selectserch:[
                 {
                     value:'生活',
                     label:'生活'
                 },
                 {
-                    value:'專欄',
-                    label:'專欄'
+                    value:'酒庄',
+                    label:'酒庄'
                 },
                 {
-                    value:'酒莊',
-                    label:'酒莊'
-                },
-                {
-                    value:'活動',
-                    label:'活動'
+                    value:'活动',
+                    label:'活动'
                 },
                 {
                     value:'深度',
                     label:'深度'
                 },
                 {
-                    value:'大師',
-                    label:'大師'
-                }
-
-            ],
-            defaultList: [
-                {
-                    'name': 'a42bdcc1178e62b4694c830f028db5c0',
-                    'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
+                    value:'大师',
+                    label:'大师'
                 },
                 {
-                    'name': 'bc7521e033abdd1e92222d733590f104',
-                    'url': 'https://o5wwk8baw.qnssl.com/bc7521e033abdd1e92222d733590f104/avatar'
+                    value:'特色',
+                    label:'特色'
+                },
+                {
+                    value:'名人',
+                    label:'名人'
                 }
             ],
+            defaultList: [],
             imgName: '',
             visible: false,
             uploadList: []
         }
     },
+    created(){
+        this.getList(0);
+        var userinfo = JSON.parse(sessionStorage.getItem('user_info'));
+        this.userId = userinfo.dbUser.id;
+    },
     methods:{
+        getList(start){
+            var data = {
+                start:start,
+                rows:10
+            }
+            this.loading = true;
+            this.$http('articleService','findDatas',data)
+            .then(res=>{
+                console.log(res)
+                this.loading = false;
+                if(res.rows){
+                    var arr = res.rows;
+                    for(let i =0;i<arr.length;i++){
+                        console.log(1)
+                        arr[i].time = this.$changeTime(arr[i].time);
+                        arr[i].tag = this.tags[arr[i].tag-1];
+                    }
+                    this.total = res.total;
+                    this.data1 = arr;
+                    this.contrastData = arr;
+                }
+            })
+            .catch(err=>{
+                this.loading = false;
+            })
+        },
+        pageChange(index){ //切换页数
+            this.current = index==1?0:(index-1)*10;
+            this.getList(this.current);
+        },
         openModel(){
             this.propUpModel = true;
         },
         closeModels(){
             this.propUpModel = false;
+        },
+        remove (id) {
+            this.$Modal.confirm({
+                title: '警告',
+                content: '<h3>此操作将删除数据，是否继续？</h3>',
+                onOk: () => {
+                    var data = {id:id};
+                    this.$http('articleService','deleteData',data)
+                    .then(res=>{
+                        if(res.result == 'success'){
+                            this.$Message.success('删除成功');
+                            this.getList(this.current);
+                        }else{
+                            this.$Message.error('操作失败');
+                        }
+                    })
+                },
+                onCancel: () => {
+                }
+            })
+        },
+        suerBtn(){
+            if(!this.inputValue.title){
+                this.$Message.error('请填写文章标题')
+                return
+            }
+            var value = this.inputValue;
+            value.user_id = this.userId;
+            var data = value;
+            this.$http('articleService','addOrUpdate',data)
+            .then(res=>{
+                this.propUpModel = false;
+                if(res.result == 'success'){
+                    this.$Message.success('新增成功');
+                    this.getList(this.current);
+                }else{
+                    this.$Message.error(res.message);
+                }
+            })
+        },
+        selecserch(val){
+            var data = this.contrastData;
+            var arr = [];
+            for(let i =0;i<data.length;i++){
+                if(val == data[i].tag){
+                    arr.push(data[i]);
+                }
+            }
+            this.data1 = arr;
         },
         handleView (name) {
             this.imgName = name;
@@ -267,7 +351,6 @@ export default {
 .page{
     justify-content: space-between;
 }
-
 .a_box{
     position: absolute;
     top: 50%;
@@ -293,23 +376,22 @@ export default {
     justify-content: space-between;
     margin-bottom: 10px;
 }
-.a_btns{
+.btns{
     display: flex;
     justify-content: center;
     margin-top: 20px;
 }
-.a_cancel,
-.a_sure{
+.cancel,
+.sure{
     width: 140px;
     height: 40px;
     line-height: 40px;
     text-align: center;
     font-size: 16px;
-    border: 1px solid #666;
     border-radius: 6px;
     cursor:pointer;
 }
-.a_sure{
+.sure{
     margin-left: 20px;
 }
 .demo-upload-list{
