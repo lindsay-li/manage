@@ -33,40 +33,39 @@
         </div>
         <div class="contant">
             <div class="menu">
-                <Menu :theme="theme2" :open-names="['關鍵數據']" accordion active-name='即時數據' @on-open-change="selectChange" @on-select="selectItem">
+                <Menu :theme="theme2" :open-names="['商品管理']" accordion active-name='商品查詢' @on-open-change="selectChange" @on-select="selectItem">
                     <div class="menu-nav">
                         <Icon type="ios-grid" color="#ffffff"/>
                         <span >導航功能</span>
                     </div>
-                    
-                    <Submenu name="關鍵數據">
+                    <!-- <Submenu name="關鍵數據">
                         <template slot="title">
                             <Icon type="ios-paper" />
                             關鍵數據
                         </template>
                         <MenuItem name="即時數據" to='/cruxdata'> 即時數據</MenuItem>
                         <MenuItem name="近期數據" to="/recentdata">近期數據</MenuItem>
-                    </Submenu>
+                    </Submenu> -->
                     <Submenu name="用戶管理">
                         <template slot="title">
                             <Icon type="ios-people" />
                             用戶管理
                         </template>
-                        <MenuItem name="用戶信息" to="/user">用戶信息</MenuItem>
+                        <!-- <MenuItem name="用戶信息" to="/user">用戶信息</MenuItem> -->
                         <MenuItem name="折扣券" to="/coupon">折扣券</MenuItem>
-                        <MenuItem name="錢包明細" to="/wallet">錢包明細</MenuItem>
-                        <MenuItem name="評酒貼文列表" to="/posts">評酒貼文列表</MenuItem>
+                        <!-- <MenuItem name="錢包明細" to="/wallet">錢包明細</MenuItem> -->
+                        <!-- <MenuItem name="評酒貼文列表" to="/posts">評酒貼文列表</MenuItem> -->
                         <MenuItem name="用戶購物車" to="/car">用戶購物車</MenuItem>
                         <MenuItem name="用戶收藏" to='/collect'>用戶收藏</MenuItem>
                     </Submenu>
-                    <Submenu name="酒窖">
+                    <!-- <Submenu name="酒窖">
                         <template slot="title">
                             <Icon type="md-beer" />
                             酒窖
                         </template>
                         <MenuItem name="酒類管理" to="/wine">酒類管理</MenuItem>
                         <MenuItem name="用戶酒窖" to="/userwine">用戶酒窖</MenuItem>
-                    </Submenu>
+                    </Submenu> -->
                     <Submenu name="商品管理">
                         <template slot="title">
                             <Icon type="ios-stats" />
@@ -82,15 +81,15 @@
                         <MenuItem name="门店管理" to="/shopName">门店管理</MenuItem>
                         <!-- <MenuItem name="庫存管理" to="/stockManage">庫存管理</MenuItem> -->
                     </Submenu>
-                    <Submenu name="訂單查詢">
+                    <!-- <Submenu name="訂單查詢">
                         <template slot="title">
                             <Icon type="ios-list" />
                             訂單查詢
                         </template>
                         <MenuItem name="訂單查詢" to="/orderQuery">訂單查詢</MenuItem>
                         <MenuItem name="取消訂單" to="/ordersCancel">取消訂單</MenuItem>
-                    </Submenu>
-                    <Submenu name="宅配出貨">
+                    </Submenu> -->
+                    <!-- <Submenu name="宅配出貨">
                         <template slot="title">
                             <Icon type="md-bicycle" />
                             宅配出貨
@@ -130,16 +129,16 @@
                         </template>
                         <MenuItem name="退貨處理" to="/returnHandle">退貨處理</MenuItem>
                         <MenuItem name="退貨查詢" to="returnQuery">退貨查詢</MenuItem>
-                    </Submenu>
+                    </Submenu> -->
                     <Submenu name="文章日誌">
                         <template slot="title">
                             <Icon type="logo-buffer" />
                             文章日誌
                         </template>
-                        <MenuItem name="新增文章" to="/newArticle">新增文章</MenuItem>
+                        <!-- <MenuItem name="新增文章" to="/newArticle">新增文章</MenuItem> -->
                         <MenuItem name="文章列表" to="/articleList">文章列表</MenuItem>
                     </Submenu>
-                    <Submenu name="公告&廣告管理">
+                    <!-- <Submenu name="公告&廣告管理">
                         <template slot="title">
                             <Icon type="md-megaphone" />
                             公告&廣告管理
@@ -148,8 +147,8 @@
                         <MenuItem name="審核公告" to="/auditingNotice">審核公告</MenuItem>
                         <MenuItem name="編輯廣告" to="/advertisementEdit">編輯廣告</MenuItem>
                         <MenuItem name="審核廣告" to="/advertisementAuditing">審核廣告</MenuItem>
-                    </Submenu>
-                    <Submenu name="運營管理">
+                    </Submenu> -->
+                    <!-- <Submenu name="運營管理">
                         <template slot="title">
                             <Icon type="md-globe" />
                             運營管理
@@ -166,7 +165,7 @@
                         <MenuItem name="多日活動" to="/continuousActivity">多日活動</MenuItem>
                         <MenuItem name="簽到活動" to="/signInActive">簽到活動</MenuItem>
                         <MenuItem name="成就" to="/achievement">成就</MenuItem>
-                    </Submenu>
+                    </Submenu> -->
                     <Submenu name="後臺賬號管理">
                         <template slot="title">
                             <Icon type="ios-key" />
@@ -175,9 +174,9 @@
                         <MenuItem name="用户管理" to="/accountManage">用户管理</MenuItem>
                         <MenuItem name="1角色权限管理" to="/accountPower">角色权限管理</MenuItem>
                         <MenuItem name="菜单管理" to="/menuManage">菜单管理</MenuItem>
-                        <MenuItem name="後臺賬號操作紀錄" to="/accountHandRecord">後臺賬號操作紀錄</MenuItem>
+                        <!-- <MenuItem name="後臺賬號操作紀錄" to="/accountHandRecord">後臺賬號操作紀錄</MenuItem> -->
                     </Submenu>
-                    <Submenu name="數據分析">
+                    <!-- <Submenu name="數據分析">
                         <template slot="title">
                             <Icon type="md-analytics" />
                             數據分析
@@ -188,8 +187,8 @@
                         <MenuItem name="社群數據" to="/communityData">社群數據</MenuItem>
                         <MenuItem name="商品數據" to="/goodsData">商品數據</MenuItem>
                         <MenuItem name="文章數據" to="/articleData">文章數據</MenuItem>
-                    </Submenu>
-                    <Submenu name="客服相關">
+                    </Submenu> -->
+                    <!-- <Submenu name="客服相關">
                         <template slot="title">
                             <Icon type="ios-call" />
                             客服相關
@@ -206,7 +205,7 @@
                         <MenuItem name="賬務核對" to="/financeCheck">賬務核對</MenuItem>
                         <MenuItem name="出貨資料核對" to="/shipmentCheck">出貨資料核對</MenuItem>
                         <MenuItem name="發票另寄" to="/invoice">發票另寄</MenuItem>
-                    </Submenu>
+                    </Submenu> -->
                 </Menu>
             </div>
             <div class="tables">

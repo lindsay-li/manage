@@ -42,7 +42,8 @@ export function postData(api,method,obj){
     console.log(datas)
     return new Promise((resolve,reject)=>{
         service({
-            url: '/api/op/in',
+            // url: '/api/op/in',
+            url: '/op/in',
             method: 'post',
             data:qs.stringify(datas)
         }).then(res=>{  //axios返回的是一个promise对象

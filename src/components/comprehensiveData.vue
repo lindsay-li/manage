@@ -3,15 +3,15 @@
     <div class="nav">
         <div class="option">
             <span>會員編號：</span>
-            <input type="text" >
+            <Input type="text" style="width:160px"/>
         </div>
         <div class="option">
             <span>開始時間：</span>
-            <input type="text" name="phone">
+            <Input type="text" name="phone" style="width:160px"/>
         </div>
         <div class="option">
             <span>結束時間：</span>
-            <input type="text" name="time">
+            <Input type="text" name="time" style="width:160px"/>
         </div>
         <div class="serch">查詢</div>
     </div>
@@ -30,127 +30,76 @@ export default {
             columns1: [
                 {
                     title: '時間',
-                    key: 'order1',
-                    minWidth:145
+                    key: 'ldate',
+                    minWidth:170
                 },
                 {
                     title: '會員編號',
-                    key: 'order2',
+                    key: 'userno',
                     minWidth:120
                 },
                 {
                     title: '累計會員數',
-                    key: 'order3',
-                    minWidth:110
-                },
-                {
-                    title: '登入會員',
-                    key: 'order4',
-                    minWidth:110
+                    key: 'usernum',
+                    minWidth:120
                 },
                 {
                     title: '登入次數',
-                    key: 'order5',
+                    key: 'ltimes',
                     minWidth:110
                 },
                 {
-                    title: '平均APP在線人數',
-                    key: 'order6',
-                    minWidth:150
-                },
-                {
                     title: '平均在線時間',
-                    key: 'order7',
+                    key: 'duration',
                     minWidth:130
                 },
                 {
                     title: '品酒發文人數',
-                    key: 'order8',
+                    key: 'evanum',
                     minWidth:130
                 },
                 {
                     title: '迴文人數',
-                    key: 'order9',
+                    key: 'evarenum',
                     minWidth:110
                 },
                 {
                     title: '訂單數',
-                    key: 'order10',
+                    key: 'ordernum',
                     minWidth:105
                 },
                 {
                     title: '訂單金額',
-                    key: 'order11',
+                    key: 'totalmoney',
                     minWidth:105
                 },
                 {
                     title: '平均訂單金額',
-                    key: 'order12',
+                    key: 'avgmoney',
                     minWidth:130
                 },
                 {
                     title: '待出貨訂單',
-                    key: 'order13',
+                    key: 'dchnum',
                     minWidth:120
                 },
                 {
                     title: '待出貨訂單金額',
-                    key: 'order14',
+                    key: 'dchmoney',
                     minWidth:140
                 },
                 {
                     title: '平均出貨天數',
-                    key: 'order15',
+                    key: 'avgchdays',
                     minWidth:140
                 },
                 {
                     title: '負擔運費總額(含退貨)',
-                    key: 'order16',
+                    key: 'yunfee',
                     minWidth:180
                 },
             ],
-            data1: [
-                {
-                    order1: '200元',
-                    order2: '2019.05.18-2019.05.21',
-                    order3: '20%',
-                    order4:'所有',
-                    order5:'充值送券',
-                    order6:'充值10000送200'
-                },
-                {
-                    order1: '200元',
-                    order2: '2019.05.18-2019.05.21',
-                    order3: '20%',
-                    order4:'所有',
-                    order5:'充值送券',
-                    order6:'充值10000送200'
-                },
-                {
-                    order1: '200元',
-                    order2: '2019.05.18-2019.05.21',
-                    order3: '20%',
-                    order4:'所有',
-                    order5:'充值送券',
-                    order6:'充值10000送200'
-                },
-                {
-                    order1: '200元',
-                    order2: '2019.05.18-2019.05.21',
-                    order3: '20%',
-                    order4:'所有',
-                    order5:'充值送券',
-                    order6:'充值10000送200'
-                },
-                {
-                    order1: '200元',
-                    order2: '2019.05.18-2019.05.21',
-                    order3: '20%',
-                    order4:'所有',
-                    order5:'充值送券',
-                    order6:'充值10000送200'
-                },
-            ],
+            data1: [],
             selectData:'門市'
         }
     },
