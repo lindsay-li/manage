@@ -16,7 +16,7 @@
         <div class="serch" @click='search'>查詢</div>
     </div>
     <div class="query">
-        <Table border  :columns="columns1" :data="data1"  @on-selection-change="selectChange1" height="550" class="post" :loading="loading">
+        <Table border  :columns="columns1" :data="data1"   height="550" class="post" :loading="loading">
             <template slot-scope="{ row, index }" slot="product_descr">
                 <Tooltip placement="bottom" max-width="370" theme="light">
                     <span v-if="row.product_descr">{{stringHanle(row.product_descr,3)}}</span>
@@ -120,14 +120,18 @@
                             <Input type="text" v-model="inputValue.specification" />
                         </td>
                         <td>
-                            <div v-if="product_photo ==null">
+                            <!-- <div v-if="product_photo ==null">
                                 <Upload
-                                    :before-upload="handleUpload"
-                                    action="//jsonplaceholder.typicode.com/posts/">
+                                    multiple
+                                    type="drag"
+                                    @on-success="fileSuccess"
+                                    @on-error="fileError"
+                                    action="http://182.61.53.134:8071/op/file/upload">
                                     <Button icon="ios-cloud-upload-outline">选择文件</Button>
                                 </Upload>
                             </div>
-                            <span v-if="product_photo">{{product_photo}}</span>
+                            <span v-if="product_photo">{{product_photo}}</span> -->
+                            <input type="file" @change="fileChanged" ref="file" multiple="multiple" accept="image/jpg,image/jpeg,image/png,image/bmp">
                         </td>
                         <td colspan="4">
                             <Input type="textarea" v-model="inputValue.product_descr" />
@@ -435,20 +439,11 @@ export default {
                 }
             })
         },
-        selectChange1(selection){
-            console.log(selection)
-        },
-        change(){
-            console.log(111)
-        },
         openCreatePage(){ //打開創建商品彈窗
             this.createPage = true;
         },
         closeProp(){
             this.createPage = false;
-        },
-        updateData(data){
-
         },
         stringHanle(str,type){
             if(!str){return;}
@@ -511,8 +506,9 @@ export default {
             return str;
         },
         handleUpload(file){
+            
             this.inputValue.product_photo = file.name;
-                return false;
+            return false;
         },
         sureBtn(){  //新增商品信息
             console.log(this.inputValue)
@@ -578,7 +574,51 @@ export default {
                 }
                 
             })
-        }
+        },
+        fileSuccess(response,file,fileList){//文件上传成功
+            console.log(response)
+            console.log(file)
+            console.log(fileList)
+        },
+        fileError(error,file,fileList){//上传失败
+            console.log(error)
+            console.log(file)
+            console.log(fileList)
+        },
+        fileChanged(e){
+            const list = this.$refs.file.files
+            for (let i = 0; i < list.length; i++) {
+                if (!this.isContain(list[i])) {
+                    const item = {
+                        name: list[i].name,
+                        size: list[i].size,
+                        file: list[i],
+                        input1:'',
+                        input2:''
+                    }
+                    this.html5Reader(list[i], item);
+                    // if(!this.repalce){
+                        this.files.push(item);
+                    // }else{
+                    //     this.files.splice(this.curentIndex,1,item);
+                    //     this.repalce = false;
+                    // }
+                    
+                }
+            }
+            this.$refs.file.value = '';
+        },
+        // 将图片文件转成BASE64格式
+      html5Reader(file, item){
+          const reader = new FileReader()
+          reader.onload = (e) => {
+              this.$set(item, 'src', e.target.result)
+          }
+          reader.readAsDataURL(file)
+      },
+      isContain(file) {
+        return this.files.find((item) => item.name === file.name && item.size === file.size)
+      },
     }  
 }
 </script>

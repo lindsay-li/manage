@@ -230,7 +230,7 @@ export default {
                         console.log(1)
                         arr[i].discount_end = this.$changeTime(arr[i].discount_end);
                         arr[i].discount_start = this.$changeTime(arr[i].discount_start);
-                        arr[i].discount_time = this.$changeTime(arr[i].discount_time);
+                        arr[i].discount_time = arr[i].discount_time?this.$changeTime(arr[i].discount_time):'';
                         arr[i].discount_time_type =arr[i].discount_time_type ?'领卷后一天':this.Calculation(arr[i].discount_start,arr[i].discount_end)
                         arr[i].discount_scope = this.changeArr(arr[i].discount_scope);
                         arr[i].discount_type = arr[i].discount_type ==2?'现金券':'折扣卷';
@@ -256,9 +256,16 @@ export default {
             return newdate;
         },
         changeArr(data){
+
             if(data){
-                var obj = JSON.parse(data);
-                var str = `终端:${obj.terminal.join(',')},国家id:${obj.country.join(',')}，酒庄id:${obj.winery.join(',')}，产品类型id:${obj.product_type.join(',')}`
+                var str ='';
+                try{
+                    var obj = JSON.parse(data);
+                    str = `终端:${obj.terminal.join(',')},国家id:${obj.country.join(',')}，酒庄id:${obj.winery.join(',')}，产品类型id:${obj.product_type.join(',')}`
+                }catch(err){
+                    console.log(err)
+                    str = data;
+                }
                 return str;
             }
         },
@@ -273,6 +280,9 @@ export default {
             var value = this.inputValue;
             value.discount_condition = parseInt(value.discount_condition);
             value.discount_max = parseInt(value.discount_max);
+            value.discount_start = this.$changeTime(value.discount_start);
+            value.discount_end = this.$changeTime(value.discount_end);
+            value.discount_time = this.$changeTime(new Date());
             var data = value;
             this.$http('couponLogService','addOrUpdate',data)
             .then(res=>{

@@ -176,18 +176,18 @@
                         <MenuItem name="菜单管理" to="/menuManage">菜单管理</MenuItem>
                         <!-- <MenuItem name="後臺賬號操作紀錄" to="/accountHandRecord">後臺賬號操作紀錄</MenuItem> -->
                     </Submenu>
-                    <!-- <Submenu name="數據分析">
+                    <Submenu name="數據分析">
                         <template slot="title">
                             <Icon type="md-analytics" />
                             數據分析
                         </template>
                         <MenuItem name="綜合報表" to="/comprehensiveData">綜合報表</MenuItem>
                         <MenuItem name="會員數據" to="/memberData">會員數據</MenuItem>
-                        <MenuItem name="留存數據" to="/retainData">留存數據</MenuItem>
+                        <MenuItem name="葡萄數據" to="/retainData">葡萄數據</MenuItem>
                         <MenuItem name="社群數據" to="/communityData">社群數據</MenuItem>
                         <MenuItem name="商品數據" to="/goodsData">商品數據</MenuItem>
                         <MenuItem name="文章數據" to="/articleData">文章數據</MenuItem>
-                    </Submenu> -->
+                    </Submenu>
                     <!-- <Submenu name="客服相關">
                         <template slot="title">
                             <Icon type="ios-call" />
