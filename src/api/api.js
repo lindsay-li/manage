@@ -32,26 +32,39 @@ service.interceptors.response.use(
     return Promise.reject(error);
   }
 )
-export function postData(api,method,obj){
+export function postData(api,method,obj,type){
     console.log(obj)
-    let datas = {
-        service:api,
-        method:method,
-        data:JSON.stringify(obj)
-    }
-    console.log(datas)
     return new Promise((resolve,reject)=>{
-        service({
-            url: '/api/op/in',
-            // url: '/op/in',
-            method: 'post',
-            data:qs.stringify(datas)
-        }).then(res=>{  //axios返回的是一个promise对象
-            resolve(res.data)  //resolve在promise执行器内部 
-        }).catch(err=>{
-            console.log(err,'异常');
-            reject(err);
-        })
+        if(!type){
+            let datas = {
+                service:api,
+                method:method,
+                data:JSON.stringify(obj)
+            }
+            service({
+                url: '/api/op/in',
+                // url: '/op/in',
+                method: 'post',
+                data:qs.stringify(datas)
+            }).then(res=>{  //axios返回的是一个promise对象
+                resolve(res.data)  //resolve在promise执行器内部 
+            }).catch(err=>{
+                console.log(err,'异常');
+                reject(err);
+            })
+        }else{
+            service({
+                url: '/api/op/file/upload',
+                // url: '/op/in',
+                method: 'post',
+                data:obj
+            }).then(res=>{  //axios返回的是一个promise对象
+                resolve(res.data)  //resolve在promise执行器内部 
+            }).catch(err=>{
+                console.log(err,'异常');
+                reject(err);
+            })
+        }
     })
         
 }

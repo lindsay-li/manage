@@ -120,18 +120,13 @@
                             <Input type="text" v-model="inputValue.specification" />
                         </td>
                         <td>
-                            <!-- <div v-if="product_photo ==null">
-                                <Upload
-                                    multiple
-                                    type="drag"
-                                    @on-success="fileSuccess"
-                                    @on-error="fileError"
-                                    action="http://182.61.53.134:8071/op/file/upload">
-                                    <Button icon="ios-cloud-upload-outline">选择文件</Button>
-                                </Upload>
+                            <div v-if="iSimage">
+                                <input type="file" class="files" @change="fileChanged" ref="file" multiple="multiple" name="file" accept="image/jpg,image/jpeg,image/png,image/bmp">
+                                <Button icon="ios-cloud-upload-outline" @click="addpic">点击上传</Button>
                             </div>
-                            <span v-if="product_photo">{{product_photo}}</span> -->
-                            <input type="file" @change="fileChanged" ref="file" multiple="multiple" accept="image/jpg,image/jpeg,image/png,image/bmp">
+                            <div class="pic" v-else>
+                                <img :src="files[0].src" />
+                            </div>
                         </td>
                         <td colspan="4">
                             <Input type="textarea" v-model="inputValue.product_descr" />
@@ -376,7 +371,6 @@ export default {
                 }
             ],
             wineryList:[],
-            product_photo:null,
             inputValue:{
                 product_descr:"",
                 specification:'',
@@ -391,8 +385,11 @@ export default {
                 year:"",
                 price:'',
                 num:'',
-                product_name:''
-            }
+                product_name:'',
+                product_photo:''
+            },
+            files:[],
+            iSimage:true
         }
     },
     created(){
@@ -575,15 +572,8 @@ export default {
                 
             })
         },
-        fileSuccess(response,file,fileList){//文件上传成功
-            console.log(response)
-            console.log(file)
-            console.log(fileList)
-        },
-        fileError(error,file,fileList){//上传失败
-            console.log(error)
-            console.log(file)
-            console.log(fileList)
+        addpic(){
+            this.$refs.file.click();
         },
         fileChanged(e){
             const list = this.$refs.file.files
@@ -593,18 +583,26 @@ export default {
                         name: list[i].name,
                         size: list[i].size,
                         file: list[i],
-                        input1:'',
-                        input2:''
                     }
                     this.html5Reader(list[i], item);
-                    // if(!this.repalce){
-                        this.files.push(item);
-                    // }else{
-                    //     this.files.splice(this.curentIndex,1,item);
-                    //     this.repalce = false;
-                    // }
-                    
+                    this.files.push(item);
                 }
+            }
+            console.log(this.files)
+            if(list.length > 0) {
+                let form = new FormData();  
+                form.append('file', list[0]) 
+                this.$http('','',form,2)
+                .then(res=>{
+                    console.log(res)
+                    if(res.result=='success'){
+                        this.$Message.success(res.message);
+                        this.iSimage = false;
+                        this.inputValue.product_photo = res.data;
+                    }else{
+                        this.$Message.error(res.message);
+                    }
+                })
             }
             this.$refs.file.value = '';
         },
@@ -704,5 +702,17 @@ td{
     color: #fff;
     background-color: #009688;
     margin-left: 30px;
+}
+input[type="file"] {
+    display: none;
+}
+.pic{
+    display: inline-block;
+    width: 60px;
+    height: auto;
+}
+.pic img{
+    width: 100%;
+    vertical-align: middle;
 }
 </style>
