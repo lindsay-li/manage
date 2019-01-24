@@ -31,20 +31,17 @@
                 </div>
                 <div class="a_pic aflex">
                     <span>內文圖片：</span>
-                    <div style="width:486px">
-                        <div class="demo-upload-list" v-for="item in uploadList">
+                    <div style="width:486px;display:flex;">
+                        <div class="demo-upload-list" v-for="(item,index) in files" :key="index">
                             <template v-if="item.status === 'finished'">
-                                <img :src="item.url">
-                                <div class="demo-upload-list-cover">
+                                <img :src="item.src" />
+                                <!-- <div class="demo-upload-list-cover">
                                     <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
                                     <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-                                </div>
-                            </template>
-                            <template v-else>
-                                <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
+                                </div> -->
                             </template>
                         </div>
-                        <Upload
+                        <!-- <Upload
                             ref="upload"
                             :show-upload-list="false"
                             :default-file-list="defaultList"
@@ -57,14 +54,15 @@
                             multiple
                             type="drag"
                             action="//jsonplaceholder.typicode.com/posts/"
-                            style="display: inline-block;width:58px;">
-                            <div style="width: 58px;height:58px;line-height: 58px;">
+                            style="display: inline-block;width:58px;"> -->
+                            <input type="file" class="files" @change="fileChanged" ref="file" multiple="multiple" name="file" accept="image/jpg,image/jpeg,image/png,image/bmp">
+                            <div style="width: 58px;height:58px;line-height: 58px;text-align:center;border:1px dashed #888" @click="addpic">
                                 <Icon type="ios-camera" size="20"></Icon>
                             </div>
-                        </Upload>
-                        <Modal title="View Image" v-model="visible">
+                        <!-- </Upload> -->
+                        <!-- <Modal title="View Image" v-model="visible">
                             <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
-                        </Modal>
+                        </Modal> -->
                     </div>
                 </div>
                 <div class="a_video aflex">
@@ -214,7 +212,10 @@ export default {
             defaultList: [],
             imgName: '',
             visible: false,
-            uploadList: []
+            uploadList: [],
+            files:[],
+            pics:[],
+            n:0
         }
     },
     created(){
@@ -308,42 +309,52 @@ export default {
             }
             this.data1 = arr;
         },
-        handleView (name) {
-            this.imgName = name;
-            this.visible = true;
+        addpic(){
+            this.$refs.file.click();
         },
-        handleRemove (file) {
-            const fileList = this.$refs.upload.fileList;
-            this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
-        },
-        handleSuccess (res, file) {
-            file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
-            file.name = '7eb99afb9d5f317c912f08b5212fd69a';
-        },
-        handleFormatError (file) {
-            this.$Notice.warning({
-                title: 'The file format is incorrect',
-                desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
-            });
-        },
-        handleMaxSize (file) {
-            this.$Notice.warning({
-                title: 'Exceeding file size limit',
-                desc: 'File  ' + file.name + ' is too large, no more than 2M.'
-            });
-        },
-        handleBeforeUpload () {
-            const check = this.uploadList.length < 5;
-            if (!check) {
-                this.$Notice.warning({
-                    title: 'Up to five pictures can be uploaded.'
-                });
+        fileChanged(e){
+            const list = this.$refs.file.files
+            for (let i = 0; i < list.length; i++) {
+                if (!this.isContain(list[i])) {
+                    const item = {
+                        name: list[i].name,
+                        size: list[i].size,
+                        file: list[i],
+                    }
+                    this.html5Reader(list[i], item);
+                    this.files.push(item);
+                }
             }
-            return check;
-        }
-    },
-    mounted () {
-        this.uploadList = this.$refs.upload.fileList;
+            console.log(this.files)
+            if(list.length > 0) {
+                let form = new FormData();  
+                form.append('file', list[0]) 
+                this.$http('','',form,2)
+                .then(res=>{
+                    console.log(res)
+                    if(res.result=='success'){
+                        this.$Message.success(res.message);
+                        this.files[this.n].status = 'finished';
+                        this.pics.push(res.data);
+                        this.n++;
+                    }else{
+                        this.$Message.error(res.message);
+                    }
+                })
+            }
+            this.$refs.file.value = '';
+        },
+        // 将图片文件转成BASE64格式
+        html5Reader(file, item){
+            const reader = new FileReader()
+            reader.onload = (e) => {
+                this.$set(item, 'src', e.target.result)
+            }
+            reader.readAsDataURL(file)
+        },
+        isContain(file) {
+            return this.files.find((item) => item.name === file.name && item.size === file.size)
+        },
     }
 }
 </script>
@@ -429,5 +440,8 @@ export default {
     font-size: 20px;
     cursor: pointer;
     margin: 0 2px;
+}
+input[type="file"] {
+    display: none;
 }
 </style>

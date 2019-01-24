@@ -35,6 +35,9 @@
         </Table>
     </div>
     <div class="page">
+        <div class="_btn">
+            <div class="send" @click="openModel">新增角色</div>
+        </div>
         <Page :total="total" show-total show-elevator prev-text='上一頁' next-text='下一頁'/>
     </div>
     <div class="prop_model" v-show="propModel">
@@ -51,6 +54,35 @@
             </div>
         </div>
     </div>
+    <div class="prop_model" v-show="propModel1">
+        <div class="_box _bbox">
+            <div class="contant">
+                <div class="tit">新增角色</div>
+                <div class="list _list">
+                    <table style="width:100%;">
+                        <tr>
+                            <td style="text-align:right">角色名:</td>
+                            <td>
+                                <Input v-model="addValue.r_name"  placeholder="點擊輸入" style="width: 160px;margin-left:20px" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right;">状态:</td>
+                            <td>
+                                <Select v-model="addValue.status" style="width: 160px;margin-left:20px">
+                                    <Option v-for="(item,index) in statusList" :value="item.value" :key="index"  >{{ item.label }}</Option>
+                                </Select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="btns">
+                    <div class="cancel" @click='closeModel'>取消</div>
+                    <div class="sure" @click="setJuese">確定</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>   
 </template>
 <script>
@@ -58,7 +90,13 @@ export default {
     data(){
         return{
             inputValue:'',
+            addValue:{
+               r_name:"",
+               status:"",
+               create_user:''
+            },
             propModel:false,
+            propModel1:false,
             total:0,
             editIndex:-1,
             editValue:{
@@ -117,12 +155,17 @@ export default {
             treeData:[],
             newtreeData:[],
             currentId:0,
-            options:[]
+            options:[],
+            userInfo:{}
         }
     },
     created(){
         this.getList();
         this.getMenuList();
+        var user = JSON.parse(sessionStorage.getItem('user_info'));
+        if(user){
+            this.userInfo = user.dbUser;
+        }
     },
     methods:{
         getList(){
@@ -296,37 +339,60 @@ export default {
             })
         },
         openModel(){
-            this.propModel = true;
+            this.propModel1 = true;
         },
         closeModel(){
+            this.propModel1 = false;
             this.propModel = false;
         },
         setMenuHandle(){ //保存修改
-            console.log(1)
-            var str = this.newtreeData.join(',');
+            console.log(this.newtreeData)
+            var str = [];
+            for(let i = 0;i<this.newtreeData.length;i++){
+                if(!this.newtreeData[i].children){
+                    str.push(this.newtreeData[i].id);
+                }
+            }
             var data = {
                 role_id:this.currentId,
-                menulds:str
+                menuIds:str.join(',')
             }
             this.$http('zAdminUserService','addRoleMenu',data)
             .then(res=>{
+                this.propModel = false;
                 if(res.result == 'success'){
                     this.$Message.success('修改成功');
                     this.getList();
                 }else{
-                    this.$Message.error(res.message);
+                    this.$Message.error('操作失败');
                 }
             })
         },
         getmenusData(data){ //在tree形树上点击确定
             console.log(data)
             this.newtreeData = data
+        },
+        setJuese(){
+            var data = this.addValue;
+            data.create_user = this.userInfo.id;
+            this.$http('zAdminRoleService','addOrUpdate',data)
+            .then(res=>{
+                this.propModel1 = false;
+                if(res.result == 'success'){
+                    this.$Message.success('添加成功');
+                    this.getList();
+                }else{
+                    this.$Message.error('操作失败');
+                }
+            })
         }
     }
 }
 </script>
 <style scoped>
-
+.page{
+    justify-content: space-between;
+}
 ._box{
     width: 460px;
     height: 650px;
@@ -336,6 +402,11 @@ export default {
     margin: -325px 0 0 -230px;
     border-radius: 4px;
     background-color: #fff;
+}
+._bbox{
+    width: 400px;
+    height: 350px;
+    margin: -125px 0 0 -200px;
 }
 .contant{
     width: 90%;
@@ -377,5 +448,14 @@ export default {
     height: 450px;
     margin: 0 auto;
     overflow-y: scroll;
+}
+._list{
+    width: 300px;
+    height: 200px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+table td{
+    height: 45px;
 }
 </style>

@@ -60,41 +60,86 @@
                             <Input type="text" v-model="inputValue.product_name" />
                         </td>
                         <td>
-                            <Input type="text" v-model="inputValue.num" />
+                            <!-- <Input type="text" v-model="inputValue.num" /> -->
+                            <InputNumber  :min="0" v-model="inputValue.num"></InputNumber>
                         </td>
                         <td>
-                            <Input type="text" v-model="inputValue.price" />
+                            <!-- <Input type="text" v-model="inputValue.price" /> -->
+                            <InputNumber  :min="0" v-model="inputValue.price"></InputNumber>
                         </td>
                         <td>
                             <Input type="text" v-model="inputValue.year" />
                         </td>
                         <td>
-                            <Input type="text" v-model="inputValue.product_type_value" />
+                            <!-- <Input type="text" v-model="inputValue.product_type" /> -->
+                            <InputNumber  :min="0" v-model="inputValue.product_type"></InputNumber>
                         </td>
                         <td>
-                            <Input type="text" v-model="inputValue.annual_output" />
+                            <!-- <Input type="text" v-model="inputValue.annual_output" /> -->
+                            <InputNumber  :min="0" v-model="inputValue.annual_output"></InputNumber>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>最低温度</td>    
+                        <td>最高温度</td>
+                        <td>品牌特色</td>
+                        <td>商品ID</td>
+                        <td>产区风格</td>
+                        <td>产品风格</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <!-- <Input type="text" v-model="inputValue.temperature_low" /> -->
+                            <InputNumber   v-model="inputValue.temperature_low"></InputNumber>
+                        </td>
+                        <td>
+                            <!-- <Input type="text" v-model="inputValue.temperature_high" /> -->
+                            <InputNumber   v-model="inputValue.temperature_high"></InputNumber>
+                        </td>
+                        <td>
+                            <Input type="text" v-model="inputValue.brand_feature" />
+                        </td>
+                        <td>
+                            <!-- <Input type="text" v-model="inputValue.goods_id" /> -->
+                            <!-- <InputNumber  :min="0" v-model="inputValue.goods_id"></InputNumber> -->
+                        </td>
+                        <td>
+                            <!-- <Input type="text" v-model="inputValue.productAreaList" /> -->
+                            <Select v-model="inputValue.product_area" >
+                                <Option v-for="(item,index) in productAreaList" :value="item.value" :key="index">{{ item.label }}</Option>
+                            </Select>
+                        </td>
+                        <td>
+                            <!-- <Input type="text" v-model="inputValue.product_style" /> -->
+                            <Select v-model="inputValue.product_style" >
+                                <Option v-for="(item,index) in productStyleList" :value="item.value" :key="index">{{ item.label }}</Option>
+                            </Select>
                         </td>
                     </tr>
                     <tr>
                         <td>酒精濃度</td>
-                        <td>折扣类型</td>
-                        <td>折扣值</td>
+                        <td>口感</td>
+                        <td>国家</td>
                         <td>是否進口包装</td>
                         <td>酒莊</td>
                         <td>葡萄品種</td>
                     </tr>
                     <tr>
                         <td>
-                            <Input type="text" v-model="inputValue.concentration" />
+                            <!-- <Input type="text" v-model="inputValue.concentration" /> -->
+                            <InputNumber  :min="0" v-model="inputValue.concentration"></InputNumber>
                         </td>
                         <td>
-                            <!-- <Input type="text" v-model="inputValue.special_type" /> -->
-                            <Select v-model="inputValue.special_type" >
-                                <Option v-for="(item,index) in specialList" :value="item.value" :key="index">{{ item.label }}</Option>
+                            <!-- <Input type="text" v-model="inputValue.texture" /> -->
+                            <!-- <Select v-model="inputValue.texture" >
+                                <Option v-for="(item,index) in textureList" :value="item.value" :key="index">{{ item.label }}</Option>
+                            </Select> -->
+                        </td>
+                        <td>
+                            <!-- <Input type="text" v-model="inputValue.country" /> -->
+                            <Select v-model="inputValue.country" >
+                                <Option v-for="(item,index) in countryList" :value="item.value" :key="index">{{ item.label }}</Option>
                             </Select>
-                        </td>
-                        <td>
-                            <Input type="text" v-model="inputValue.special_num" />
                         </td>
                         <td>
                             <Input type="text" v-model="inputValue.import" />
@@ -106,18 +151,53 @@
                             </Select>
                         </td>
                         <td>
-                            <Input type="text" v-model="inputValue.grape" />
+                            <!-- <Input type="text" v-model="inputValue.grape" /> -->
+                            <Select v-model="inputValue.grape" >
+                                <Option v-for="(item,index) in gropeList" :value="item.value" :key="index">{{ item.label }}</Option>
+                            </Select>
                         </td>
                     </tr>
+                    <!-- <tr>
+                        <td>特价活动名称</td>
+                        <td>特价活动优惠类型</td>
+                        <td>特价活动优惠值</td>
+                        <td>特价活动开始时间</td>
+                        <td>特价活动结束时间</td>
+                        <td>特价活动更新时间</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <Input type="text" v-model="inputValue.special" />
+                        </td>
+                        <td>
+                            <Select v-model="inputValue.special_type" >
+                                <Option v-for="(item,index) in specialList" :value="item.value" :key="index">{{ item.label }}</Option>
+                            </Select>
+                        </td>
+                        <td>
+                            <InputNumber  :min="0" v-model="inputValue.special_num"></InputNumber>
+                        </td>
+                        <td>
+                            <DatePicker type="date" v-model="inputValue.special_start" placeholder="选择时间" ></DatePicker>
+                        </td>
+                        <td>
+                            <DatePicker type="date" v-model="inputValue.special_end" placeholder="选择时间" ></DatePicker>
+                        </td>
+                        <td>
+                            <DatePicker type="date" v-model="inputValue.special_update" placeholder="选择时间" ></DatePicker>
+                        </td>
+                    </tr> -->
                     <tr>
                         <td>规格(ml)</td>
                         <td>商品图片</td>
-                        <td colspan="4">商品描述</td>
+                        <td>状态</td>
+                        <td colspan="3">商品描述</td>
                         
                     </tr>
                     <tr >
                         <td>
-                            <Input type="text" v-model="inputValue.specification" />
+                            <!-- <Input type="text" v-model="inputValue.specification" /> -->
+                            <InputNumber  :min="0" v-model="inputValue.specification"></InputNumber>
                         </td>
                         <td>
                             <div v-if="iSimage">
@@ -128,7 +208,12 @@
                                 <img :src="files[0].src" />
                             </div>
                         </td>
-                        <td colspan="4">
+                        <td>
+                            <Select v-model="inputValue.type" >
+                                <Option v-for="(item,index) in typeList" :value="item.value" :key="index">{{ item.label }}</Option>
+                            </Select>
+                        </td>
+                        <td colspan="3">
                             <Input type="textarea" v-model="inputValue.product_descr" />
                         </td>
                     </tr>
@@ -143,6 +228,7 @@
 </div>    
 </template>
 <script>
+import {times} from '../until/tool.js'
 export default {
     data(){
         return{
@@ -196,8 +282,13 @@ export default {
                     minWidth:100
                 },
                 {
-                    title:'適合溫度',
+                    title:'最低溫度',
                     key:'temperature_low',
+                    minWidth:100
+                },
+                {
+                    title:'最高溫度',
+                    key:'temperature_high',
                     minWidth:100
                 },
                 {
@@ -212,8 +303,8 @@ export default {
                 },
                 {
                     title:'產品风格',
-                    key:'product_style',
-                    minWidth:100
+                    key:'product_style_value',
+                    minWidth:130
                 },
                 {
                     title:'葡萄品種',
@@ -370,31 +461,70 @@ export default {
                     label:'优惠价格'
                 }
             ],
+            typeList:[
+                {value:0,label:'删除'},
+                {value:1,label:'可以售卖'},
+                {value:2,label:'关闭售卖'},
+                {value:3,label:'用户上传'}
+            ],
+            textureList:[
+                {value:0,label:'香氣'}
+            ],
+            countryList:[],
             wineryList:[],
+            productAreaList:[],
+            productStyleList:[],
+            gropeList:[],
             inputValue:{
                 product_descr:"",
-                specification:'',
+                specification:0,
                 grape:0,
                 winery:'',
                 import:'',
-                special_num:'',
-                special_type:'',
-                concentration:'',
-                annual_output:'',
-                product_type_value:'',
+                concentration:0,
+                annual_output:0,
+                product_type:0,
                 year:"",
-                price:'',
-                num:'',
+                price:0,
+                num:0,
                 product_name:'',
-                product_photo:''
+                product_photo:'',
+                product_style:'',
+                product_area:'',
+                // goods_id:'',
+                // special:'',
+                // special_type:'',
+                // special_num:0,
+                // special_start:'',
+                // special_end:'',
+                // special_update:"",
+                temperature_high:0,
+                temperature_low:0,
+                brand_feature:'',
+                country:'',
+                // texture:'',
+                user_id:'',
+                type:''
             },
             files:[],
-            iSimage:true
+            iSimage:true,
+            userInfo:{
+                id:1
+            }
         }
     },
     created(){
         this.getList(0);
         this.getWinery();
+        this.getCountry();
+        this.productArea();
+        this.getgrope();
+        this.productStyle();
+        var user = JSON.parse(sessionStorage.getItem('user_info'));
+        if(user){
+            this.userInfo = user.dbUser;
+            console.log(this.userInfo)
+        }
     },
     methods:{
         getList(index){
@@ -508,15 +638,42 @@ export default {
             return false;
         },
         sureBtn(){  //新增商品信息
-            console.log(this.inputValue)
-            var data = this.inputValue;
+            // var data = this.inputValue;
+            var data = {
+                annual_output:1000,
+                brand_feature:"的水果蛋糕",
+                concentration:40,
+                country:1,
+                grape:3,
+                import:"是",
+                num:50,
+                price:1999,
+                product_area:3,
+                product_descr:"xcdf",
+                product_name:"dfsfs",
+                product_photo:"/file/20190124/1548315569620_微信图片_20181121095827.jpg",
+                product_style:1,
+                product_type:1,
+                specification:500,
+                temperature_high:20,
+                temperature_low:6,
+                type:1,
+                user_id:0,
+                winery:1,
+                year:"199-02-10"
+            }
+            // data.user_id = this.userInfo.id
+            // data.special_end = this.$changeTime(data.special_end);
+            // data.special_start = this.$changeTime(data.special_start);
+            // data.special_update = this.$changeTime(data.special_update);
+            console.log(data)
             // return;
             this.$http('alcoholService','addOrUpdate',data)
             .then(res=>{
+                this.createPage = false
                 if(res.result == 'success'){
                     this.$Message.success('新增成功');
                     this.getList(this.current);
-                    this.createPage = false
                 }else{
                     this.$Message.error(res.message);
                 }
@@ -617,6 +774,87 @@ export default {
       isContain(file) {
         return this.files.find((item) => item.name === file.name && item.size === file.size)
       },
+      getCountry(){
+        var data = {
+            start:0,
+            rows:300
+        }
+        this.$http('alcoholCountryService','findDatas',data)
+        .then(res=>{
+            console.log(res)
+            if(res.rows.length>0){
+                var arr = res.rows
+                var arr1 = [];
+                for(let i =0;i<arr.length;i++){
+                    var obj = {};
+                    obj.value = arr[i].id;
+                    obj.label = arr[i].country;
+                    arr1.push(obj);
+                }
+                this.countryList = arr1;
+            }
+        })
+      },
+      productArea(){
+        var data = {
+            start:0,
+            rows:1000
+        }
+        this.$http('alcoholAreaStyleService','findDatas',data)
+        .then(res=>{
+            if(res.rows.length>0){
+                var arr = res.rows
+                var arr1 = [];
+                for(let i =0;i<arr.length;i++){
+                    var obj = {};
+                    obj.value = arr[i].id;
+                    obj.label = arr[i].product_area;
+                    arr1.push(obj);
+                }
+            this.productAreaList = arr1;
+            }
+        })
+      },
+      productStyle(){
+        var data = {
+            start:0,
+            rows:1000
+        }
+        this.$http('alcoholStyleService','findDatas',data)
+        .then(res=>{
+            if(res.rows.length>0){
+                var arr = res.rows
+                var arr1 = [];
+                for(let i =0;i<arr.length;i++){
+                    var obj = {};
+                    obj.value = arr[i].id;
+                    obj.label = arr[i].product_style;
+                    arr1.push(obj);
+                }
+            this.productStyleList = arr1;
+            }
+        })
+      },
+      getgrope(){
+        var data = {
+            start:0,
+            rows:1000
+        }
+        this.$http('alcoholGrapeService','findDatas',data)
+        .then(res=>{
+            if(res.rows){
+                var arr = res.rows
+                var arr1 = [];
+                for(let i =0;i<arr.length;i++){
+                    var obj = {};
+                    obj.value = arr[i].id;
+                    obj.label = arr[i].grape_type;
+                    arr1.push(obj);
+                }
+            this.gropeList = arr1;
+            }
+        })
+      }
     }  
 }
 </script>
@@ -639,9 +877,9 @@ export default {
     position: absolute;
     top: 50%;
     left: 50%;
-    margin: -270px 0 0 -450px;
-    width: 900px;
-    height: 540px;
+    margin: -340px 0 0 -460px;
+    width: 920px;
+    height: 680px;
     background-color:#fff;
     border-radius: 4px; 
 }
