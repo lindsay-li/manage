@@ -214,4 +214,9 @@ td .ivu-table-cell,
 .ivu-checkbox-wrapper{
   font-size: 16px;
 }
+.ivu-tooltip-inner-with-width{
+  max-width: 900px !important;
+  max-height:300px !important;
+  overflow-y: scroll !important;
+}
 </style>

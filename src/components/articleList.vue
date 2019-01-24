@@ -11,7 +11,10 @@
     <div class="new_article">
         <Table border  :columns="columns1" :data="data1"  class="post" :loading="loading">
             <template slot="action" slot-scope="{row,index}">
-                <Button size="small" type="error" @click="remove(row.id)">删除</Button>
+                <div class="actions">
+                    <Button size="small" type="primary" @click="edit(row)">编辑</Button>
+                    <Button size="small" type="error" @click="remove(row.id)">删除</Button>
+                </div>
             </template>
         </Table>
     </div>
@@ -65,14 +68,14 @@
                         </Modal> -->
                     </div>
                 </div>
-                <div class="a_video aflex">
+                <!-- <div class="a_video aflex">
                     <span>置頂音频、视频：</span>
                     <Upload
                         multiple
                         action="//jsonplaceholder.typicode.com/posts/">
                         <Button style="width:486px">上傳</Button>
                     </Upload>
-                </div>
+                </div> -->
                 <div class="classify aflex">
                     <span>文章分類：</span>
                     <Select v-model="inputValue.tag" style="width:486px">
@@ -129,18 +132,20 @@ export default {
                 {
                     title: '插入內文圖片',
                     key: 'photos',
+                    ellipsis:true,
+                    tooltip:true,
                     minWidth:160
                 },
-                {
-                    title:'置頂音乐',
-                    key:'audio',
-                    minWidth:160
-                },
-                {
-                    title:'置頂影片',
-                    key:'video',
-                    minWidth:160
-                },
+                // {
+                //     title:'置頂音乐',
+                //     key:'audio',
+                //     minWidth:160
+                // },
+                // {
+                //     title:'置頂影片',
+                //     key:'video',
+                //     minWidth:160
+                // },
                 {
                     title:'文章分類',
                     key:'tag',
@@ -149,7 +154,7 @@ export default {
                 {
                     title:'操作',
                     slot:'action',
-                    width:90
+                    width:140
                 }
             ],
             data1: [],
@@ -215,13 +220,17 @@ export default {
             uploadList: [],
             files:[],
             pics:[],
-            n:0
+            n:0,
+            id:''
         }
     },
     created(){
         this.getList(0);
         var userinfo = JSON.parse(sessionStorage.getItem('user_info'));
-        this.userId = userinfo.dbUser.id;
+        if(userinfo){
+            this.userId = userinfo.dbUser.id;
+        }
+        
     },
     methods:{
         getList(start){
@@ -240,6 +249,7 @@ export default {
                         console.log(1)
                         arr[i].time = this.$changeTime(arr[i].time);
                         arr[i].tag = this.tags[arr[i].tag-1];
+                        // arr[i].photos = arr[i].photos.join(',')
                     }
                     this.total = res.total;
                     this.data1 = arr;
@@ -285,19 +295,43 @@ export default {
                 this.$Message.error('请填写文章标题')
                 return
             }
-            var value = this.inputValue;
-            value.user_id = this.userId;
-            var data = value;
+            var data = this.inputValue;
+            data.user_id = this.userId;
+            data.photos = this.pics.join(',');
+            var info = '新增成功';
+            if(this.id){
+                data.id = this.id;
+                info = '修改成功';
+            }
             this.$http('articleService','addOrUpdate',data)
             .then(res=>{
                 this.propUpModel = false;
+                this.id = "";
                 if(res.result == 'success'){
-                    this.$Message.success('新增成功');
+                    this.$Message.success(info);
                     this.getList(this.current);
                 }else{
                     this.$Message.error(res.message);
                 }
             })
+        },
+        edit(row){
+            console.log(row)
+            this.propUpModel = true;
+            this.inputValue = {
+                user_id:'',
+                tag:"",
+                title:row.title,
+                content:row.content
+            }
+            for(let i =0;i<this.tagList.length;i++){
+                if(this.tagList[i].label == row.tag){
+                    this.inputValue.tag = this.tagList[i].value;
+                    break;
+                }
+            }
+            this.pics = JSON.parse(row.photos);
+            this.id = row.id;
         },
         selecserch(val){
             var data = this.contrastData;
