@@ -69,6 +69,7 @@ const country = () => import('@/views/country');
 const grape = () => import('@/views/grape');
 const winery = () => import('@/views/winery');
 const shopName = () => import('@/views/shopName');
+const goodsRecord = () => import('@/views/goodsRecord');
 
 Vue.use(Router)
 
@@ -345,6 +346,10 @@ export default new Router({
         {
           path:'/shopName',
           component:shopName
+        },
+        {
+          path:'/goodsRecord',
+          component:goodsRecord
         }
       ]
     },

@@ -55,7 +55,7 @@ export function postData(api,method,obj,type){
         }else{
             service({
                 url: '/api/op/file/upload',
-                // url: '/op/in',
+                // url: '/op/file/upload',
                 method: 'post',
                 data:obj
             }).then(res=>{  //axios返回的是一个promise对象

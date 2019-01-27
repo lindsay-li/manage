@@ -38,25 +38,26 @@
                         <Icon type="ios-grid" color="#ffffff"/>
                         <span >導航功能</span>
                     </div>
-                    <!-- <Submenu name="關鍵數據">
+                    <Submenu name="關鍵數據">
                         <template slot="title">
                             <Icon type="ios-paper" />
                             關鍵數據
                         </template>
                         <MenuItem name="即時數據" to='/cruxdata'> 即時數據</MenuItem>
-                        <MenuItem name="近期數據" to="/recentdata">近期數據</MenuItem>
-                    </Submenu> -->
+                        <!-- <MenuItem name="近期數據" to="/recentdata">近期數據</MenuItem> -->
+                    </Submenu>
                     <Submenu name="用戶管理">
                         <template slot="title">
                             <Icon type="ios-people" />
                             用戶管理
                         </template>
-                        <!-- <MenuItem name="用戶信息" to="/user">用戶信息</MenuItem> -->
+                        <MenuItem name="用戶信息" to="/user">用戶信息</MenuItem>
                         <MenuItem name="折扣券" to="/coupon">折扣券</MenuItem>
                         <!-- <MenuItem name="錢包明細" to="/wallet">錢包明細</MenuItem> -->
                         <!-- <MenuItem name="評酒貼文列表" to="/posts">評酒貼文列表</MenuItem> -->
                         <MenuItem name="用戶購物車" to="/car">用戶購物車</MenuItem>
                         <MenuItem name="用戶收藏" to='/collect'>用戶收藏</MenuItem>
+                        <MenuItem name="商品浏览记录" to='/goodsRecord'>商品浏览记录</MenuItem>
                     </Submenu>
                     <!-- <Submenu name="酒窖">
                         <template slot="title">
