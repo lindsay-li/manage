@@ -21,8 +21,11 @@
                 <Tooltip placement="bottom" max-width="370" theme="light">
                     <span v-if="row.product_descr">{{stringHanle(row.product_descr,3)}}</span>
                     <div slot="content">
-                        <h4>{{stringHanle(row.product_descr,1)}}</h4>
-                        <p>{{stringHanle(row.product_descr,2)}}</p>
+                        <div v-if="row.product_descr&&row.product_descr.indexOf('h4')>=0">
+                            <h4>{{stringHanle(row.product_descr,1)}}</h4>
+                            <p>{{stringHanle(row.product_descr,2)}}</p>
+                        </div>
+                        <div v-else>{{row.product_descr}}</div>
                     </div>
                 </Tooltip>
             </template>
@@ -34,6 +37,9 @@
             </template>
             <template slot="texture" slot-scope="{ row, index }">
                 <div v-if="row.texture">{{texture(row.texture)}}</div>
+            </template>
+            <template slot="special_update" slot-scope="{ row, index }">
+                <div v-if="row.special_update">{{$changeTime(row.special_update)}}</div>
             </template>
         </Table>
     </div>
@@ -68,7 +74,12 @@
                             <InputNumber  :min="0" v-model="inputValue.price"></InputNumber>
                         </td>
                         <td>
-                            <Input type="text" v-model="inputValue.year" />
+                            <!-- <Input type="text" v-model="inputValue.year" /> -->
+                            <InputNumber  :min="0" 
+                                          v-model="inputValue.year"
+                                          :formatter="value => `${value}年`"
+                                          :parser="value => value.replace('年', '')"
+                            ></InputNumber>
                         </td>
                         <td>
                             <!-- <Input type="text" v-model="inputValue.product_type" /> -->
@@ -157,7 +168,7 @@
                             </Select>
                         </td>
                     </tr>
-                    <!-- <tr>
+                    <tr>
                         <td>特价活动名称</td>
                         <td>特价活动优惠类型</td>
                         <td>特价活动优惠值</td>
@@ -186,7 +197,7 @@
                         <td>
                             <DatePicker type="date" v-model="inputValue.special_update" placeholder="选择时间" ></DatePicker>
                         </td>
-                    </tr> -->
+                    </tr>
                     <tr>
                         <td>规格(ml)</td>
                         <td>商品图片</td>
@@ -401,7 +412,7 @@ export default {
                 },
                 {
                     title:'活动更新时间',
-                    key:'special_update',
+                    slot:'special_update',
                     minWidth:170
                 },
                 {
@@ -484,25 +495,25 @@ export default {
                 concentration:0,
                 annual_output:0,
                 product_type:0,
-                year:"",
+                year:0,
                 price:0,
                 num:0,
                 product_name:'',
                 product_photo:'',
                 product_style:'',
                 product_area:'',
-                // goods_id:'',
-                // special:'',
-                // special_type:'',
-                // special_num:0,
-                // special_start:'',
-                // special_end:'',
-                // special_update:"",
+                goods_id:'',
+                special:'',
+                special_type:'',
+                special_num:0,
+                special_start:'',
+                special_end:'',
+                special_update:"",
                 temperature_high:0,
                 temperature_low:0,
                 brand_feature:'',
                 country:'',
-                // texture:'',
+                texture:'',
                 user_id:'',
                 type:''
             },
@@ -638,34 +649,45 @@ export default {
             return false;
         },
         sureBtn(){  //新增商品信息
-            // var data = this.inputValue;
-            var data = {
-                annual_output:1000,
-                brand_feature:"的水果蛋糕",
-                concentration:40,
-                country:1,
-                grape:3,
-                import:"是",
-                num:50,
-                price:1999,
-                product_area:3,
-                product_descr:"xcdf",
-                product_name:"dfsfs",
-                product_photo:"/file/20190124/1548315569620_微信图片_20181121095827.jpg",
-                product_style:1,
-                product_type:1,
-                specification:500,
-                temperature_high:20,
-                temperature_low:6,
-                type:1,
-                user_id:0,
-                winery:1,
-                year:"199-02-10"
-            }
-            // data.user_id = this.userInfo.id
-            // data.special_end = this.$changeTime(data.special_end);
-            // data.special_start = this.$changeTime(data.special_start);
-            // data.special_update = this.$changeTime(data.special_update);
+            var data = this.inputValue;
+            // var data = {
+            //     annual_output:1000,
+            //     brand_feature:"水果蛋糕",
+            //     concentration:40,
+            //     country:1,
+            //     grape:3,
+            //     import:"是",
+            //     num:50,
+            //     price:1999,
+            //     product_area:3,
+            //     product_descr:"这是一组测试数据啊",
+            //     product_name:"82年拉菲",
+            //     product_photo:"/file/20190124/1548315569620_微信图片_20181121095827.jpg",
+            //     product_style:1,
+            //     product_type:1,
+            //     specification:500,
+            //     temperature_high:20,
+            //     temperature_low:6,
+            //     type:1,
+            //     user_id:0,
+            //     winery:1,
+            //     year:1982,
+            //     texture:3,
+            //     special:'春节特卖',
+            //     special_type:1,
+            //     special_num:90,
+            //     special_start:'2019-01-29 00:00:00',
+            //     special_end:'2019-01-30 00:00:00',
+            //     special_update:"2019-01-29 00:00:00",
+            //     goods_id:"dddd",
+            //     special_id:2,
+            //     time:this.$changeTime(new Date())
+            // }
+            data.user_id = this.userInfo.id
+            data.special_end = this.$changeTime(data.special_end);
+            data.special_start = this.$changeTime(data.special_start);
+            data.special_update = this.$changeTime(data.special_update);
+            data.time = this.$changeTime(new Date());
             console.log(data)
             // return;
             this.$http('alcoholService','addOrUpdate',data)
@@ -689,8 +711,10 @@ export default {
             }
             var arr = Object.keys(data).length;
             if(arr<=0){
-                this.$Message.warning('请输入查询参数');
-                return;
+                // this.$Message.warning('请输入查询参数');
+                // return;
+                data.start = 0;
+                data.rows = 10;
             }
             this.loading = true;
             this.$http('alcoholService','findDatas',data)
