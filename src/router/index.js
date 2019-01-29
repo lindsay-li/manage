@@ -61,7 +61,6 @@ const userImpeach = () => import('@/components/userImpeach');
 const financeCheck = () => import('@/components/financeCheck');
 const shipmentCheck = () => import('@/components/shipmentCheck');
 const invoice = () => import('@/components/invoice');
-const canvas = () => import('@/pages/canvas');
 const menumanage = () => import('@/views/menuManage');
 const branchInventory = () => import('@/views/branchInventory');
 const productArea = () => import('@/views/productArea');
@@ -70,6 +69,7 @@ const grape = () => import('@/views/grape');
 const winery = () => import('@/views/winery');
 const shopName = () => import('@/views/shopName');
 const goodsRecord = () => import('@/views/goodsRecord');
+const echarts = ()=> import('@/pages/echarts');
 
 Vue.use(Router)
 
@@ -81,7 +81,11 @@ export default new Router({
       children:[
         {
           path:'/',
-          redirect:'/cruxdata'
+          redirect:'/echarts'
+        },
+        {
+          path:'/echarts',
+          component:echarts
         },
         {
           path:'/cruxdata',
@@ -361,10 +365,6 @@ export default new Router({
     {
       path:'/',
       redirect:'/index'
-    },
-    {
-      path:'/canvas',
-      component:canvas
     }
   ]
 })

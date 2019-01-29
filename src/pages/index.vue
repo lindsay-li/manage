@@ -9,7 +9,7 @@
                 <span>歡迎你！</span>
             </div>
             <div class="operation">
-                <Dropdown trigger="click" style="margin-left: 20px" :transfer="true">
+                <!-- <Dropdown trigger="click" style="margin-left: 20px" :transfer="true">
                     <a href="javascript:void(0)">
                         菜單管理
                         <Icon type="ios-arrow-down" color="#fff"></Icon>
@@ -18,7 +18,7 @@
                         <DropdownItem>修改密碼</DropdownItem>
                         <DropdownItem>更換主題</DropdownItem>
                     </DropdownMenu>
-                </Dropdown>
+                </Dropdown> -->
                 <Dropdown trigger="click" style="margin-left: 20px" :transfer="true" @on-click="outlogin">
                     <a href="javascript:void(0)">
                         退出系統
@@ -279,76 +279,33 @@ export default {
     }
     .navs{
         width: 100%;
-        height: 80px;
+        height: 56px;
         position: relative;
-        /* background-color: #08A2BA; */
+        /* background-color: #143F6D; */
         background-color:#009688;
         overflow: hidden;
     }
-    /* .nav::before,
-    .nav::after{
-        content: "";
-        position: absolute;
-        left: 50%;
-        min-width: 300vw;
-        min-height: 300vw;
-        background-color: #fff;
-        animation-name: rotate;
-        animation-iteration-count: infinite;
-        animation-timing-function: linear;
-    }
-    .nav::before{
-        bottom: 15vh;
-        border-radius: 45%;
-        animation-duration: 10s;   
-    }
-    .nav::after{
-        bottom: 12vh;
-        opacity: .5;
-        border-radius: 47%;
-        animation-duration: 10s;
-    } */
-    @-webkit-keyframes rotate {
-        0% {
-            transform: translate(-50%, 0) rotateZ(0deg);
-        }
-        50% {
-            transform: translate(-50%, -2%) rotateZ(180deg);
-        }
-        100% {
-            transform: translate(-50%, 0%) rotateZ(360deg);
-        }
-    }
-    @keyframes rotate {
-        0% {
-            transform: translate(-50%, 0) rotateZ(0deg);
-        }
-        50% {
-            transform: translate(-50%, -2%) rotateZ(180deg);
-        }
-        100% {
-            transform: translate(-50%, 0%) rotateZ(360deg);
-        }
-    }
+    
     .logo{
-        font-size: 30px;
+        font-size: 28px;
         color: #fff;
         text-shadow:  0 8px 9px #4583b3;
-        height: 80px;
-        line-height: 80px;
+        height: 56px;
+        line-height: 56px;
         width: auto;
         padding-left: 30px;
     }
     .user{
         position: absolute;
-        top: 10px;
-        right: 20px;
+        top: 20px;
+        right: 120px;
         font-weight: bold;
         color: #fff;
     }
     .operation{
         position: absolute;
-        bottom: 10px;
+        /* bottom: 10px; */
+        top: 20px;
         right: 20px;
         color: #17233d;
         

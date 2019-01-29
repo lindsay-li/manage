@@ -1,13 +1,20 @@
 <template>
-<div class="wrapper">
+<div class="wrapper" style="background-color: #141a48;margin: 0px;overflow: hidden;">
+    <div id="canvascontainer" ref='can'></div>
     <div class="content">
         <div class="title">巴克斯運營管理平臺</div>
         <div class="register">
             <div class="box">
-                <Icon type="ios-contact" size='36'/><input type="text" placeholder="請輸入登錄名" v-model="account">    
+                <div class="icon">
+                    <Icon type="ios-contact" size='24'/>
+                </div>
+                <input type="text" placeholder="請輸入登錄名" v-model="account">    
             </div>   
             <div class="box">
-                <Icon type="ios-lock" size='36'/><input type="password" placeholder="請輸入密碼" v-model="pwd">    
+                <div  class="icon">
+                    <Icon type="ios-lock" size='24'/>
+                </div>
+                <input type="password" placeholder="請輸入密碼" v-model="pwd">    
             </div>
             <div class="box box_code">
                 <div class="code">
@@ -21,7 +28,7 @@
             <!-- <div class="logoin">
                 <span @click="login">登錄</span>
             </div> -->
-            <div class="btns">
+            <div class="btns llogin">
                 <Button type="primary" :loading="loading" @click="toLogin" style="width:400px;margin:0 auto">
                     <span v-if="!loading">登錄</span>
                     <span v-else>登錄中</span>
@@ -47,6 +54,57 @@ export default {
    },
     created(){
         this.getCode();    
+    },
+    mounted () {
+        container = document.createElement( 'div' );
+        this.$refs.can.appendChild( container );  
+
+        camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+        camera.position.z = 1000;
+
+        scene = new THREE.Scene();
+
+        particles = new Array();
+
+        var PI2 = Math.PI * 2;
+        var material = new THREE.ParticleCanvasMaterial( {
+
+            color: 0x0078de,
+            program: function ( context ) {
+
+                context.beginPath();
+                context.arc( 0, 0, 1, 0, PI2, true );
+                context.fill();
+
+            }
+
+        } );
+
+        var i = 0;
+
+        for ( var ix = 0; ix < AMOUNTX; ix ++ ) {
+
+            for ( var iy = 0; iy < AMOUNTY; iy ++ ) {
+
+            particle = particles[ i ++ ] = new THREE.Particle( material );
+            particle.position.x = ix * SEPARATION - ( ( AMOUNTX * SEPARATION ) / 2 );
+            particle.position.z = iy * SEPARATION - ( ( AMOUNTY * SEPARATION ) / 2 );
+            scene.add( particle );
+
+            }
+
+        }
+
+        renderer = new THREE.CanvasRenderer();
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        container.appendChild( renderer.domElement );
+
+        document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+        //
+
+        window.addEventListener( 'resize', onWindowResize, false );
+
+        animate();
     },
     methods:{
         toLogin(){
@@ -137,29 +195,136 @@ export default {
         }    
     }
 }
+var SEPARATION = 100, AMOUNTX = 50, AMOUNTY = 50;
+
+var container;
+var camera, scene, renderer;
+
+var particles, particle, count = 0;
+
+var mouseX = 0, mouseY = 0;
+
+var windowHalfX = window.innerWidth / 2;
+var windowHalfY = window.innerHeight / 2;
+
+
+// animate();
+
+function init() {
+
+  
+
+}
+
+function onWindowResize() {
+
+  windowHalfX = window.innerWidth / 2;
+  windowHalfY = window.innerHeight / 2;
+
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize( window.innerWidth, window.innerHeight );
+
+}
+
+//
+
+function onDocumentMouseMove( event ) {
+
+  mouseX = event.clientX - windowHalfX;
+  mouseY = event.clientY - windowHalfY;
+
+}
+
+function onDocumentTouchStart( event ) {
+
+  if ( event.touches.length === 1 ) {
+
+    event.preventDefault();
+
+    mouseX = event.touches[ 0 ].pageX - windowHalfX;
+    mouseY = event.touches[ 0 ].pageY - windowHalfY;
+
+  }
+
+}
+
+function onDocumentTouchMove( event ) {
+
+  if ( event.touches.length === 1 ) {
+
+    event.preventDefault();
+
+    mouseX = event.touches[ 0 ].pageX - windowHalfX;
+    mouseY = event.touches[ 0 ].pageY - windowHalfY;
+
+  }
+
+}
+
+//
+
+function animate() {
+
+  requestAnimationFrame( animate );
+
+  render();
+
+
+}
+
+function render() {
+
+  camera.position.x += ( mouseX - camera.position.x ) * .05;
+  camera.position.y += ( - mouseY - camera.position.y ) * .05;
+  camera.lookAt( scene.position );
+
+  var i = 0;
+
+  for ( var ix = 0; ix < AMOUNTX; ix ++ ) {
+
+    for ( var iy = 0; iy < AMOUNTY; iy ++ ) {
+
+      particle = particles[ i++ ];
+      particle.position.y = ( Math.sin( ( ix + count ) * 0.3 ) * 50 ) + ( Math.sin( ( iy + count ) * 0.5 ) * 50 );
+      particle.scale.x = particle.scale.y = ( Math.sin( ( ix + count ) * 0.3 ) + 1 ) * 2 + ( Math.sin( ( iy + count ) * 0.5 ) + 1 ) * 2;
+
+    }
+
+  }
+
+  renderer.render( scene, camera );
+
+  count += 0.1;
+}
 </script>
 <style scoped>
 .wrapper{
-    background-color: #009688;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 100%;
     height: 100%;
     font-size: 18px; 
 }
 .content{
     width: 500px;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    margin-left:-250px;
+    margin-top:-235px;
+    background-color: rgba(0,0,0,0.1);
+    box-shadow: 0 0 0 #141a48; 
 }
 .title{
+    background-color: transparent;
     font-size: 36px;
-    color: #fff;
+    color: #eee;
     font-weight: bolder;
     text-align: center;
     padding-bottom: 40px;
 }
 .register{
-    background-color: #fff;
+    background-color: transparent;
     border-radius: 10px;
     overflow: hidden;
 }
@@ -169,7 +334,7 @@ input{
     background-color: transparent;
 }
 input::-webkit-input-placeholder{
-     color: #7C7C7A;
+     color: #ccc;
 }
 .box{
     width: 400px;
@@ -177,14 +342,28 @@ input::-webkit-input-placeholder{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #E8EAEC;
+    /* background-color: #EEEEEE; */
     margin: 40px auto 40px;
-    border-radius: 10px;
+    border-radius: 4px;
+}
+.box  .icon{
+    height: 100%;
+    background-color: #EEEEEE;
+    line-height: 50px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
 }
 .box input{
-    width: 320px;
-    height: 48px;
-    margin-left: 20px;
+    width: 379px;
+    height: 50px;
+    line-height: 50px;
+    /* margin-left: 20px; */
+    border: 1px solid #2D8CF0;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    box-sizing: border-box;
+    border-left: none;
+    color: #fff;
 }
 
 .box_code{
@@ -192,10 +371,10 @@ input::-webkit-input-placeholder{
     justify-content: space-between;
 }
 .code{
-   width: 210px;
+   width: 160px;
    height: 50px;
-   background-color: #E8EAEC;
-   border-radius: 10px; 
+   /* background-color: #E8EAEC; */
+   /* border-radius: 10px;  */
 }
 .code_img{
     width:135px;
@@ -212,6 +391,9 @@ input::-webkit-input-placeholder{
 }
 .code input{
     width: 160px;
+    border:1px solid #2D8CF0;
+    border-radius: 4px;
+    color: #fff;
 }
 img{
     width: 100%;
@@ -225,7 +407,7 @@ img{
     font-size: 20px;
     font-weight: bold;
     color: #fff;
-    background-color: #009688;
+    background-color: #2D8CF0;
     border-radius: 10px;
     margin: 0 auto 30px;
     cursor: pointer;

@@ -85,6 +85,15 @@ box-shadow:0 0 0 60px transparent inset;
   background-color: #009688;
   border-color: #009688;
 }
+.llogin .ivu-btn-primary{
+  background-color: #2D8CF0;
+  border-color: #2D8CF0;
+}
+.llogin .ivu-btn-primary:hover{
+  background-color: #2D8CF0;
+  border-color: #2D8CF0;
+}
+
 .options .ivu-select{
   width: auto;
 }
