@@ -56,9 +56,9 @@ box-shadow:0 0 0 60px transparent inset;
 .ivu-dropdown-menu {
     min-width: 90px;
 }
-.ivu-select-dropdown{
-  /* background-color: #08A2BA; */
-}
+/* .ivu-select-dropdown{
+  background-color: #08A2BA;
+} */
 .ivu-menu-dark.ivu-menu-vertical .ivu-menu-item, .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu-title {
     color: #fff;
     /* font-size: 16px; */
