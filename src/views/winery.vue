@@ -3,7 +3,7 @@
     <div class="goods">
         <Table border  :columns="columns1" :data="data1"  class="post">
             <template slot="action" slot-scope="{row,index}">
-                <Button size="small" type="error" @click="remove(row.id)">删除</Button>
+                <Button size="small" type="error" @click="remove(row.id)">刪除</Button>
             </template>
         </Table>
     </div>
@@ -20,13 +20,13 @@
                 <div class="list">
                     <table style="width:100%;">
                         <tr>
-                            <td style="text-align:right">酒庄名称:</td>
+                            <td style="text-align:right">酒莊名稱:</td>
                             <td>
                                 <Input v-model="inputValue.winery"  placeholder="點擊輸入" style="width: 160px;" />
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">酒庄等级:</td>
+                            <td style="text-align:right">酒莊等級:</td>
                             <td>
                                 <Input v-model="inputValue.grade"  placeholder="點擊輸入" style="width: 160px" />
                             </td>
@@ -53,17 +53,17 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '酒庄名称',
+                    title: '酒莊名稱',
                     key: 'winery',
                     minWidth:180
                 },
                 {
-                    title: '酒庄等级',
+                    title: '酒莊等級',
                     key: 'grade',
                     minWidth:160
                 },
                 {
-                    title: '创建时间',
+                    title: '創建時間',
                     key: 'time',
                     minWidth:180
                 },
@@ -113,16 +113,16 @@ export default {
         remove (id) {
             this.$Modal.confirm({
                 title: '警告',
-                content: '<h3>此操作将删除数据，是否继续？</h3>',
+                content: '<h3>此操作將刪除數據，是否繼續？</h3>',
                 onOk: () => {
                      var data = {id:id};
                     this.$http('alcoholWineryService','deleteData',data)
                     .then(res=>{
                         if(res.result == 'success'){
-                            this.$Message.success('删除成功');
+                            this.$Message.success('刪除成功');
                             this.getList(this.current);
                         }else{
-                            this.$Message.error('操作失败');
+                            this.$Message.error('操作失敗');
                         }
                     })
                 },
@@ -132,7 +132,7 @@ export default {
         },
         newAdd(){
             if(!this.inputValue.grade || !this.inputValue.winery){
-                this.$Message.warning('请输入信息');
+                this.$Message.warning('請輸入信息');
                 return;
             }
             var data = {
@@ -150,7 +150,7 @@ export default {
                 }
             })
         },
-        pageChange(index){ //切换页数
+        pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*10;
             this.getList(this.current);
         },

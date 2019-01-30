@@ -48,7 +48,7 @@ export default {
            pwd:'',
            code:'',
            code_svg:'',
-           captchaId:'', //验证码ID
+           captchaId:'', //驗證碼ID
            loading:false
        }
    },
@@ -111,28 +111,28 @@ export default {
             if(!this.account){
                 this.$Modal.warning({
                     title: '警告',
-                    content: '请输入账户名！'
+                    content: '請輸入賬戶名！'
                 });
                 return;
             }
             if(!this.pwd){
                 this.$Modal.warning({
                     title: '警告',
-                    content: '请输入密码！'
+                    content: '請輸入密碼！'
                 });
                 return;
             }
             if(!this.code){
                 this.$Modal.warning({
                     title: '警告',
-                    content: '请输入验证码！'
+                    content: '請輸入驗證碼！'
                 });
                 return;
             }
             if(!this.validateCode(this.code)){
                 this.$Modal.warning({
                     title: '警告',
-                    content: '验证码错误！'
+                    content: '驗證碼錯誤！'
                 });
                 this.getCode();
                 return;
@@ -149,8 +149,8 @@ export default {
                 console.log(res);
                 if(res.result=='success'){
                     sessionStorage.setItem('user_info',JSON.stringify(res.data));
-                    this.$Message.success('登录成功');
-                    this.$router.push({path:'/cruxdata'});
+                    this.$Message.success('登錄成功');
+                    this.$router.push({path:'/'});
                 }else{
                     this.$Modal.error({
                         content: res.message
@@ -158,7 +158,7 @@ export default {
                 }
             })
         },
-        getCode(){//获取验证码
+        getCode(){//獲取驗證碼
             // this.$http.post('/api',{api:'user',method:'getCaptcha'})
             // .then((res)=>{
             //     console.log(res);
@@ -172,10 +172,10 @@ export default {
             //     }
             // })
             var code = '';
-            var codeLength = 6; //验证码的长度
+            var codeLength = 6; //驗證碼的長度
             var codeChars = new Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
             'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
-            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'); //所有候选组成验证码的字符，当然也可以用中文的
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'); //所有候選組成驗證碼的字符，當然也可以用中文的
             for (var i = 0; i < codeLength; i++) 
             {
                 var charNum = Math.floor(Math.random() * 52);

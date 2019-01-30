@@ -239,6 +239,64 @@ export default {
         this.getTime();
         var userInfo = JSON.parse(sessionStorage.getItem('user_info'));
         this.user = userInfo.dbUser;
+        var data = [
+            {
+                icon:'ios-people',
+                name:'userMnage',
+                meta:{icon:'ios-people',title:'用户管理'},
+                children:[
+                    {icon:'',name:'user',meta:{icon:'',title:'用户信息'}},
+                    {icon:'',name:'coupon',meta:{icon:'',title:'折扣券'}},
+                    {icon:'',name:'car',meta:{icon:'',title:'用戶購物車'}},
+                    {icon:'',name:'collect',meta:{icon:'',title:'用戶收藏'}},
+                    {icon:'',name:'goodsRecord',meta:{icon:'',title:'商品浏览记录'}},
+                ]
+            },
+            {
+                icon:'ios-stats',
+                name:'goodsMnage',
+                meta:{icon:'ios-stats',title:'商品管理'},
+                children:[
+                    {icon:'',name:'goodsQuery',meta:{icon:'',title:'商品查詢'}},
+                    {icon:'',name:'createGoods',meta:{icon:'',title:'商品风格'}},
+                    {icon:'',name:'branchInventory',meta:{icon:'',title:'分店库存'}},
+                    {icon:'',name:'productArea',meta:{icon:'',title:'产区风格'}},
+                    {icon:'',name:'country',meta:{icon:'',title:'国家管理'}},
+                    {icon:'',name:'grape',meta:{icon:'',title:'葡萄种类'}},
+                    {icon:'',name:'winery',meta:{icon:'',title:'酒庄管理'}},
+                    {icon:'',name:'shopName',meta:{icon:'',title:'门店管理'}},
+                ]
+            },
+            {
+                icon:'logo-buffer',
+                name:'article',
+                meta:{icon:'logo-buffer',title:'文章日誌'},
+                children:[{icon:'',name:'articleList',meta:{icon:'',title:'文章列表'}}]
+            },
+            {
+                icon:'ios-key',
+                name:'manage',
+                meta:{icon:'ios-key',title:'後臺賬號管理'},
+                children:[
+                    {icon:'',name:'accountManage',meta:{icon:'',title:'用户管理'}},
+                    {icon:'',name:'accountPower',meta:{icon:'',title:'角色权限管理'}},
+                    {icon:'',name:'menuManage',meta:{icon:'',title:'菜单管理'}}
+                ]
+            },
+            {
+                icon:'md-analytics',
+                name:'datas',
+                meta:{icon:'md-analytics',title:'數據分析'},
+                children:[
+                    {icon:'',name:'comprehensiveData',meta:{icon:'',title:'綜合報表'}},
+                    {icon:'',name:'memberData',meta:{icon:'',title:'會員數據'}},
+                    {icon:'',name:'retainData',meta:{icon:'',title:'葡萄數據'}},
+                    {icon:'',name:'communityData',meta:{icon:'',title:'社群數據'}},
+                    {icon:'',name:'goodsData',meta:{icon:'',title:'商品數據'}},
+                    {icon:'',name:'articleData',meta:{icon:'',title:'文章數據'}},
+                ]
+            },
+        ]
     },
     watch:{
         submenu(val){

@@ -8,12 +8,15 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import TreeTable from 'tree-table-vue'
-Vue.use(iView)
-Vue.use(TreeTable)
+import i18n from '@/locale'
 import {postData} from './api/api'
 import { changeTime } from './until/tool';
 // Vue.use(iView,{locale});
-
+Vue.use(iView, {
+  i18n: (key, value) => i18n.t(key, value)
+})
+// Vue.use(iView)
+Vue.use(TreeTable)
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 var Mock = require('mockjs');
 var users={
@@ -70,6 +73,7 @@ router.afterEach((to,from,next) => {
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  i18n,
   router,
   components: { App },
   template: '<App/>'

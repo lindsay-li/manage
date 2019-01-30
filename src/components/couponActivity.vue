@@ -2,7 +2,7 @@
 <div class="wrappar">
     <div class="title">設置活動</div>
     <Tabs value="name1">
-        <TabPane label="正在进行" name="name1">
+        <TabPane label="正在進行" name="name1">
             <div class="activity">
                 <Table border  :columns="columns1" :data="data1"  class="post"></Table>
             </div>
@@ -11,7 +11,7 @@
                 <Page :total="100" show-total show-elevator prev-text='上一頁' next-text='下一頁'/>
             </div>
         </TabPane>
-        <TabPane label="已经结束" name="name2">
+        <TabPane label="已經結束" name="name2">
             <div class="activity">
                 <Table border  :columns="columns1" :data="data1"  class="post"></Table>
             </div>
@@ -27,7 +27,7 @@
                 <div class="list"style="width:100%;">
                     <table style="width:100%;">
                         <tr>
-                            <td style="text-align:right">折扣券金额:</td>
+                            <td style="text-align:right">折扣券金額:</td>
                             <td>
                                 <Select v-model="select_model" style="width:300px">
                                     <Option v-for="item in zhekList" :value="item.value" :key="item.value">{{ item.label }}</Option>
@@ -35,43 +35,43 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">使用时间:</td>
+                            <td style="text-align:right">使用時間:</td>
                             <td>
                                 <DatePicker type="daterange" placement="bottom-end" placeholder="選擇日期" style="width: 300px"></DatePicker>
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">使用门槛:</td>
+                            <td style="text-align:right">使用門檻:</td>
                             <td>
                                 <Input v-model="a_types"  placeholder="點擊輸入" style="width: 300px" />
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">抵扣%数:</td>
+                            <td style="text-align:right">抵扣%數:</td>
                             <td>
                                 <Input v-model="a_types"  placeholder="點擊輸入" style="width: 300px" />
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">可用范围:</td>
+                            <td style="text-align:right">可用範圍:</td>
                             <td>
                                 <Input v-model="a_types"  placeholder="點擊輸入" style="width: 300px" />
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">活动名称:</td>
+                            <td style="text-align:right">活動名稱:</td>
                             <td>
                                 <Input v-model="a_types"  placeholder="點擊輸入" style="width: 300px" />
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">活动说明:</td>
+                            <td style="text-align:right">活動說明:</td>
                             <td>
                                 <Input v-model="a_types"  placeholder="點擊輸入" style="width: 300px" />
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">注意事项:</td>
+                            <td style="text-align:right">注意事項:</td>
                             <td>
                                 <Input v-model="a_types"  placeholder="點擊輸入" style="width: 300px" />
                             </td>
@@ -93,17 +93,17 @@ export default {
         return{
             columns1: [
                 {
-                    title: '面额',
+                    title: '面額',
                     key: 'order1',
                     minWidth:105
                 },
                 {
-                    title: '时间',
+                    title: '時間',
                     key: 'order2',
                     minWidth:165
                 },
                 {
-                    title: '折扣%数',
+                    title: '折扣%數',
                     key: 'order3',
                     minWidth:105
                 },
@@ -113,17 +113,17 @@ export default {
                     minWidth:165
                 },
                 {
-                    title: '活动名称',
+                    title: '活動名稱',
                     key: 'order5',
                     minWidth:165
                 },
                 {
-                    title: '活动说明',
+                    title: '活動說明',
                     key: 'order6',
                     minWidth:165
                 },
                 {
-                    title:'编辑',
+                    title:'編輯',
                     key:'order7',
                     minWidth:105,
                     render:(h,params)=>{

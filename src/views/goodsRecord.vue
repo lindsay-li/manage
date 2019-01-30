@@ -20,24 +20,24 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '时间',
+                    title: '時間',
                     key: 'bro_time',
                     minWidth:150
                 },
                 {
-                    title: '商品名称',
+                    title: '商品名稱',
                     key: 'product_name',
                     ellipsis:true,
                     tooltip:true,
                     minWidth:280
                 },
                 {
-                    title: '开启次数',
+                    title: '開啟次數',
                     key: 'num',
                     minWidth:120
                 },
                 {
-                    title: '用户名',
+                    title: '用戶名',
                     key: 'user_name',
                     minWidth:120
                 }
@@ -70,7 +70,7 @@ export default {
                 }
             })
         },
-        pageChange(index){ //切换页数
+        pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*10;
             this.getList(this.current);
         },

@@ -35,54 +35,54 @@
                     <Button size='small' type="error" @click="editIndex = -1">取消</Button>
                 </div>
                 <div v-else>
-                    <Button size='small' type="primary" @click="editHandle(scope.row,scope.rowIndex)" style="margin-right:5px">编辑</Button>
-                    <Button size='small' type="error" @click="remove(scope.row)">删除</Button>
+                    <Button size='small' type="primary" @click="editHandle(scope.row,scope.rowIndex)" style="margin-right:5px">編輯</Button>
+                    <Button size='small' type="error" @click="remove(scope.row)">刪除</Button>
                 </div>
             </template>
         </TreeTable>
     </div>
     <div class="page">
         <div class="_btn">
-            <div class="send" @click="openModel">新增菜单</div>
+            <div class="send" @click="openModel">新增菜單</div>
         </div>
     </div> 
     <div class="prop_model" v-show="propModel">
         <div class="_box">
             <div class="contant">
-                <div class="tit">添加用户</div>
+                <div class="tit">添加用戶</div>
                 <div class="list"style="width:100%;">
                     <table style="width:100%;">
                         <tr>
-                            <td style="text-align:right">菜单名称:</td>
+                            <td style="text-align:right">菜單名稱:</td>
                             <td>
                                 <Input v-model="menus.name"  placeholder="點擊輸入" style="width: 200px" />
                             </td>
-                            <td style="text-align:right">菜单编码:</td>
+                            <td style="text-align:right">菜單編碼:</td>
                             <td>
                                 <Input v-model="menus.code" placeholder="點擊輸入" style="width: 200px" />
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">是否启用:</td>
+                            <td style="text-align:right">是否啟用:</td>
                             <td>
                                 <Select v-model.sync="menus.status" style="width:200px">
                                     <Option v-for="(item,index) in statusList" :value="item.value" :key="index">{{ item.label }}</Option>
                                 </Select>
                             </td>
-                            <td style="text-align:right">菜单排序:</td>
+                            <td style="text-align:right">菜單排序:</td>
                             <td>
                                 <!-- <Input  placeholder="點擊輸入" style="width: 200px" /> -->
                                 <Input-number :value="0" v-model="menus.order" :max="10" :min="1"  style="width: 200px"></Input-number>
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">菜单地址:</td>
+                            <td style="text-align:right">菜單地址:</td>
                             <td colspan="2">
                                 <Input v-model="menus.url" placeholder="點擊輸入" style="width: 300px" />
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">上级菜单:</td>
+                            <td style="text-align:right">上級菜單:</td>
                             <td colspan="2">
                                 <Treeselect v-model="menus.fid"  :options="options" style="width: 302px;margin-left:8px"/>
                             </td>
@@ -124,29 +124,29 @@ export default {
             },
             options:[{
                 id: '1',
-                label: '后台管理',
+                label: '後臺管理',
                 children: [ {
                     id: '0',
-                    label: '用户管理',
+                    label: '用戶管理',
                 }, {
                     id: '4',
-                    label: '菜单管理',
+                    label: '菜單管理',
                 } ],
                 }, {
                 id: '2',
                 label: '商品管理',
                 }, {
                 id: '3',
-                label: '库存管理',
+                label: '庫存管理',
                 } 
             ],
             statusList:[
                 {
-                    label:'启用',
+                    label:'啟用',
                     value:1,
                 },
                 {
-                    label:'不启用',
+                    label:'不啟用',
                     value:0
                 }
             ],
@@ -159,7 +159,7 @@ export default {
                     minWidth:85
                 },
                 {
-                    title: '菜单名称',
+                    title: '菜單名稱',
                     key: 'm_name',
                     align:'center',
                     headerAlign:'center',
@@ -168,7 +168,7 @@ export default {
                     minWidth:145
                 },
                 {
-                    title: '菜单编码',
+                    title: '菜單編碼',
                     key: 'm_code',
                     align:'center',
                     headerAlign:'center',
@@ -177,14 +177,14 @@ export default {
                     minWidth:105
                 },
                 {
-                    title: '创建时间',
+                    title: '創建時間',
                     key: 'create_time',
                     align:'center',
                     headerAlign:'center',
                     minWidth:140
                 },
                 {
-                    title: '菜单路径',
+                    title: '菜單路徑',
                     key: 'm_url',
                     align:'center',
                     headerAlign:'center',
@@ -193,14 +193,14 @@ export default {
                     minWidth:160
                 },
                 {
-                    title: '创建人',
+                    title: '創建人',
                     key: 'create_user',
                     align:'center',
                     headerAlign:'center',
                     minWidth:105
                 },
                 {
-                    title: '状态',
+                    title: '狀態',
                     key: 'status',
                     align:'center',
                     headerAlign:'center',
@@ -220,31 +220,31 @@ export default {
             ],
             data1:[
                 {
-                    m_name:'后台管理',
+                    m_name:'後臺管理',
                     m_code:'123',
                     create_time:'2018-12-30',
                     m_url:'/componengts/manage',
-                    create_user:'大张伟',
+                    create_user:'大張偉',
                     status:'0',
                     m_order:1,
                     id:1,
                     children:[
                         {
-                            m_name:'用户管理',
+                            m_name:'用戶管理',
                             m_code:'1456',
                             create_time:'2018-12-30',
                             m_url:'/componengts/manage',
-                            create_user:'大张伟',
+                            create_user:'大張偉',
                             status:'0', 
                             pid:1,
                             id:1
                         },
                         {
-                            m_name:'菜单管理',
+                            m_name:'菜單管理',
                             m_code:'ddd',
                             create_time:'2018-12-30',
                             m_url:'/componengts/manage',
-                            create_user:'大张伟',
+                            create_user:'大張偉',
                             status:'0', 
                             pid:1,
                             id:2
@@ -274,7 +274,7 @@ export default {
                     for(let i =0;i<data.length;i++){
                         if(!data[i].pid){
                             data[i].create_time = this.$changeTime(data[i].create_time);
-                            data[i].status = data[i].status?'启用':'未启用';
+                            data[i].status = data[i].status?'啟用':'未啟用';
                             arr1.push(data[i]);
                         }
                     }
@@ -283,7 +283,7 @@ export default {
                         for(let j =0;j<data.length;j++){
                             if(data[j].pid && arr1[k].id == data[j].pid){
                                 data[j].create_time = this.$changeTime(data[j].create_time);
-                                data[j].status = data[j].status?'启用':'未启用';
+                                data[j].status = data[j].status?'啟用':'未啟用';
                                 arr.push(data[j]);
                             }
                         }
@@ -296,7 +296,7 @@ export default {
                 }
             })
         },
-        editHandle(row,index){ //编辑菜单
+        editHandle(row,index){ //編輯菜單
             this.tables = {
                 name:row.m_name,
                 code:row.m_code,
@@ -305,11 +305,11 @@ export default {
             }
             this.editIndex = index;
         },
-        remove(row){ //删除菜单
+        remove(row){ //刪除菜單
             // this.$Modal.confirm({
             //     title: '警告',
             //     content: '<p>The dialog box will be closed after 2 seconds</p>',
-            //     okText:'确定',
+            //     okText:'確定',
             //     cancelText:"取消",
             //     loading:true,
             //     onOk:() => {
@@ -335,7 +335,7 @@ export default {
         closeModel(){
             this.propModel = false;
         },
-        setMenuHandle(){//新建菜单
+        setMenuHandle(){//新建菜單
             console.log(this.menus)
             var da = this.menus;
             var userInfo = JSON.parse(sessionStorage.getItem('user_info'));
@@ -360,7 +360,7 @@ export default {
                 }
             })
         },
-        saveHandle(row,id,pid){ //保存修改数据
+        saveHandle(row,id,pid){ //保存修改數據
             console.log(row,'pid',pid)
             console.log(this.tables)
             var data = {
@@ -379,9 +379,9 @@ export default {
             if(table.url != row.m_url){
                 data.m_url = table.url;
             }
-            var da = row.status=='启用'?1:0;
+            var da = row.status=='啟用'?1:0;
             if(table.status != da){
-                data.status = table.status=='启用'?1:0;
+                data.status = table.status=='啟用'?1:0;
             }
             this.$http('zAdminMenuService','addOrUpdate',data)
             .then(res=>{
@@ -394,7 +394,7 @@ export default {
                 }
             })
         },
-        getTree (tree = []) { //选择框树形结构
+        getTree (tree = []) { //選擇框樹形結構
             let arr = [];
             if (tree.length !== 0) {
             tree.forEach(item => {

@@ -36,7 +36,7 @@ export default {
                     minWidth:160
                 },
                 {
-                    title: '时间',
+                    title: '時間',
                     key: 'time',
                     minWidth:160
                 },
@@ -98,16 +98,16 @@ export default {
         remove (id) {
             this.$Modal.confirm({
                 title: '警告',
-                content: '<h3>此操作将删除数据，是否继续？</h3>',
+                content: '<h3>此操作將刪除數據，是否繼續？</h3>',
                 onOk: () => {
                      var data = {id:id};
                     this.$http('enshrineService','deleteData',data)
                     .then(res=>{
                         if(res.result == 'success'){
-                            this.$Message.success('删除成功');
+                            this.$Message.success('刪除成功');
                             this.getList(this.current);
                         }else{
-                            this.$Message.error('操作失败');
+                            this.$Message.error('操作失敗');
                         }
                     })
                 },
@@ -115,7 +115,7 @@ export default {
                 }
             })
         },
-        pageChange(index){ //切换页数
+        pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*10;
             this.getList(this.current);
         },

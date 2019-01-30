@@ -2,7 +2,7 @@
 <div class="wrappar">
     <div class="nav">
         <div class="option">
-            <span>商品名称：</span>
+            <span>商品名稱：</span>
             <Input type="text" style="width:160px" v-model="searchData.product_name"/>
         </div>
         <div class="option">
@@ -33,7 +33,7 @@
                 <div v-if="row.type">{{types(row.type)}}</div>
             </template>
             <template slot="special_type" slot-scope="{ row, index }">
-                <div v-if="row.special_type">{{row.special_type==2?'优惠价格':'折扣'}}</div>
+                <div v-if="row.special_type">{{row.special_type==2?'優惠價格':'折扣'}}</div>
             </template>
             <template slot="texture" slot-scope="{ row, index }">
                 <div v-if="row.texture">{{texture(row.texture)}}</div>
@@ -54,7 +54,7 @@
             <div class="c_table">
                 <table  >
                     <tr>
-                        <td>商品名称</td>    
+                        <td>商品名稱</td>    
                         <td>數量</td>
                         <td>售價</td>
                         <td>年份</td>
@@ -91,12 +91,12 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>最低温度</td>    
-                        <td>最高温度</td>
+                        <td>最低溫度</td>    
+                        <td>最高溫度</td>
                         <td>品牌特色</td>
                         <td>商品ID</td>
-                        <td>产区风格</td>
-                        <td>产品风格</td>
+                        <td>產區風格</td>
+                        <td>產品風格</td>
                     </tr>
                     <tr>
                         <td>
@@ -130,8 +130,8 @@
                     <tr>
                         <td>酒精濃度</td>
                         <td>口感</td>
-                        <td>国家</td>
-                        <td>是否進口包装</td>
+                        <td>國家</td>
+                        <td>是否進口包裝</td>
                         <td>酒莊</td>
                         <td>葡萄品種</td>
                     </tr>
@@ -169,12 +169,12 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>特价活动名称</td>
-                        <td>特价活动优惠类型</td>
-                        <td>特价活动优惠值</td>
-                        <td>特价活动开始时间</td>
-                        <td>特价活动结束时间</td>
-                        <td>特价活动更新时间</td>
+                        <td>特價活動名稱</td>
+                        <td>特價活動優惠類型</td>
+                        <td>特價活動優惠值</td>
+                        <td>特價活動開始時間</td>
+                        <td>特價活動結束時間</td>
+                        <td>特價活動更新時間</td>
                     </tr>
                     <tr>
                         <td>
@@ -189,19 +189,19 @@
                             <InputNumber  :min="0" v-model="inputValue.special_num"></InputNumber>
                         </td>
                         <td>
-                            <DatePicker type="date" v-model="inputValue.special_start" placeholder="选择时间" ></DatePicker>
+                            <DatePicker type="date" v-model="inputValue.special_start" placeholder="選擇時間" ></DatePicker>
                         </td>
                         <td>
-                            <DatePicker type="date" v-model="inputValue.special_end" placeholder="选择时间" ></DatePicker>
+                            <DatePicker type="date" v-model="inputValue.special_end" placeholder="選擇時間" ></DatePicker>
                         </td>
                         <td>
-                            <DatePicker type="date" v-model="inputValue.special_update" placeholder="选择时间" ></DatePicker>
+                            <DatePicker type="date" v-model="inputValue.special_update" placeholder="選擇時間" ></DatePicker>
                         </td>
                     </tr>
                     <tr>
-                        <td>规格(ml)</td>
-                        <td>商品图片</td>
-                        <td>状态</td>
+                        <td>規格(ml)</td>
+                        <td>商品圖片</td>
+                        <td>狀態</td>
                         <td colspan="3">商品描述</td>
                         
                     </tr>
@@ -213,7 +213,7 @@
                         <td>
                             <div v-if="iSimage">
                                 <input type="file" class="files" @change="fileChanged" ref="file" multiple="multiple" name="file" accept="image/jpg,image/jpeg,image/png,image/bmp">
-                                <Button icon="ios-cloud-upload-outline" @click="addpic">点击上传</Button>
+                                <Button icon="ios-cloud-upload-outline" @click="addpic">點擊上傳</Button>
                             </div>
                             <div class="pic" v-else>
                                 <img :src="files[0].src" />
@@ -258,7 +258,7 @@ export default {
                     minWidth:170
                 },
                 {
-                    title: '库存数',
+                    title: '庫存數',
                     key: 'num',
                     minWidth:100
                 },
@@ -278,7 +278,7 @@ export default {
                     minWidth:120  
                 },
                 {
-                    title:'国家',
+                    title:'國家',
                     key:'country_value',
                     minWidth:130
                 },
@@ -313,7 +313,7 @@ export default {
                     minWidth:120
                 },
                 {
-                    title:'產品风格',
+                    title:'產品風格',
                     key:'product_style_value',
                     minWidth:130
                 },
@@ -323,12 +323,12 @@ export default {
                     minWidth:130
                 },
                 {
-                    title:'状态',
+                    title:'狀態',
                     slot:'type',
                     minWidth:110
                 },
                 {
-                    title:'商品图片',
+                    title:'商品圖片',
                     key:'product_photo',
                     ellipsis:true,
                     tooltip:true,
@@ -345,7 +345,7 @@ export default {
                     minWidth:120
                 },
                 {
-                    title:'规格',
+                    title:'規格',
                     key:'specification',
                     minWidth:100
                 },
@@ -355,12 +355,12 @@ export default {
                     minWidth:110
                 },
                 {
-                    title:'产区风格',
+                    title:'產區風格',
                     key:'product_area_value',
                     minWidth:100
                 },
                 {
-                    title:'产区国家',
+                    title:'產區國家',
                     key:'product_area_country_value',
                     minWidth:130
                 },
@@ -371,47 +371,47 @@ export default {
                     minWidth:160
                 },
                 {
-                    title:'创建时间',
+                    title:'創建時間',
                     key:'time',
                     minWidth:170
                 },
                 {
-                    title:'用户id',
+                    title:'用戶id',
                     key:'user_id',
                     minWidth:90
                 },
                 {
-                    title:'特价活动',
+                    title:'特價活動',
                     key:'special',
                     minWidth:140,
                 },
                 {
-                    title:'活动id',
+                    title:'活動id',
                     key:'special_id',
                     minWidth:90,
                 },
                 {
-                    title:'优惠值',
+                    title:'優惠值',
                     key:'special_num',
                     minWidth:90,
                 },
                 {
-                    title:'优惠类型',
+                    title:'優惠類型',
                     slot:'special_type',
                     minWidth:100
                 },
                 {
-                    title:'活动开始时间',
+                    title:'活動開始時間',
                     key:'special_start',
                     minWidth:170
                 },
                 {
-                    title:'活动结束时间',
+                    title:'活動結束時間',
                     key:'special_end',
                     minWidth:170
                 },
                 {
-                    title:'活动更新时间',
+                    title:'活動更新時間',
                     slot:'special_update',
                     minWidth:170
                 },
@@ -435,7 +435,7 @@ export default {
                             //             this.show(params)
                             //         }
                             //     }
-                            // }, '编辑'),
+                            // }, '編輯'),
                             h('Button', {
                                 props: {
                                     type: 'error',
@@ -446,7 +446,7 @@ export default {
                                         this.remove(params.row.id)
                                     }
                                 }
-                            }, '删除')
+                            }, '刪除')
                         ]);
                     }
                 }
@@ -469,14 +469,14 @@ export default {
                 },
                 {
                     value:2,
-                    label:'优惠价格'
+                    label:'優惠價格'
                 }
             ],
             typeList:[
-                {value:0,label:'删除'},
-                {value:1,label:'可以售卖'},
-                {value:2,label:'关闭售卖'},
-                {value:3,label:'用户上传'}
+                {value:0,label:'刪除'},
+                {value:1,label:'可以售賣'},
+                {value:2,label:'關閉售賣'},
+                {value:3,label:'用戶上傳'}
             ],
             textureList:[
                 {value:0,label:'香氣'}
@@ -560,16 +560,16 @@ export default {
         remove (id) {
             this.$Modal.confirm({
                 title: '警告',
-                content: '<h3>此操作将删除数据，是否继续？</h3>',
+                content: '<h3>此操作將刪除數據，是否繼續？</h3>',
                 onOk: () => {
                      var data = {id:id};
                     this.$http('alcoholService','deleteData',data)
                     .then(res=>{
                         if(res.result == 'success'){
-                            this.$Message.success('删除成功');
+                            this.$Message.success('刪除成功');
                             this.getList(this.current);
                         }else{
-                            this.$Message.error('操作失败');
+                            this.$Message.error('操作失敗');
                         }
                     })
                 },
@@ -595,25 +595,25 @@ export default {
             }
             return strs;
         },
-        pageChange(index){ //切换页数
+        pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*10;
             this.getList(this.current);
         },
-        types(type){//产品状态
+        types(type){//產品狀態
             if(!type){return}
             var str = ''; 
             switch(type){
                 case 0:
-                str = '删除';
+                str = '刪除';
                 break;
                 case 1:
-                str = '可以售卖';
+                str = '可以售賣';
                 break;
                 case 2:
-                str = '关闭售卖';
+                str = '關閉售賣';
                 break;
                 case 3:
-                str = '用户上传';
+                str = '用戶上傳';
                 break;
             }
             return str;
@@ -660,9 +660,9 @@ export default {
             //     num:50,
             //     price:1999,
             //     product_area:3,
-            //     product_descr:"这是一组测试数据啊",
+            //     product_descr:"這是一組測試數據啊",
             //     product_name:"82年拉菲",
-            //     product_photo:"/file/20190124/1548315569620_微信图片_20181121095827.jpg",
+            //     product_photo:"/file/20190124/1548315569620_微信圖片_20181121095827.jpg",
             //     product_style:1,
             //     product_type:1,
             //     specification:500,
@@ -673,7 +673,7 @@ export default {
             //     winery:1,
             //     year:1982,
             //     texture:3,
-            //     special:'春节特卖',
+            //     special:'春節特賣',
             //     special_type:1,
             //     special_num:90,
             //     special_start:'2019-01-29 00:00:00',
@@ -711,7 +711,7 @@ export default {
             }
             var arr = Object.keys(data).length;
             if(arr<=0){
-                // this.$Message.warning('请输入查询参数');
+                // this.$Message.warning('請輸入查詢參數');
                 // return;
                 data.start = 0;
                 data.rows = 10;
@@ -725,20 +725,20 @@ export default {
                     this.total = res.total;
                     this.data1 = res.rows;
                 }else{
-                    this.$Message.warning('暂无数据')
+                    this.$Message.warning('暫無數據')
                 }
             })
             .catch(err=>{
                 this.loading = false;
             })
         },
-        getWinery(){//获取酒庄列表
+        getWinery(){//獲取酒莊列表
             var data = {
                 start:0
             }
             this.$http('alcoholWineryService','findDatas',data)
             .then(res=>{
-                console.log('酒庄',res)
+                console.log('酒莊',res)
                 if(res.rows){
                     var arr = [];
                     for(let i =0;i<res.rows.length;i++){
@@ -787,7 +787,7 @@ export default {
             }
             this.$refs.file.value = '';
         },
-        // 将图片文件转成BASE64格式
+        // 將圖片文件轉成BASE64格式
       html5Reader(file, item){
           const reader = new FileReader()
           reader.onload = (e) => {
