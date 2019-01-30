@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-const Indexs = () => import('@/pages/index');
+const Indexs = () => import('@/pages/indexs');
 const login = () => import('@/pages/login');
 const cruxdata = () => import('@/components/cruxdata');
 const recentdata = () => import('@/components/recentdata');
@@ -70,8 +70,8 @@ const winery = () => import('@/views/winery');
 const shopName = () => import('@/views/shopName');
 const goodsRecord = () => import('@/views/goodsRecord');
 const echarts = ()=> import('@/pages/echarts');
-
 Vue.use(Router)
+
 
 export default new Router({
   routes: [

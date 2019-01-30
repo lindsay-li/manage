@@ -54,7 +54,7 @@ box-shadow:0 0 0 60px transparent inset;
 .ivu-select-dropdown{
   /* background-color: #08A2BA; */
 }
-.ivu-menu-dark.ivu-menu-vertical .ivu-menu-item, .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu-title {
+/* .ivu-menu-dark.ivu-menu-vertical .ivu-menu-item, .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu-title {
     color: #fff;
     font-size: 16px;
 }
@@ -84,7 +84,7 @@ box-shadow:0 0 0 60px transparent inset;
 .ivu-btn-primary:hover{
   background-color: #009688;
   border-color: #009688;
-}
+} */
 .llogin .ivu-btn-primary{
   background-color: #2D8CF0;
   border-color: #2D8CF0;
