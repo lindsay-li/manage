@@ -235,7 +235,7 @@ export default {
                 {
                     title: '郵箱',
                     slot: 'email',
-                    minWidth:165
+                    minWidth:180
                 },
                 {
                     title: '城市',

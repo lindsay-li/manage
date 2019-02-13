@@ -42,8 +42,8 @@ export function postData(api,method,obj,type){
                 data:JSON.stringify(obj)
             }
             service({
-                url: '/api/op/in',
-                // url: '/op/in',
+                // url: '/api/op/in',
+                url: '/op/in',
                 method: 'post',
                 data:qs.stringify(datas)
             }).then(res=>{  //axios返回的是一个promise对象
@@ -54,8 +54,8 @@ export function postData(api,method,obj,type){
             })
         }else{
             service({
-                url: '/api/op/file/upload',
-                // url: '/op/file/upload',
+                // url: '/api/op/file/upload',
+                url: '/op/file/upload',
                 method: 'post',
                 data:obj
             }).then(res=>{  //axios返回的是一个promise对象
