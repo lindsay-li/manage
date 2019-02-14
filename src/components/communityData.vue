@@ -4,12 +4,12 @@
         <div class="option">
             <span>開始時間：</span>
             <!-- <Input type="text" name="phone" style="width:160px"/> -->
-            <DatePicker type="date" v-model="inputValue.startdate" placeholder="选择时间" style="width: 160px"></DatePicker>
+            <DatePicker type="date" v-model="inputValue.startdate" placeholder="選擇時間" style="width: 160px"></DatePicker>
         </div>
         <div class="option">
             <span>結束時間：</span>
             <!-- <Input type="text" name="time" style="width:160px"/> -->
-            <DatePicker type="date" v-model="inputValue.enddate" placeholder="选择时间" style="width: 160px"></DatePicker>
+            <DatePicker type="date" v-model="inputValue.enddate" placeholder="選擇時間" style="width: 160px"></DatePicker>
         </div>
         <div class="serch" @click="serchData(0)">查詢</div>
     </div>
@@ -33,22 +33,22 @@ export default {
                     minWidth:140
                 },
                 {
-                    title: '新增评价数',
+                    title: '新增評價數',
                     key: 'evanum',
                     minWidth:130
                 },
                 {
-                    title: '新增评价人数',
+                    title: '新增評價人數',
                     key: 'evauser',
                     minWidth:135
                 },
                 {
-                    title: '回文评价人数',
+                    title: '迴文評價人數',
                     key: 'renum',
                     minWidth:130
                 },
                 {
-                    title: '点赞次数',
+                    title: '點贊次數',
                     key: 'dznum',
                     minWidth:130
                 }
@@ -85,7 +85,7 @@ export default {
                 }
             })
         },
-        pageChange(index){ //切换页数
+        pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*10;
             if(this.type==1){
                 this.getList(this.current);
@@ -95,11 +95,11 @@ export default {
         },
         serchData(start){
             if(!this.inputValue.startdate){
-                this.$Message.error('开始时间不能为空');
+                this.$Message.error('開始時間不能為空');
                 return;
             }
             if(!this.inputValue.enddate){
-                this.$Message.error('结束时间不能为空');
+                this.$Message.error('結束時間不能為空');
                 return;
             }
             var data = {

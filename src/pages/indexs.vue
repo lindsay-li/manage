@@ -1,118 +1,3 @@
-<template>
-<div class="layout">
-    <Layout>
-        <Header :style="{padding: 0}" class="layout-header-bar">
-            <!-- <Menu mode="horizontal" theme="dark" active-name="1">
-                <div class="layout-logo"></div>
-                <div class="layout-nav">
-                    <MenuItem name="1">
-                        <Icon type="ios-navigate"></Icon>
-                        Item 1
-                    </MenuItem>
-                    <MenuItem name="2">
-                        <Icon type="ios-keypad"></Icon>
-                        Item 2
-                    </MenuItem>
-                    <MenuItem name="3">
-                        <Icon type="ios-analytics"></Icon>
-                        Item 3
-                    </MenuItem>
-                    <MenuItem name="4">
-                        <Icon type="ios-paper"></Icon>
-                        Item 4
-                    </MenuItem>
-                </div>
-            </Menu> -->
-            <Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '0 20px'}" type="md-menu" size="24"></Icon>
-        </Header>
-        <Layout>
-            <!-- <Sider ref="side1" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed">
-                <Menu active-name="1-2" theme="dark" width="auto" :class="menuitemClasses">
-                    <MenuItem name="1-1">
-                        <Icon type="ios-navigate"></Icon>
-                        <span>Option 1</span>
-                    </MenuItem>
-                    <MenuItem name="1-2">
-                        <Icon type="ios-search"></Icon>
-                        <span>Option 2</span>
-                    </MenuItem>
-                    <MenuItem name="1-3">
-                        <Icon type="ios-settings"></Icon>
-                        <span>Option 3</span>
-                    </MenuItem>
-                </Menu>
-            </Sider> -->
-            <Sider hide-trigger collapsible :width="256" :collapsed-width="64" v-model="isCollapsed" class="left-sider" :style="{overflow: 'hidden'}">
-                <side-menu accordion ref="sideMenu" :active-name="$route.name" :collapsed="collapsed" @on-select="turnToPage" :menu-list="menuList">
-                    <!-- 需要放在菜单上面的内容，如Logo，写在side-menu标签内部，如下 -->
-                    <div class="logo-con">
-                    <!-- <img v-show="!collapsed" :src="maxLogo" key="max-logo" />
-                    <img v-show="collapsed" :src="minLogo" key="min-logo" /> -->
-                    </div>
-                </side-menu>
-            </Sider>
-            <Layout :style="{padding: '0 24px 24px'}">
-                <Breadcrumb :style="{margin: '24px 0'}">
-                    <BreadcrumbItem>Home</BreadcrumbItem>
-                    <BreadcrumbItem>Components</BreadcrumbItem>
-                    <BreadcrumbItem>Layout</BreadcrumbItem>
-                </Breadcrumb>
-                <Content :style="{padding: '24px', minHeight: '280px', background: '#fff'}">
-                    Content
-                </Content>
-            </Layout>
-        </Layout>
-    </Layout>
-</div>   
-</template>
-<script>
-import SideMenu from './components/side-menu'
-export default {
-    data () {
-        return {
-            isCollapsed: false,
-            menuList:[]
-        }
-    },
-    computed: {
-        rotateIcon () {
-            return [
-                'menu-icon',
-                this.isCollapsed ? 'rotate-icon' : ''
-            ];
-        },
-        menuitemClasses () {
-            return [
-                'menu-item',
-                this.isCollapsed ? 'collapsed-menu' : ''
-            ]
-        }
-    },
-    methods: {
-        collapsedSider () {
-            this.$refs.side1.toggleCollapse();
-        },
-        turnToPage (route) {
-      let { name, params, query } = {}
-      if (typeof route === 'string') name = route
-      else {
-        name = route.name
-        params = route.params
-        query = route.query
-      }
-      if (name.indexOf('isTurnByHref_') > -1) {
-        window.open(name.split('_')[1])
-        return
-      }
-    //   this.$router.push({
-    //     name,
-    //     params,
-    //     query
-    //   })
-    },
-    }
-}
-</script>
 <style scoped>
 .layout{
     border: 1px solid #d7dde4;
@@ -120,8 +5,9 @@ export default {
     position: relative;
     border-radius: 4px;
     overflow: hidden;
+    height: 100vh;
 }
-/* .layout-logo{
+.layout-logo{
     width: 100px;
     height: 30px;
     background: #5b6270;
@@ -135,50 +21,236 @@ export default {
     width: 420px;
     margin: 0 auto;
     margin-right: 20px;
-} */
-.layout-header-bar{
-    background: #fff;
-    box-shadow: 0 1px 1px rgba(0,0,0,.1);
-}
-.layout-logo-left{
-    width: 90%;
-    height: 30px;
-    background: #5b6270;
-    border-radius: 3px;
-    margin: 15px auto;
-}
-.menu-icon{
-    transition: all .3s;
 }
 .rotate-icon{
-    transform: rotate(-90deg);
+        transform: rotate(-90deg);
+    }
+.logo{
+    font-size: 24px;
+    color: #fff;
+    font-weight: bold;
 }
-.menu-item span{
-    display: inline-block;
-    overflow: hidden;
-    width: 69px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    vertical-align: bottom;
-    transition: width .2s ease .2s;
+.headers{
+    display: flex;
+    justify-content: space-between;
+    background-color: #143F6D;
 }
-.menu-item i{
-    transform: translateX(0px);
-    transition: font-size .2s ease, transform .2s ease;
-    vertical-align: middle;
-    font-size: 16px;
+.rights{
+    display: flex;
+    min-width: 100px;
+    justify-content: space-between;
 }
-.collapsed-menu span{
-    width: 0px;
-    transition: width .2s ease;
+.users{
+    /* margin-left: 20px;
+    display: flex;
+    height: 100%;
+    align-items: center; */
+    cursor: pointer;
 }
-.collapsed-menu i{
-    transform: translateX(5px);
-    transition: font-size .2s ease .2s, transform .2s ease .2s;
-    vertical-align: middle;
-    font-size: 22px;
+.u_icon{
+    position: relative;
+    top: 3px;
+    margin-left: 2px;
+}
+.menu-nav{
+    /* margin-left: 25px; */
+    margin: 8px 0 7px 25px;
 }
 </style>
+<template>
+    <div class="layout">
+        <Layout style="height:100%">
+            <Header class="headers">
+                <div>
+                    <span class='logo'>巴克斯後臺管理</span> <Icon @click.native="collapsedSider" color="#2D8CF0" :class="rotateIcon" :style="{margin: '0 20px',cursor:'pointer'}" type="md-menu" size="24"></Icon>
+                </div> 
+                <div class="rights">
+                    <fullscreen v-model="isFullscreen" style="margin-right: 10px;"/>
+                    <div class="users">
+                        
+                        <Dropdown trigger="click" style="margin-left: 20px;width:120px" :transfer="true" @on-click="outlogin">
+                            <Avatar style="background-color: #87d068" icon="ios-person" />
+                            <span style="color:#fff">{{userInfo.username}}</span>
+                            <Icon type="md-arrow-dropdown" size="24" color="#eee" class="u_icon"/>
+                            <DropdownMenu slot="list" >
+                                <DropdownItem name="重新登錄">重新登錄</DropdownItem>
+                                <DropdownItem name="安全退出">安全退出</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </div>
+                </div>
+            </Header>
+            <Layout>
+                <Sider hide-trigger collapsible :width="236" :collapsed-width="64" v-model="collapsed" class="left-sider" :style="{overflow: 'hidden',background:'#283440'}">
+                    <side-menu accordion ref="sideMenu" :active-name="$route.name" :collapsed="collapsed" @on-select="turnToPage" @on-opens="fathers" :menu-list="menuList">
+                        <!-- 需要放在菜單上面的內容，如Logo，寫在side-menu標籤內部，如下 -->
+                        <div class="menu-nav">
+                            <Icon type="ios-grid" color="#ffffff"/>
+                            <span style="color:#fff;margin-left:3px" v-show="!navs">導航功能</span>
+                        </div>
+                    </side-menu>
+                </Sider>
+                <Layout :style="{padding: '0 24px 24px'}">
+                    <Breadcrumb :style="{margin: '24px 0'}">
+                        <BreadcrumbItem to="/">首頁</BreadcrumbItem>
+                        <BreadcrumbItem v-if="fathers">{{father}}</BreadcrumbItem>
+                        <BreadcrumbItem :to="childname" v-if="child">{{child}}</BreadcrumbItem>
+                    </Breadcrumb>
+                    <Content :style="{padding: '24px', minHeight: '280px', background: '#fff'}">
+                        <router-view/>
+                    </Content>
+                </Layout>
+            </Layout>
+        </Layout>
+    </div>
+</template>
+<script>
+import SideMenu from './components/side-menu'
+import Fullscreen from './components/fullscreen'
+    export default {
+        name: 'Main',
+        components: {
+            SideMenu,
+            Fullscreen,
+        },
+        data(){
+            return{
+                collapsed:false,
+                isFullscreen: false,
+                menuList:[],
+                father:'',
+                child:'',
+                childname:'',
+                navs:false,
+                userInfo:{}
+            }
+        },
+        watch:{
+            father(val){
+                this.child = '';
+                this.childname = '';
+            },
+            $route(){
+                console.log(this.$route)
+                this.child = this.$route.meta.title;
+                if(this.child == '首頁'){
+                    this.father='';
+                    this.child = '';
+                    this.childname='';
+                }
+            }
+        },
+        created () {
+            // var data = '[{"icon":"ios-book","name":"doc","meta":{"title":"文檔","href":"https://lison16.github.io/iview-admin-doc/#/","icon":"ios-book"},"href":"https://lison16.github.io/iview-admin-doc/#/"},{"icon":"","name":"join","meta":{"hideInBread":true},"children":[{"icon":"_qq","name":"join_page","meta":{"icon":"_qq","title":"QQ群"}}]},{"icon":"logo-buffer","name":"components","meta":{"icon":"logo-buffer","title":"組件"},"children":[{"icon":"md-arrow-dropdown-circle","name":"tree_select_page","meta":{"icon":"md-arrow-dropdown-circle","title":"樹狀下拉選擇器"}},{"icon":"md-trending-up","name":"count_to_page","meta":{"icon":"md-trending-up","title":"數字漸變"}},{"icon":"ios-infinite","name":"drag_list_page","meta":{"icon":"ios-infinite","title":"拖拽列表"}},{"icon":"md-list","name":"drag_drawer_page","meta":{"icon":"md-list","title":"可拖拽抽屜"}},{"icon":"ios-people","name":"org_tree_page","meta":{"icon":"ios-people","title":"組織結構樹"}},{"icon":"md-git-branch","name":"tree_table_page","meta":{"icon":"md-git-branch","title":"樹狀表格"}},{"icon":"md-crop","name":"cropper_page","meta":{"icon":"md-crop","title":"圖片裁剪"}},{"icon":"md-grid","name":"tables_page","meta":{"icon":"md-grid","title":"多功能表格"}},{"icon":"md-pause","name":"split_pane_page","meta":{"icon":"md-pause","title":"分割窗口"}},{"icon":"logo-markdown","name":"markdown_page","meta":{"icon":"logo-markdown","title":"Markdown編輯器"}},{"icon":"ios-create","name":"editor_page","meta":{"icon":"ios-create","title":"富文本編輯器"}},{"icon":"_bear","name":"icons_page","meta":{"icon":"_bear","title":"自定義圖標"}}]},{"icon":"md-cloud-upload","name":"update","meta":{"icon":"md-cloud-upload","title":"數據上傳"},"children":[{"icon":"ios-document","name":"update_table_page","meta":{"icon":"ios-document","title":"上傳Csv"}},{"icon":"md-clipboard","name":"update_paste_page","meta":{"icon":"md-clipboard","title":"粘貼表格數據"}}]},{"icon":"ios-stats","name":"excel","meta":{"icon":"ios-stats","title":"EXCEL導入導出"},"children":[{"icon":"md-add","name":"upload-excel","meta":{"icon":"md-add","title":"導入EXCEL"}},{"icon":"md-download","name":"export-excel","meta":{"icon":"md-download","title":"導出EXCEL"}}]},{"icon":"","name":"tools_methods","meta":{"hideInBread":true},"children":[{"icon":"ios-hammer","name":"tools_methods_page","meta":{"icon":"ios-hammer","title":"工具方法","beforeCloseName":"before_close_normal"}}]},{"icon":"","name":"i18n","meta":{"hideInBread":true},"children":[{"icon":"md-planet","name":"i18n_page","meta":{"icon":"md-planet","title":"i18n - {{ i18n_page }}"}}]},{"icon":"","name":"error_store","meta":{"hideInBread":true},"children":[{"icon":"ios-bug","name":"error_store_page","meta":{"icon":"ios-bug","title":"錯誤收集"}}]},{"icon":"","name":"directive","meta":{"hideInBread":true},"children":[{"icon":"ios-navigate","name":"directive_page","meta":{"icon":"ios-navigate","title":"指令"}}]},{"icon":"md-menu","name":"multilevel","meta":{"icon":"md-menu","title":"多級菜單"},"children":[{"icon":"md-funnel","name":"level_2_1","meta":{"icon":"md-funnel","title":"二級-1"}},{"icon":"md-funnel","name":"level_2_2","meta":{"access":["super_admin"],"icon":"md-funnel","showAlways":true,"title":"二級-2"},"children":[{"icon":"md-funnel","name":"level_2_2_1","meta":{"icon":"md-funnel","title":"三級"}},{"icon":"md-funnel","name":"level_2_2_2","meta":{"icon":"md-funnel","title":"三級"}}]},{"icon":"md-funnel","name":"level_2_3","meta":{"icon":"md-funnel","title":"二級-3"}}]}]'  
+            var data = [
+                    {
+                        icon:'ios-people',
+                        name:'用戶管理',
+                        meta:{icon:'ios-people',title:'用戶管理'},
+                        children:[
+                            {icon:'',name:'user',meta:{icon:'',title:'用戶信息'}},
+                            {icon:'',name:'coupon',meta:{icon:'',title:'折扣券'}},
+                            {icon:'',name:'car',meta:{icon:'',title:'用戶購物車'}},
+                            {icon:'',name:'collect',meta:{icon:'',title:'用戶收藏'}},
+                            {icon:'',name:'goodsRecord',meta:{icon:'',title:'商品瀏覽記錄'}},
+                        ]
+                    },
+                    {
+                        icon:'ios-stats',
+                        name:'商品管理',
+                        meta:{icon:'ios-stats',title:'商品管理'},
+                        children:[
+                            {icon:'',name:'goodsQuery',meta:{icon:'',title:'商品查詢'}},
+                            {icon:'',name:'createGoods',meta:{icon:'',title:'商品風格'}},
+                            {icon:'',name:'branchInventory',meta:{icon:'',title:'分店庫存'}},
+                            {icon:'',name:'productArea',meta:{icon:'',title:'產區風格'}},
+                            {icon:'',name:'country',meta:{icon:'',title:'國家管理'}},
+                            {icon:'',name:'grape',meta:{icon:'',title:'葡萄種類'}},
+                            {icon:'',name:'winery',meta:{icon:'',title:'酒莊管理'}},
+                            {icon:'',name:'shopName',meta:{icon:'',title:'門店管理'}},
+                        ]
+                    },
+                    {
+                        icon:'logo-buffer',
+                        name:'文章日誌',
+                        meta:{icon:'logo-buffer',title:'文章日誌'},
+                        children:[
+                            {icon:'',name:'articleList',meta:{icon:'',title:'文章列表'}},
+                            {icon:'',name:'articleLists',meta:{icon:'',title:'新增文章'}}
+                        ]
+                    },
+                    {
+                        icon:'ios-key',
+                        name:'後臺賬號管理',
+                        meta:{icon:'ios-key',title:'後臺賬號管理'},
+                        children:[
+                            {icon:'',name:'accountManage',meta:{icon:'',title:'用戶管理'}},
+                            {icon:'',name:'accountPower',meta:{icon:'',title:'角色權限管理'}},
+                            {icon:'',name:'menuManage',meta:{icon:'',title:'菜單管理'}}
+                        ]
+                    },
+                    {
+                        icon:'md-analytics',
+                        name:'數據分析',
+                        meta:{icon:'md-analytics',title:'數據分析'},
+                        children:[
+                            {icon:'',name:'comprehensiveData',meta:{icon:'',title:'綜合報表'}},
+                            {icon:'',name:'memberData',meta:{icon:'',title:'會員數據'}},
+                            {icon:'',name:'retainData',meta:{icon:'',title:'葡萄數據'}},
+                            {icon:'',name:'communityData',meta:{icon:'',title:'社群數據'}},
+                            {icon:'',name:'goodsData',meta:{icon:'',title:'商品數據'}},
+                            {icon:'',name:'articleData',meta:{icon:'',title:'文章數據'}},
+                        ]
+                    },
+                ]
+            this.menuList =data;
+            console.log(this.menuList)
+            var user = JSON.parse(sessionStorage.getItem('user_info'));
+            this.userInfo = user.dbUser;
+        },
+        computed: {
+          rotateIcon () {
+                return [
+                    'menu-icon',
+                    this.collapsed ? 'rotate-icon' : ''
+                ];
+            },  
+        },
+        methods:{
+            turnToPage (route) {
+                let name = '';
+                if (typeof route === 'string') name = route
+                if(name == 'articleLists'){
+                    name = 'articleList'
+                }
+                this.childname = '/'+name;
+                this.$router.push({path:'/'+name})
+            },
+            fathers(data){
+                this.father = data[0];
+            },
+            collapsedSider(){
+                this.collapsed = !this.collapsed;
+                // this.navs = !this.navs;
+                if(!this.collapsed){
+                    var timer =setTimeout(() => {
+                        this.navs =false;
+                        clearTimeout(timer);
+                    }, 200);
+                }else{
+                    this.navs = true;
+                }
+                
+            },
+            outlogin(name){
+                console.log('...',name)
+                // return
+                sessionStorage.clear()
+                this.$router.push({path:'/login'});
+            },
+        }
+    }
+</script>
 <style lang="less" scoped>
 .left-sider{
     .ivu-layout-sider-children{
@@ -187,4 +259,3 @@ export default {
     }
   }
 </style>
-

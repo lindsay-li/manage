@@ -1,7 +1,7 @@
 <template>
   <div class="side-menu-wrapper">
     <slot></slot>
-    <Menu ref="menu" v-show="!collapsed" :active-name="activeName" :open-names="openedNames" :accordion="accordion" :theme="theme" width="auto" @on-select="handleSelect">
+    <Menu ref="menu" v-show="!collapsed" :active-name="activeName" :open-names="openedNames" @on-open-change="fatherHandle" :accordion="accordion" :theme="theme" width="auto" @on-select="handleSelect">
       <template v-for="item in menuList">
         <template v-if="item.children && item.children.length === 1">
           <side-menu-item v-if="showChildren(item)" :key="`menu-${item.name}`" :parent-item="item"></side-menu-item>
@@ -26,7 +26,7 @@
 <script>
 import SideMenuItem from './side-menu-item.vue'
 import CollapsedMenu from './collapsed-menu.vue'
-import { getUnion } from '@/libs/tools'
+// import { getUnion } from '@/libs/tools'
 import mixin from './mixin'
 
 export default {
@@ -74,8 +74,14 @@ export default {
     }
   },
   methods: {
+    getUnion(arr1, arr2){
+      return Array.from(new Set([...arr1, ...arr2]))
+    },
     handleSelect (name) {
       this.$emit('on-select', name)
+    },
+    fatherHandle(name){
+      this.$emit('on-opens',name)
     },
     getOpenedNamesByActiveName (name) {
       return this.$route.matched.map(item => item.name).filter(item => item !== name)
@@ -93,7 +99,7 @@ export default {
   watch: {
     activeName (name) {
       if (this.accordion) this.openedNames = this.getOpenedNamesByActiveName(name)
-      else this.openedNames = getUnion(this.openedNames, this.getOpenedNamesByActiveName(name))
+      else this.openedNames = this.getUnion(this.openedNames, this.getOpenedNamesByActiveName(name))
     },
     openNames (newNames) {
       this.openedNames = newNames
@@ -105,8 +111,7 @@ export default {
     }
   },
   mounted () {
-    this.openedNames = getUnion(this.openedNames, this.getOpenedNamesByActiveName(name))
-    console.log('菜单',this.menuList)
+    this.openedNames = this.getUnion(this.openedNames, this.getOpenedNamesByActiveName(name))
   }
 }
 </script>

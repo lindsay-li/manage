@@ -15,11 +15,11 @@
                 <div>{{row.follow_msg===0?'不通知':'通知'}}</div>
             </template>
             <template slot="lock" slot-scope="{row,index}">
-                <div>{{row.lock===1?'锁定':'未认证'}}</div>
+                <div>{{row.lock===1?'鎖定':'未認證'}}</div>
             </template>
             <template slot="action" slot-scope="{row,index}">
-                <Button size="small" type="primary" @click="edit(row)">编辑</Button>
-                <Button size="small" type="error" @click="remove(row.id)">删除</Button>
+                <Button size="small" type="primary" @click="edit(row)">編輯</Button>
+                <Button size="small" type="error" @click="remove(row.id)">刪除</Button>
             </template>
         </Table>
     </div>
@@ -36,13 +36,13 @@
                 <div class="list">
                     <table style="width:100%;">
                         <tr>
-                            <td style="text-align:right">酒庄名称:</td>
+                            <td style="text-align:right">酒莊名稱:</td>
                             <td>
                                 <Input v-model="inputValue.winery"  placeholder="點擊輸入" style="width: 160px;" />
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">酒庄等级:</td>
+                            <td style="text-align:right">酒莊等級:</td>
                             <td>
                                 <Input v-model="inputValue.grade"  placeholder="點擊輸入" style="width: 160px" />
                             </td>
@@ -64,21 +64,21 @@ export default {
         return{
             columns1: [
                 {
-                    title: '用户名称',
+                    title: '用戶名稱',
                     key: 'user',
                     ellipsis:true,
                     tooltip:true,
                     minWidth:140
                 },
                 {
-                    title: '昵称',
+                    title: '暱稱',
                     key: 'nickname',
                     ellipsis:true,
                     tooltip:true,
                     minWidth:140
                 },
                 {
-                    title: '性别',
+                    title: '性別',
                     key: 'sex',
                     minWidth:100
                 },
@@ -88,12 +88,12 @@ export default {
                     minWidth:140
                 },
                 {
-                    title:'手机',
+                    title:'手機',
                     key:'phone',
                     minWidth:130
                 },
                 {
-                    title:'密码',
+                    title:'密碼',
                     key:'password',
                     ellipsis:true,
                     tooltip:true,
@@ -107,7 +107,7 @@ export default {
                     minWidth:140
                 },
                 {
-                    title:'邮箱',
+                    title:'郵箱',
                     key:'email',
                     minWidth:190
                 },
@@ -117,41 +117,41 @@ export default {
                     minWidth:120
                 },
                 {
-                    title:'区县',
+                    title:'區縣',
                     key:'district',
                     minWidth:120
                 },
                 {
-                    title:'乡镇',
+                    title:'鄉鎮',
                     key:'towns',
                     minWidth:120
                 },
                 {
-                    title:'详细地址',
+                    title:'詳細地址',
                     key:'address',
                     minWidth:140
                 },
                 {
-                    title:'头像',
+                    title:'頭像',
                     key:'head',
                     ellipsis:true,
                     tooltip:true,
                     minWidth:140
                 },
                 {
-                    title:'个人简介',
+                    title:'個人簡介',
                     key:'brief',
                     ellipsis:true,
                     tooltip:true,
                     minWidth:140
                 },
                 {
-                    title:'注册时间',
+                    title:'註冊時間',
                     key:'create_date',
                     minWidth:150
                 },
                 {
-                    title:'身份认证锁定',
+                    title:'身份認證鎖定',
                     slot:'lock',
                     minWidth:130
                 },
@@ -163,44 +163,44 @@ export default {
                     minWidth:140
                 },
                 {
-                    title:'订单通知',
+                    title:'訂單通知',
                     slot:'order',
                     minWidth:120
                 },
                 {
-                    title:'商品促销通知',
+                    title:'商品促銷通知',
                     slot:'promotion',
                     minWidth:130
                 },
                 {
-                    title:'活动通知',
+                    title:'活動通知',
                     slot:'activity',
                     minWidth:120
                 },
                 {
-                    title:'关注与留言',
+                    title:'關注與留言',
                     slot:'follow_msg',
                     minWidth:130
                 },
                 {
-                    title:'黄金会员到期时间',
+                    title:'黃金會員到期時間',
                     key:'gold',
                     minWidth:150
                 },
                 {
-                    title:'白金会员到期时间',
+                    title:'白金會員到期時間',
                     key:'platinum',
                     minWidth:150
                 },
                 {
-                    title:'微信昵称',
+                    title:'微信暱稱',
                     key:'wx_nickname',
                     ellipsis:true,
                     tooltip:true,
                     minWidth:130
                 },
                 {
-                    title:'微信性别',
+                    title:'微信性別',
                     key:'wx_sex',
                     minWidth:120
                 },
@@ -212,14 +212,14 @@ export default {
                     minWidth:120
                 },
                 {
-                    title:'微信头像',
+                    title:'微信頭像',
                     key:'wx_head',
                     ellipsis:true,
                     tooltip:true,
                     minWidth:120
                 },
                 {
-                    title:'微信国家',
+                    title:'微信國家',
                     key:'wx_country',
                     minWidth:120
                 },
@@ -234,59 +234,59 @@ export default {
                     minWidth:120
                 },
                 {
-                    title:'微信更新时间',
+                    title:'微信更新時間',
                     key:'wx_update_date',
                     minWidth:160
                 },
                 {
-                    title:'FaceBook昵称',
+                    title:'FaceBook暱稱',
                     key:'fb_nickname',
                     ellipsis:true,
                     tooltip:true,
                     minWidth:140
                 },
                 {
-                    title:'FaceBook邮箱',
+                    title:'FaceBook郵箱',
                     key:'fb_email',
                     ellipsis:true,
                     tooltip:true,
                     minWidth:140
                 },
                 {
-                    title:'FaceBook头像',
+                    title:'FaceBook頭像',
                     key:'fb_head',
                     ellipsis:true,
                     tooltip:true,
                     minWidth:140
                 },
                 {
-                    title:'FaceBook更新时间',
+                    title:'FaceBook更新時間',
                     key:'fb_update_date',
                     minWidth:160
                 },
                 {
-                    title:'LineMe昵称',
+                    title:'LineMe暱稱',
                     key:'lm_nickname',
                     ellipsis:true,
                     tooltip:true,
                     minWidth:140
                 },
                 {
-                    title:'LineMe邮箱',
+                    title:'LineMe郵箱',
                     key:'lm_email',
                     ellipsis:true,
                     tooltip:true,
                     minWidth:140
                 },
                 {
-                    title:'LineMe头像',
+                    title:'LineMe頭像',
                     key:'lm_head',
                     ellipsis:true,
                     tooltip:true,
                     minWidth:140
                 },
                 {
-                    title:'LineMe更新时间',
+                    title:'LineMe更新時間',
                     key:'lm_update_date',
                     minWidth:160
                 },
@@ -337,16 +337,16 @@ export default {
         remove (id) {
             this.$Modal.confirm({
                 title: '警告',
-                content: '<h3>此操作将删除数据，是否继续？</h3>',
+                content: '<h3>此操作將刪除數據，是否繼續？</h3>',
                 onOk: () => {
                      var data = {id:id};
                     this.$http('userService','deleteData',data)
                     .then(res=>{
                         if(res.result == 'success'){
-                            this.$Message.success('删除成功');
+                            this.$Message.success('刪除成功');
                             this.getList(this.current);
                         }else{
-                            this.$Message.error('操作失败');
+                            this.$Message.error('操作失敗');
                         }
                     })
                 },
@@ -359,7 +359,7 @@ export default {
         },
         newAdd(){
             if(!this.inputValue.grade || !this.inputValue.winery){
-                this.$Message.warning('请输入信息');
+                this.$Message.warning('請輸入信息');
                 return;
             }
             var data = {
@@ -377,7 +377,7 @@ export default {
                 }
             })
         },
-        pageChange(index){ //切换页数
+        pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*10;
             this.getList(this.current);
         },

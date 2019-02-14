@@ -30,6 +30,11 @@ export default {
   color:#17233d;
   font-size: 16px;
   height: 100vh;
+  width: 100%;
+}
+html,body{
+  height: 100%;
+  width: 100%;
 }
 *{
  list-style: none;
@@ -51,12 +56,12 @@ box-shadow:0 0 0 60px transparent inset;
 .ivu-dropdown-menu {
     min-width: 90px;
 }
-.ivu-select-dropdown{
-  /* background-color: #08A2BA; */
-}
-/* .ivu-menu-dark.ivu-menu-vertical .ivu-menu-item, .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu-title {
+/* .ivu-select-dropdown{
+  background-color: #08A2BA;
+} */
+.ivu-menu-dark.ivu-menu-vertical .ivu-menu-item, .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu-title {
     color: #fff;
-    font-size: 16px;
+    /* font-size: 16px; */
 }
 .ivu-menu-dark {
     background: #283440;
@@ -64,7 +69,7 @@ box-shadow:0 0 0 60px transparent inset;
 .ivu-table-wrapper{
   width: 100%;
 }
-.ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item-active, .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item-active:hover{
+/* .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item-active, .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item-active:hover{
   background-color: #009688 !important;
 }
 .ivu-checkbox-checked .ivu-checkbox-inner{
@@ -76,8 +81,8 @@ box-shadow:0 0 0 60px transparent inset;
 }
 .ivu-page-item-active a, .ivu-page-item-active:hover a{
   color: #009688;
-}
-.ivu-btn-primary{
+} */
+/* .ivu-btn-primary{
   background-color: #009688;
   border-color: #009688;
 }
@@ -85,14 +90,14 @@ box-shadow:0 0 0 60px transparent inset;
   background-color: #009688;
   border-color: #009688;
 } */
-.llogin .ivu-btn-primary{
+/* .llogin .ivu-btn-primary{
   background-color: #2D8CF0;
   border-color: #2D8CF0;
 }
 .llogin .ivu-btn-primary:hover{
   background-color: #2D8CF0;
   border-color: #2D8CF0;
-}
+} */
 
 .options .ivu-select{
   width: auto;

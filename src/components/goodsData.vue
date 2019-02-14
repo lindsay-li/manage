@@ -4,12 +4,12 @@
         <div class="option">
             <span>開始時間：</span>
             <!-- <Input type="text" name="phone" style="width:160px"/> -->
-            <DatePicker type="date" v-model="inputValue.startdate" placeholder="选择时间" style="width: 160px"></DatePicker>
+            <DatePicker type="date" v-model="inputValue.startdate" placeholder="選擇時間" style="width: 160px"></DatePicker>
         </div>
         <div class="option">
             <span>結束時間：</span>
             <!-- <Input type="text" name="time" style="width:160px"/> -->
-            <DatePicker type="date" v-model="inputValue.enddate" placeholder="选择时间" style="width: 160px"></DatePicker>
+            <DatePicker type="date" v-model="inputValue.enddate" placeholder="選擇時間" style="width: 160px"></DatePicker>
         </div>
         <div class="serch" @click="serchData(0)">查詢</div>
     </div>
@@ -48,7 +48,7 @@ export default {
                     minWidth:110
                 },
                 {
-                    title: '贩售商品數量',
+                    title: '販售商品數量',
                     key: 'pronum',
                     minWidth:130
                 },
@@ -58,37 +58,37 @@ export default {
                     minWidth:130
                 },
                 {
-                    title: '使用葡萄折扣金额',
+                    title: '使用葡萄折扣金額',
                     key: 'ptmoney',
                     minWidth:150
                 },
                 {
-                    title: '使用折扣券数量',
+                    title: '使用折扣券數量',
                     key: 'yhqnum',
                     minWidth:140
                 },
                 {
-                    title: '待出货订单金额',
+                    title: '待出貨訂單金額',
                     key: 'dchmoney',
                     minWidth:140
                 },
                 {
-                    title: '待出货订单',
+                    title: '待出貨訂單',
                     key: 'dccnum',
                     minWidth:130
                 },
                 {
-                    title: '平均订单金额',
+                    title: '平均訂單金額',
                     key: 'avgmoney',
                     minWidth:130
                 },
                 {
-                    title: '订单数',
+                    title: '訂單數',
                     key: 'ordernum',
                     minWidth:130
                 },
                 {
-                    title: '订单金额',
+                    title: '訂單金額',
                     key: 'ordermoney',
                     minWidth:130
                 }
@@ -126,7 +126,7 @@ export default {
                 }
             })
         },
-        pageChange(index){ //切换页数
+        pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*10;
             if(this.type==1){
                 this.getList(this.current);
@@ -136,11 +136,11 @@ export default {
         },
         serchData(start){
             if(!this.inputValue.startdate){
-                this.$Message.error('开始时间不能为空');
+                this.$Message.error('開始時間不能為空');
                 return;
             }
             if(!this.inputValue.enddate){
-                this.$Message.error('结束时间不能为空');
+                this.$Message.error('結束時間不能為空');
                 return;
             }
             var data = {

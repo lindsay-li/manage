@@ -2,7 +2,7 @@
 <div class="wrappar">
     <div class="nav">
         <div class="option">
-            <span>分类查看：</span>
+            <span>分類查看：</span>
             <Select  style="width:160px" @on-change="selecserch">
                 <Option v-for="item in selectserch" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
@@ -12,8 +12,8 @@
         <Table border  :columns="columns1" :data="data1"  class="post" :loading="loading">
             <template slot="action" slot-scope="{row,index}">
                 <div class="actions">
-                    <Button size="small" type="primary" @click="edit(row)">编辑</Button>
-                    <Button size="small" type="error" @click="remove(row.id)">删除</Button>
+                    <Button size="small" type="primary" @click="edit(row)">編輯</Button>
+                    <Button size="small" type="error" @click="remove(row.id)">刪除</Button>
                 </div>
             </template>
         </Table>
@@ -69,7 +69,7 @@
                     </div>
                 </div>
                 <!-- <div class="a_video aflex">
-                    <span>置頂音频、视频：</span>
+                    <span>置頂音頻、視頻：</span>
                     <Upload
                         multiple
                         action="//jsonplaceholder.typicode.com/posts/">
@@ -118,7 +118,7 @@ export default {
                     minWidth:160
                 },
                 {
-                    title: '创建人id',
+                    title: '創建人id',
                     key: 'user_id',
                     minWidth:110
                 },
@@ -137,7 +137,7 @@ export default {
                     minWidth:160
                 },
                 // {
-                //     title:'置頂音乐',
+                //     title:'置頂音樂',
                 //     key:'audio',
                 //     minWidth:160
                 // },
@@ -160,13 +160,13 @@ export default {
             data1: [],
             total:0,
             current:0,
-            tags:['生活','酒庄','活动','深度','大师','特色','名人'],
+            tags:['生活','酒莊','活動','深度','大師','特色','名人'],
             tagList:[
                 {value:1,label:'生活'},
-                {value:2,label:'酒庄'},
-                {value:3,label:'活动'},
+                {value:2,label:'酒莊'},
+                {value:3,label:'活動'},
                 {value:4,label:'深度'},
-                {value:5,label:'大师'},
+                {value:5,label:'大師'},
                 {value:6,label:'特色'},
                 {value:7,label:'名人'},
             ],
@@ -190,20 +190,20 @@ export default {
                     label:'生活'
                 },
                 {
-                    value:'酒庄',
-                    label:'酒庄'
+                    value:'酒莊',
+                    label:'酒莊'
                 },
                 {
-                    value:'活动',
-                    label:'活动'
+                    value:'活動',
+                    label:'活動'
                 },
                 {
                     value:'深度',
                     label:'深度'
                 },
                 {
-                    value:'大师',
-                    label:'大师'
+                    value:'大師',
+                    label:'大師'
                 },
                 {
                     value:'特色',
@@ -260,7 +260,7 @@ export default {
                 this.loading = false;
             })
         },
-        pageChange(index){ //切换页数
+        pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*10;
             this.getList(this.current);
         },
@@ -273,16 +273,16 @@ export default {
         remove (id) {
             this.$Modal.confirm({
                 title: '警告',
-                content: '<h3>此操作将删除数据，是否继续？</h3>',
+                content: '<h3>此操作將刪除數據，是否繼續？</h3>',
                 onOk: () => {
                     var data = {id:id};
                     this.$http('articleService','deleteData',data)
                     .then(res=>{
                         if(res.result == 'success'){
-                            this.$Message.success('删除成功');
+                            this.$Message.success('刪除成功');
                             this.getList(this.current);
                         }else{
-                            this.$Message.error('操作失败');
+                            this.$Message.error('操作失敗');
                         }
                     })
                 },
@@ -292,7 +292,7 @@ export default {
         },
         suerBtn(){
             if(!this.inputValue.title){
-                this.$Message.error('请填写文章标题')
+                this.$Message.error('請填寫文章標題')
                 return
             }
             var data = this.inputValue;
@@ -378,7 +378,7 @@ export default {
             }
             this.$refs.file.value = '';
         },
-        // 将图片文件转成BASE64格式
+        // 將圖片文件轉成BASE64格式
         html5Reader(file, item){
             const reader = new FileReader()
             reader.onload = (e) => {

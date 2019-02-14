@@ -9,11 +9,11 @@
         </div>
         <div class="option">
             <span>開始時間：</span>
-            <DatePicker type="date" v-model="inputValue.startdate" placeholder="选择时间" style="width: 160px"></DatePicker>
+            <DatePicker type="date" v-model="inputValue.startdate" placeholder="選擇時間" style="width: 160px"></DatePicker>
         </div>
         <div class="option">
             <span>結束時間：</span>
-            <DatePicker type="date" v-model="inputValue.enddate" placeholder="选择时间" style="width: 160px"></DatePicker>
+            <DatePicker type="date" v-model="inputValue.enddate" placeholder="選擇時間" style="width: 160px"></DatePicker>
         </div>
         <div class="serch" @click="serchData(0)">查詢</div>
     </div>
@@ -42,7 +42,7 @@ export default {
                     minWidth:160
                 },
                 {
-                    title: '點贊数',
+                    title: '點贊數',
                     key: 'dznum',
                     minWidth:100
                 },
@@ -69,14 +69,14 @@ export default {
             },
             select_List:[
                 {value:1,label:'生活'},
-                {value:2,label:'酒庄'},
-                {value:3,label:'活动'},
+                {value:2,label:'酒莊'},
+                {value:3,label:'活動'},
                 {value:4,label:'深度'},
-                {value:5,label:'大师'},
+                {value:5,label:'大師'},
                 {value:6,label:'特色'},
                 {value:7,label:'名人'},
             ],
-            type:1    //type=1 为全部 =2位搜索结果
+            type:1    //type=1 為全部 =2位搜索結果
         }
     },
     created(){
@@ -100,7 +100,7 @@ export default {
                 }
             })
         },
-        pageChange(index){ //切换页数
+        pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*10;
             if(this.type==1){
                 this.getList(this.current);
@@ -111,15 +111,15 @@ export default {
         },
         serchData(start){
             if(!this.inputValue.tag){
-                this.$Message.error('文章类型不能为空');
+                this.$Message.error('文章類型不能為空');
                 return;
             }
             if(!this.inputValue.startdate){
-                this.$Message.error('开始时间不能为空');
+                this.$Message.error('開始時間不能為空');
                 return;
             }
             if(!this.inputValue.enddate){
-                this.$Message.error('结束时间不能为空');
+                this.$Message.error('結束時間不能為空');
                 return;
             }
             var data = {

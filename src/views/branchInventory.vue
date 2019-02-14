@@ -3,7 +3,7 @@
     <div class="goods">
         <Table border  :columns="columns1" :data="data1"  @on-selection-change="selectChange1" class="post">
             <template slot="action" slot-scope="{row,index}">
-                <Button size="small" type="error" @click="remove(row.id)">删除</Button>
+                <Button size="small" type="error" @click="remove(row.id)">刪除</Button>
             </template>
         </Table>
     </div>
@@ -20,7 +20,7 @@
                 <div class="list">
                     <table style="width:100%;">
                         <tr>
-                            <td style="text-align:right">门店ID:</td>
+                            <td style="text-align:right">門店ID:</td>
                             <td>
                                 <Input v-model="inputValue.shop_id"  placeholder="點擊輸入" style="width: 160px;" />
                             </td>
@@ -32,7 +32,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">分店库存:</td>
+                            <td style="text-align:right">分店庫存:</td>
                             <td>
                                 <Input v-model="inputValue.product_num"  placeholder="點擊輸入" style="width: 160px" />
                             </td>
@@ -54,34 +54,34 @@ export default {
         return{
             columns1: [
                 {
-                    title:'门店名称',
+                    title:'門店名稱',
                     key:'shop_name',
                     minWidth:160
                 },
                 {
-                    title:'分店库存',
+                    title:'分店庫存',
                     key:'product_num',
                     minWidth:100
                 },
                 {
-                    title:'产品价格',
+                    title:'產品價格',
                     key:'price',
                     minWidth:110
                 },
                 {
-                    title:'总库存',
+                    title:'總庫存',
                     key:'num',
                     minWidth:90
                 },
                 {
-                    title: '商品名称',
+                    title: '商品名稱',
                     key: 'product_name',
                     ellipsis:true,
                     tooltip:true,
                     minWidth:160
                 },
                 {
-                    title:'国家',
+                    title:'國家',
                     key:'country_value',
                     minWidth:140
                 },
@@ -91,22 +91,22 @@ export default {
                     minWidth:170
                 },
                 {
-                    title:'年产量',
+                    title:'年產量',
                     key:'annual_output',
                     minWidth:90
                 },
                 {
-                    title:'酒庄',
+                    title:'酒莊',
                     key:'winery',
                     minWidth:140
                 },
                 {
-                    title: '创建时间',
+                    title: '創建時間',
                     key: 'create_time',
                     minWidth:160
                 },
                 {
-                    title: '门店ID',
+                    title: '門店ID',
                     key: 'shop_id',
                     minWidth:90
                 },
@@ -155,16 +155,16 @@ export default {
         remove (id) {
             this.$Modal.confirm({
                 title: '警告',
-                content: '<h3>此操作将删除数据，是否继续？</h3>',
+                content: '<h3>此操作將刪除數據，是否繼續？</h3>',
                 onOk: () => {
                      var data = {id:id};
                     this.$http('alcoholShopRelService','deleteData',data)
                     .then(res=>{
                         if(res.result == 'success'){
-                            this.$Message.success('删除成功');
+                            this.$Message.success('刪除成功');
                             this.getList(this.current);
                         }else{
-                            this.$Message.error('操作失败');
+                            this.$Message.error('操作失敗');
                         }
                     })
                 },
@@ -178,13 +178,13 @@ export default {
         newAdd(){
             if(!this.product_style){
                  this.$Modal.info({
-                        content: '请输入产品风格'
+                        content: '請輸入產品風格'
                     }); 
                 return;
             }
            
         },
-        pageChange(index){ //切换页数
+        pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*10;
             this.getList(this.current);
         },

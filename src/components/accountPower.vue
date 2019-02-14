@@ -20,7 +20,7 @@
                 <span v-else>{{ row.status }}</span>
             </template>
             <template slot="menus" slot-scope="{row,index}">
-                <Button size="small" type="primary" @click="openMenus(row.id)">展开菜单</Button>
+                <Button size="small" type="primary" @click="openMenus(row.id)">展開菜單</Button>
             </template>
             <template slot="action" slot-scope="{row,index}">
                 <div v-if="editIndex === index">
@@ -28,8 +28,8 @@
                     <Button size='small' type="error" @click="editIndex = -1">取消</Button>
                 </div>
                 <div v-else>
-                    <Button size='small' type="primary" @click="editHandle(row,index)" style="margin-right:5px">编辑</Button>
-                    <Button size='small' type="error" @click="remove(row)">删除</Button>
+                    <Button size='small' type="primary" @click="editHandle(row,index)" style="margin-right:5px">編輯</Button>
+                    <Button size='small' type="error" @click="remove(row)">刪除</Button>
                 </div>
             </template>
         </Table>
@@ -43,7 +43,7 @@
     <div class="prop_model" v-show="propModel">
         <div class="_box">
             <div class="contant">
-                <div class="tit">菜单权限管理</div>
+                <div class="tit">菜單權限管理</div>
                 <div class="list">
                     <Tree :data="treeData" show-checkbox multiple @on-check-change="getmenusData"></Tree>
                 </div>
@@ -67,7 +67,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right;">状态:</td>
+                            <td style="text-align:right;">狀態:</td>
                             <td>
                                 <Select v-model="addValue.status" style="width: 160px;margin-left:20px">
                                     <Option v-for="(item,index) in statusList" :value="item.value" :key="index"  >{{ item.label }}</Option>
@@ -115,22 +115,22 @@ export default {
                     minWidth:145
                 },
                 {
-                    title: '创建人',
+                    title: '創建人',
                     key: 'create_user',
                     minWidth:145
                 },
                 {
-                    title: '创建时间',
+                    title: '創建時間',
                     key: 'create_time',
                     minWidth:160
                 },
                 {
-                    title:'菜单管理',
+                    title:'菜單管理',
                     slot:'menus',
                     minWidth:160
                 },
                 {
-                    title: '状态',
+                    title: '狀態',
                     slot: 'status',
                     minWidth:105
                 },
@@ -143,11 +143,11 @@ export default {
             data1: [],
             statusList:[
                 {
-                    label:'启用',
+                    label:'啟用',
                     value:1,
                 },
                 {
-                    label:'不启用',
+                    label:'不啟用',
                     value:0
                 }
             ],
@@ -177,7 +177,7 @@ export default {
             .then(res=>{
                 if(res.rows){
                     for(let i=0;i<res.rows.length;i++){
-                        res.rows[i].status = res.rows[i].status=='1'?'启用':'未启用'
+                        res.rows[i].status = res.rows[i].status=='1'?'啟用':'未啟用'
                         res.rows[i].create_time = this.$changeTime(res.rows[i].create_time);
                         var newArr = [];
                         if(res.rows[i].menuname){
@@ -199,13 +199,13 @@ export default {
                 }
             })
         },
-        remove (row) { //删除
+        remove (row) { //刪除
             var data = {
                 id:row.id
             }
             this.$Modal.confirm({
                 title: '警告',
-                content: '<h3>此操作将删除数据，是否继续？</h3>',
+                content: '<h3>此操作將刪除數據，是否繼續？</h3>',
                 onOk: () => {
                     var data = {
                         id:row.id
@@ -213,10 +213,10 @@ export default {
                     this.$http('zAdminRoleService','deleteData',data)
                     .then(res=>{
                         if(res.result == 'success'){
-                            this.$Message.success('删除成功');
+                            this.$Message.success('刪除成功');
                             this.getList();
                         }else{
-                            this.$Message.error('操作失败');
+                            this.$Message.error('操作失敗');
                         }
                     })
                 },
@@ -224,7 +224,7 @@ export default {
                 }
             })
         },
-        getTreess (tree = []) { //选择框树形结构
+        getTreess (tree = []) { //選擇框樹形結構
             let arr = [];
             if (tree.length !== 0) {
             tree.forEach(item => {
@@ -252,7 +252,7 @@ export default {
                     for(let i =0;i<data.length;i++){
                         if(!data[i].pid){
                             data[i].create_time = this.$changeTime(data[i].create_time);
-                            data[i].status = data[i].status?'启用':'未启用';
+                            data[i].status = data[i].status?'啟用':'未啟用';
                             arr1.push(data[i]);
                         }
                     }
@@ -261,7 +261,7 @@ export default {
                         for(let j =0;j<data.length;j++){
                             if(data[j].pid && arr1[k].id == data[j].pid){
                                 data[j].create_time = this.$changeTime(data[j].create_time);
-                                data[j].status = data[j].status?'启用':'未启用';
+                                data[j].status = data[j].status?'啟用':'未啟用';
                                 arr.push(data[j]);
                             }
                         }
@@ -273,7 +273,7 @@ export default {
                 }
             })
         },
-        openMenus(id){  //展开菜单
+        openMenus(id){  //展開菜單
             console.log(id)
             this.currentId = id;
             var menus = JSON.parse(sessionStorage.getItem('MENULIST'));
@@ -294,7 +294,7 @@ export default {
 
             console.log(this.treeData);
         },
-        getTree(tree = [],arr=[]) { //选择框树形结构
+        getTree(tree = [],arr=[]) { //選擇框樹形結構
             if (tree.length !== 0) {
                 tree.forEach(item => {
                     item.expand = true;
@@ -311,19 +311,19 @@ export default {
             }
             return tree
         },
-        editHandle(row,index){ //编辑列表
+        editHandle(row,index){ //編輯列表
             this.editValue={
                 r_name:row.r_name,
-                status:row.status == '启用'?1:0
+                status:row.status == '啟用'?1:0
             }
             this.editIndex = index;
         },
         saveHandle(row,id){ //保存修改信息
             var data = {};
             var newrow = row;
-            newrow.status = newrow.status == '启用'?1:0
+            newrow.status = newrow.status == '啟用'?1:0
             this.editIndex = -1;
-            for(let key in this.editValue){  //参数没改变的就不传接口
+            for(let key in this.editValue){  //參數沒改變的就不傳接口
                 if(this.editValue[key] != newrow[key]){
                     data[key] = this.editValue[key];
                 }
@@ -364,11 +364,11 @@ export default {
                     this.$Message.success('修改成功');
                     this.getList();
                 }else{
-                    this.$Message.error('操作失败');
+                    this.$Message.error('操作失敗');
                 }
             })
         },
-        getmenusData(data){ //在tree形树上点击确定
+        getmenusData(data){ //在tree形樹上點擊確定
             console.log(data)
             this.newtreeData = data
         },
@@ -382,7 +382,7 @@ export default {
                     this.$Message.success('添加成功');
                     this.getList();
                 }else{
-                    this.$Message.error('操作失败');
+                    this.$Message.error('操作失敗');
                 }
             })
         }

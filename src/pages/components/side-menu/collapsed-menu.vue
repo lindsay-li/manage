@@ -12,7 +12,7 @@
 <script>
 import mixin from './mixin'
 import itemMixin from './item-mixin'
-import { findNodeUpperByClasses } from '@/libs/util'
+// import { findNodeUpperByClasses } from '@/libs/util'
 
 export default {
   name: 'CollapsedMenu',
@@ -41,10 +41,21 @@ export default {
       const height = children.length * 38
       const isOverflow = pageY + height < window.innerHeight
       this.placement = isOverflow ? 'right-start' : 'right-end'
+    },
+    findNodeUpperByClasses(ele, classes){
+      let parentNode = ele.parentNode
+      if (parentNode) {
+        let classList = parentNode.classList
+        if (classList && classes.every(className => classList.contains(className))) {
+          return parentNode
+        } else {
+          return this.findNodeUpperByClasses(parentNode, classes)
+        }
+      }
     }
   },
   mounted () {
-    let dropdown = findNodeUpperByClasses(this.$refs.dropdown.$el, ['ivu-select-dropdown', 'ivu-dropdown-transfer'])
+    let dropdown = this.findNodeUpperByClasses(this.$refs.dropdown.$el, ['ivu-select-dropdown', 'ivu-dropdown-transfer'])
     if (dropdown) dropdown.style.overflow = 'visible'
   }
 }

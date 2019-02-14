@@ -2,17 +2,17 @@
 <div class="wrappar">
     <div class="nav">
         <div class="option">
-            <span>用户名：</span>
+            <span>用戶名：</span>
             <Input type="text" v-model="inputValue.user" style="width:160px"/>
         </div>
         <div class="option">
-            <span>手机号：</span>
+            <span>手機號：</span>
             <Input type="text" name="phone"v-model="inputValue.phone" style="width:160px"/>
         </div>
         <!-- <div class="option">
-            <span>创建时间：</span>
+            <span>創建時間：</span>
             <input type="text" name="time"v-model="inputValue.time">
-            <Date-picker type="date" placeholder="选择日期" style="width: 150px" @on-change="timeChange" ></Date-picker>
+            <Date-picker type="date" placeholder="選擇日期" style="width: 150px" @on-change="timeChange" ></Date-picker>
         </div> -->
         <div class="option">
             <span>城市：</span>
@@ -77,39 +77,39 @@
                     <Button size='small' type="error" @click="editIndex = -1">取消</Button>
                 </div>
                 <div v-else>
-                    <Button size='small' type="primary" @click="editHandle(row,index)" style="margin-right:5px">编辑</Button>
-                    <Button size='small' type="error" @click="remove(row)">删除</Button>
+                    <Button size='small' type="primary" @click="editHandle(row,index)" style="margin-right:5px">編輯</Button>
+                    <Button size='small' type="error" @click="remove(row)">刪除</Button>
                 </div>
             </template>
         </Table>
     </div>
     <div class="page">
         <div class="_btn">
-            <div class="send" @click="openModel">新增账户</div>
-            <!-- <div class="b_delete" >批量删除</div> -->
+            <div class="send" @click="openModel">新增賬戶</div>
+            <!-- <div class="b_delete" >批量刪除</div> -->
         </div>
         <Page :total="total" show-total show-elevator prev-text='上一頁' next-text='下一頁' @on-change="pageChange"/>
     </div> 
     <div class="prop_model" v-show="propModel">
         <div class="_box">
             <div class="contant">
-                <div class="tit">添加用户</div>
+                <div class="tit">添加用戶</div>
                 <div class="list"style="width:100%;">
                     <table style="width:100%;">
                         <tr>
-                            <td style="text-align:right">用户名:</td>
+                            <td style="text-align:right">用戶名:</td>
                             <td>
                                 <Input v-model="setuser.username"  placeholder="點擊輸入" style="width: 300px" />
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">密码:</td>
+                            <td style="text-align:right">密碼:</td>
                             <td>
                                 <Input v-model="setuser.pwda"  placeholder="點擊輸入" style="width: 300px" />
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">确认密码:</td>
+                            <td style="text-align:right">確認密碼:</td>
                             <td>
                                 <Input v-model="setuser.pwdb"  placeholder="點擊輸入" style="width: 300px" />
                             </td>
@@ -198,27 +198,27 @@ export default {
                     minWidth:85
                 },
                 {
-                    title: '用户名称',
+                    title: '用戶名稱',
                     slot: 'username',
                     minWidth:120
                 },
                 {
-                    title: '用户账号',
+                    title: '用戶賬號',
                     slot: 'user_no',
                     minWidth:120
                 },
                 {
-                    title: '用户密码',
+                    title: '用戶密碼',
                     slot: 'password',
                     minWidth:120
                 },
                 {
-                    title:'所属角色',
+                    title:'所屬角色',
                     slot:'rolename',
                     minWidth:200,
                 },
                 {
-                    title: '性别',
+                    title: '性別',
                     slot: 'sex',
                     minWidth:85
                 },
@@ -228,14 +228,14 @@ export default {
                     minWidth:160
                 },
                 {
-                    title: '手机号码',
+                    title: '手機號碼',
                     slot: 'tel',
                     minWidth:160
                 },
                 {
-                    title: '邮箱',
+                    title: '郵箱',
                     slot: 'email',
-                    minWidth:165
+                    minWidth:180
                 },
                 {
                     title: '城市',
@@ -248,17 +248,17 @@ export default {
                     minWidth:160
                 },
                 {
-                    title: '创建时间',
+                    title: '創建時間',
                     key: 'create_time',
                     minWidth:160
                 },
                 {
-                    title: '后台用户等级',
+                    title: '後臺用戶等級',
                     key: 'user_level',
                     minWidth:130
                 },
                 {
-                    title: '负责门店id',
+                    title: '負責門店id',
                     key: 'shop_ids',
                     minWidth:120
                 },
@@ -272,7 +272,7 @@ export default {
             a_types:'',
             single:false,
             propModel:false,
-            current:0,  //当前页码
+            current:0,  //當前頁碼
         }
     },
     created(){
@@ -280,7 +280,7 @@ export default {
         this.getroleid();
     },
     methods:{
-        searchList(){ //查询用户
+        searchList(){ //查詢用戶
             var data = {};
             if(this.inputValue.user){
                 data.username = this.inputValue.user;
@@ -295,7 +295,7 @@ export default {
            if(len == 0){
                this.$Modal.warning({
                     title:'警告',
-                    content: '<h3>请输入查询参数</h3>'
+                    content: '<h3>請輸入查詢參數</h3>'
                 });
                return;
            }
@@ -317,21 +317,21 @@ export default {
                     }
                     this.data1 = res.rows;
                 }else{
-                    this.$Message.warning('未查询到数据');
+                    this.$Message.warning('未查詢到數據');
                 }
             })
         },
-        setUserHandle(){ //新增账户
+        setUserHandle(){ //新增賬戶
             if(!this.setuser.username){
-                this.$Modal.info({title:'用户名不能为空'})
+                this.$Modal.info({title:'用戶名不能為空'})
                 return
             }
             if(!this.setuser.pwda){
-                this.$Modal.info({title:'密码不能为空'})
+                this.$Modal.info({title:'密碼不能為空'})
                 return
             }
             if(this.setuser.pwda != this.setuser.pwdb){
-                this.$Modal.info({title:'两次输入密码不一致'})
+                this.$Modal.info({title:'兩次輸入密碼不一致'})
                 return
             }
             var data = {
@@ -349,7 +349,7 @@ export default {
                 }
             })
         },
-        getList(start){ //h获取用户列表数据
+        getList(start){ //h獲取用戶列表數據
          var curt =start>0?(start-1)*10:0
             var data = {
                     start:curt,
@@ -412,11 +412,11 @@ export default {
             this.propModel = false;
             this.roleModel = false;
         },
-        remove (row){ //删除数据
+        remove (row){ //刪除數據
             console.log(1)
             this.$Modal.confirm({
                 title: '警告',
-                content: '<h3>此操作将删除数据，是否继续？</h3>',
+                content: '<h3>此操作將刪除數據，是否繼續？</h3>',
                 onOk: () => {
                     var data = {
                         id:row.id
@@ -424,10 +424,10 @@ export default {
                     this.$http('zAdminUserService','deleteData',data)
                     .then(res=>{
                         if(res.result == 'success'){
-                            this.$Message.success('删除成功');
+                            this.$Message.success('刪除成功');
                             this.getList(this.current);
                         }else{
-                            this.$Message.error('操作失败');
+                            this.$Message.error('操作失敗');
                         }
                     })
                 },
@@ -435,7 +435,7 @@ export default {
                 }
             })
         },
-        saveHandle(row,id){ //保存修改数据
+        saveHandle(row,id){ //保存修改數據
             this.editIndex = -1;
             var newrow = row;
             var data = {
@@ -449,7 +449,7 @@ export default {
             }else{
                 newrow.sex =3;
             }
-            for(let key in this.editValue){  //参数没改变的就不传接口
+            for(let key in this.editValue){  //參數沒改變的就不傳接口
                 if(this.editValue[key] != newrow[key]){
                     data[key] = this.editValue[key];
                 }
@@ -465,7 +465,7 @@ export default {
             })
 
         },
-        editHandle(row,index){//编辑table数据
+        editHandle(row,index){//編輯table數據
             this.editValue={
                 city:row.city,
                 sex:row.sex,
@@ -479,17 +479,17 @@ export default {
             }
             this.editIndex = index;
         },
-        pageChange(index){ //页码切换
+        pageChange(index){ //頁碼切換
             console.log(index)
             this.current = index;
             this.getList(this.current);
         },
-        changeRole(row){  //点击编辑角色
+        changeRole(row){  //點擊編輯角色
             this.fruit = row.rolename;
             this.roleModel = true;
             this.user_id = row.id;
         },
-        setRoleHandle(){ //角色点击确定
+        setRoleHandle(){ //角色點擊確定
             console.log(this.fruit)
             this.roleModel = false;
             var roleid = [];

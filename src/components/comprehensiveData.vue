@@ -8,12 +8,12 @@
         <div class="option">
             <span>開始時間：</span>
             <!-- <Input type="text" name="phone" style="width:160px"/> -->
-            <DatePicker type="date" v-model="inputValue.startdate" placeholder="选择时间" style="width: 160px"></DatePicker>
+            <DatePicker type="date" v-model="inputValue.startdate" placeholder="選擇時間" style="width: 160px"></DatePicker>
         </div>
         <div class="option">
             <span>結束時間：</span>
             <!-- <Input type="text" name="time" style="width:160px"/> -->
-            <DatePicker type="date" v-model="inputValue.enddate" placeholder="选择时间" style="width: 160px"></DatePicker>
+            <DatePicker type="date" v-model="inputValue.enddate" placeholder="選擇時間" style="width: 160px"></DatePicker>
         </div>
         <div class="serch" @click="serchData(0)">查詢</div>
     </div>
@@ -135,7 +135,7 @@ export default {
                 }
             })
         },
-        pageChange(index){ //切换页数
+        pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*10;
             if(this.type ==1){
                 this.getList(this.current);
@@ -146,15 +146,15 @@ export default {
         },
         serchData(start){
             if(!this.inputValue.userno){
-                this.$Message.error('会员编号不能为空');
+                this.$Message.error('會員編號不能為空');
                 return;
             }
             if(!this.inputValue.startdate){
-                this.$Message.error('开始时间不能为空');
+                this.$Message.error('開始時間不能為空');
                 return;
             }
             if(!this.inputValue.enddate){
-                this.$Message.error('结束时间不能为空');
+                this.$Message.error('結束時間不能為空');
                 return;
             }
             var data = {
