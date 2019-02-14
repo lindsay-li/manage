@@ -15,7 +15,7 @@ const collect = () => import('@/components/collect');
 const createGoods = () => import('@/components/createGoods');
 const goodsQuery = () => import('@/components/goodsQuery');
 // const stockManage = () => import('@/components/stockManage');
-// const orderQuery = () => import('@/components/orderQuery');
+const orderQuery = () => import('@/components/orderQuery');
 // const ordersCancel = () => import('@/components/ordersCancel');
 // const homeDelivery = () => import('@/components/homeDelivery');
 // const homeDeliveryGoods = () => import('@/components/homeDeliveryGoods');
@@ -131,6 +131,13 @@ export default new Router({
           component:goodsQuery,
           meta:{
             title:'商品查詢'
+          }
+        },
+        {
+          path:'/orderQuery',
+          component:orderQuery,
+          meta:{
+            title:'订单查询'
           }
         },
         {

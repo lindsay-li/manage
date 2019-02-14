@@ -171,6 +171,15 @@ import Fullscreen from './components/fullscreen'
                         ]
                     },
                     {
+                        icon:'ios-list',
+                        name:'订单管理',
+                        meta:{icon:'ios-list',title:'订单管理'},
+                        children:[
+                            {icon:'',name:'orderQuery',meta:{icon:'',title:'订单查询'}},
+                            {icon:'',name:'orders',meta:{icon:'',title:'订单取消'}}
+                        ]
+                    },
+                    {
                         icon:'logo-buffer',
                         name:'文章日誌',
                         meta:{icon:'logo-buffer',title:'文章日誌'},
