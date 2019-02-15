@@ -1,5 +1,16 @@
 <template>
 <div class="wrappar">
+    <div class="nav">
+        <div class="option">
+            <span>商品名称：</span>
+            <Input type="text"  v-model="inputValue.product_name" style="width:160px" />
+        </div>
+        <div class="option">
+            <span>商品类型：</span>
+            <Input type="text"  v-model="inputValue.product_type" style="width:160px" />
+        </div>
+        <div class="serch" @click="search">查询</div>
+    </div>
     <div class="car">
         <Table border  :columns="columns1" :data="data1"  class="post" :loading="loading"></Table>
     </div>
@@ -65,17 +76,25 @@ export default {
             loading:false,
             current:0,
             total:0,
-            types:""
+            types:"",
+            inputValue:{
+                product_name:"",
+                product_type:"",
+                price:0
+            }
         }
     },
     created(){
         this.getList(0);
     },
     methods:{
-        getList(start){
+        getList(start,obj){
             var data = {
                 start:start,
                 rows:10
+            }
+            if(obj){
+                data = obj;
             }
             this.loading = true;
             this.$http('enshrineService','findDatas',data)
@@ -94,6 +113,22 @@ export default {
             .catch(err=>{
                 this.loading = false;
             })
+        },
+        search(){ //按条件查询
+            var obj = {};
+            if(this.inputValue.product_name){
+                obj.product_name = this.inputValue.product_name;
+            }
+            if(this.inputValue.product_type){
+                obj.product_type = this.inputValue.product_type;
+            }
+            var arr =Object.keys(obj)
+            if(arr.length>0){
+                this.getList(0,obj)
+            }else{
+                this.getList(0)
+            }
+            
         },
         remove (id) {
             this.$Modal.confirm({

@@ -4,6 +4,7 @@
     <div class="content">
         <Table border  :columns="columns1" :data="data1" :loading="loading">
             <template slot="action" slot-scope="{row,index}">
+                <Button size="small" type="primary" @click="edit(row)">编辑</Button>
                 <Button size="small" type="error" @click="remove(row.id)">刪除</Button>
             </template>
         </Table>
@@ -177,7 +178,7 @@ export default {
                 {
                     title:'操作',
                     slot:'action',
-                    width:90
+                    width:140
                 }
             ],
             data1: [],
@@ -195,7 +196,8 @@ export default {
                 discount_value:100,
                 discount_condition:0,
                 discount_scope:'',
-                discount_max:""
+                discount_max:"",
+                discount_time:''
             },
             discountType:[
                 {
@@ -208,6 +210,7 @@ export default {
                     disabled:true
                 }
             ],
+            id:''
         }
     },
     created(){
@@ -275,6 +278,23 @@ export default {
         closeModel(){
             this.propModel = false;
         },
+        edit(row){ //编辑
+            this.inputValue={
+                discount_remark:row.discount_remark,
+                discount_start:row.discount_start,
+                discount_end:row.discount_end,
+                discount_name:row.discount_name,
+                discount_explain:row.discount_explain,
+                discount_type:row.discount_type,
+                discount_value:row.discount_value,
+                discount_condition:row.discount_condition,
+                discount_scope:row.discount_scope,
+                discount_max:row.discount_max,
+                discount_time:row.discount_time
+            }
+            this.propModel = true
+            this.id = row.id;
+        },
         sureBtn(){ //增加
             console.log(this.inputValue)
             var value = this.inputValue;
@@ -283,13 +303,21 @@ export default {
             value.discount_start = this.$changeTime(value.discount_start);
             value.discount_end = this.$changeTime(value.discount_end);
             value.discount_time = this.$changeTime(new Date());
+            if(this.id){
+                value.id = this.id
+            }
             var data = value;
             this.$http('couponLogService','addOrUpdate',data)
             .then(res=>{
                 this.propModel = false;
                 if(res.result == 'success'){
-                    this.$Message.success('新增成功');
+                    if(this.id){
+                        this.$Message.success('修改成功');
+                    }else{
+                        this.$Message.success('新增成功');
+                    }
                     this.getList(this.current);
+                    this.id = ''
                 }else{
                     this.$Message.error(res.message);
                 }

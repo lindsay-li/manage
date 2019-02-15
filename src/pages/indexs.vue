@@ -162,6 +162,7 @@ import Fullscreen from './components/fullscreen'
                         children:[
                             {icon:'',name:'goodsQuery',meta:{icon:'',title:'商品查詢'}},
                             {icon:'',name:'createGoods',meta:{icon:'',title:'商品風格'}},
+                            {icon:'',name:'productType',meta:{icon:'',title:'商品类型'}},
                             {icon:'',name:'branchInventory',meta:{icon:'',title:'分店庫存'}},
                             {icon:'',name:'productArea',meta:{icon:'',title:'產區風格'}},
                             {icon:'',name:'country',meta:{icon:'',title:'國家管理'}},

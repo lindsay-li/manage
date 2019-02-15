@@ -2,59 +2,35 @@
 <div class="wrappar">
     <div class="goods">
         <Table border  :columns="columns1" :data="data1"  class="post">
+            <template slot="sex" slot-scope="{row,index}">
+                <div>{{row.sex==0?'男':'女'}}</div>
+            </template>
             <template slot="order" slot-scope="{row,index}">
-                <div>{{row.order===0?'男':'女'}}</div>
+                <div>{{row.order==0?'不通知':'通知'}}</div>
             </template>
             <template slot="promotion" slot-scope="{row,index}">
-                <div>{{row.promotion===0?'不通知':'通知'}}</div>
+                <div>{{row.promotion==0?'不通知':'通知'}}</div>
             </template>
             <template slot="activity" slot-scope="{row,index}">
-                <div>{{row.activity===0?'不通知':'通知'}}</div>
+                <div>{{row.activity==0?'不通知':'通知'}}</div>
             </template>
             <template slot="follow_msg" slot-scope="{row,index}">
-                <div>{{row.follow_msg===0?'不通知':'通知'}}</div>
+                <div>{{row.follow_msg==0?'不通知':'通知'}}</div>
             </template>
             <template slot="lock" slot-scope="{row,index}">
-                <div>{{row.lock===1?'鎖定':'未認證'}}</div>
+                <div>{{row.lock==1?'鎖定':'未認證'}}</div>
             </template>
             <template slot="action" slot-scope="{row,index}">
-                <Button size="small" type="primary" @click="edit(row)">編輯</Button>
+                <!-- <Button size="small" type="primary" @click="edit(row)">編輯</Button> -->
                 <Button size="small" type="error" @click="remove(row.id)">刪除</Button>
             </template>
         </Table>
     </div>
     <div class="page">
-        <div class="_btn">
+        <!-- <div class="_btn">
             <div class="send" @click="openModel">新增</div>
-        </div>
+        </div> -->
         <Page :total="total" show-total show-elevator prev-text='上一頁' next-text='下一頁'  @on-change="pageChange"/>
-    </div>
-    <div class="prop_model" v-show="propModel">
-        <div class="_box">
-            <div class="contant">
-                <div class="tit">新增</div>
-                <div class="list">
-                    <table style="width:100%;">
-                        <tr>
-                            <td style="text-align:right">酒莊名稱:</td>
-                            <td>
-                                <Input v-model="inputValue.winery"  placeholder="點擊輸入" style="width: 160px;" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align:right">酒莊等級:</td>
-                            <td>
-                                <Input v-model="inputValue.grade"  placeholder="點擊輸入" style="width: 160px" />
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="btns">
-                    <div class="cancel" @click='closeModel'>取消</div>
-                    <div class="sure" @click="newAdd">確定</div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>        
 </template>
@@ -79,7 +55,7 @@ export default {
                 },
                 {
                     title: '性別',
-                    key: 'sex',
+                    slot: 'sex',
                     minWidth:100
                 },
                 {
@@ -397,9 +373,9 @@ export default {
 .page{
     justify-content: flex-end;
 }
-.page{
+/* .page{
     justify-content: space-between;
-}
+} */
 ._box{
     width: 360px;
     height: 300px;

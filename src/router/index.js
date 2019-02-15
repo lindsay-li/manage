@@ -14,6 +14,7 @@ const collect = () => import('@/components/collect');
 // const userWine = () => import('@/components/userWine');
 const createGoods = () => import('@/components/createGoods');
 const goodsQuery = () => import('@/components/goodsQuery');
+const productType = () => import('@/views/productType');
 // const stockManage = () => import('@/components/stockManage');
 const orderQuery = () => import('@/components/orderQuery');
 // const ordersCancel = () => import('@/components/ordersCancel');
@@ -124,6 +125,13 @@ export default new Router({
           component:createGoods,
           meta:{
             title:'商品風格'
+          }
+        },
+        {
+          path:'/productType',
+          component:productType,
+          meta:{
+            title:'商品类型'
           }
         },
         {
