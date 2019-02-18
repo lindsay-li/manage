@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 const Indexs = () => import('@/pages/indexs');
 const login = () => import('@/pages/login');
-// const cruxdata = () => import('@/components/cruxdata');
-// const recentdata = () => import('@/components/recentdata');
+const cruxdata = () => import('@/components/cruxdata');
+const recentdata = () => import('@/components/recentdata');
 const user = () => import('@/components/users');
 const Coupon = () => import('@/components/Coupon');
 // const wallet = () => import('@/components/wallet');
@@ -31,9 +31,9 @@ const orderQuery = () => import('@/components/orderQuery');
 // const returnQuery = () => import('@/components/returnQuery');
 // const newArticle = () => import('@/components/newArticle');
 const articleList = () => import('@/components/articleList');
-// const editNotice = () => import('@/components/editNotice');
+const editNotice = () => import('@/components/editNotice');
 // const auditingNotice = () => import('@/components/auditingNotice');
-// const advertisementEdit = () => import('@/components/advertisementEdit');
+const advertisementEdit = () => import('@/components/advertisementEdit');
 // const advertisementAuditing = () => import('@/components/advertisementAuditing');
 // const userHandle = () => import('@/components/userHandle');
 // const userArticleHandle = () => import('@/components/userArticleHandle');
@@ -59,9 +59,9 @@ const articleData = () => import('@/components/articleData');
 // const waiterLetter = () => import('@/components/waiterLetter');
 // const repairFunc = () => import('@/components/repairFunc');
 // const userImpeach = () => import('@/components/userImpeach');
-// const financeCheck = () => import('@/components/financeCheck');
+const financeCheck = () => import('@/components/financeCheck');
 // const shipmentCheck = () => import('@/components/shipmentCheck');
-// const invoice = () => import('@/components/invoice');
+const invoice = () => import('@/components/invoice');
 const menumanage = () => import('@/views/menuManage');
 const branchInventory = () => import('@/views/branchInventory');
 const productArea = () => import('@/views/productArea');
@@ -90,6 +90,20 @@ export default new Router({
           component:home,
           meta:{
             title:'首頁'
+          }
+        },
+        {
+          path:'/cruxdata',
+          component:cruxdata,
+          meta:{
+            title:'即时数据'
+          }
+        },
+        {
+          path:'/recentdata',
+          component:recentdata,
+          meta:{
+            title:'近期数据'
           }
         },
         {
@@ -153,6 +167,20 @@ export default new Router({
           component:articleList,
           meta:{
             title:'文章列表'
+          }
+        },
+        {
+          path:'/editNotice',
+          component:editNotice,
+          meta:{
+            title:'公告通知'
+          }
+        },
+        {
+          path:'/advertisementEdit',
+          component:advertisementEdit,
+          meta:{
+            title:'广告管理'
           }
         },
         {
@@ -265,6 +293,20 @@ export default new Router({
           component:goodsRecord,
           meta:{
             title:'商品瀏覽記錄'
+          }
+        },
+        {
+          path:'/financeCheck',
+          component:financeCheck,
+          meta:{
+            title:'财务核对'
+          }
+        },
+        {
+          path:'/invoice',
+          component:invoice,
+          meta:{
+            title:'发票另寄'
           }
         }
       ]

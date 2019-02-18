@@ -39,9 +39,9 @@
             </template>
             <template slot="users" slot-scope="{row,index}">
                 <div>
-                    <p>{{}}</p>
+                    <p>-</p>
                     <p>{{row.sh_name}}</p>
-                    <p>{{}}</p>
+                    <p>-</p>
                     <p>{{row.address}}</p>
                 </div>
             </template>
@@ -52,7 +52,7 @@
     </div>
     <div class="page">
         <div class="_btn">
-            <div class="send" @click="openModel">新增</div>
+            <!-- <div class="send" @click="openModel">新增</div> -->
         </div>
         <Page :total="total" show-total show-elevator prev-text='上一頁' next-text='下一頁'  @on-change="pageChange"/>
     </div>
@@ -69,9 +69,9 @@ export default {
                     minWidth:120
                 },
                 {
-                    title: '负责门市',
-                    key: 'delivery_home',
-                    minWidth:140
+                    title: '负责门店id',
+                    key: 'shop_id',
+                    minWidth:120
                 },
                 {
                     slot: 'peisong',
@@ -98,7 +98,7 @@ export default {
                 },
                 {
                     slot: 'goods',
-                    minWidth:130,
+                    minWidth:180,
                     ellipsis:true,
                     tooltip:true,
                     renderHeader:(h, params) => {

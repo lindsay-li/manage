@@ -117,10 +117,10 @@ export default {
         search(){ //按条件查询
             var obj = {};
             if(this.inputValue.product_name){
-                obj.product_name = this.inputValue.product_name;
+                obj.productName = this.inputValue.product_name;
             }
             if(this.inputValue.product_type){
-                obj.product_type = this.inputValue.product_type;
+                obj.productType = this.inputValue.product_type;
             }
             var arr =Object.keys(obj)
             if(arr.length>0){

@@ -1,6 +1,6 @@
 <template>
  <div class="contant">
-     <div class="title">即時數據</div>
+    <div class="_title">即時數據</div>
     <Table :columns="columns1" :data="data1" border :row-class-name="rowClassName" size='large' height='229'></Table>
  </div>   
 </template>
@@ -22,59 +22,44 @@ export default {
                     key: 'order3'
                 }
             ],
-            data1: [
-                {
-                    order1: '7單',
-                    order2: 'xxx',
-                    order3: 33  
-                },
-                {
-                    order1: '零庫存商品數',
-                    order2: '待出貨訂單數',
-                    order3: '平均出貨天數'   
-                },
-                {
-                    order1: '4單',
-                    order2: 'xxx',
-                    order3: 33                   
-                }
-            ]
+            data1: [],
+            loading:false,
         }
     } ,
     created(){
-        // this.getDatas();
+        this.getDatas();
     },
     methods: {
             getDatas(){
-                var data = {
-                            start:0,
-                            rows:20
-                        }
+                this.loading = true;
+                var data = {}
                 this.$http('keyDataService','findTimelyData',data)
                 .then((res)=>{
                     console.log(res);
-                    // if(res.status == 'success'){
-                    //     var obj = {
-                    //         order1:res.result.num_count,
-                    //         order2:res.result.price_count,
-                    //         order3:res.result.goods_num
-                    //     }
-                    //     var obj1={
-                    //         order1:'零庫存商品數',
-                    //         order2:'待出貨訂單數',
-                    //         order3:'平均出貨天數'
-                    //     }
-                    //     var obj2 = {
-                    //         order1:res.result.nostock_num,
-                    //         order2:res.result.watfs_num,
-                    //         order3:0
-                    //     }
-                    //     var arr = []
-                    //     arr.push(obj);
-                    //     arr.push(obj1);
-                    //     arr.push(obj2);
-                    //     this.data1 = arr;
-                    // }
+                    this.loading = false;
+                    if(res.rows.length>0){
+                        var rows = res.rows[0]
+                        var obj = {
+                            order1:rows.ordernum?rows.ordernum:0,
+                            order2:rows.ordermoney?rows.ordermoney:0,
+                            order3:rows.totalproduct?rows.totalproduct:0
+                        }
+                        var obj1={
+                            order1:'零庫存商品數',
+                            order2:'待出貨訂單數',
+                            order3:'平均出貨天數'
+                        }
+                        var obj2 = {
+                            order1:rows.nokcproduct?rows.nokcproduct:0,
+                            order2:rows.dchnum?rows.dchnum:0,
+                            order3:rows.avgchday?rows.avgchday:0
+                        }
+                        var arr = []
+                        arr.push(obj);
+                        arr.push(obj1);
+                        arr.push(obj2);
+                        this.data1 = arr;
+                    }
                 })
             },
             rowClassName (row, index) {
@@ -92,15 +77,15 @@ export default {
     display: flex;
     flex-direction: column;
 }
-.title{
+._title{
     width: 100%;
-    height: 50px;
-    background-color: #009688;
+    height: 36px;
+    background-color: #2D8CF0;
     border-radius: 4px;
     font-size: 16px;
     color: #fff;
     text-align: center;
-    line-height: 50px;
+    line-height: 36px;
     margin-bottom: 30px;
 }
 </style>

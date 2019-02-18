@@ -1,24 +1,34 @@
 <template>
 <div class="wrappar">
     <div class="nav">
-        <div class="titles">公告&廣告</div>
+        <div class="_title">公告通知</div>
     </div>
     <div class="notice">
-        <Table border  :columns="columns1" :data="data1"  @on-selection-change="selectChange1"></Table>
+        <Table border  :columns="columns1" :data="data1" >
+            <template slot-scope="{row,index}" slot="type">
+                <div>{{types(row.TYPE)}}</div>
+            </template>
+            <template slot-scope="{row,index}" slot="status">
+                <div>{{row.STATUS==0?'未读':'已读'}}</div>
+            </template>
+            <template slot-scope="{row,index}" slot="action">
+                <Button type="error" size='small' @click="remove(row.id)">删除</Button>
+            </template>
+        </Table>
     </div>
     <div class="page">
-        <div class="add_goods" @click="openPropModel">新增公告</div>
-        <Page :total="100" show-total show-elevator prev-text='上一頁' next-text='下一頁'/>
+        <div class="add_goods" @click="openPropModel">新增通知</div>
+        <Page :total="total" show-total show-elevator prev-text='上一頁' next-text='下一頁' @on-change="pageChange"/>
     </div>
     <div class="prop_model" v-show="propModel">
         <div class="n_box">
             <div class="n_content">
-                <div class="n_title">新增公告</div>
+                <div class="n_title">新增通知</div>
                 <table style="width:100%">
                     <tr>
-                        <td>公告種類</td>
+                        <td>通知类型</td>
                         <td>
-                            <Select v-model="selectData" style="width:220px;">
+                            <Select v-model="inputValue.type" style="width:220px;">
                                 <Option v-for="item in noticeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                             </Select>
                         </td>
@@ -26,38 +36,24 @@
                     <tr>
                         <td>發送用戶</td>
                         <td>
-                            <Select v-model="selectData" style="width:220px;">
-                                <Option v-for="item in userList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            <InputNumber :min="1" v-model="inputValue.to_user_id" style="width:220px;"></InputNumber>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>状态</td>
+                        <td>
+                            <Select v-model="inputValue.status" style="width:220px;">
+                                <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                             </Select>
                         </td>
                     </tr>
                     <tr>
-                        <td>標題</td>
-                        <td>xxx活動</td>
-                    </tr>
-                    <tr>
-                        <td>發送時間</td>
-                        <td>2019/2/2</td>
-                    </tr>
-                    <tr>
-                        <td>結束時間</td>
-                        <td>2019/2/2</td>
-                    </tr>
-                    <tr>
                         <td style="height:110px;">內容</td>
-                        <td>2019/2/2....</td>
-                    </tr>
-                    <tr>
-                        <td>夾帶折扣券</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>連接</td>
-                        <td>www...ds</td>
+                        <td><Input v-model="inputValue.msg" type="textarea" :rows="4" /></td>
                     </tr>
                 </table>
                 <div class="_btns">
-                    <div class="sure">確定</div>
+                    <div class="sure" @click="sureBtn">確定</div>
                     <div class="cancel" @click="closeModel">取消</div>
                 </div>
             </div>
@@ -77,69 +73,98 @@ export default {
                 },
                 {
                     title: '類型',
-                    key: 'order1',
-                    minWidth:105
+                    slot: 'type',
+                    minWidth:140
                 },
                 {
                     title: '內容',
-                    key: 'order2',
+                    key: 'msg',
+                    ellipsis:true,
+                    tooltip:true,
                     minWidth:180
                 },
                 {
-                    title: '連接',
-                    key: 'order3',
-                    minWidth:160
+                    title: '发送人id',
+                    key: 'from_user_id',
+                    minWidth:120
                 },
                 {
-                    title: '是否審核',
-                    key: 'order4',
-                    minWidth:85
+                    title: '接收人id',
+                    key: 'to_user_id',
+                    minWidth:120
                 },
                 {
-                    title:'是否上架',
-                    key:'order5',
-                    minWidth:85,
+                    title:'其它',
+                    key:'other',
+                    ellipsis:true,
+                    tooltip:true,
+                    minWidth:140,
                 },
                 {
-                    title:'當前狀態',
-                    key:'order6',
-                    minWidth:85,
+                    title:'状态',
+                    slot:'status',
+                    minWidth:110,
                 },
                 {
-                    title:'修改',
-                    key:'order7',
-                    minWidth:85,
-                    render:(h,params)=>{
-                        return h('Button',{
-                            props:{
-                                size:'small'
-                            },
-                            on:{
-                                click:()=>{
-                                    this.openPropModel();
-                                }
-                            }
-                        },'修改')
-                    }
+                    title:'操作',
+                    slot:'action',
+                    minWidth:90,
                 },
             ],
-            data1: [
-                {
-                    order1: '公告',
-                    order2: '紅酒新增',
-                    order3: 'www.dadd.cn',
-                    order4: '否',
-                    order5:'否',
-                    order6:'正在審核',
-                },
-                
-            ],
+            data1: [],
             userList:[],
             noticeList:[],
-            propModel:false
+            propModel:false,
+            loading:false,
+            total:0,
+            current:0,
+            inputValue:{
+                msg:'',
+                type:'',
+                to_user_id:1,
+                status:""
+            },
+            statusList:[
+                {value:0,label:'未读'},
+                {value:1,label:'已读'}
+            ]
         }
     },
+    created(){
+        this.getList(0);
+        this.noticeList = [
+            {value:1,label:'文章被留言'},
+            {value:2,label:'文章留言被评论'},
+            {value:3,label:'酒被评价'},
+            {value:4,label:'评价被评论'},
+            {value:5,label:'新增关注'},
+            {value:6,label:'订单创建'},
+            {value:7,label:'订单确认'},
+            {value:8,label:'订单取消'},
+            {value:9,label:'订单发货'},
+            {value:10,label:'订单完成'},
+            {value:11,label:'活动消息'},
+            {value:12,label:'商品促销消息'},
+            {value:13,label:'一些系统通知'},
+            ]
+    },
     methods:{
+        getList(start){
+            var data = {
+               start:start,
+               rows:10 
+            }
+            this.loading = true;
+            this.$http('messageLogService','findDatas',data)
+            .then(res=>{
+                console.log(res)
+                this.loading = false;
+                if(res.rows.length>0){
+                    this.data1 = res.rows;
+                    this.total = res.total;
+                }
+            })
+        },
         openPropModel(){
             this.propModel = true;  
         },
@@ -148,6 +173,103 @@ export default {
         },
         closeModel(){
             this.propModel = false;
+        },
+        remove(id){
+            this.$Modal.confirm({
+                title: '警告',
+                content: '<h3>此操作將刪除數據，是否繼續？</h3>',
+                onOk: () => {
+                     var data = {id:id};
+                    this.$http('messageLogService','deleteData',data)
+                    .then(res=>{
+                        if(res.result == 'success'){
+                            this.$Message.success('刪除成功');
+                            this.getList(this.current);
+                        }else{
+                            this.$Message.error('操作失敗');
+                        }
+                    })
+                },
+                onCancel: () => {
+                }
+            })  
+        },
+        sureBtn(){
+            var data = {};
+            data.msg = this.inputValue.msg;
+            data.type = this.inputValue.type;
+            data.to_user_id = this.inputValue.to_user_id;
+            if(this.inputValue.status || this.inputValue.status==0){
+                data.status = this.inputValue.status;
+            }
+            // data.time = this.$changeTime(new Date())
+            this.$http('messageLogService','addOrUpdate',data)
+            .then(res=>{
+                if(res.result == 'success'){
+                    this.propModel = false;
+                    this.$Message.success('新增成功');
+                    this.getList(this.current);
+                    this.inputValue ={
+                        msg:'',
+                        type:'',
+                        to_user_id:1,
+                        status:""
+                    }
+                }else{
+                    this.$Message.error('操作失败，请检查')
+                }
+            })
+        },
+        pageChange(index){ //切換頁數
+            this.current = index==1?0:(index-1)*10;
+            this.getList(this.current);
+        },
+        types(type){
+            if(!type){return}
+            var str ='';
+            switch(type){
+                case 1:
+                   str = '文章被留言';
+                   break;
+                case 2:
+                   str = '文章留言被评论';
+                   break;
+                case 3:
+                   str = '酒被评价';
+                   break;
+                case 4:
+                   str = '评价被评论';
+                   break;
+                case 5:
+                   str = '新增关注';
+                   break;
+                case 6:
+                   str = '订单创建';
+                   break;
+                case 7:
+                   str = '订单确认';
+                   break;
+                case 8:
+                   str = '订单取消';
+                   break;
+                case 9:
+                   str = '订单发货';
+                   break;
+                case 10:
+                   str = '订单完成';
+                   break;
+                case 11:
+                   str = '活动消息';
+                   break;
+                case 12:
+                   str = '商品促销消息';
+                   break;
+                case 13:
+                   str = '一些系统通知';
+                   break;
+            }
+            return str
+            
         }
     }
    
@@ -157,22 +279,24 @@ export default {
 .page{
     justify-content: space-between;
 }
-.titles{
+._title{
     width: 100%;
     height: 36px;
-    background-color: #009688;
+    background-color: #2D8CF0;
     border-radius: 4px;
-    line-height: 36px;
-    text-align: center;
+    font-size: 16px;
     color: #fff;
+    text-align: center;
+    line-height: 36px;
+    /* margin-bottom: 30px; */
 }
 .n_box{
     position: absolute;
     top: 50%;
     left: 50%;
-    margin: -290px 0 0 -300px;
+    margin: -200px 0 0 -300px;
     width: 600px;
-    height: 580px;
+    height: 400px;
     background-color:#fff;
     border-radius: 4px; 
 }
@@ -190,7 +314,7 @@ export default {
     text-align: center;
     margin: 20px 0;
 }
-table,table tr th, table tr td { border:1px solid #555;text-align: center;font-size: 14px; }
+table,table tr th, table tr td { border:1px solid #E0E0E0;text-align: center;font-size: 14px; }
 table{
     border-collapse: collapse;
     padding:2px;

@@ -144,6 +144,15 @@ import Fullscreen from './components/fullscreen'
             // var data = '[{"icon":"ios-book","name":"doc","meta":{"title":"文檔","href":"https://lison16.github.io/iview-admin-doc/#/","icon":"ios-book"},"href":"https://lison16.github.io/iview-admin-doc/#/"},{"icon":"","name":"join","meta":{"hideInBread":true},"children":[{"icon":"_qq","name":"join_page","meta":{"icon":"_qq","title":"QQ群"}}]},{"icon":"logo-buffer","name":"components","meta":{"icon":"logo-buffer","title":"組件"},"children":[{"icon":"md-arrow-dropdown-circle","name":"tree_select_page","meta":{"icon":"md-arrow-dropdown-circle","title":"樹狀下拉選擇器"}},{"icon":"md-trending-up","name":"count_to_page","meta":{"icon":"md-trending-up","title":"數字漸變"}},{"icon":"ios-infinite","name":"drag_list_page","meta":{"icon":"ios-infinite","title":"拖拽列表"}},{"icon":"md-list","name":"drag_drawer_page","meta":{"icon":"md-list","title":"可拖拽抽屜"}},{"icon":"ios-people","name":"org_tree_page","meta":{"icon":"ios-people","title":"組織結構樹"}},{"icon":"md-git-branch","name":"tree_table_page","meta":{"icon":"md-git-branch","title":"樹狀表格"}},{"icon":"md-crop","name":"cropper_page","meta":{"icon":"md-crop","title":"圖片裁剪"}},{"icon":"md-grid","name":"tables_page","meta":{"icon":"md-grid","title":"多功能表格"}},{"icon":"md-pause","name":"split_pane_page","meta":{"icon":"md-pause","title":"分割窗口"}},{"icon":"logo-markdown","name":"markdown_page","meta":{"icon":"logo-markdown","title":"Markdown編輯器"}},{"icon":"ios-create","name":"editor_page","meta":{"icon":"ios-create","title":"富文本編輯器"}},{"icon":"_bear","name":"icons_page","meta":{"icon":"_bear","title":"自定義圖標"}}]},{"icon":"md-cloud-upload","name":"update","meta":{"icon":"md-cloud-upload","title":"數據上傳"},"children":[{"icon":"ios-document","name":"update_table_page","meta":{"icon":"ios-document","title":"上傳Csv"}},{"icon":"md-clipboard","name":"update_paste_page","meta":{"icon":"md-clipboard","title":"粘貼表格數據"}}]},{"icon":"ios-stats","name":"excel","meta":{"icon":"ios-stats","title":"EXCEL導入導出"},"children":[{"icon":"md-add","name":"upload-excel","meta":{"icon":"md-add","title":"導入EXCEL"}},{"icon":"md-download","name":"export-excel","meta":{"icon":"md-download","title":"導出EXCEL"}}]},{"icon":"","name":"tools_methods","meta":{"hideInBread":true},"children":[{"icon":"ios-hammer","name":"tools_methods_page","meta":{"icon":"ios-hammer","title":"工具方法","beforeCloseName":"before_close_normal"}}]},{"icon":"","name":"i18n","meta":{"hideInBread":true},"children":[{"icon":"md-planet","name":"i18n_page","meta":{"icon":"md-planet","title":"i18n - {{ i18n_page }}"}}]},{"icon":"","name":"error_store","meta":{"hideInBread":true},"children":[{"icon":"ios-bug","name":"error_store_page","meta":{"icon":"ios-bug","title":"錯誤收集"}}]},{"icon":"","name":"directive","meta":{"hideInBread":true},"children":[{"icon":"ios-navigate","name":"directive_page","meta":{"icon":"ios-navigate","title":"指令"}}]},{"icon":"md-menu","name":"multilevel","meta":{"icon":"md-menu","title":"多級菜單"},"children":[{"icon":"md-funnel","name":"level_2_1","meta":{"icon":"md-funnel","title":"二級-1"}},{"icon":"md-funnel","name":"level_2_2","meta":{"access":["super_admin"],"icon":"md-funnel","showAlways":true,"title":"二級-2"},"children":[{"icon":"md-funnel","name":"level_2_2_1","meta":{"icon":"md-funnel","title":"三級"}},{"icon":"md-funnel","name":"level_2_2_2","meta":{"icon":"md-funnel","title":"三級"}}]},{"icon":"md-funnel","name":"level_2_3","meta":{"icon":"md-funnel","title":"二級-3"}}]}]'  
             var data = [
                     {
+                        icon:'ios-paper',
+                        name:'关键数据',
+                        meta:{icon:'ios-paper',title:'关键数据'},
+                        children:[
+                            {icon:'',name:'cruxdata',meta:{icon:'',title:'即时数据'}},
+                            {icon:'',name:'recentdata',meta:{icon:'',title:'近期数据'}}
+                        ] 
+                    },
+                    {
                         icon:'ios-people',
                         name:'用戶管理',
                         meta:{icon:'ios-people',title:'用戶管理'},
@@ -190,6 +199,15 @@ import Fullscreen from './components/fullscreen'
                         ]
                     },
                     {
+                        icon:'md-megaphone',
+                        name:'公告&广告管理',
+                        meta:{icon:'md-megaphone',title:'公告&广告管理'},
+                        children:[
+                            {icon:'',name:'editNotice',meta:{icon:'',title:'公告通知'}},
+                            {icon:'',name:'advertisementEdit',meta:{icon:'',title:'广告管理'}},
+                        ]
+                    },
+                    {
                         icon:'ios-key',
                         name:'後臺賬號管理',
                         meta:{icon:'ios-key',title:'後臺賬號管理'},
@@ -212,6 +230,15 @@ import Fullscreen from './components/fullscreen'
                             {icon:'',name:'articleData',meta:{icon:'',title:'文章數據'}},
                         ]
                     },
+                    {
+                        icon:'logo-bitcoin',
+                        name:'賬務管理',
+                        meta:{icon:'logo-bitcoin',title:'賬務管理'},
+                        children:[
+                            {icon:'',name:'financeCheck',meta:{icon:'',title:'賬務核對'}},
+                            {icon:'',name:'invoice',meta:{icon:'',title:'發票另寄'}},
+                        ]
+                    }
                 ]
             this.menuList =data;
             console.log(this.menuList)
