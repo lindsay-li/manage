@@ -45,7 +45,7 @@
             <div class="contant">
                 <div class="tit">菜單權限管理</div>
                 <div class="list">
-                    <Tree :data="treeData" show-checkbox multiple @on-check-change="getmenusData"></Tree>
+                    <Tree :data="treeData" show-checkbox multiple @on-check-change="getmenusData" ref="trees"></Tree>
                 </div>
                 <div class="btns">
                     <div class="cancel" @click='closeModel'>取消</div>
@@ -299,14 +299,31 @@ export default {
                 tree.forEach(item => {
                     item.expand = true;
                     item.title = item.label;
+                    // arr.forEach(it =>{
+                    //     if(item.id ==it.id){
+                    //         item.checked = true;
+                    //     }
+                    // })
+                    if(item.children){
+                      return  this.getTreeChild(item.children,arr);
+                    }
+                });
+            }
+            return tree
+        },
+        getTreeChild(tree = [],arr=[]){
+            if (tree.length !== 0) {
+                tree.forEach(item => {
+                    item.expand = true;
+                    item.title = item.label;
                     arr.forEach(it =>{
                         if(item.id ==it.id){
                             item.checked = true;
                         }
                     })
-                    if(item.children){
-                        this.getTree(item.children,arr);
-                    }
+                    // if(item.children){
+                    //     this.getTree(item.children,arr);
+                    // }
                 });
             }
             return tree
@@ -328,6 +345,7 @@ export default {
                     data[key] = this.editValue[key];
                 }
             }
+            data.id = id;
             this.$http('zAdminRoleService','addOrUpdate',data)
             .then(res=>{
                 if(res.result == 'success'){
@@ -347,17 +365,17 @@ export default {
         },
         setMenuHandle(){ //保存修改
             console.log(this.newtreeData)
+            // var newtreeData = this.$refs.trees.getCheckedAndIndeterminateNodes(); //获取选择的菜单和半选菜单
+            var newtreeData = this.newtreeData
             var str = [];
-            for(let i = 0;i<this.newtreeData.length;i++){
-                if(!this.newtreeData[i].children){
-                    str.push(this.newtreeData[i].id);
-                }
+            for(let i = 0;i<newtreeData.length;i++){
+                str.push(newtreeData[i].id);
             }
             var data = {
                 role_id:this.currentId,
                 menuIds:str.join(',')
             }
-            this.$http('zAdminUserService','addRoleMenu',data)
+            this.$http('zAdminRoleService','addRoleMenu',data)
             .then(res=>{
                 this.propModel = false;
                 if(res.result == 'success'){

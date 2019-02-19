@@ -1,7 +1,7 @@
 <template>
 <div class="wrapper">
     <div class="activity">
-        <TreeTable border expand-key="id" :expand-type="false" :selectable="false" :columns="columns1" :data="data1" :tree-type="true" class="post">
+        <TreeTable border expand-key="id" :expand-type="false" :selectable="false" :columns="columns1" :data="data1" :tree-type="true" height="466px" class="post">
             <template slot="menus" slot-scope="scope">
                 <Input type="text" v-model="tables.name" v-if="editIndex === scope.rowIndex" />
                 <span v-else>{{ scope.row.m_name }}</span>
@@ -344,9 +344,11 @@ export default {
                 m_name:da.name,
                 m_code:da.code,
                 m_order:da.order,
-                pid:da.fid?da.fid:'',
                 create_user:userInfo.dbUser.id,
                 status:da.status
+            }
+            if(da.fid){
+                data.pid = da.fid
             }
             this.$http('zAdminMenuService','addOrUpdate',data)
             .then(res=>{

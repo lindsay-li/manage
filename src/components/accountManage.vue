@@ -71,6 +71,18 @@
                 </div>
                 <!-- <span v-else>{{ row.rolename }}</span> -->
             </template>
+            <template slot="shop_ids" slot-scope="{row,index}">
+                <!-- <div>{{getShopname(row.shop_ids)}}</div> -->
+                <div v-if="editIndex === index">
+                    <Select v-model="editValue.shop_ids" multiple >
+                        <Option v-for="item in shopData" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                </div>
+                <Tooltip :content="getShopname(row.shop_ids)" v-else>
+                    {{getShopname(row.shop_ids)}}
+                </Tooltip>
+                
+            </template>
             <template slot="action" slot-scope="{row,index}">
                 <div v-if="editIndex === index">
                     <Button size='small' type="primary" @click="saveHandle(row,row.id)" style="margin-right:5px">保存</Button>
@@ -178,6 +190,7 @@ export default {
                 user_no:'',
                 username:'',
                 password:"",
+                shop_ids:[]
             },
             editIndex:-1,
             setuser:{
@@ -216,6 +229,13 @@ export default {
                     title:'所屬角色',
                     slot:'rolename',
                     minWidth:200,
+                },
+                {
+                    title: '負責門店id',
+                    slot: 'shop_ids',
+                    ellipsis:true,
+                    tooltip:true,
+                    minWidth:180
                 },
                 {
                     title: '性別',
@@ -258,11 +278,6 @@ export default {
                     minWidth:130
                 },
                 {
-                    title: '負責門店id',
-                    key: 'shop_ids',
-                    minWidth:120
-                },
-                {
                     title:'操作',
                     slot:'action',
                     minWidth:135
@@ -273,11 +288,14 @@ export default {
             single:false,
             propModel:false,
             current:0,  //當前頁碼
+            shopData:[], //门店集合
+
         }
     },
     created(){
         this.getList(0);
         this.getroleid();
+        this.getShop();
     },
     methods:{
         searchList(){ //查詢用戶
@@ -454,6 +472,9 @@ export default {
                     data[key] = this.editValue[key];
                 }
             }
+            if(data.shop_ids){
+                data.shop_ids = data.shop_ids.join(',')
+            }
             this.$http('zAdminUserService','addOrUpdate',data)
             .then(res=>{
                 if(res.result == 'success'){
@@ -488,6 +509,40 @@ export default {
             this.fruit = row.rolename;
             this.roleModel = true;
             this.user_id = row.id;
+        },
+        getShop(){  //获取所有门店数据
+            var data = {
+                start:0,
+                rows:1000
+            }
+            this.$http('orderShopService','findDatas',data)
+            .then(res=>{
+                console.log(res)
+                if(res.rows){
+                    var arr = [];
+                    for(let i =0;i<res.rows.length;i++){
+                        var obj = {}
+                        obj.id = res.rows[i].id;
+                        obj.name = res.rows[i].name;
+                        obj.value = res.rows[i].id;
+                        obj.label = res.rows[i].name;
+                        arr.push(obj)
+                    }
+                    this.shopData = arr;
+                }
+            })
+        },
+        getShopname(ids){
+            if(!ids){return}
+            var idArr = ids.split(',');
+            console.log(idArr)
+            var str = '';
+            for(let i=0;i<this.shopData.length;i++){
+                if(idArr.indexOf(this.shopData[i].id+'') >= 0){
+                    str += this.shopData[i].name + ','
+                }
+            }
+            return str
         },
         setRoleHandle(){ //角色點擊確定
             console.log(this.fruit)
