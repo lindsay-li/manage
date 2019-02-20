@@ -7,7 +7,7 @@
         </div>
         <div class="option">
             <span>手機號：</span>
-            <Input type="text" name="phone"v-model="inputValue.phone" style="width:160px"/>
+            <Input type="text" name="phone" v-model="inputValue.phone" style="width:160px"/>
         </div>
         <!-- <div class="option">
             <span>創建時間：</span>
@@ -16,7 +16,7 @@
         </div> -->
         <div class="option">
             <span>城市：</span>
-            <Input type="text" name="city"v-model="inputValue.city" style="width:160px"/>
+            <Input type="text" name="city" v-model="inputValue.city" style="width:160px"/>
         </div>
         <div class="serch" @click="searchList">查詢</div>
     </div>
@@ -61,13 +61,13 @@
                 <Input type="text" v-model="editValue.password" v-if="editIndex === index" />
                 <span v-else>{{ row.password }}</span>
             </template>
-            <template slot="rolename" slot-scope="{row,index}">
+            <template slot="rolename" slot-scope="{row}">
                 <!-- <Input type="text" v-model="editValue.rolename" v-if="editIndex === index" /> -->
                 <!-- <Select v-model="editValue.roleId" multiple  v-if="editIndex === index">
                     <Option v-for="item in roleList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select> -->
                 <div class="rolename" @click="changeRole(row)">
-                    <span>{{row.rolename.join(',')}}</span>
+                    <span v-text="row.rolename?row.rolename.join(','):''"></span>
                 </div>
                 <!-- <span v-else>{{ row.rolename }}</span> -->
             </template>
@@ -106,7 +106,7 @@
         <div class="_box">
             <div class="contant">
                 <div class="tit">添加用戶</div>
-                <div class="list"style="width:100%;">
+                <div class="list" style="width:100%;">
                     <table style="width:100%;">
                         <tr>
                             <td style="text-align:right">用戶名:</td>
@@ -139,7 +139,7 @@
         <div class="_role">
             <div class="contant">
                 <div class="r_tit">添加角色</div>
-                <div class="list"style="width:100%;">
+                <div class="list" style="width:100%;">
                     <!-- <Select v-model="roleId" multiple >
                         <Option v-for="item in roleList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select> -->
@@ -329,9 +329,19 @@ export default {
                         }else{
                             res.rows[i].sex ='未知';
                         }
-                        
+                        var rolename = [];
+                        var roleid = [];
+                        if(res.rows[i].rolename){
+                            var role = res.rows[i].rolename.split(',');
+                            for(let j =0;j<role.length;j++){
+                                var str = role[j].split('#');
+                                rolename.push(str[1]);
+                                roleid.push(str[0])
+                            }
+                        }
                         res.rows[i].create_time = this.$changeTime(res.rows[i].create_time);
-                        
+                        res.rows[i].rolename = rolename;
+                        res.rows[i].roleId = roleid;      
                     }
                     this.data1 = res.rows;
                 }else{
@@ -456,9 +466,7 @@ export default {
         saveHandle(row,id){ //保存修改數據
             this.editIndex = -1;
             var newrow = row;
-            var data = {
-                id:id
-            };
+            var data = { };
             newrow.sex = newrow.sex == '男'?(newrow.sex == '女'?2:1):3
             if(newrow.sex=='男'){
                 newrow.sex = 1;
@@ -467,11 +475,13 @@ export default {
             }else{
                 newrow.sex =3;
             }
-            for(let key in this.editValue){  //參數沒改變的就不傳接口
-                if(this.editValue[key] != newrow[key]){
-                    data[key] = this.editValue[key];
-                }
-            }
+            // for(let key in this.editValue){  //參數沒改變的就不傳接口
+            //     if(this.editValue[key] != newrow[key]){
+            //         data[key] = this.editValue[key];
+            //     }
+            // }
+            data = this.editValue
+            data.id = id
             if(data.shop_ids){
                 data.shop_ids = data.shop_ids.join(',')
             }
@@ -497,6 +507,7 @@ export default {
                 user_no:row.user_no,
                 username:row.username,
                 password:row.password,
+                shop_ids:row.shop_ids?row.shop_ids.split(','):''
             }
             this.editIndex = index;
         },
@@ -535,7 +546,6 @@ export default {
         getShopname(ids){
             if(!ids){return}
             var idArr = ids.split(',');
-            console.log(idArr)
             var str = '';
             for(let i=0;i<this.shopData.length;i++){
                 if(idArr.indexOf(this.shopData[i].id+'') >= 0){
