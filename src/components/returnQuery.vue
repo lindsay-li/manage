@@ -1,12 +1,5 @@
 <template>
 <div class="wrappar">
-    <!-- <div class="nav">
-        <div class="option">
-            <span>葡萄種類：</span>
-            <Input type="text"  v-model="grape_type" style="width:160px" />
-        </div>
-        <div class="serch" @click="newAdd">新增</div>
-    </div> -->
     <div class="goods">
         <Table border  :columns="columns1" :data="data1"  class="post">
             <template slot="peisong" slot-scope="{row,index}">

@@ -231,6 +231,14 @@ import Fullscreen from './components/fullscreen'
                         ]
                     },
                     {
+                        icon:'ios-call',
+                        name:'客服相关',
+                        meta:{icon:'ios-call',title:'客服相关'},
+                        children:[
+                            {icon:'',name:'waiterLetter',meta:{icon:'',title:'客服信件'}},
+                        ]
+                    },
+                    {
                         icon:'logo-bitcoin',
                         name:'賬務管理',
                         meta:{icon:'logo-bitcoin',title:'賬務管理'},

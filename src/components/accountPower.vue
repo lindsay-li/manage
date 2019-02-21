@@ -232,7 +232,7 @@ export default {
                 obj.label = item.m_name;
                 obj.id = item.id;
                 if(item.children) {
-                obj.children = this.getTreess(item.children);
+                    obj.children = this.getTreess(item.children);
                 }
                 arr.push(obj);
             });

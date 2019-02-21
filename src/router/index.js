@@ -56,7 +56,7 @@ const retainData = () => import('@/components/retainData');
 const communityData = () => import('@/components/communityData');
 const goodsData = () => import('@/components/goodsData');
 const articleData = () => import('@/components/articleData');
-// const waiterLetter = () => import('@/components/waiterLetter');
+const waiterLetter = () => import('@/components/waiterLetter');
 // const repairFunc = () => import('@/components/repairFunc');
 // const userImpeach = () => import('@/components/userImpeach');
 const financeCheck = () => import('@/components/financeCheck');
@@ -237,6 +237,13 @@ export default new Router({
           component:articleData,
           meta:{
             title:'文章數據'
+          }
+        },
+        {
+          path:'/waiterLetter',
+          component:waiterLetter,
+          meta:{
+            title:'客服信件'
           }
         },
         {

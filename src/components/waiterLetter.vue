@@ -1,40 +1,26 @@
 <template>
 <div class="wrappar">
-    <div class="title">客服信件</div>
-    <div class="activity">
-        <Table border  :columns="columns1" :data="data1" @on-row-click="openModel" class="post"></Table>
+    <div class="_title">客服信件</div>
+    <div class="handle">
+        <Table border  :columns="columns1" :data="data1" @on-row-click="selectChange1"  class="post">
+            <template slot-scope="{ row, index }" slot="type">
+                <div>{{types(row.type)}}</div>
+            </template>
+            <template slot-scope="{ row, index }" slot="status">
+                <div>
+                    <Select v-model="row.status" style="width:100%" @on-change="selectChange">
+                        <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                </div>
+            </template>
+            <template slot-scope="{ row, index }" slot="action">
+                <Button type="error" size="small" @click="deletes(row.id)">删除</Button>
+            </template>
+        </Table>
     </div>
     <div class="page">
-        <Page :total="100" show-total show-elevator prev-text='上一頁' next-text='下一頁'/>
+        <Page :total="total" show-total show-elevator prev-text='上一頁' next-text='下一頁' @on-change="pageChange"/>
     </div>
-    <div class="prop_model" v-show="propModel">
-        <div class="_box">
-            <div class="contant">
-                <div class="tit">客服信件</div>
-                <div class="list"style="width:100%;">
-                    <div class="letter">
-                        <span>发件人：</span>
-                        <span>ddd</span>
-                    </div>
-                    <div class="text_contant">
-                        内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容
-                        内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容
-                        内容内容内容内容内容内容内容内容内容内容内容内容内容vv内容内容
-                        内容内容内容内容内容内容内容内容内容内容内容内容内容内容
-                    </div>
-                    <div class="huifu">
-                        <Input v-model="value6" type="textarea" :rows="4" placeholder="输入内容" />
-                    </div>
-                </div>
-                <div class="btns">
-                    <div class="sure">回复</div>
-                </div>
-            </div>
-            <div class="close" @click="closeModel">
-                ×
-            </div>
-        </div>
-    </div> 
 </div>   
 </template>
 <script>
@@ -43,109 +29,147 @@ export default {
         return{
             columns1: [
                 {
-                    title: '发件人',
-                    key: 'order1',
-                    minWidth:130
-                },
-                {
                     title: '内容',
-                    key: 'order2',
+                    key: 'msg',
+                    ellipsis:true,
+                    tooltip:true,
                     minWidth:200
                 },
                 {
-                    title: '时间',
-                    key: 'order3',
-                    minWidth:160
-                }
-            ],
-            data1: [
-                {
-                    order1: '温暖的琴弦',
-                    order2: '82年拉菲价值不菲，认真品尝后发现有问题...',
-                    order3: '2018-02-03'
+                    title: '图片消息',
+                    key: 'img',
+                    minWidth:180
                 },
                 {
-                    order1: '温暖的琴弦',
-                    order2: '82年拉菲价值不菲，认真品尝后发现有问题...',
-                    order3: '2018-02-03'
+                    title: '用户id',
+                    key: 'user_id',
+                    width:120
                 },
                 {
-                    order1: '温暖的琴弦',
-                    order2: '82年拉菲价值不菲，认真品尝后发现有问题...',
-                    order3: '2018-02-03'
+                    title: '问题id',
+                    key: 'pid',
+                    width:120
+                },
+                {
+                    title: '发送对象',
+                    slot: 'type',
+                    width:120
+                },
+                {
+                    title:'状态',
+                    slot:'status',
+                    width:120
+                },
+                {
+                    title:'操作',
+                    slot:'action',
+                    width:90
                 }
             ],
-            propModel:false,
-            value6:''
+            data1: [],
+            loading:false,
+            total:0,
+            current:0,
+            statusList:[
+                {value:0,label:'未回复'},
+                {value:1,label:'已回复'}
+            ],
+            statusData:'',
+            id:''
         }
     },
+    created(){
+        this.getList(0)
+    },
     methods:{
-        openModel(){
-            this.propModel = true;
+        getList(start){
+            var data = {
+               start:start,
+               rows:10 
+            }
+            this.loading = true;
+            this.$http('mesmanageService','findDatas',data)
+            .then(res=>{
+                console.log(res)
+                this.loading = false;
+                if(res.rows.length>0){
+                    this.data1 = res.rows;
+                    this.total = res.total;
+                }
+            })
         },
-        closeModel(){
-            this.propModel = false;
+        pageChange(index){ //切換頁數
+            this.current = index==1?0:(index-1)*10;
+            this.getList(this.current);
+            
+        },
+        types(type){
+            if(!type){return}
+            var str = '';
+            if(type==1){
+                str = '管理员'
+            }else if(type ==2){
+                str = '用户'
+            }
+            return str
+        },
+        selectChange(value){
+            console.log(value)
+            this.revise(value)
+        },
+        selectChange1(row){
+            console.log(row)
+            this.id = row.id
+        },
+        revise(value){ //修改状态
+            var data = {
+                status:parseInt(value),
+                id:this.id
+            }
+            this.$http('mesmanageService','addOrUpdate',data)
+            .then(res=>{
+                if(res.result=='success'){
+                    this.$Message.success('修改成功');
+                    this.getList(this.current);
+                    this.id = '';
+                }else{
+                    this.$Message.error('操作失敗');
+                }
+            })
+        },
+        deletes(id){
+            this.$Modal.confirm({
+                title: '警告',
+                content: '<h3>此操作將刪除數據，是否繼續？</h3>',
+                onOk: () => {
+                     var data = {id:id};
+                    this.$http('mesmanageService','deleteData',data)
+                    .then(res=>{
+                        if(res.result == 'success'){
+                            this.$Message.success('刪除成功');
+                            this.getList(this.current);
+                        }else{
+                            this.$Message.error('操作失敗');
+                        }
+                    })
+                },
+                onCancel: () => {
+                }
+            })  
         }
     }
 }
 </script>
 <style scoped>
-.tit{
-    width: 430px;
+._title{
+    width: 100%;
     height: 36px;
-    background-color: #009688;
+    background-color: #2D8CF0;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 16px;
     color: #fff;
     text-align: center;
     line-height: 36px;
-    margin: 0 auto;
-    margin-top: 30px;
     margin-bottom: 30px;
-}
-._box{
-    width: 600px;
-    height: 460px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -230px 0 0 -300px;
-    border-radius: 4px;
-    background-color: #fff;
-}
-.contant{
-    width: 90%;
-    margin: 0 auto;
-}
-.btns{
-    width: 100%;
-    justify-content: flex-end;
-    margin-top: 30px;
-}
-.sure{
-    width: 136px;
-    height:40px;
-    line-height: 40px; 
-}
-.letter,
-.text_contant,
-.huifu{
-    width: 100%;
-    margin-bottom: 20px;
-}
-.text_contant{
-    background-color: #ccc;
-}
-.close{
-    width: 36px;
-    height: 36px;
-    text-align: center;
-    line-height: 36px;
-    position: absolute;
-    right: 5px;
-    top: 5px;
-    font-size: 30px;
-    color: #17233d;
-    cursor: pointer;
 }
 </style>
