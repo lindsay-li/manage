@@ -118,7 +118,7 @@ export default {
                 'APP平均': rowsData.appavgmoney,
                 'WEB平均': rowsData.webavgmoney
               }
-            this.pieData.push({ value: rowsData.ordernum, name: '总订单数' })
+            this.pieData = pie
             this.barData = barData
           }
       })

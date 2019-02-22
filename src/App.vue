@@ -137,6 +137,7 @@ td .ivu-table-cell,
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    position: relative;
 }
 .option{
     font-weight: bold;

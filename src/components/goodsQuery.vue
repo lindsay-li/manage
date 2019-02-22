@@ -14,6 +14,10 @@
             <Input type="text" name="time" style="width:160px"/>
         </div> -->
         <div class="serch" @click='search'>查詢</div>
+        <Upload action="" :before-upload="handleBeforeUpload" accept=".xls, .xlsx">
+          <Button icon="ios-cloud-upload-outline" type="primary" style="position:absolute;right:160px;top:1.5px" :loading="uploadLoading" @click="handleUploadFile">上传excel</Button>
+        </Upload>
+        <Button icon="md-download" type="primary" style="position:absolute;right:20px" :loading="exportLoading" @click="exportExcel">导出excel</Button>
     </div>
     <div class="query">
         <Table border  :columns="columns1" :data="data1"   height="550" class="post" :loading="loading">
@@ -240,6 +244,7 @@
 </template>
 <script>
 import {times} from '../until/tool.js'
+import excel from '../until/excel.js'
 export default {
     data(){
         return{
@@ -521,7 +526,11 @@ export default {
             iSimage:true,
             userInfo:{
                 id:1
-            }
+            },
+            exportLoading: false,
+            uploadLoading:false,
+            tableData: [],
+            tableTitle: [],
         }
     },
     created(){
@@ -538,6 +547,80 @@ export default {
         }
     },
     methods:{
+        exportExcel () {
+            if (this.data1.length) {
+                this.exportLoading = true
+                var tabledata = this.columns1;
+                var title_arr = [];
+                var key_arr = [];
+                for(let i =0;i<tabledata.length;i++){
+                    if(tabledata[i].title != '编辑'){
+                        title_arr.push(tabledata[i].title)
+                        key_arr.push(tabledata[i].key?tabledata[i].key:tabledata[i].slot)
+                    }
+                }
+                const params = {
+                // title: ['一级分类', '二级分类', '三级分类'],
+                title:title_arr,
+                // key: ['category1', 'category2', 'category3'],
+                key:key_arr,
+                data: this.data1,
+                autoWidth: true,
+                filename: '商品信息'
+                }
+                excel.export_array_to_excel(params)
+                this.exportLoading = false
+            } else {
+                this.$Message.info('表格数据不能为空！')
+            }
+        },
+        handleUploadFile(){
+            this.tableData = []
+            this.tableTitle = []
+        },
+        handleBeforeUpload (file) {
+            const fileExt = file.name.split('.').pop().toLocaleLowerCase()
+            if (fileExt === 'xlsx' || fileExt === 'xls') {
+                this.readFile(file)
+                // this.file = file
+            } else {
+                this.$Notice.warning({
+                title: '文件类型错误',
+                desc: '文件：' + file.name + '不是EXCEL文件，请选择后缀为.xlsx或者.xls的EXCEL文件。'
+                })
+            }
+            return false
+        },
+        // 读取文件
+        readFile (file) {
+            const reader = new FileReader()
+            reader.readAsArrayBuffer(file)
+            reader.onloadstart = e => {
+                this.uploadLoading = true
+                this.loading = true
+                // this.showProgress = true
+            }
+            reader.onprogress = e => {
+                // this.progressPercent = Math.round(e.loaded / e.total * 100)
+            }
+            reader.onerror = e => {
+                this.$Message.error('文件读取出错')
+            }
+            reader.onload = e => {
+                this.$Message.info('文件读取成功')
+                const data = e.target.result
+                console.log(data)
+                const { header, results } = excel.read(data, 'array')
+                const tableTitle = header.map(item => { return { title: item, key: item } })
+                this.tableData = results
+                this.tableTitle = tableTitle
+                this.uploadLoading = false
+                this.loading = false
+                console.log(this.tableData)
+                console.log(this.tableTitle)
+                // this.showRemoveFile = true
+            }
+        },
         getList(index){
             var data = {
                 start:index,
