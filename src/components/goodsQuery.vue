@@ -21,7 +21,7 @@
     </div>
     <div class="query">
         <Table border  :columns="columns1" :data="data1"   height="550" class="post" :loading="loading">
-            <template slot-scope="{ row, index }" slot="description">
+            <template slot-scope="{ row }" slot="description">
                 <Tooltip placement="bottom" max-width="370" theme="light">
                     <span v-if="row.description">{{stringHanle(row.description,3)}}</span>
                     <div slot="content">
@@ -33,25 +33,25 @@
                     </div>
                 </Tooltip>
             </template>
-            <template slot-scope="{ row, index }" slot="type">
+            <template slot-scope="{ row}" slot="type">
                 <div v-if="row.type">{{types(row.type)}}</div>
             </template>
-            <template slot-scope="{row,index}" slot="type_id">
+            <template slot-scope="{row}" slot="type_id">
                 <div>{{styles(row.type_id)}}</div>
             </template>
-            <template slot-scope="{row,index}" slot="country_id">
+            <template slot-scope="{row}" slot="country_id">
                 <div>{{country(row.country_id)}}</div>
             </template>
-            <template slot-scope="{row,index}" slot="winery_id">
+            <template slot-scope="{row}" slot="winery_id">
                 <div>{{winery(row.winery_id)}}</div>
             </template>
-            <template slot-scope="{row,index}" slot="region_id">
+            <template slot-scope="{row}" slot="region_id">
                 <div>{{region(row.region_id)}}</div>
             </template>
-            <template slot-scope="{row,index}" slot="product_style">
+            <template slot-scope="{row}" slot="product_style">
                 <div>{{product_style(row.product_style)}}</div>
             </template>
-            <template slot-scope="{row,index}" slot="brand_id">
+            <template slot-scope="{row}" slot="brand_id">
                 <div>{{brand(row.brand_id)}}</div>
             </template>
         </Table>
@@ -177,14 +177,14 @@
                             <InputNumber  :min="0" v-model="inputValue.image"></InputNumber>
                         </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td colspan="6">商品描述</td>
                     </tr>
                     <tr >
                         <td colspan="6">
                             <Input type="textarea" v-model="inputValue.description" />
                         </td>
-                    </tr>
+                    </tr> -->
                 </table>
             </div>
             <div class="c_btns">
@@ -324,7 +324,7 @@ export default {
                                 },
                                 on: {
                                     click: () => {
-                                        // this.show(params)
+                                        this.show(params.row)
                                     }
                                 }
                             }, '編輯'),
@@ -383,7 +383,7 @@ export default {
             imports:[{value:'是',label:'是'},{value:'否',label:'否'}],
             inputValue:{
                 specification:'',
-                description:"",
+                // description:"",
                 brand_id:'',
                 import:'',
                 concentration:0,
@@ -411,6 +411,7 @@ export default {
             uploadLoading:false,
             tableData: [],
             tableTitle: [],
+            id:''
         }
     },
     created(){
@@ -547,10 +548,15 @@ export default {
         },
         closeProp(){
             this.createPage = false;
+            this.id = ''
+            this.clearData()
         },
         stringHanle(str,type){
             if(!str){return;}
             var strs = '';
+            if(str.indexOf('<h4>') == -1){
+                return str
+            }
             if(type ==1){
                 strs = str.substring(str.indexOf('<h4>')+4,str.indexOf('</h4>'));
             }else if(type==3){
@@ -613,20 +619,73 @@ export default {
             this.inputValue.product_photo = file.name;
             return false;
         },
+        show(row){
+            this.inputValue = {
+                specification:row.specification,
+                description:row.description,
+                brand_id:row.brand_id,
+                import:row.import,
+                concentration:row.concentration,
+                annual_output:row.annual_output,
+                winery_id:row.winery_id,
+                vintage:row.vintage,
+                price:row.price,
+                num:row.num,
+                region_id:row.region_id,
+                product_style:row.product_style,
+                country_id:row.country_id,
+                temperature_high:row.temperature_high,
+                temperature_low:row.temperature_low,
+                type:row.type,
+                type_id:row.type_id,
+                title:row.title,
+                image:row.image
+            }
+            this.id = row.id
+            this.createPage = true;
+        },
         sureBtn(){  //新增商品信息
             var data = this.inputValue;
             console.log(data)
             // return;
+            if(this.id){
+                data.id = this.id
+            }
             this.$http('moWineService','addOrUpdate',data)
             .then(res=>{
-                this.createPage = false
                 if(res.result == 'success'){
+                    this.createPage = false
                     this.$Message.success('新增成功');
                     this.getList(this.current);
+                    this.id = ''
+                    this.clearData()
                 }else{
                     this.$Message.error(res.message);
                 }
             })
+        },
+        clearData(){
+            this.inputValue = {
+                specification:'',
+                description:"",
+                brand_id:'',
+                import:'',
+                concentration:0,
+                annual_output:0,
+                winery_id:'',
+                vintage:0,
+                price:0,
+                num:0,
+                region_id:'',
+                product_style:'',
+                country_id:'',
+                temperature_high:0,
+                temperature_low:0,
+                type:'',
+                type_id:'',
+                title:'',
+                image:0
+            }
         },
         search(){
             var data = {};
