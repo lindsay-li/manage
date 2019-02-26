@@ -173,11 +173,15 @@ import Fullscreen from './components/fullscreen'
                             {icon:'',name:'createGoods',meta:{icon:'',title:'商品風格'}},
                             {icon:'',name:'productType',meta:{icon:'',title:'商品类型'}},
                             {icon:'',name:'branchInventory',meta:{icon:'',title:'分店庫存'}},
-                            {icon:'',name:'productArea',meta:{icon:'',title:'產區風格'}},
+                            {icon:'',name:'productArea',meta:{icon:'',title:'產區管理'}},
+                            {icon:'',name:'areaSun',meta:{icon:'',title:'子產區管理'}},
                             {icon:'',name:'country',meta:{icon:'',title:'國家管理'}},
                             {icon:'',name:'grape',meta:{icon:'',title:'葡萄種類'}},
                             {icon:'',name:'winery',meta:{icon:'',title:'酒莊管理'}},
+                            {icon:'',name:'wineryType',meta:{icon:'',title:'酒类管理'}},
                             {icon:'',name:'shopName',meta:{icon:'',title:'門店管理'}},
+                            {icon:'',name:'brand',meta:{icon:'',title:'品牌管理'}},
+                            {icon:'',name:'areaPic',meta:{icon:'',title:'产品图片管理'}},
                         ]
                     },
                     {

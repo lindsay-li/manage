@@ -1,6 +1,6 @@
 <template>
 <div class="wrappar">
-    <div class="_title">产区管理</div>
+    <div class="_title">品牌管理</div>
     <div class="goods">
         <Table border  :columns="columns1" :data="data1"  @on-selection-change="selectChange1" class="post">
             <template slot="action" slot-scope="{row,index}">
@@ -22,15 +22,9 @@
                 <div class="list">
                     <table style="width:100%;">
                         <tr>
-                            <td style="text-align:right">產區名稱:</td>
+                            <td style="text-align:right">品牌:</td>
                             <td>
-                                <Input v-model="inputValue.region_name"  placeholder="點擊輸入" style="width: 160px;" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align:right">國家ID:</td>
-                            <td>
-                                <Input v-model="inputValue.country_id"  placeholder="點擊輸入" style="width: 160px" />
+                                <Input v-model="inputValue.brand_name"  placeholder="點擊輸入" style="width: 160px;" />
                             </td>
                         </tr>
                     </table>
@@ -55,14 +49,9 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '產區名稱',
-                    key: 'region_name',
+                    title: '品牌厂家',
+                    key: 'brand_name',
                     minWidth:180
-                },
-                {
-                    title: '國家ID',
-                    key: 'country_id',
-                    minWidth:110
                 },
                 {
                     title:'操作',
@@ -75,8 +64,7 @@ export default {
             current:0,
             propModel:false,
             inputValue:{
-                country_id:'',
-                region_name:''
+                brand_name:''
             },
             t_text:'新增'
         }
@@ -90,7 +78,7 @@ export default {
                 start:start,
                 rows:10
             }
-            this.$http('moRegionService','findDatas',data)
+            this.$http('moBrandService','findDatas',data)
             .then(res=>{
                 console.log(res)
                 if(res.rows){
@@ -106,7 +94,7 @@ export default {
                 content: '<h3>此操作將刪除數據，是否繼續？</h3>',
                 onOk: () => {
                      var data = {id:id};
-                    this.$http('moRegionService','deleteData',data)
+                    this.$http('moBrandService','deleteData',data)
                     .then(res=>{
                         if(res.result == 'success'){
                             this.$Message.success('刪除成功');
@@ -124,32 +112,29 @@ export default {
             console.log(selection)
         },
         modify(row){//修改
-            this.inputValue.region_name=row.region_name
-            this.inputValue.country_id = row.country_id
+            this.inputValue.brand_name=row.brand_name
             this.id = row.id;
             this.t_text = '修改'
             this.propModel = true;
         },
         newAdd(){
-            if(!this.inputValue.region_name || !this.inputValue.country_id){
+            if(!this.inputValue.brand_name){
                 this.$Message.warning('請輸入信息');
                 return;
             }
             var data = {
-                region_name:this.inputValue.region_name,
-                country_id:parseInt(this.inputValue.country_id)
+                brand_name:this.inputValue.brand_name,
             }
             if(this.id){
                 data.id = this.id
             }
-            this.$http('moRegionService','addOrUpdate',data)
+            this.$http('moBrandService','addOrUpdate',data)
             .then(res=>{
                 this.propModel = false;
                 if(res.result == 'success'){
                     this.$Message.success('添加成功');
                     this.id = '';
-                    this.inputValue.region_name=''
-                    this.inputValue.country_id = ''
+                    this.inputValue.brand_name=''
                     this.getList(this.current);
                 }else{
                     this.$Message.error(res.message);
@@ -166,8 +151,7 @@ export default {
         },
         closeModel(){
             this.propModel = false;
-            this.inputValue.region_name=''
-            this.inputValue.country_id = ''
+            this.inputValue.brand_name=''
         },
     }  
 }

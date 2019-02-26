@@ -1,6 +1,6 @@
 <template>
 <div class="wrappar">
-    <div class="_title">生产国家</div>
+    <div class="_title">酒类管理</div>
     <div class="goods">
         <Table border  :columns="columns1" :data="data1" class="post">
             <template slot="action" slot-scope="{row,index}">
@@ -22,13 +22,13 @@
                 <div class="list">
                     <table style="width:100%;height:200px">
                         <tr>
-                            <td style="text-align:right">国家:</td>
+                            <td style="text-align:right">类型:</td>
                             <td>
-                                <Input v-model="inputValue.country_name"  placeholder="點擊輸入" style="width: 160px;" />
+                                <Input v-model="inputValue.type_name"  placeholder="點擊輸入" style="width: 160px;" />
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">图标:</td>
+                            <td style="text-align:right">图片:</td>
                             <td>
                                 <div v-show="pics.length ==0">
                                     <input type="file" class="files" @change="fileChanged" ref="file" multiple="multiple" name="file" accept="image/jpg,image/jpeg,image/png,image/bmp">
@@ -58,17 +58,12 @@ export default {
         return{
             columns1: [
                 {
-                    type: 'selection',
-                    width: 60,
-                    align: 'center'
+                    title: '类型',
+                    key: 'type_name',
+                    width:200
                 },
                 {
-                    title: '國家',
-                    key: 'country_name',
-                    minWidth:180
-                },
-                {
-                    title: '图标',
+                    title: '图片',
                     key: 'url',
                     minWidth:180
                 },
@@ -84,7 +79,7 @@ export default {
             propModel:false,
             inputValue:{
                 url:'',
-                country_name:''
+                type_name:''
             },
             files:[],
             pics:[],
@@ -102,11 +97,14 @@ export default {
                 start:start,
                 rows:10
             }
-            this.$http('moCountryService','findDatas',data)
+            this.$http('moTypeService','findDatas',data)
             .then(res=>{
                 console.log(res)
                 if(res.rows){
                     var arr = res.rows
+                    // for(let i =0;i<arr.length;i++){
+                    //     arr[i].time = this.$changeTime(arr[i].time)
+                    // }
                     this.data1 = arr;
                     this.total = res.total;
                 }
@@ -118,7 +116,7 @@ export default {
                 content: '<h3>此操作將刪除數據，是否繼續？</h3>',
                 onOk: () => {
                      var data = {id:id};
-                    this.$http('moCountryService','deleteData',data)
+                    this.$http('moTypeService','deleteData',data)
                     .then(res=>{
                         if(res.result == 'success'){
                             this.$Message.success('刪除成功');
@@ -132,32 +130,8 @@ export default {
                 }
             })  
         },
-        // newAdd(){
-        //     if(!this.country){
-        //          this.$Modal.info({
-        //                 content: '請輸入國家名稱'
-        //             }); 
-        //         return;
-        //     }
-        //     var data = {
-        //         country:this.country
-        //     }
-        //     this.$http('alcoholCountryService','addOrUpdate',data)
-        //     .then(res=>{
-        //         if(res.result == 'success'){
-        //             this.$Message.success('添加成功');
-        //             this.getList(0);
-        //         }else{
-        //             this.$Message.error(res.message);
-        //         }
-        //     })
-        // },
-        pageChange(index){ //切換頁數
-            this.current = index==1?0:(index-1)*10;
-            this.getList(this.current);
-        },
         modify(row){//修改
-            this.inputValue.country_name=row.country_name
+            this.inputValue.type_name=row.type_name
             this.pics=new Array(row.url)
             var file = [];
             var obj = {
@@ -170,25 +144,25 @@ export default {
             this.propModel = true;
         },
         newAdd(){
-            if(!this.inputValue.country_name){
+            if(!this.inputValue.type_name){
                 this.$Message.warning('請輸入信息');
                 return;
             }
             var data = {
-                country_name:this.inputValue.country_name,
+                type_name:this.inputValue.type_name,
                 url:this.pics[0]
             }
             if(this.id){
                 data.id = this.id
             }
-            this.$http('moCountryService','addOrUpdate',data)
+            this.$http('moTypeService','addOrUpdate',data)
             .then(res=>{
                 this.propModel = false;
                 if(res.result == 'success'){
                     this.$Message.success('添加成功');
                     this.getList(0);
                     this.id = '';
-                    this.inputValue.country_name = ''
+                    this.inputValue.type_name = ''
                     this.files = []
                     this.pics = []
                 }else{
@@ -197,13 +171,17 @@ export default {
                 }
             })
         },
+        pageChange(index){ //切換頁數
+            this.current = index==1?0:(index-1)*10;
+            this.getList(this.current);
+        },
         openModel(){
             this.propModel = true;
             this.t_text = '新增'
         },
         closeModel(){
             this.propModel = false;
-            this.inputValue.country_name = '';
+            this.inputValue.type_name = '';
             this.pics = [];
             this.files = []
             this.id = ''

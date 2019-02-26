@@ -71,6 +71,10 @@ const winery = () => import('@/views/winery');
 const shopName = () => import('@/views/shopName');
 const goodsRecord = () => import('@/views/goodsRecord');
 const home = ()=> import('@/home');
+const wineryType = () => import('@/views/wineryType');
+const areaSun = () => import('@/views/areaSun');
+const brand = () => import('@/views/brand');
+const areaPic = () => import('@/views/areaPic');
 
 Vue.use(Router)
 
@@ -314,6 +318,34 @@ export default new Router({
           component:invoice,
           meta:{
             title:'发票另寄'
+          }
+        },
+        {
+          path:"/wineryType",
+          component:wineryType,
+          meta:{
+            title:'酒类管理'
+          }
+        },
+        {
+          path:'/areaSun',
+          component:areaSun,
+          meta:{
+            title:'子产区管理'
+          }
+        },
+        {
+          path:'/brand',
+          component:brand,
+          meta:{
+            title:'品牌管理'
+          }
+        },
+        {
+          path:'/areaPic',
+          component:areaPic,
+          meta:{
+            title:'产品图片管理'
           }
         }
       ]

@@ -118,3 +118,9 @@ export default {
 <style lang="less">
 @import './side-menu.less';
 </style>
+<style lang="less" scoped>
+::-webkit-scrollbar {
+  display: none;
+  }
+</style>
+
