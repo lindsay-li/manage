@@ -14,7 +14,7 @@
                 </div>
             </template>
             <template slot-scope="{ row, index }" slot="action">
-                <Button type="error" size="small" @click="deletes(row.id)">删除</Button>
+                <Button type="error" size="small" @click="deletes(row.id)">刪除</Button>
             </template>
         </Table>
     </div>
@@ -78,8 +78,8 @@ export default {
             total:0,
             current:0,
             statusList:[
-                {value:1,label:'已发货'},
-                {value:2,label:'待发货'}
+                {value:1,label:'已發貨'},
+                {value:2,label:'待發貨'}
             ],
             statusData:'',
             id:''
@@ -114,11 +114,11 @@ export default {
             if(!type){return}
             var str = '';
             if(type==1){
-                str = '公司发票'
+                str = '公司發票'
             }else if(type ==2){
-                str = '捐赠'
+                str = '捐贈'
             }else if(type == 3){
-                str = '个人发票'
+                str = '個人發票'
             }
             return str
         },
@@ -130,7 +130,7 @@ export default {
             console.log(row)
             this.id = row.id
         },
-        revise(value){ //修改状态
+        revise(value){ //修改狀態
             var data = {
                 status:parseInt(value),
                 id:this.id

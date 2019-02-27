@@ -1,5 +1,6 @@
 <template>
 <div class="wrapper">
+    <div class="_title">菜單管理</div>
     <div class="activity">
         <TreeTable border expand-key="id" :expand-type="false" :selectable="false" :columns="columns1" :data="data1" :tree-type="true" height="466px" class="post">
             <template slot="menus" slot-scope="scope">
@@ -415,6 +416,7 @@ export default {
 }
 </script>
 <style scoped>
+@import '../../static/title.css';
 .page{
     justify-content: flex-start;
 }

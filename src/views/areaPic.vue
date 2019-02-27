@@ -1,6 +1,6 @@
 <template>
 <div class="wrappar">
-    <div class="_title">产品图片管理</div>
+    <div class="_title">產品圖片管理</div>
     <div class="goods">
         <Table border  :columns="columns1" :data="data1" class="post">
             <template slot="action" slot-scope="{row,index}">
@@ -22,7 +22,7 @@
                 <div class="list">
                     <table style="width:100%;height:200px">
                         <tr>
-                            <td style="text-align:right">图片:</td>
+                            <td style="text-align:right">圖片:</td>
                             <td>
                                 <div v-show="pics.length ==0">
                                     <input type="file" class="files" @change="fileChanged" ref="file" multiple="multiple" name="file" accept="image/jpg,image/jpeg,image/png,image/bmp">
@@ -52,7 +52,7 @@ export default {
         return{
             columns1: [
                 {
-                    title: '图片地址',
+                    title: '圖片地址',
                     key: 'path',
                     minWidth:200
                 },

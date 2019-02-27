@@ -1,10 +1,11 @@
 <template>
 <div class="wrappar">
+    <div class="_title">退貨查詢</div>
     <div class="goods">
         <Table border  :columns="columns1" :data="data1"  class="post">
             <template slot="peisong" slot-scope="{row,index}">
                 <div>
-                    <p>{{row.payment==1?'货到付款':'门店自取'}}</p>
+                    <p>{{row.payment==1?'貨到付款':'門店自取'}}</p>
                     <p style="margin-left:10px">{{row.delivery_num?row.delivery_num:'-'}}</p>
                     <p style="margin-left:20px">{{types(row.type)}}</p>
                 </div>
@@ -12,7 +13,7 @@
             <template slot="orders" slot-scope="{row,index}">
                 <div>
                     <p>{{row.time}}</p>
-                    <p style="margin-left:10px">{{row.status==1?'订单正常':"订单用户删除"}}</p>
+                    <p style="margin-left:10px">{{row.status==1?'訂單正常':"訂單用戶刪除"}}</p>
                     <!-- <p style="margin-left:20px">-</p> -->
                     <p style="margin-left:25px">{{row.source}}</p>
                 </div>
@@ -57,12 +58,12 @@ export default {
         return{
             columns1: [
                 {
-                    title: '订单编号',
+                    title: '訂單編號',
                     key: 'id',
                     minWidth:120
                 },
                 {
-                    title: '负责门店id',
+                    title: '負責門店id',
                     key: 'shop_id',
                     minWidth:120
                 },
@@ -72,8 +73,8 @@ export default {
                     renderHeader:(h, params) => {
                             return h('div', [
                                 h('p','配送方式'),
-                                h('p',{style:{marginLeft:'10px'}},'配送编号'),
-                                h('p',{style:{marginLeft:'20px'}},'出货状态'),
+                                h('p',{style:{marginLeft:'10px'}},'配送編號'),
+                                h('p',{style:{marginLeft:'20px'}},'出貨狀態'),
                             ]);
                         },
                 },
@@ -82,10 +83,10 @@ export default {
                     minWidth:160,
                     renderHeader:(h, params) => {
                             return h('div', [
-                                h('p','下单时间'),
-                                h('p',{style:{marginLeft:'10px'}},'订单状态'),
+                                h('p','下單時間'),
+                                h('p',{style:{marginLeft:'10px'}},'訂單狀態'),
                                 // h('p',{style:{marginLeft:'20px'}},'取消原因'),
-                                h('p',{style:{marginLeft:'25px'}},'订单来源'),
+                                h('p',{style:{marginLeft:'25px'}},'訂單來源'),
                             ]);
                         },
                 },
@@ -96,13 +97,13 @@ export default {
                     tooltip:true,
                     renderHeader:(h, params) => {
                             return h('div', [
-                                h('p','商品名称'),
-                                h('p',{style:{marginLeft:'10px'}},'商品编号')
+                                h('p','商品名稱'),
+                                h('p',{style:{marginLeft:'10px'}},'商品編號')
                             ]);
                         },
                 },
                 {
-                    title:'数量',
+                    title:'數量',
                     key:'num',
                     minWidth:100
                 },
@@ -111,9 +112,9 @@ export default {
                     minWidth:130,
                     renderHeader:(h, params) => {
                             return h('div', [
-                                h('p','商品单价'),
-                                h('p',{style:{marginLeft:'10px'}},'折扣金额'),
-                                h('p',{style:{marginLeft:'15px'}},'销售金额(折扣后)')
+                                h('p','商品單價'),
+                                h('p',{style:{marginLeft:'10px'}},'折扣金額'),
+                                h('p',{style:{marginLeft:'15px'}},'銷售金額(折扣後)')
                             ]);
                         },
                 },
@@ -124,9 +125,9 @@ export default {
                     tooltip:true,
                     renderHeader:(h, params) => {
                             return h('div', [
-                                // h('p','会员编号'),
+                                // h('p','會員編號'),
                                 h('p',{style:{marginLeft:'10px'}},'收件人'),
-                                // h('p',{style:{marginLeft:'15px'}},'收件人电话'),
+                                // h('p',{style:{marginLeft:'15px'}},'收件人電話'),
                                 h('p',{style:{marginLeft:'20px'}},'收件人地址')
                             ]);
                         },
@@ -200,9 +201,9 @@ export default {
             }
             var str = '';
             if(data == 1){
-                str = '待确认'
+                str = '待確認'
             }else if(data==2){
-                str = '待出货'
+                str = '待出貨'
             }else if(data==3){
                 str = '已完成'
             }
@@ -216,6 +217,7 @@ export default {
 }
 </script>
 <style scoped>
+@import '../../static/title.css';
 .wrapper{
     position: relative;
 }

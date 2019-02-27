@@ -1,6 +1,6 @@
 <template>
 <div class="wrappar">
-    <div class="_title">葡萄种类</div>
+    <div class="_title">葡萄種類</div>
     <!-- <div class="nav">
         <div class="option">
             <span>葡萄種類：</span>
@@ -11,7 +11,7 @@
     <div class="goods">
         <Table border  :columns="columns1" :data="data1"   class="post">
             <template slot="action" slot-scope="{row,index}">
-                <Button size="small" type="primary" @click="edit(row)">编辑</Button>
+                <Button size="small" type="primary" @click="edit(row)">編輯</Button>
                 <Button size="small" type="error" @click="remove(row.id)">刪除</Button>
             </template>
         </Table>
@@ -29,7 +29,7 @@
                 <div class="list">
                     <table style="width:100%;">
                         <tr>
-                            <td style="text-align:right">葡萄种类:</td>
+                            <td style="text-align:right">葡萄種類:</td>
                             <td>
                                 <Input v-model="varietal_name"  placeholder="點擊輸入" style="width: 160px;" />
                             </td>

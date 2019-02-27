@@ -1,5 +1,6 @@
 <template>
 <div class="wrappar">
+    <div class="_title">酒莊管理</div>
     <div class="goods">
         <Table border  :columns="columns1" :data="data1"  class="post">
             <template slot="action" slot-scope="{row,index}">
@@ -164,6 +165,7 @@ export default {
 }
 </script>
 <style scoped>
+@import '../../static/title.css';
 .wrapper{
     position: relative;
 }

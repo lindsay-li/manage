@@ -33,7 +33,7 @@ const returnQuery = () => import('@/components/returnQuery');
 const articleList = () => import('@/components/articleList');
 const editNotice = () => import('@/components/editNotice');
 // const auditingNotice = () => import('@/components/auditingNotice');
-const advertisementEdit = () => import('@/components/advertisementEdit');
+// const advertisementEdit = () => import('@/components/advertisementEdit');
 // const advertisementAuditing = () => import('@/components/advertisementAuditing');
 // const userHandle = () => import('@/components/userHandle');
 // const userArticleHandle = () => import('@/components/userArticleHandle');
@@ -75,6 +75,7 @@ const wineryType = () => import('@/views/wineryType');
 const areaSun = () => import('@/views/areaSun');
 const brand = () => import('@/views/brand');
 const areaPic = () => import('@/views/areaPic');
+const grapeRelation = () => import('@/views/grapeRelation');
 
 Vue.use(Router)
 
@@ -100,14 +101,14 @@ export default new Router({
           path:'/cruxdata',
           component:cruxdata,
           meta:{
-            title:'即时数据'
+            title:'即時數據'
           }
         },
         {
           path:'/recentdata',
           component:recentdata,
           meta:{
-            title:'近期数据'
+            title:'近期數據'
           }
         },
         {
@@ -149,7 +150,7 @@ export default new Router({
           path:'/productType',
           component:productType,
           meta:{
-            title:'商品类型'
+            title:'商品類型'
           }
         },
         {
@@ -163,7 +164,7 @@ export default new Router({
           path:'/orderQuery',
           component:orderQuery,
           meta:{
-            title:'订单查询'
+            title:'訂單查詢'
           }
         },
         {
@@ -178,13 +179,6 @@ export default new Router({
           component:editNotice,
           meta:{
             title:'公告通知'
-          }
-        },
-        {
-          path:'/advertisementEdit',
-          component:advertisementEdit,
-          meta:{
-            title:'广告管理'
           }
         },
         {
@@ -310,28 +304,28 @@ export default new Router({
           path:'/financeCheck',
           component:financeCheck,
           meta:{
-            title:'财务核对'
+            title:'財務核對'
           }
         },
         {
           path:'/invoice',
           component:invoice,
           meta:{
-            title:'发票另寄'
+            title:'發票另寄'
           }
         },
         {
           path:"/wineryType",
           component:wineryType,
           meta:{
-            title:'酒类管理'
+            title:'酒類管理'
           }
         },
         {
           path:'/areaSun',
           component:areaSun,
           meta:{
-            title:'次产区管理'
+            title:'次產區管理'
           }
         },
         {
@@ -345,14 +339,21 @@ export default new Router({
           path:'/areaPic',
           component:areaPic,
           meta:{
-            title:'产品图片管理'
+            title:'產品圖片管理'
           }
         },
         {
           path:'/returnQuery',
           component:returnQuery,
           meta:{
-            title:'退货查询'
+            title:'退貨查詢'
+          }
+        },
+        {
+          path:'/grapeRelation',
+          component:grapeRelation,
+          meta:{
+            title:'葡萄跟酒關聯'
           }
         }
       ]

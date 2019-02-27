@@ -2,14 +2,14 @@
 <div class="wrappar">
     <div class="nav">
         <div class="option">
-            <span>商品名称：</span>
+            <span>商品名稱：</span>
             <Input type="text"  v-model="inputValue.product_name" style="width:160px" />
         </div>
         <div class="option">
-            <span>商品类型：</span>
+            <span>商品類型：</span>
             <Input type="text"  v-model="inputValue.product_type" style="width:160px" />
         </div>
-        <div class="serch" @click="search">查询</div>
+        <div class="serch" @click="search">查詢</div>
     </div>
     <div class="car">
         <Table border  :columns="columns1" :data="data1"  class="post" :loading="loading"></Table>
@@ -114,7 +114,7 @@ export default {
                 this.loading = false;
             })
         },
-        search(){ //按条件查询
+        search(){ //按條件查詢
             var obj = {};
             if(this.inputValue.product_name){
                 obj.productName = this.inputValue.product_name;

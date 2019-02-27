@@ -1,6 +1,6 @@
 <template>
 <div class="wrappar">
-    <div class="_title">生产国家</div>
+    <div class="_title">生產國家</div>
     <div class="goods">
         <Table border  :columns="columns1" :data="data1" class="post">
             <template slot="action" slot-scope="{row,index}">
@@ -22,13 +22,13 @@
                 <div class="list">
                     <table style="width:100%;height:200px">
                         <tr>
-                            <td style="text-align:right">国家:</td>
+                            <td style="text-align:right">國家:</td>
                             <td>
                                 <Input v-model="inputValue.country_name"  placeholder="點擊輸入" style="width: 160px;" />
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">图标:</td>
+                            <td style="text-align:right">圖標:</td>
                             <td>
                                 <div v-show="pics.length ==0">
                                     <input type="file" class="files" @change="fileChanged" ref="file" multiple="multiple" name="file" accept="image/jpg,image/jpeg,image/png,image/bmp">
@@ -68,7 +68,7 @@ export default {
                     minWidth:180
                 },
                 {
-                    title: '图标',
+                    title: '圖標',
                     key: 'url',
                     minWidth:180
                 },

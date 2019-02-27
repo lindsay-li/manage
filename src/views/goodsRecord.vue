@@ -1,5 +1,6 @@
 <template>
 <div class="wrappar">
+    <div class="_title">商品瀏覽記錄</div>
     <div class="goods">
         <Table border  :columns="columns1" :data="data1" class="post">
         </Table>
@@ -78,6 +79,7 @@ export default {
 }
 </script>
 <style scoped>
+@import '../../static/title.css';
 .wrapper{
     position: relative;
 }

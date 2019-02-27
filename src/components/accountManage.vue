@@ -288,7 +288,7 @@ export default {
             single:false,
             propModel:false,
             current:0,  //當前頁碼
-            shopData:[], //门店集合
+            shopData:[], //門店集合
 
         }
     },
@@ -521,7 +521,7 @@ export default {
             this.roleModel = true;
             this.user_id = row.id;
         },
-        getShop(){  //获取所有门店数据
+        getShop(){  //獲取所有門店數據
             var data = {
                 start:0,
                 rows:1000

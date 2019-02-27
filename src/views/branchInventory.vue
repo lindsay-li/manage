@@ -1,9 +1,10 @@
 <template>
 <div class="wrappar">
+    <div class="_title">分店庫存</div>
     <div class="goods">
         <Table border  :columns="columns1" :data="data1"  class="post">
             <template slot="action" slot-scope="{row,index}">
-                <Button size="small" type="primary" @click="edit(row)">编辑</Button>
+                <Button size="small" type="primary" @click="edit(row)">編輯</Button>
                 <Button size="small" type="error" @click="remove(row.id)">刪除</Button>
             </template>
         </Table>
@@ -97,7 +98,7 @@ export default {
                     minWidth:140
                 },
                 {
-                    title: '类型',
+                    title: '類型',
                     key: 'type_name',
                     minWidth:110
                 },
@@ -230,6 +231,7 @@ export default {
 }
 </script>
 <style scoped>
+@import '../../static/title.css';
 .wrapper{
     position: relative;
 }

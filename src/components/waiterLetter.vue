@@ -14,7 +14,7 @@
                 </div>
             </template>
             <template slot-scope="{ row, index }" slot="action">
-                <Button type="error" size="small" @click="deletes(row.id)">删除</Button>
+                <Button type="error" size="small" @click="deletes(row.id)">刪除</Button>
             </template>
         </Table>
     </div>
@@ -29,34 +29,34 @@ export default {
         return{
             columns1: [
                 {
-                    title: '内容',
+                    title: '內容',
                     key: 'msg',
                     ellipsis:true,
                     tooltip:true,
                     minWidth:200
                 },
                 {
-                    title: '图片消息',
+                    title: '圖片消息',
                     key: 'img',
                     minWidth:180
                 },
                 {
-                    title: '用户id',
+                    title: '用戶id',
                     key: 'user_id',
                     width:120
                 },
                 {
-                    title: '问题id',
+                    title: '問題id',
                     key: 'pid',
                     width:120
                 },
                 {
-                    title: '发送对象',
+                    title: '發送對象',
                     slot: 'type',
                     width:120
                 },
                 {
-                    title:'状态',
+                    title:'狀態',
                     slot:'status',
                     width:120
                 },
@@ -71,8 +71,8 @@ export default {
             total:0,
             current:0,
             statusList:[
-                {value:0,label:'未回复'},
-                {value:1,label:'已回复'}
+                {value:0,label:'未回覆'},
+                {value:1,label:'已回覆'}
             ],
             statusData:'',
             id:''
@@ -107,9 +107,9 @@ export default {
             if(!type){return}
             var str = '';
             if(type==1){
-                str = '管理员'
+                str = '管理員'
             }else if(type ==2){
-                str = '用户'
+                str = '用戶'
             }
             return str
         },
@@ -121,7 +121,7 @@ export default {
             console.log(row)
             this.id = row.id
         },
-        revise(value){ //修改状态
+        revise(value){ //修改狀態
             var data = {
                 status:parseInt(value),
                 id:this.id

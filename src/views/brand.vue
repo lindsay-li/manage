@@ -49,7 +49,7 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '品牌厂家',
+                    title: '品牌廠家',
                     key: 'brand_name',
                     minWidth:180
                 },

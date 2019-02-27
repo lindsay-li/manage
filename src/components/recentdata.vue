@@ -1,7 +1,7 @@
 <template>
 <div class="wrappar">
     <div class="nav">
-        <div class="j_tit">即时数据</div>
+        <div class="j_tit">即時數據</div>
     </div>
     <div class="activity">
         <Table border  :columns="columns1" :data="data1"  class="post" :loading="loading">
@@ -23,52 +23,52 @@ export default {
                     minWidth:140
                 },
                 {
-                    title: '总订单数',
+                    title: '總訂單數',
                     key: 'ordernum',
                     minWidth:120
                 },
                 {
-                    title: 'APP订单数',
+                    title: 'APP訂單數',
                     key: 'appnum',
                     minWidth:130
                 },
                 {
-                    title: 'web订单数',
+                    title: 'web訂單數',
                     key: 'webnum',
                     minWidth:130
                 },
                 {
-                    title: '总订单金额',
+                    title: '總訂單金額',
                     key: 'totalmoney',
                     minWidth:130
                 },
                 {
-                    title: 'APP订单金额',
+                    title: 'APP訂單金額',
                     key: 'appmoney',
                     minWidth:130
                 },
                 {
-                    title: 'web订单金额',
+                    title: 'web訂單金額',
                     key: 'webmoney',
                     minWidth:130
                 },
                 {
-                    title: '平均订单金额',
+                    title: '平均訂單金額',
                     key: 'avgmoney',
                     minWidth:140
                 },
                 {
-                    title: 'APP平均订单金额',
+                    title: 'APP平均訂單金額',
                     key: 'appavgmoney',
                     minWidth:150
                 },
                 {
-                    title: 'web平均订单金额',
+                    title: 'web平均訂單金額',
                     key: 'webavgmoney',
                     minWidth:150
                 },
                 {
-                    title: '总会员数',
+                    title: '總會員數',
                     key: 'totaluser',
                     minWidth:130
                 }

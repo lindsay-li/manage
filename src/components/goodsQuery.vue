@@ -15,9 +15,9 @@
         </div> -->
         <div class="serch" @click='search'>查詢</div>
         <Upload action="" :before-upload="handleBeforeUpload" accept=".xls, .xlsx">
-          <Button icon="ios-cloud-upload-outline" type="primary" style="position:absolute;right:160px;top:1.5px" :loading="uploadLoading" @click="handleUploadFile">上传excel</Button>
+          <Button icon="ios-cloud-upload-outline" type="primary" style="position:absolute;right:160px;top:1.5px" :loading="uploadLoading" @click="handleUploadFile">上傳excel</Button>
         </Upload>
-        <Button icon="md-download" type="primary" style="position:absolute;right:20px" :loading="exportLoading" @click="exportExcel">导出excel</Button>
+        <Button icon="md-download" type="primary" style="position:absolute;right:20px" :loading="exportLoading" @click="exportExcel">導出excel</Button>
     </div>
     <div class="query">
         <Table border  :columns="columns1" :data="data1"   height="550" class="post" :loading="loading">
@@ -106,7 +106,7 @@
                     <tr>
                         <td>最低溫度</td>    
                         <td>最高溫度</td>
-                        <td>品牌厂家</td>
+                        <td>品牌廠家</td>
                         <td>國家</td>
                         <td>產區</td>
                         <td>產品風格</td>
@@ -181,11 +181,11 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>次产区</td>
-                        <td>源名称</td>
-                        <td>源价(其它币种)</td>
-                        <td>市场价价(美元)</td>
-                        <td>源市场价(其它币种)</td>
+                        <td>次產區</td>
+                        <td>源名稱</td>
+                        <td>源價(其它幣種)</td>
+                        <td>市場價價(美元)</td>
+                        <td>源市場價(其它幣種)</td>
                         <td>源地址</td>
                     </tr>
                     <tr >
@@ -212,8 +212,8 @@
                     </tr>
                     <tr>
                         <td>源域名</td>
-                        <td>源币种</td>
-                        <td>源语言</td>
+                        <td>源幣種</td>
+                        <td>源語言</td>
                         <td colspan="3">商品描述</td>
                     </tr>
                     <tr >
@@ -248,7 +248,7 @@ export default {
         return{
             columns1: [
                 {
-                    title: '商品编号',
+                    title: '商品編號',
                     key: 'id',
                     width:100
                 },
@@ -267,7 +267,7 @@ export default {
                     minWidth:170
                 },
                 {
-                    title: '数量',
+                    title: '數量',
                     key: 'num',
                     minWidth:90
                 },
@@ -277,17 +277,17 @@ export default {
                     minWidth:110
                 },
                 {
-                    title: '源价(其它币种)',
+                    title: '源價(其它幣種)',
                     key: 'source_price',
                     minWidth:140
                 },
                 {
-                    title: '市场价(美元)',
+                    title: '市場價(美元)',
                     key: 'market_price',
                     minWidth:130
                 },
                 {
-                    title: '源市场价(其它币种)',
+                    title: '源市場價(其它幣種)',
                     key: 'source_market_price',
                     minWidth:160
                 },
@@ -337,17 +337,17 @@ export default {
                     minWidth:120
                 },
                 {
-                    title:'产区',
+                    title:'產區',
                     slot:'region_id',
                     minWidth:130
                 },
                 {
-                    title:'次产区',
+                    title:'次產區',
                     slot:'subregion_id',
                     minWidth:130
                 },
                 {
-                    title:'产品风格',
+                    title:'產品風格',
                     slot:'product_style',
                     minWidth:120
                 },
@@ -364,7 +364,7 @@ export default {
                     minWidth:160
                 },
                 {
-                    title:'品牌厂家',
+                    title:'品牌廠家',
                     slot:'brand_id',
                     minWidth:160
                 },
@@ -395,12 +395,12 @@ export default {
                     minWidth:180
                 },
                 {
-                    title:'源币种',
+                    title:'源幣種',
                     key:'source_currency',
                     minWidth:120
                 },
                 {
-                    title:'源语言',
+                    title:'源語言',
                     key:'source_language',
                     minWidth:120
                 },
@@ -465,7 +465,7 @@ export default {
                 {value:0,label:'刪除'},
                 {value:1,label:'可以售賣'},
                 {value:2,label:'關閉售賣'},
-                {value:3,label:'默认'}
+                {value:3,label:'默認'}
             ],
             textureList:[
                 {value:0,label:'香氣'}
@@ -474,9 +474,9 @@ export default {
             wineryList:[],
             productAreaList:[],
             productStyleList:[],
-            brandList:[],//品牌厂家列表
+            brandList:[],//品牌廠家列表
             productType:[],
-            subregionList:[],//次产区
+            subregionList:[],//次產區
             gropeList:[],
             imports:[{value:'是',label:'是'},{value:'否',label:'否'}],
             inputValue:{
@@ -544,13 +544,13 @@ export default {
                 var title_arr = [];
                 var key_arr = [];
                 for(let i =0;i<tabledata.length;i++){
-                    if(tabledata[i].title != '编辑'){
+                    if(tabledata[i].title != '編輯'){
                         title_arr.push(tabledata[i].title)
                         key_arr.push(tabledata[i].key?tabledata[i].key:tabledata[i].slot)
                     }
                 }
                 const params = {
-                // title: ['一级分类', '二级分类', '三级分类'],
+                // title: ['一級分類', '二級分類', '三級分類'],
                 title:title_arr,
                 // key: ['category1', 'category2', 'category3'],
                 key:key_arr,
@@ -561,7 +561,7 @@ export default {
                 excel.export_array_to_excel(params)
                 this.exportLoading = false
             } else {
-                this.$Message.info('表格数据不能为空！')
+                this.$Message.info('表格數據不能為空！')
             }
         },
         handleUploadFile(){
@@ -575,13 +575,13 @@ export default {
                 // this.file = file
             } else {
                 this.$Notice.warning({
-                title: '文件类型错误',
-                desc: '文件：' + file.name + '不是EXCEL文件，请选择后缀为.xlsx或者.xls的EXCEL文件。'
+                title: '文件類型錯誤',
+                desc: '文件：' + file.name + '不是EXCEL文件，請選擇後綴為.xlsx或者.xls的EXCEL文件。'
                 })
             }
             return false
         },
-        // 读取文件
+        // 讀取文件
         readFile (file) {
             const reader = new FileReader()
             reader.readAsArrayBuffer(file)
@@ -594,10 +594,10 @@ export default {
                 // this.progressPercent = Math.round(e.loaded / e.total * 100)
             }
             reader.onerror = e => {
-                this.$Message.error('文件读取出错')
+                this.$Message.error('文件讀取出錯')
             }
             reader.onload = e => {
-                this.$Message.info('文件读取成功')
+                this.$Message.info('文件讀取成功')
                 const data = e.target.result
                 console.log(data)
                 const { header, results } = excel.read(data, 'array')
@@ -713,7 +713,7 @@ export default {
                 str = '關閉售賣';
                 break;
                 case 3:
-                str = '默认';
+                str = '默認';
                 break;
             }
             return str;
@@ -786,63 +786,63 @@ export default {
             var data = this.inputValue;
             console.log(data)
             if(!data.subregion_id){
-                this.$Message.warning('次产区为必填项！')
+                this.$Message.warning('次產區為必填項！')
                 return
             }
             if(!data.source_title){
-                this.$Message.warning('原名称为必填项！')
+                this.$Message.warning('原名稱為必填項！')
                 return
             }
             if(!data.type_id){
-                this.$Message.warning('类型为必填项！')
+                this.$Message.warning('類型為必填項！')
                 return
             }
             if(!data.brand_id){
-                this.$Message.warning('厂家为必填项！')
+                this.$Message.warning('廠家為必填項！')
                 return
             }
             if(!data.country_id){
-                this.$Message.warning('国家为必填项！')
+                this.$Message.warning('國家為必填項！')
                 return
             }
             if(!data.region_id){
-                this.$Message.warning('产区为必填项！')
+                this.$Message.warning('產區為必填項！')
                 return
             }
             if(!data.image){
-                this.$Message.warning('图片为必填项！')
+                this.$Message.warning('圖片為必填項！')
                 return
             }
             if(!data.price){
-                this.$Message.warning('价格(美元)为必填项！')
+                this.$Message.warning('價格(美元)為必填項！')
                 return
             }
             if(!data.source_price){
-                this.$Message.warning('源价(其它币种)为必填项！')
+                this.$Message.warning('源價(其它幣種)為必填項！')
                 return
             }
             if(!data.market_price){
-                this.$Message.warning('市场价(美元)为必填项！')
+                this.$Message.warning('市場價(美元)為必填項！')
                 return
             }
             if(!data.source_market_price){
-                this.$Message.warning('源市场价(其它币种)为必填项！')
+                this.$Message.warning('源市場價(其它幣種)為必填項！')
                 return
             }
             if(!data.source_url){
-                this.$Message.warning('源地址为必填项！')
+                this.$Message.warning('源地址為必填項！')
                 return
             }
             if(!data.source_site){
-                this.$Message.warning('源域名为必填项！')
+                this.$Message.warning('源域名為必填項！')
                 return
             }
             if(!data.source_currency){
-                this.$Message.warning('源币种为必填项！')
+                this.$Message.warning('源幣種為必填項！')
                 return
             }
             if(!data.source_language){
-                this.$Message.warning('源语言为必填项！')
+                this.$Message.warning('源語言為必填項！')
                 return
             }
             var notice = '新增成功'
@@ -1021,7 +1021,7 @@ export default {
               return ''
           }
       },
-      productArea(){//产区
+      productArea(){//產區
         var data = {
             start:0
         }
@@ -1049,7 +1049,7 @@ export default {
               return ''
           }
       },
-      productStyle(){//商品风格
+      productStyle(){//商品風格
         var data = {
             start:0
         }
@@ -1077,7 +1077,7 @@ export default {
               return ''
           }
       },
-      getTypes(){//酒类型
+      getTypes(){//酒類型
             var data = {
                 start:0
             }

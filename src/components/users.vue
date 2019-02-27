@@ -1,7 +1,8 @@
 <template>
 <div class="wrappar">
+    <div class="_title">用戶信息</div>
     <div class="goods">
-        <Table border  :columns="columns1" :data="data1"  class="post">
+        <Table border  :columns="columns1" :data="data1" :loading="loading" class="post">
             <template slot="sex" slot-scope="{row,index}">
                 <div>{{row.sex==0?'男':'女'}}</div>
             </template>
@@ -277,6 +278,7 @@ export default {
             total:0,
             current:0,
             propModel:false,
+            loading:false,
             inputValue:{
                 winery:'',
                 grade:''
@@ -292,9 +294,11 @@ export default {
                 start:start,
                 rows:10
             }
+            this.loading = true;
             this.$http('userService','findDatas',data)
             .then(res=>{
                 console.log(res)
+                this.loading = false
                 if(res.rows.length>0){
                     var arr = res.rows
                     for(let i =0;i<arr.length;i++){
@@ -367,6 +371,7 @@ export default {
 }
 </script>
 <style scoped>
+@import '../../static/title.css';
 .wrapper{
     position: relative;
 }

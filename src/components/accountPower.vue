@@ -365,7 +365,7 @@ export default {
         },
         setMenuHandle(){ //保存修改
             console.log(this.newtreeData)
-            // var newtreeData = this.$refs.trees.getCheckedAndIndeterminateNodes(); //获取选择的菜单和半选菜单
+            // var newtreeData = this.$refs.trees.getCheckedAndIndeterminateNodes(); //獲取選擇的菜單和半選菜單
             var newtreeData = this.newtreeData
             var str = [];
             for(let i = 0;i<newtreeData.length;i++){

@@ -145,11 +145,11 @@ import Fullscreen from './components/fullscreen'
             var data = [
                     {
                         icon:'ios-paper',
-                        name:'关键数据',
-                        meta:{icon:'ios-paper',title:'关键数据'},
+                        name:'關鍵數據',
+                        meta:{icon:'ios-paper',title:'關鍵數據'},
                         children:[
-                            {icon:'',name:'cruxdata',meta:{icon:'',title:'即时数据'}},
-                            {icon:'',name:'recentdata',meta:{icon:'',title:'近期数据'}}
+                            {icon:'',name:'cruxdata',meta:{icon:'',title:'即時數據'}},
+                            {icon:'',name:'recentdata',meta:{icon:'',title:'近期數據'}}
                         ] 
                     },
                     {
@@ -171,26 +171,28 @@ import Fullscreen from './components/fullscreen'
                         children:[
                             {icon:'',name:'goodsQuery',meta:{icon:'',title:'商品查詢'}},
                             {icon:'',name:'createGoods',meta:{icon:'',title:'商品風格'}},
-                            // {icon:'',name:'productType',meta:{icon:'',title:'商品类型'}},
+                            // {icon:'',name:'productType',meta:{icon:'',title:'商品類型'}},
                             {icon:'',name:'branchInventory',meta:{icon:'',title:'分店庫存'}},
                             {icon:'',name:'productArea',meta:{icon:'',title:'產區管理'}},
                             {icon:'',name:'areaSun',meta:{icon:'',title:'次產區管理'}},
                             {icon:'',name:'country',meta:{icon:'',title:'國家管理'}},
                             {icon:'',name:'grape',meta:{icon:'',title:'葡萄種類'}},
                             {icon:'',name:'winery',meta:{icon:'',title:'酒莊管理'}},
-                            {icon:'',name:'wineryType',meta:{icon:'',title:'酒类管理'}},
+                            {icon:'',name:'wineryType',meta:{icon:'',title:'酒類管理'}},
                             {icon:'',name:'shopName',meta:{icon:'',title:'門店管理'}},
                             {icon:'',name:'brand',meta:{icon:'',title:'品牌管理'}},
-                            {icon:'',name:'areaPic',meta:{icon:'',title:'产品图片管理'}},
+                            {icon:'',name:'areaPic',meta:{icon:'',title:'產品圖片管理'}},
+                            {icon:'',name:'grapeRelation',meta:{icon:'',title:'葡萄跟酒關聯'}},
+
                         ]
                     },
                     {
                         icon:'ios-list',
-                        name:'订单管理',
-                        meta:{icon:'ios-list',title:'订单管理'},
+                        name:'訂單管理',
+                        meta:{icon:'ios-list',title:'訂單管理'},
                         children:[
-                            {icon:'',name:'orderQuery',meta:{icon:'',title:'订单查询'}},
-                            {icon:'',name:'returnQuery',meta:{icon:'',title:'退货查询'}}
+                            {icon:'',name:'orderQuery',meta:{icon:'',title:'訂單查詢'}},
+                            {icon:'',name:'returnQuery',meta:{icon:'',title:'退貨查詢'}}
                         ]
                     },
                     {
@@ -204,11 +206,11 @@ import Fullscreen from './components/fullscreen'
                     },
                     {
                         icon:'md-megaphone',
-                        name:'公告&广告管理',
-                        meta:{icon:'md-megaphone',title:'公告&广告管理'},
+                        name:'公告&廣告管理',
+                        meta:{icon:'md-megaphone',title:'公告&廣告管理'},
                         children:[
                             {icon:'',name:'editNotice',meta:{icon:'',title:'公告通知'}},
-                            // {icon:'',name:'advertisementEdit',meta:{icon:'',title:'广告管理'}},
+                            // {icon:'',name:'advertisementEdit',meta:{icon:'',title:'廣告管理'}},
                         ]
                     },
                     {
@@ -236,8 +238,8 @@ import Fullscreen from './components/fullscreen'
                     },
                     {
                         icon:'ios-call',
-                        name:'客服相关',
-                        meta:{icon:'ios-call',title:'客服相关'},
+                        name:'客服相關',
+                        meta:{icon:'ios-call',title:'客服相關'},
                         children:[
                             {icon:'',name:'waiterLetter',meta:{icon:'',title:'客服信件'}},
                         ]

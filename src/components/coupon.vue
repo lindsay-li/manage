@@ -1,10 +1,10 @@
 <template>
 <div class="coupon">
-    
+    <div class="_title">折扣券</div>
     <div class="content">
         <Table border  :columns="columns1" :data="data1" :loading="loading">
             <template slot="action" slot-scope="{row,index}">
-                <Button size="small" type="primary" @click="edit(row)">编辑</Button>
+                <Button size="small" type="primary" @click="edit(row)">編輯</Button>
                 <Button size="small" type="error" @click="remove(row.id)">刪除</Button>
             </template>
         </Table>
@@ -278,7 +278,7 @@ export default {
         closeModel(){
             this.propModel = false;
         },
-        edit(row){ //编辑
+        edit(row){ //編輯
             this.inputValue={
                 discount_remark:row.discount_remark,
                 discount_start:row.discount_start,
@@ -347,6 +347,7 @@ export default {
 }
 </script>
 <style scoped>
+@import '../../static/title.css';
 .page{
     justify-content: space-between;
 }

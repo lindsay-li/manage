@@ -1,6 +1,6 @@
 <template>
 <div class="wrappar">
-    <div class="_title">子产区管理</div>
+    <div class="_title">子產區管理</div>
     <div class="goods">
         <Table border  :columns="columns1" :data="data1"  @on-selection-change="selectChange1" class="post">
             <template slot="action" slot-scope="{row,index}">
@@ -55,12 +55,12 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '子区域',
+                    title: '子區域',
                     key: 'subregion_name',
                     minWidth:180
                 },
                 {
-                    title: '产区ID',
+                    title: '產區ID',
                     key: 'region_id',
                     minWidth:110
                 },

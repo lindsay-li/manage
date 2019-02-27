@@ -1,6 +1,6 @@
 <template>
 <div class="wrappar">
-    <div class="_title">酒类管理</div>
+    <div class="_title">酒類管理</div>
     <div class="goods">
         <Table border  :columns="columns1" :data="data1" class="post">
             <template slot="action" slot-scope="{row,index}">
@@ -22,13 +22,13 @@
                 <div class="list">
                     <table style="width:100%;height:200px">
                         <tr>
-                            <td style="text-align:right">类型:</td>
+                            <td style="text-align:right">類型:</td>
                             <td>
                                 <Input v-model="inputValue.type_name"  placeholder="點擊輸入" style="width: 160px;" />
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">图片:</td>
+                            <td style="text-align:right">圖片:</td>
                             <td>
                                 <div v-show="pics.length ==0">
                                     <input type="file" class="files" @change="fileChanged" ref="file" multiple="multiple" name="file" accept="image/jpg,image/jpeg,image/png,image/bmp">
@@ -58,12 +58,12 @@ export default {
         return{
             columns1: [
                 {
-                    title: '类型',
+                    title: '類型',
                     key: 'type_name',
                     width:200
                 },
                 {
-                    title: '图片',
+                    title: '圖片',
                     key: 'url',
                     minWidth:180
                 },

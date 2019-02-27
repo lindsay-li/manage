@@ -9,10 +9,10 @@
                 <div>{{types(row.TYPE)}}</div>
             </template>
             <template slot-scope="{row,index}" slot="status">
-                <div>{{row.STATUS==0?'未读':'已读'}}</div>
+                <div>{{row.STATUS==0?'未讀':'已讀'}}</div>
             </template>
             <template slot-scope="{row,index}" slot="action">
-                <Button type="error" size='small' @click="remove(row.id)">删除</Button>
+                <Button type="error" size='small' @click="remove(row.id)">刪除</Button>
             </template>
         </Table>
     </div>
@@ -26,7 +26,7 @@
                 <div class="n_title">新增通知</div>
                 <table style="width:100%">
                     <tr>
-                        <td>通知类型</td>
+                        <td>通知類型</td>
                         <td>
                             <Select v-model="inputValue.type" style="width:220px;">
                                 <Option v-for="item in noticeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
@@ -40,7 +40,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>状态</td>
+                        <td>狀態</td>
                         <td>
                             <Select v-model="inputValue.status" style="width:220px;">
                                 <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
@@ -84,7 +84,7 @@ export default {
                     minWidth:180
                 },
                 {
-                    title: '发送人id',
+                    title: '發送人id',
                     key: 'from_user_id',
                     minWidth:120
                 },
@@ -101,7 +101,7 @@ export default {
                     minWidth:140,
                 },
                 {
-                    title:'状态',
+                    title:'狀態',
                     slot:'status',
                     minWidth:110,
                 },
@@ -125,8 +125,8 @@ export default {
                 status:""
             },
             statusList:[
-                {value:0,label:'未读'},
-                {value:1,label:'已读'}
+                {value:0,label:'未讀'},
+                {value:1,label:'已讀'}
             ]
         }
     },
@@ -134,18 +134,18 @@ export default {
         this.getList(0);
         this.noticeList = [
             {value:1,label:'文章被留言'},
-            {value:2,label:'文章留言被评论'},
-            {value:3,label:'酒被评价'},
-            {value:4,label:'评价被评论'},
-            {value:5,label:'新增关注'},
-            {value:6,label:'订单创建'},
-            {value:7,label:'订单确认'},
-            {value:8,label:'订单取消'},
-            {value:9,label:'订单发货'},
-            {value:10,label:'订单完成'},
-            {value:11,label:'活动消息'},
-            {value:12,label:'商品促销消息'},
-            {value:13,label:'一些系统通知'},
+            {value:2,label:'文章留言被評論'},
+            {value:3,label:'酒被評價'},
+            {value:4,label:'評價被評論'},
+            {value:5,label:'新增關注'},
+            {value:6,label:'訂單創建'},
+            {value:7,label:'訂單確認'},
+            {value:8,label:'訂單取消'},
+            {value:9,label:'訂單發貨'},
+            {value:10,label:'訂單完成'},
+            {value:11,label:'活動消息'},
+            {value:12,label:'商品促銷消息'},
+            {value:13,label:'一些系統通知'},
             ]
     },
     methods:{
@@ -216,7 +216,7 @@ export default {
                         status:""
                     }
                 }else{
-                    this.$Message.error('操作失败，请检查')
+                    this.$Message.error('操作失敗，請檢查')
                 }
             })
         },
@@ -232,40 +232,40 @@ export default {
                    str = '文章被留言';
                    break;
                 case 2:
-                   str = '文章留言被评论';
+                   str = '文章留言被評論';
                    break;
                 case 3:
-                   str = '酒被评价';
+                   str = '酒被評價';
                    break;
                 case 4:
-                   str = '评价被评论';
+                   str = '評價被評論';
                    break;
                 case 5:
-                   str = '新增关注';
+                   str = '新增關注';
                    break;
                 case 6:
-                   str = '订单创建';
+                   str = '訂單創建';
                    break;
                 case 7:
-                   str = '订单确认';
+                   str = '訂單確認';
                    break;
                 case 8:
-                   str = '订单取消';
+                   str = '訂單取消';
                    break;
                 case 9:
-                   str = '订单发货';
+                   str = '訂單發貨';
                    break;
                 case 10:
-                   str = '订单完成';
+                   str = '訂單完成';
                    break;
                 case 11:
-                   str = '活动消息';
+                   str = '活動消息';
                    break;
                 case 12:
-                   str = '商品促销消息';
+                   str = '商品促銷消息';
                    break;
                 case 13:
-                   str = '一些系统通知';
+                   str = '一些系統通知';
                    break;
             }
             return str

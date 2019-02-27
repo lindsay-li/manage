@@ -3,7 +3,7 @@
     <div class="nav">
         <div class="option">
             <span>分類查看：</span>
-            <Select  style="width:160px" @on-change="selecserch">
+            <Select  style="width:160px" @on-change="selecserch" clearable>
                 <Option v-for="item in selectserch" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
         </div>
@@ -246,7 +246,6 @@ export default {
                 if(res.rows){
                     var arr = res.rows;
                     for(let i =0;i<arr.length;i++){
-                        console.log(1)
                         arr[i].time = this.$changeTime(arr[i].time);
                         arr[i].tag = this.tags[arr[i].tag-1];
                         // arr[i].photos = arr[i].photos.join(',')
@@ -334,14 +333,37 @@ export default {
             this.id = row.id;
         },
         selecserch(val){
-            var data = this.contrastData;
-            var arr = [];
-            for(let i =0;i<data.length;i++){
-                if(val == data[i].tag){
-                    arr.push(data[i]);
-                }
+            if(!val){
+                this.getList(0)
+                return
             }
-            this.data1 = arr;
+            var datas = {
+                start:0
+            }
+            this.loading = true;
+            this.$http('articleService','findDatas',datas)
+            .then(res=>{
+                this.loading = false;
+                if(res.rows){
+                    var arr = res.rows;
+                    for(let i =0;i<arr.length;i++){
+                        arr[i].time = this.$changeTime(arr[i].time);
+                        arr[i].tag = this.tags[arr[i].tag-1];
+                    }
+                    var data = this.contrastData;
+                    var arr2 = [];
+                    for(let i =0;i<data.length;i++){
+                        if(val == data[i].tag){
+                            arr2.push(data[i]);
+                        }
+                    }
+                    this.data1 = arr2;
+                }
+            })
+            .catch(err=>{
+                this.loading = false;
+            })
+            
         },
         addpic(){
             this.$refs.file.click();
