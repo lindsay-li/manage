@@ -171,10 +171,10 @@ import Fullscreen from './components/fullscreen'
                         children:[
                             {icon:'',name:'goodsQuery',meta:{icon:'',title:'商品查詢'}},
                             {icon:'',name:'createGoods',meta:{icon:'',title:'商品風格'}},
-                            {icon:'',name:'productType',meta:{icon:'',title:'商品类型'}},
+                            // {icon:'',name:'productType',meta:{icon:'',title:'商品类型'}},
                             {icon:'',name:'branchInventory',meta:{icon:'',title:'分店庫存'}},
                             {icon:'',name:'productArea',meta:{icon:'',title:'產區管理'}},
-                            {icon:'',name:'areaSun',meta:{icon:'',title:'子產區管理'}},
+                            {icon:'',name:'areaSun',meta:{icon:'',title:'次產區管理'}},
                             {icon:'',name:'country',meta:{icon:'',title:'國家管理'}},
                             {icon:'',name:'grape',meta:{icon:'',title:'葡萄種類'}},
                             {icon:'',name:'winery',meta:{icon:'',title:'酒莊管理'}},
@@ -190,7 +190,7 @@ import Fullscreen from './components/fullscreen'
                         meta:{icon:'ios-list',title:'订单管理'},
                         children:[
                             {icon:'',name:'orderQuery',meta:{icon:'',title:'订单查询'}},
-                            {icon:'',name:'orders',meta:{icon:'',title:'订单取消'}}
+                            {icon:'',name:'returnQuery',meta:{icon:'',title:'退货查询'}}
                         ]
                     },
                     {
@@ -208,7 +208,7 @@ import Fullscreen from './components/fullscreen'
                         meta:{icon:'md-megaphone',title:'公告&广告管理'},
                         children:[
                             {icon:'',name:'editNotice',meta:{icon:'',title:'公告通知'}},
-                            {icon:'',name:'advertisementEdit',meta:{icon:'',title:'广告管理'}},
+                            // {icon:'',name:'advertisementEdit',meta:{icon:'',title:'广告管理'}},
                         ]
                     },
                     {

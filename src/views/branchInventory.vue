@@ -1,8 +1,9 @@
 <template>
 <div class="wrappar">
     <div class="goods">
-        <Table border  :columns="columns1" :data="data1"  @on-selection-change="selectChange1" class="post">
+        <Table border  :columns="columns1" :data="data1"  class="post">
             <template slot="action" slot-scope="{row,index}">
+                <Button size="small" type="primary" @click="edit(row)">编辑</Button>
                 <Button size="small" type="error" @click="remove(row.id)">刪除</Button>
             </template>
         </Table>
@@ -70,24 +71,19 @@ export default {
                 },
                 {
                     title:'總庫存',
-                    key:'num',
+                    key:'stock',
                     minWidth:90
                 },
                 {
                     title: '商品名稱',
-                    key: 'product_name',
+                    key: 'title',
                     ellipsis:true,
                     tooltip:true,
                     minWidth:160
                 },
                 {
-                    title:'國家',
-                    key:'country_value',
-                    minWidth:140
-                },
-                {
                     title:'年份',
-                    key:'year',
+                    key:'vintage',
                     minWidth:170
                 },
                 {
@@ -101,19 +97,14 @@ export default {
                     minWidth:140
                 },
                 {
-                    title: '創建時間',
-                    key: 'create_time',
-                    minWidth:160
-                },
-                {
-                    title: '門店ID',
-                    key: 'shop_id',
-                    minWidth:90
+                    title: '类型',
+                    key: 'type_name',
+                    minWidth:110
                 },
                 {
                     title:'操作',
                     slot:'action',
-                    width:90
+                    width:140
                 }
             ],
             data1: [],
@@ -125,7 +116,8 @@ export default {
                 alcohol_id:'',
                 shop_id:''
             },
-            userId:""
+            userId:"",
+            id:''
         }
     },
     created(){
@@ -172,9 +164,6 @@ export default {
                 }
             })  
         },
-        selectChange1(selection){
-            console.log(selection)
-        },
         newAdd(){
             if(!this.product_style){
                  this.$Modal.info({
@@ -193,6 +182,20 @@ export default {
         },
         closeModel(){
             this.propModel = false;
+            this.inputValue={
+                    product_num:'',
+                    alcohol_id:'',
+                    shop_id:''
+                }
+        },
+        edit(row){
+           this.inputValue={
+                product_num:row.product_num,
+                alcohol_id:row.alcohol_id,
+                shop_id:row.shop_id
+            }
+            this.id = row.id;
+            this.propModel = true;
         },
         setMenuHandle(){//新增
              var data = {
@@ -201,12 +204,23 @@ export default {
                 product_num:parseInt(this.inputValue.product_num),
                 alcohol_id:parseInt(this.inputValue.alcohol_id)
             }
+            var notice = '添加成功'
+            if(this.id){
+                data.id = this.id;
+                notice = '修改成功'
+            }
             this.$http('alcoholShopRelService','addOrUpdate',data)
             .then(res=>{
                 if(res.result == 'success'){
-                    this.$Message.success('添加成功');
+                    this.$Message.success(notice);
                     this.getList(0);
                      this.propModel = false;
+                     this.id = ''
+                     this.inputValue={
+                            product_num:'',
+                            alcohol_id:'',
+                            shop_id:''
+                        }
                 }else{
                     this.$Message.error(res.message);
                 }

@@ -5,7 +5,7 @@
             <template slot="peisong" slot-scope="{row,index}">
                 <div>
                     <p>{{row.payment==1?'货到付款':'门店自取'}}</p>
-                    <p style="margin-left:10px">{{row.delivery_num}}</p>
+                    <p style="margin-left:10px">{{row.delivery_num?row.delivery_num:'-'}}</p>
                     <p style="margin-left:20px">{{types(row.type)}}</p>
                 </div>
             </template>
@@ -13,14 +13,14 @@
                 <div>
                     <p>{{row.time}}</p>
                     <p style="margin-left:10px">{{row.status==1?'订单正常':"订单用户删除"}}</p>
-                    <p style="margin-left:20px">-</p>
+                    <!-- <p style="margin-left:20px">-</p> -->
                     <p style="margin-left:25px">{{row.source}}</p>
                 </div>
             </template>
             <template slot="goods" slot-scope="{row,index}">
                 <div>
-                    <p>{{row.product_name}}</p>
-                    <p style="margin-left:10px">{{row.product_name}}</p>
+                    <p>{{row.title}}</p>
+                    <p style="margin-left:10px">{{row.alcohol_id}}</p>
                 </div>
             </template>
             <template slot="prices" slot-scope="{row,index}">
@@ -32,9 +32,9 @@
             </template>
             <template slot="users" slot-scope="{row,index}">
                 <div>
-                    <p>-</p>
+                    <!-- <p>-</p> -->
                     <p>{{row.sh_name}}</p>
-                    <p>-</p>
+                    <!-- <p>-</p> -->
                     <p>{{row.address}}</p>
                 </div>
             </template>
@@ -79,12 +79,12 @@ export default {
                 },
                 {
                     slot: 'orders',
-                    minWidth:130,
+                    minWidth:160,
                     renderHeader:(h, params) => {
                             return h('div', [
                                 h('p','下单时间'),
                                 h('p',{style:{marginLeft:'10px'}},'订单状态'),
-                                h('p',{style:{marginLeft:'20px'}},'取消原因'),
+                                // h('p',{style:{marginLeft:'20px'}},'取消原因'),
                                 h('p',{style:{marginLeft:'25px'}},'订单来源'),
                             ]);
                         },
@@ -124,9 +124,9 @@ export default {
                     tooltip:true,
                     renderHeader:(h, params) => {
                             return h('div', [
-                                h('p','会员编号'),
+                                // h('p','会员编号'),
                                 h('p',{style:{marginLeft:'10px'}},'收件人'),
-                                h('p',{style:{marginLeft:'15px'}},'收件人电话'),
+                                // h('p',{style:{marginLeft:'15px'}},'收件人电话'),
                                 h('p',{style:{marginLeft:'20px'}},'收件人地址')
                             ]);
                         },
@@ -158,12 +158,16 @@ export default {
                 console.log(res)
                 if(res.rows){
                     var arr = res.rows
+                    var returnData = []
                     for(let i =0;i<arr.length;i++){
                         arr[i].time = this.$changeTime(arr[i].time)
-                        arr[i].update_time = this.$changeTime(arr[i].update_time)
+                        // arr[i].update_time = this.$changeTime(arr[i].update_time)
+                        if(arr[i].type==4){
+                            returnData.push(arr[i])
+                        }
                     }
-                    this.data1 = arr;
-                    this.total = res.total;
+                    this.data1 = returnData;
+                    this.total = returnData.length;
                 }
             })
         },
@@ -202,6 +206,7 @@ export default {
             }else if(data==3){
                 str = '已完成'
             }
+            return str
         },
         pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*5;

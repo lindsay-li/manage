@@ -28,7 +28,7 @@ const orderQuery = () => import('@/components/orderQuery');
 // const barterHandle = () => import('@/components/barterHandle');
 // const barterQuery = () => import('@/components/barterQuery');
 // const returnHandle = () => import('@/components/returnHandle');
-// const returnQuery = () => import('@/components/returnQuery');
+const returnQuery = () => import('@/components/returnQuery');
 // const newArticle = () => import('@/components/newArticle');
 const articleList = () => import('@/components/articleList');
 const editNotice = () => import('@/components/editNotice');
@@ -331,7 +331,7 @@ export default new Router({
           path:'/areaSun',
           component:areaSun,
           meta:{
-            title:'子产区管理'
+            title:'次产区管理'
           }
         },
         {
@@ -346,6 +346,13 @@ export default new Router({
           component:areaPic,
           meta:{
             title:'产品图片管理'
+          }
+        },
+        {
+          path:'/returnQuery',
+          component:returnQuery,
+          meta:{
+            title:'退货查询'
           }
         }
       ]

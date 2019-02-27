@@ -54,6 +54,9 @@
             <template slot-scope="{row}" slot="brand_id">
                 <div>{{brand(row.brand_id)}}</div>
             </template>
+            <template slot-scope="{row}" slot="subregion_id">
+                <div>{{subregion(row.subregion_id)}}</div>
+            </template>
         </Table>
     </div>
     <div class="page">
@@ -177,14 +180,56 @@
                             <InputNumber  :min="0" v-model="inputValue.image"></InputNumber>
                         </td>
                     </tr>
-                    <!-- <tr>
-                        <td colspan="6">商品描述</td>
+                    <tr>
+                        <td>次产区</td>
+                        <td>源名称</td>
+                        <td>源价(其它币种)</td>
+                        <td>市场价价(美元)</td>
+                        <td>源市场价(其它币种)</td>
+                        <td>源地址</td>
                     </tr>
                     <tr >
-                        <td colspan="6">
+                        <td>
+                            <Select v-model="inputValue.subregion_id" >
+                                <Option v-for="(item,index) in subregionList" :value="item.value" :key="index">{{ item.label }}</Option>
+                            </Select>
+                        </td>
+                        <td>
+                            <Input type="text" v-model="inputValue.source_title" />
+                        </td>
+                        <td>
+                            <InputNumber  :min="0" v-model="inputValue.source_price"></InputNumber>
+                        </td>
+                        <td>
+                            <InputNumber  :min="0" v-model="inputValue.market_price"></InputNumber>
+                        </td>
+                        <td>
+                            <InputNumber  :min="0" v-model="inputValue.source_market_price"></InputNumber>
+                        </td>
+                        <td>
+                            <Input type="text" v-model="inputValue.source_url" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>源域名</td>
+                        <td>源币种</td>
+                        <td>源语言</td>
+                        <td colspan="3">商品描述</td>
+                    </tr>
+                    <tr >
+                        <td>
+                            <Input type="text" v-model="inputValue.source_site" />
+                        </td>
+                        <td>
+                            <Input type="text" v-model="inputValue.source_currency" />
+                        </td>
+                        <td>
+                            <Input type="text" v-model="inputValue.source_language" />
+                        </td>
+                        <td colspan="3">
                             <Input type="textarea" v-model="inputValue.description" />
                         </td>
-                    </tr> -->
+                    </tr>
                 </table>
             </div>
             <div class="c_btns">
@@ -215,6 +260,13 @@ export default {
                     minWidth:170
                 },
                 {
+                    title: '原名稱',
+                    key: 'source_title',
+                    ellipsis:true,
+                    tooltip:true,
+                    minWidth:170
+                },
+                {
                     title: '数量',
                     key: 'num',
                     minWidth:90
@@ -223,6 +275,21 @@ export default {
                     title: '售價(美元)',
                     key: 'price',
                     minWidth:110
+                },
+                {
+                    title: '源价(其它币种)',
+                    key: 'source_price',
+                    minWidth:140
+                },
+                {
+                    title: '市场价(美元)',
+                    key: 'market_price',
+                    minWidth:130
+                },
+                {
+                    title: '源市场价(其它币种)',
+                    key: 'source_market_price',
+                    minWidth:160
                 },
                 {
                     title: '年份',
@@ -275,6 +342,11 @@ export default {
                     minWidth:130
                 },
                 {
+                    title:'次产区',
+                    slot:'subregion_id',
+                    minWidth:130
+                },
+                {
                     title:'产品风格',
                     slot:'product_style',
                     minWidth:120
@@ -294,7 +366,7 @@ export default {
                 {
                     title:'品牌厂家',
                     slot:'brand_id',
-                    minWidth:120
+                    minWidth:160
                 },
                 {
                     title:'規格',
@@ -303,9 +375,34 @@ export default {
                 },
                 {
                     title:'商品描述',
-                    slot:'description',
+                    key:'description',
                     ellipsis:true,
+                    tooltip:true,
                     minWidth:160
+                },
+                {
+                    title:'源地址',
+                    key:'source_url',
+                    ellipsis:true,
+                    tooltip:true,
+                    minWidth:180
+                },
+                {
+                    title:'源域名',
+                    key:'source_site',
+                    ellipsis:true,
+                    tooltip:true,
+                    minWidth:180
+                },
+                {
+                    title:'源币种',
+                    key:'source_currency',
+                    minWidth:120
+                },
+                {
+                    title:'源语言',
+                    key:'source_language',
+                    minWidth:120
                 },
                 {
                     title:'編輯',
@@ -379,11 +476,12 @@ export default {
             productStyleList:[],
             brandList:[],//品牌厂家列表
             productType:[],
+            subregionList:[],//次产区
             gropeList:[],
             imports:[{value:'是',label:'是'},{value:'否',label:'否'}],
             inputValue:{
                 specification:'',
-                // description:"",
+                description:"",
                 brand_id:'',
                 import:'',
                 concentration:0,
@@ -400,7 +498,16 @@ export default {
                 type:'',
                 type_id:'',
                 title:'',
-                image:0
+                image:0,
+                subregion_id:'',
+                source_title:'',
+                source_price:0,
+                market_price:0,
+                source_market_price:0,
+                source_url:'',
+                source_site:'',
+                source_currency:'',
+                source_language:''
             },
             files:[],
             iSimage:true,
@@ -419,15 +526,15 @@ export default {
         this.getWinery();
         this.getCountry();
         this.productArea();
-        // this.getgrope();
         this.productStyle();
         this.getBrand();
+        this.getSubregion();
         this.getList(0);
-        var user = JSON.parse(sessionStorage.getItem('user_info'));
-        if(user){
-            this.userInfo = user.dbUser;
-            console.log(this.userInfo)
-        }
+        // var user = JSON.parse(sessionStorage.getItem('user_info'));
+        // if(user){
+        //     this.userInfo = user.dbUser;
+        //     console.log(this.userInfo)
+        // }
     },
     methods:{
         exportExcel () {
@@ -499,9 +606,31 @@ export default {
                 this.tableTitle = tableTitle
                 this.uploadLoading = false
                 this.loading = false
-                console.log(this.tableData)
-                console.log(this.tableTitle)
-                // this.showRemoveFile = true
+                var arr = [];
+                // for(let i =0;i<this.columns1.length;i++){
+                //     for(let y =0;y<results.length;y++){
+                //         if(this.columns1[i].title == Object.keys(results[y])[0]){
+                //             var obj ={};
+                //             var keys = this.columns1[i].key?this.columns1[i].key:this.columns1[i].slot
+                //             obj[keys] = results[y][this.columns1[i].title]
+                //         }
+                //     }
+                // }
+                for(let y =0;y<results.length;y++){
+                    for(let i =0;i<this.columns1.length;i++){
+                        if(this.columns1[i].title == Object.keys(results[y])[0]){
+                            var obj ={};
+                            var keys = this.columns1[i].key?this.columns1[i].key:this.columns1[i].slot
+                            obj[keys] = results[y][this.columns1[i].title]
+                            arr.push(obj)
+                        }
+                    }
+                    
+                }
+
+                this.data1 = results
+                this.columns1 = tableTitle
+                alert(JSON.stringify(arr))
             }
         },
         getList(index){
@@ -639,7 +768,16 @@ export default {
                 type:row.type,
                 type_id:row.type_id,
                 title:row.title,
-                image:row.image
+                image:row.image,
+                subregion_id:row.subregion_id,
+                source_title:row.source_title,
+                source_price:row.source_price,
+                market_price:row.market_price,
+                source_market_price:row.source_market_price,
+                source_url:row.source_url,
+                source_site:row.source_site,
+                source_currency:row.source_currency,
+                source_language:row.source_language
             }
             this.id = row.id
             this.createPage = true;
@@ -647,15 +785,76 @@ export default {
         sureBtn(){  //新增商品信息
             var data = this.inputValue;
             console.log(data)
-            // return;
+            if(!data.subregion_id){
+                this.$Message.warning('次产区为必填项！')
+                return
+            }
+            if(!data.source_title){
+                this.$Message.warning('原名称为必填项！')
+                return
+            }
+            if(!data.type_id){
+                this.$Message.warning('类型为必填项！')
+                return
+            }
+            if(!data.brand_id){
+                this.$Message.warning('厂家为必填项！')
+                return
+            }
+            if(!data.country_id){
+                this.$Message.warning('国家为必填项！')
+                return
+            }
+            if(!data.region_id){
+                this.$Message.warning('产区为必填项！')
+                return
+            }
+            if(!data.image){
+                this.$Message.warning('图片为必填项！')
+                return
+            }
+            if(!data.price){
+                this.$Message.warning('价格(美元)为必填项！')
+                return
+            }
+            if(!data.source_price){
+                this.$Message.warning('源价(其它币种)为必填项！')
+                return
+            }
+            if(!data.market_price){
+                this.$Message.warning('市场价(美元)为必填项！')
+                return
+            }
+            if(!data.source_market_price){
+                this.$Message.warning('源市场价(其它币种)为必填项！')
+                return
+            }
+            if(!data.source_url){
+                this.$Message.warning('源地址为必填项！')
+                return
+            }
+            if(!data.source_site){
+                this.$Message.warning('源域名为必填项！')
+                return
+            }
+            if(!data.source_currency){
+                this.$Message.warning('源币种为必填项！')
+                return
+            }
+            if(!data.source_language){
+                this.$Message.warning('源语言为必填项！')
+                return
+            }
+            var notice = '新增成功'
             if(this.id){
                 data.id = this.id
+                notice = '修改成功'
             }
             this.$http('moWineService','addOrUpdate',data)
             .then(res=>{
                 if(res.result == 'success'){
                     this.createPage = false
-                    this.$Message.success('新增成功');
+                    this.$Message.success(notice);
                     this.getList(this.current);
                     this.id = ''
                     this.clearData()
@@ -935,12 +1134,11 @@ export default {
               return ''
           }
       },
-      getgrope(){
+      getSubregion(){
         var data = {
-            start:0,
-            rows:1000
+            start:0
         }
-        this.$http('alcoholGrapeService','findDatas',data)
+        this.$http('moSubregionService','findDatas',data)
         .then(res=>{
             if(res.rows){
                 var arr = res.rows
@@ -948,12 +1146,21 @@ export default {
                 for(let i =0;i<arr.length;i++){
                     var obj = {};
                     obj.value = arr[i].id;
-                    obj.label = arr[i].grape_type;
+                    obj.label = arr[i].subregion_name;
                     arr1.push(obj);
                 }
-            this.gropeList = arr1;
+                this.subregionList = arr1;
             }
-        })
+        })  
+      },
+      subregion(id){
+          if(!id){return ''}
+          var result = this.subregionList.find(item=>item.value==id);
+          if(result){
+              return result.label
+          }else{
+              return ''
+          }
       }
     }  
 }
@@ -977,9 +1184,9 @@ export default {
     position: absolute;
     top: 50%;
     left: 50%;
-    margin: -340px 0 0 -460px;
+    margin: -354px 0 0 -460px;
     width: 920px;
-    height: 680px;
+    height: 708px;
     background-color:#fff;
     border-radius: 4px; 
 }
