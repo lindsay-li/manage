@@ -33,12 +33,12 @@
                             </Select>
                         </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td>發送用戶</td>
                         <td>
                             <InputNumber :min="1" v-model="inputValue.to_user_id" style="width:220px;"></InputNumber>
                         </td>
-                    </tr>
+                    </tr> -->
                     <tr>
                         <td>狀態</td>
                         <td>
@@ -88,11 +88,11 @@ export default {
                     key: 'from_user_id',
                     minWidth:120
                 },
-                {
-                    title: '接收人id',
-                    key: 'to_user_id',
-                    minWidth:120
-                },
+                // {
+                //     title: '接收人id',
+                //     key: 'to_user_id',
+                //     minWidth:120
+                // },
                 {
                     title:'其它',
                     key:'other',
@@ -121,7 +121,7 @@ export default {
             inputValue:{
                 msg:'',
                 type:'',
-                to_user_id:1,
+                // to_user_id:1,
                 status:""
             },
             statusList:[
@@ -198,7 +198,7 @@ export default {
             var data = {};
             data.msg = this.inputValue.msg;
             data.type = this.inputValue.type;
-            data.to_user_id = this.inputValue.to_user_id;
+            // data.to_user_id = this.inputValue.to_user_id;
             if(this.inputValue.status || this.inputValue.status==0){
                 data.status = this.inputValue.status;
             }
@@ -212,7 +212,7 @@ export default {
                     this.inputValue ={
                         msg:'',
                         type:'',
-                        to_user_id:1,
+                        // to_user_id:1,
                         status:""
                     }
                 }else{

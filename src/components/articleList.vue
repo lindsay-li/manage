@@ -35,8 +35,8 @@
                 <div class="a_pic aflex">
                     <span>內文圖片：</span>
                     <div style="width:486px;display:flex;">
-                        <div class="demo-upload-list" v-for="(item,index) in files" :key="index">
-                            <template v-if="item.status === 'finished'">
+                        <div class="demo-upload-list" v-for="(item,index) in files" :key="index" >
+                            <template >
                                 <img :src="item.src" />
                                 <!-- <div class="demo-upload-list-cover">
                                     <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
@@ -108,7 +108,8 @@ export default {
                 {
                     title: '發佈時間',
                     key: 'time',
-                    minWidth:160
+                    minWidth:160,
+                    sortable: true
                 },
                 {
                     title: '文章標題',
@@ -268,6 +269,15 @@ export default {
         },
         closeModels(){
             this.propUpModel = false;
+            this.inputValue={
+                user_id:'',
+                tag:'',
+                title:'',
+                content:''
+            }
+            this.id = ''
+            this.pics = []
+            this.files = []
         },
         remove (id) {
             this.$Modal.confirm({
@@ -309,6 +319,14 @@ export default {
                 if(res.result == 'success'){
                     this.$Message.success(info);
                     this.getList(this.current);
+                    this.inputValue={
+                        user_id:'',
+                        tag:'',
+                        title:'',
+                        content:''
+                    }
+                    this.pics = []
+                    this.files = []
                 }else{
                     this.$Message.error(res.message);
                 }
@@ -318,7 +336,7 @@ export default {
             console.log(row)
             this.propUpModel = true;
             this.inputValue = {
-                user_id:'',
+                user_id:row.user_id,
                 tag:"",
                 title:row.title,
                 content:row.content
@@ -329,7 +347,16 @@ export default {
                     break;
                 }
             }
-            this.pics = JSON.parse(row.photos);
+            try {
+               this.pics = JSON.parse(row.photos); 
+            } catch (error) {
+                this.pics = new Array(row.photos)
+            }
+            for(let j=0;j<this.pics.length;j++){
+                var obj = {}
+                obj.src = this.pics[j]
+                this.files.push(obj)
+            }
             this.id = row.id;
         },
         selecserch(val){
