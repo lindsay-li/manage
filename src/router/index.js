@@ -17,7 +17,8 @@ const goodsQuery = () => import('@/components/goodsQuery');
 const productType = () => import('@/views/productType');
 // const stockManage = () => import('@/components/stockManage');
 const orderQuery = () => import('@/components/orderQuery');
-// const ordersCancel = () => import('@/components/ordersCancel');
+const orderCancel = () => import('@/components/orderCancel');
+const orderDistribution = () => import('@/components/orderDistribution');
 // const homeDelivery = () => import('@/components/homeDelivery');
 // const homeDeliveryGoods = () => import('@/components/homeDeliveryGoods');
 // const overtime = () => import('@/components/overtime');
@@ -354,6 +355,20 @@ export default new Router({
           component:grapeRelation,
           meta:{
             title:'葡萄跟酒關聯'
+          }
+        },
+        {
+          path:'/orderCancel',
+          component:orderCancel,
+          meta:{
+            title:'订单取消'
+          }
+        },
+        {
+          path:'/orderDistribution',
+          component:orderDistribution,
+          meta:{
+            title:'订单分配'
           }
         }
       ]

@@ -115,6 +115,12 @@
                             </td>
                         </tr>
                         <tr>
+                            <td style="text-align:right">用户账号:</td>
+                            <td>
+                                <Input v-model="setuser.user_no"  placeholder="點擊輸入" style="width: 300px" />
+                            </td>
+                        </tr>
+                        <tr>
                             <td style="text-align:right">密碼:</td>
                             <td>
                                 <Input v-model="setuser.pwda"  placeholder="點擊輸入" style="width: 300px" />
@@ -196,7 +202,8 @@ export default {
             setuser:{
                 username:'',
                 pwda:'',
-                pwdb:''
+                pwdb:'',
+                user_no:''
             },
             roleList:[],
             columns1: [
@@ -273,11 +280,6 @@ export default {
                     minWidth:160
                 },
                 {
-                    title: '後臺用戶等級',
-                    key: 'user_level',
-                    minWidth:130
-                },
-                {
                     title:'操作',
                     slot:'action',
                     minWidth:135
@@ -293,9 +295,9 @@ export default {
         }
     },
     created(){
-        this.getList(0);
         this.getroleid();
         this.getShop();
+        this.getList(0);
     },
     methods:{
         searchList(){ //查詢用戶
@@ -339,7 +341,7 @@ export default {
                                 roleid.push(str[0])
                             }
                         }
-                        res.rows[i].create_time = this.$changeTime(res.rows[i].create_time);
+                        res.rows[i].create_time =res.rows[i].create_time? this.$changeTime(res.rows[i].create_time):'';
                         res.rows[i].rolename = rolename;
                         res.rows[i].roleId = roleid;      
                     }
@@ -354,6 +356,10 @@ export default {
                 this.$Modal.info({title:'用戶名不能為空'})
                 return
             }
+            if(!this.setuser.user_no){
+                this.$Modal.info({title:'用戶账号不能為空'})
+                return
+            }
             if(!this.setuser.pwda){
                 this.$Modal.info({title:'密碼不能為空'})
                 return
@@ -364,16 +370,20 @@ export default {
             }
             var data = {
                     username:this.setuser.username,
-                    password:this.setuser.pwda
+                    password:this.setuser.pwda,
+                    user_no:this.setuser.user_no
                 }
             this.$http('zAdminUserService','addOrUpdate',data)
             .then((res)=>{
                 console.log(res)
                 if(res.result == 'fail'){
-                    this.$Message.error({title:res.message})
+                   
                 }else if(res.result == 'success'){
-                    this.$Message.success({title:res.message});
+                    this.propModel = false;
+                    this.$Message.success(res.message);
                     this.getList(0);
+                }else{
+                     this.$Message.error(res.message)
                 }
             })
         },
@@ -404,7 +414,7 @@ export default {
                                 roleid.push(str[0])
                             }
                         }
-                        res.rows[i].create_time = this.$changeTime(res.rows[i].create_time);
+                        res.rows[i].create_time = res.rows[i].create_time?this.$changeTime(res.rows[i].create_time):'';
                         res.rows[i].rolename = rolename;
                         res.rows[i].roleId = roleid;
                     }
@@ -439,6 +449,17 @@ export default {
         closeModel(){
             this.propModel = false;
             this.roleModel = false;
+             var data = {
+                    username:this.setuser.username,
+                    password:this.setuser.pwda,
+                    user_no:this.setuser.user_no
+                }
+            this.setuser={
+                username:'',
+                pwda:'',
+                pwdb:'',
+                user_no:''
+            }
         },
         remove (row){ //刪除數據
             console.log(1)
@@ -468,19 +489,24 @@ export default {
             var newrow = row;
             var data = { };
             newrow.sex = newrow.sex == '男'?(newrow.sex == '女'?2:1):3
-            if(newrow.sex=='男'){
-                newrow.sex = 1;
-            }else if(newrow.sex =='女'){
-                newrow.sex = 2;
-            }else{
-                newrow.sex =3;
-            }
-            // for(let key in this.editValue){  //參數沒改變的就不傳接口
-            //     if(this.editValue[key] != newrow[key]){
-            //         data[key] = this.editValue[key];
-            //     }
+            // if(newrow.sex=='男'){
+            //     newrow.sex = 1;
+            // }else if(newrow.sex =='女'){
+            //     newrow.sex = 2;
+            // }else{
+            //     newrow.sex =3;
             // }
-            data = this.editValue
+            for(let key in this.editValue){  //參數沒改變的就不傳接口
+                if(this.editValue[key] != newrow[key]){
+                    data[key] = this.editValue[key];
+                }
+            }
+            // data = this.editValue
+            data.city = this.editValue.city
+            data.birth = this.editValue.birth
+            data.tel = this.editValue.tel
+            data.addr = this.editValue.addr
+            data.email = this.editValue.email
             data.id = id
             if(data.shop_ids){
                 data.shop_ids = data.shop_ids.join(',')
@@ -499,7 +525,7 @@ export default {
         editHandle(row,index){//編輯table數據
             this.editValue={
                 city:row.city,
-                sex:row.sex,
+                sex:row.sex == '男'?(row.sex == '女'?2:1):3,
                 birth:row.birth,
                 tel:row.tel,
                 addr:row.addr,
@@ -628,11 +654,11 @@ export default {
 }
 ._box{
     width: 600px;
-    height: 380px;
+    height: 410px;
     position: absolute;
     top: 50%;
     left: 50%;
-    margin: -190px 0 0 -300px;
+    margin: -205px 0 0 -300px;
     border-radius: 4px;
     background-color: #fff;
 }

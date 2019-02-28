@@ -145,7 +145,7 @@
                         <td>狀態</td>
                         <td>是否進口包裝</td>
                         <td>酒莊</td>
-                        <td>商品圖片id</td>
+                        <td>商品圖片</td>
                     </tr>
                     <tr>
                         <td>
@@ -170,14 +170,14 @@
                             </Select>
                         </td>
                         <td>
-                            <!-- <div v-if="iSimage">
+                            <div v-if="iSimage">
                                 <input type="file" class="files" @change="fileChanged" ref="file" multiple="multiple" name="file" accept="image/jpg,image/jpeg,image/png,image/bmp">
                                 <Button icon="ios-cloud-upload-outline" @click="addpic">點擊上傳</Button>
                             </div>
                             <div class="pic" v-else>
                                 <img :src="files[0].src" />
-                            </div> -->
-                            <InputNumber  :min="0" v-model="inputValue.image"></InputNumber>
+                            </div>
+                            <!-- <InputNumber  :min="0" v-model="inputValue.image"></InputNumber> -->
                         </td>
                     </tr>
                     <tr>
@@ -973,7 +973,8 @@ export default {
                     if(res.result=='success'){
                         this.$Message.success(res.message);
                         this.iSimage = false;
-                        this.inputValue.product_photo = res.data;
+                        // this.inputValue.image = res.data;
+                        this.setPic(res.data)//将图片上传到图片库，并获取图片id
                     }else{
                         this.$Message.error(res.message);
                     }
@@ -991,6 +992,19 @@ export default {
       },
       isContain(file) {
         return this.files.find((item) => item.name === file.name && item.size === file.size)
+      },
+      setPic(url){
+        var data = {
+            path:url
+        }
+        this.$http('moPictureService','addOrUpdate',data)
+        .then(res=>{
+            if(res.result == 'success'){
+                this.inputValue.image = res.data.id;
+            }else{
+                this.$Message.error(res.message);
+            }
+        })
       },
       getCountry(){
         var data = {

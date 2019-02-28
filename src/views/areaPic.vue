@@ -52,6 +52,11 @@ export default {
         return{
             columns1: [
                 {
+                    title:'图片ID',
+                    key:'id',
+                    width:100
+                },
+                {
                     title: '圖片地址',
                     key: 'path',
                     minWidth:200

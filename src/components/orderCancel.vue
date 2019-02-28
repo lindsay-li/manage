@@ -4,37 +4,38 @@
     <div class="nav">
         <div class="option">
             <span>订单编号：</span>
-            <Input type="text"  v-model="inputValue.id" style="width:160px" />
+            <Input type="text"  v-model="inputValue.id" style="width:100px" />
+        </div>
+        <div class="option">
+            <span>配送方式：</span>
+            <Select v-model="inputValue.payment" style="width:100px" >
+                <Option v-for="(item,index) in paymentList" :value="item.value" :key="index">{{ item.label }}</Option>
+            </Select>
         </div>
         <div class="option">
             <span>下单时间：</span>
             <!-- <Input type="text"  v-model="inputValue.time" style="width:160px" /> -->
             <DatePicker type="daterange" v-model="inputValue.time" placeholder="選擇時間" style="width: 160px"></DatePicker>
         </div>
+        <div class="option">
+            <span>配送编号：</span>
+            <Input type="text"  v-model="inputValue.delivery_num" style="width:100px" />
+        </div>
         <div class="serch" @click="search">查詢</div>
     </div>
     <div class="goods">
         <Table border  :columns="columns1" :data="data1"  class="post"  @on-row-click="selectChange1">
-            <template slot="shop_id" slot-scope="{row}">
-                <div>{{shopnames(row.shop_id)}}</div>
-            </template>
             <template slot="peisong" slot-scope="{row,index}">
                 <div>
                     <p>{{row.payment==1?'貨到付款':'門店自取'}}</p>
                     <p style="margin-left:10px">{{row.delivery_num?row.delivery_num:"-"}}</p>
-                    <p style="margin-left:20px">{{row.status==1?'訂單正常':"訂單用戶刪除"}}</p>
                 </div>
             </template>
             <template slot="orders" slot-scope="{row,index}">
                 <div>
                     <p>{{row.time}}</p>
-                    <p style="margin-left:10px">
-                        <Select v-model="row.type" @on-change="selectChange" size="small">
-                            <Option v-for="(item,index) in typeList" :value="item.value" :key="index">{{ item.label }}</Option>
-                        </Select>
-                    </p>
+                    <!-- <p style="margin-left:10px">{{row.status==1?'訂單正常':"訂單用戶刪除"}}</p> -->
                     <!-- <p style="margin-left:20px">-</p> -->
-                    <p style="margin-left:0px">{{row.update_time}}</p>
                     <p style="margin-left:25px">{{row.source}}</p>
                 </div>
             </template>
@@ -58,6 +59,15 @@
                     <!-- <p>-</p> -->
                     <p>{{row.address}}</p>
                 </div>
+            </template>
+            <template slot="cancels" slot-scope="{row}">
+                <div>
+                    <p></p>
+                    <p></p>
+                </div>
+            </template>
+            <template slot="type" slot-scope="{row}">
+                <div>{{types(row.type)}}</div>
             </template>
             <template slot="action" slot-scope="{row,index}">
                 <Button size="small" type="error" @click="remove(row.id)">刪除</Button>
@@ -84,19 +94,12 @@ export default {
                     minWidth:120
                 },
                 {
-                    title: '負責門店',
-                    slot: 'shop_id',
-                    minWidth:120
-                },
-                {
                     slot: 'peisong',
-                    minWidth:170,
+                    minWidth:150,
                     renderHeader:(h, params) => {
                             return h('div', [
                                 h('p','配送方式'),
                                 h('p',{style:{marginLeft:'10px'}},'配送編號'),
-                                h('p',{style:{marginLeft:'20px'}},'出貨狀態'),
-                                // h('p',{style:{marginLeft:'25px'}},'出貨狀態时间'),
                             ]);
                         },
                 },
@@ -106,9 +109,17 @@ export default {
                     renderHeader:(h, params) => {
                             return h('div', [
                                 h('p','下單時間'),
-                                h('p',{style:{marginLeft:'10px'}},'訂單狀態'),
-                                h('p',{style:{marginLeft:'20px'}},'订单状态日'),
                                 h('p',{style:{marginLeft:'25px'}},'訂單來源'),
+                            ]);
+                        },
+                },
+                {
+                    slot: 'cancels',
+                    minWidth:150,
+                    renderHeader:(h, params) => {
+                            return h('div', [
+                                h('p','取消原因'),
+                                h('p',{style:{marginLeft:'15px'}},'取消订单日'),
                             ]);
                         },
                 },
@@ -160,6 +171,11 @@ export default {
                     width:110
                 },
                 {
+                    title:'出货状态',
+                    slot:'type',
+                    width:120
+                },
+                {
                     title:'订单备注',
                     key:'order2',
                     width:110
@@ -179,7 +195,9 @@ export default {
             inputValue:{
                 id:"",
                 time:'',
-                type:''
+                type:'',
+                delivery_num:'',
+                payment:""
             },
             typeList:[
                 {value:1,label:'待确认'},
@@ -190,11 +208,14 @@ export default {
                 {value:6,label:'取消'},
                 {value:7,label:'退货'},
             ],
-            id:''
+            id:'',
+            paymentList:[
+                {value:'1',label:'货到付款'},
+                {value:'2',label:'门店自取'}
+            ]
         }
     },
     created(){
-        this.getShopname()
         this.getList(0)
     },
     methods:{
@@ -243,40 +264,20 @@ export default {
         openModel(){
             this.propModel = true;
         },
-        types(data){
-            var str = '';
-            if(data == 1){
-                str = '待確認'
-            }else if(data==2){
-                str = '待出貨'
-            }else if(data==3){
-                str = '已完成'
+        types(id){
+            if(!id){return ''}
+            var result = this.typeList.find(item=>item.value==id);
+            if(result){
+                return result.label
+            }else if(id==0){
+                return '取消(用户信件)'
+            }else{
+                return ''
             }
-            
-            return str
         },
         pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*5;
             this.getList(this.current);
-        },
-        getShopname(){
-            var data = {
-                start:0
-            }
-            this.$http('orderShopService','findDatas',data)
-            .then(res=>{
-                if(res.rows){
-                    var arr = res.rows
-                    var arr1 = [];
-                    for(let i =0;i<arr.length;i++){
-                        var obj = {};
-                        obj.value = arr[i].id;
-                        obj.label = arr[i].name;
-                        arr1.push(obj);
-                    }
-                    this.shopName = arr1;
-                }
-            })
         },
         selectChange1(row){
             console.log(row)
@@ -298,15 +299,6 @@ export default {
                 }
             })
         },
-        shopnames(id){
-          if(!id){return ''}
-          var result = this.shopName.find(item=>item.value == id)
-          if(result){
-              return result.label
-          }else{
-              return ''
-          }
-        },
         selectChange(value){
             console.log(value)
             this.revise(value)
@@ -320,7 +312,12 @@ export default {
                 obj.startTime = times(this.inputValue.time[0]);
                 obj.endTime = times(this.inputValue.time[1]);
             }
-            
+            if(this.inputValue.delivery_num){
+                obj.delivery_num = this.inputValue.delivery_num
+            }
+            if(this.inputValue.payment){
+                obj.payment = this.inputValue.payment
+            }
             var arr =Object.keys(obj)
             if(arr.length>0){
                 obj.start=0

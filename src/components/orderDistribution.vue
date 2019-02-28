@@ -15,13 +15,11 @@
     </div>
     <div class="goods">
         <Table border  :columns="columns1" :data="data1"  class="post"  @on-row-click="selectChange1">
-            <template slot="shop_id" slot-scope="{row}">
-                <div>{{shopnames(row.shop_id)}}</div>
-            </template>
             <template slot="peisong" slot-scope="{row,index}">
                 <div>
-                    <p>{{row.payment==1?'貨到付款':'門店自取'}}</p>
-                    <p style="margin-left:10px">{{row.delivery_num?row.delivery_num:"-"}}</p>
+                    <!-- <p>{{row.payment==1?'貨到付款':'門店自取'}}</p> -->
+                    <!-- <p style="margin-left:10px">{{row.delivery_num?row.delivery_num:"-"}}</p> -->
+                    <!-- <p style="margin-left:20px">{{types(row.type)}}</p> -->
                     <p style="margin-left:20px">{{row.status==1?'訂單正常':"訂單用戶刪除"}}</p>
                 </div>
             </template>
@@ -84,19 +82,14 @@ export default {
                     minWidth:120
                 },
                 {
-                    title: '負責門店',
-                    slot: 'shop_id',
-                    minWidth:120
-                },
-                {
                     slot: 'peisong',
-                    minWidth:170,
+                    minWidth:150,
                     renderHeader:(h, params) => {
                             return h('div', [
-                                h('p','配送方式'),
-                                h('p',{style:{marginLeft:'10px'}},'配送編號'),
-                                h('p',{style:{marginLeft:'20px'}},'出貨狀態'),
-                                // h('p',{style:{marginLeft:'25px'}},'出貨狀態时间'),
+                                // h('p','配送方式'),
+                                // h('p',{style:{marginLeft:'10px'}},'配送編號'),
+                                h('p','出貨狀態'),
+                                // h('p',{style:{marginLeft:'10px'}},'出貨狀態时间')
                             ]);
                         },
                 },
@@ -184,23 +177,23 @@ export default {
             typeList:[
                 {value:1,label:'待确认'},
                 {value:2,label:'待出货'},
-                {value:3,label:'已出货'},
-                {value:4,label:'已收货'},
-                {value:5,label:'未取货'},
+                // {value:3,label:'已出货'},
+                // {value:4,label:'已收货'},
+                // {value:5,label:'未取货'},
                 {value:6,label:'取消'},
-                {value:7,label:'退货'},
+                // {value:7,label:'退货'},
             ],
             id:''
         }
     },
     created(){
-        this.getShopname()
         this.getList(0)
     },
     methods:{
         getList(start,obj){
             var data = {
                 start:start,
+                type:1,
                 rows:5
             }
             if(obj){
@@ -259,25 +252,6 @@ export default {
             this.current = index==1?0:(index-1)*5;
             this.getList(this.current);
         },
-        getShopname(){
-            var data = {
-                start:0
-            }
-            this.$http('orderShopService','findDatas',data)
-            .then(res=>{
-                if(res.rows){
-                    var arr = res.rows
-                    var arr1 = [];
-                    for(let i =0;i<arr.length;i++){
-                        var obj = {};
-                        obj.value = arr[i].id;
-                        obj.label = arr[i].name;
-                        arr1.push(obj);
-                    }
-                    this.shopName = arr1;
-                }
-            })
-        },
         selectChange1(row){
             console.log(row)
             this.id = row.id
@@ -297,15 +271,6 @@ export default {
                     this.$Message.error('操作失敗');
                 }
             })
-        },
-        shopnames(id){
-          if(!id){return ''}
-          var result = this.shopName.find(item=>item.value == id)
-          if(result){
-              return result.label
-          }else{
-              return ''
-          }
         },
         selectChange(value){
             console.log(value)
