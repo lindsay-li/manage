@@ -194,7 +194,7 @@ import Fullscreen from './components/fullscreen'
                             {icon:'',name:'orderDistribution',meta:{icon:'',title:'訂單分配'}},
                             {icon:'',name:'orderQuery',meta:{icon:'',title:'訂單查詢'}},
                             {icon:'',name:'orderCancel',meta:{icon:'',title:'訂單取消'}},
-                            {icon:'',name:'returnQuery',meta:{icon:'',title:'退貨查詢'}}
+                            // {icon:'',name:'returnQuery',meta:{icon:'',title:'退貨查詢'}}
                         ]
                     },
                     {
