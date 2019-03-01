@@ -19,23 +19,23 @@ const productType = () => import('@/views/productType');
 const orderQuery = () => import('@/components/orderQuery');
 const orderCancel = () => import('@/components/orderCancel');
 const orderDistribution = () => import('@/components/orderDistribution');
-// const homeDelivery = () => import('@/components/homeDelivery');
-// const homeDeliveryGoods = () => import('@/components/homeDeliveryGoods');
-// const overtime = () => import('@/components/overtime');
-// const overtimeGoods = () => import('@/components/overtimeGoods');
-// const retailSalesUp = () => import('@/components/retailSalesUp');
+const homeDelivery = () => import('@/components/homeDelivery');
+const homeDeliveryGoods = () => import('@/components/homeDeliveryGoods');
+const overtime = () => import('@/components/overtime');
+const overtimeGoods = () => import('@/components/overtimeGoods');
+const retailSalesUp = () => import('@/components/retailSalesUp');
 // const retailSales = () => import('@/components/retailSales');
-// const retailSalesOrder = () => import('@/components/retailSalesOrder');
-// const barterHandle = () => import('@/components/barterHandle');
-// const barterQuery = () => import('@/components/barterQuery');
-// const returnHandle = () => import('@/components/returnHandle');
+const retailSalesOrder = () => import('@/components/retailSalesOrder');
+const barterHandle = () => import('@/components/barterHandle');
+const barterQuery = () => import('@/components/barterQuery');
+const returnHandle = () => import('@/components/returnHandle');
 const returnQuery = () => import('@/components/returnQuery');
 // const newArticle = () => import('@/components/newArticle');
 const articleList = () => import('@/components/articleList');
 const editNotice = () => import('@/components/editNotice');
 // const auditingNotice = () => import('@/components/auditingNotice');
-// const advertisementEdit = () => import('@/components/advertisementEdit');
-// const advertisementAuditing = () => import('@/components/advertisementAuditing');
+const advertisementEdit = () => import('@/components/advertisementEdit');
+const advertisementAuditing = () => import('@/components/advertisementAuditing');
 // const userHandle = () => import('@/components/userHandle');
 // const userArticleHandle = () => import('@/components/userArticleHandle');
 // const goodsActivity = () => import('@/components/goodsActivity');//商品活動
@@ -77,6 +77,7 @@ const areaSun = () => import('@/views/areaSun');
 const brand = () => import('@/views/brand');
 const areaPic = () => import('@/views/areaPic');
 const grapeRelation = () => import('@/views/grapeRelation');
+const followList = () => import('@/components/followList');
 
 Vue.use(Router)
 
@@ -351,6 +352,13 @@ export default new Router({
           }
         },
         {
+          path:'/returnHandle',
+          component:returnHandle,
+          meta:{
+            title:'退貨處理'
+          }
+        },
+        {
           path:'/grapeRelation',
           component:grapeRelation,
           meta:{
@@ -361,14 +369,91 @@ export default new Router({
           path:'/orderCancel',
           component:orderCancel,
           meta:{
-            title:'订单取消'
+            title:'訂單取消'
           }
         },
         {
           path:'/orderDistribution',
           component:orderDistribution,
           meta:{
-            title:'订单分配'
+            title:'訂單分配'
+          }
+        },
+        {
+          path:'/homeDelivery',
+          component:homeDelivery,
+          meta:{
+            title:'宅配訂單確定'
+          }
+        },
+        {
+          path:'/homeDeliveryGoods',
+          component:homeDeliveryGoods,
+          meta:{
+            title:'宅配訂單出貨'
+          }
+        },
+        {
+          path:"/overtimeGoods",
+          component:overtimeGoods,
+          meta:{
+            title:'超取訂單出貨'
+          }
+        },
+        {
+          path:"/overtime",
+          component:overtime,
+          meta:{
+            title:'超取訂單確認'
+          }
+        },
+        {
+          path:'/retailSalesOrder',
+          component:retailSalesOrder,
+          meta:{
+            title:'門市訂單確認'
+          }
+        },
+        {
+          path:'/retailSalesUp',
+          component:retailSalesUp,
+          meta:{
+            title:'門市取貨'
+          }
+        },
+        {
+          path:'/barterHandle',
+          component:barterHandle,
+          meta:{
+            title:'換貨處理'
+          }
+        },
+        {
+          path:'/barterQuery',
+          component:barterQuery,
+          meta:{
+            title:'換貨查詢'
+          }
+        },
+        {
+          path:'/advertisementEdit',
+          component:advertisementEdit,
+          meta:{
+            title:'廣告管理'
+          }
+        },
+        {
+          path:'/advertisementAuditing',
+          component:advertisementAuditing,
+          meta:{
+            title:'廣告審核'
+          }
+        },
+        {
+          path:'/followList',
+          component:followList,
+          meta:{
+            title:'關注記錄'
           }
         }
       ]

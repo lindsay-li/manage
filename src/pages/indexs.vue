@@ -162,6 +162,7 @@ import Fullscreen from './components/fullscreen'
                             {icon:'',name:'car',meta:{icon:'',title:'用戶購物車'}},
                             {icon:'',name:'collect',meta:{icon:'',title:'用戶收藏'}},
                             {icon:'',name:'goodsRecord',meta:{icon:'',title:'商品瀏覽記錄'}},
+                            {icon:'',name:'followList',meta:{icon:'',title:'關注記錄'}},
                         ]
                     },
                     {
@@ -198,6 +199,51 @@ import Fullscreen from './components/fullscreen'
                         ]
                     },
                     {
+                        icon:'md-bicycle',
+                        name:'宅配出貨',
+                        meta:{icon:'md-bicycle',title:'宅配出貨'},
+                        children:[
+                            {icon:'',name:'homeDelivery',meta:{icon:'',title:'宅配訂單確定'}},
+                            {icon:'',name:'homeDeliveryGoods',meta:{icon:'',title:'宅配訂單出貨'}},
+                        ]
+                    },
+                    {
+                        icon:'ios-alarm',
+                        name:'超取出貨',
+                        meta:{icon:'ios-alarm',title:'超取出貨'},
+                        children:[
+                            {icon:'',name:'overtime',meta:{icon:'',title:'超取訂單確定'}},
+                            {icon:'',name:'overtimeGoods',meta:{icon:'',title:'超取訂單出貨'}},
+                        ]
+                    },
+                    {
+                        icon:'md-cog',
+                        name:'門市操作',
+                        meta:{icon:'md-cog',title:'門市操作'},
+                        children:[
+                            {icon:'',name:'retailSalesOrder',meta:{icon:'',title:'門市訂單確定'}},
+                            {icon:'',name:'retailSalesUp',meta:{icon:'',title:'門市取貨'}},
+                        ]
+                    },
+                    {
+                        icon:'logo-pinterest',
+                        name:'換貨處理_預設',
+                        meta:{icon:'logo-pinterest',title:'換貨處理_預設'},
+                        children:[
+                            {icon:'',name:'returnHandle',meta:{icon:'',title:'換貨處理'}},
+                            {icon:'',name:'returnQuery',meta:{icon:'',title:'換貨查詢'}},
+                        ]
+                    },
+                    {
+                        icon:'md-return-right',
+                        name:'退貨操作',
+                        meta:{icon:'md-return-right',title:'退貨操作'},
+                        children:[
+                            {icon:'',name:'barterHandle',meta:{icon:'',title:'退貨處理'}},
+                            {icon:'',name:'barterQuery',meta:{icon:'',title:'退貨查詢'}},
+                        ]
+                    },
+                    {
                         icon:'logo-buffer',
                         name:'文章日誌',
                         meta:{icon:'logo-buffer',title:'文章日誌'},
@@ -212,7 +258,8 @@ import Fullscreen from './components/fullscreen'
                         meta:{icon:'md-megaphone',title:'公告&廣告管理'},
                         children:[
                             {icon:'',name:'editNotice',meta:{icon:'',title:'公告通知'}},
-                            // {icon:'',name:'advertisementEdit',meta:{icon:'',title:'廣告管理'}},
+                            {icon:'',name:'advertisementEdit',meta:{icon:'',title:'廣告管理'}},
+                            {icon:'',name:'advertisementAuditing',meta:{icon:'',title:'廣告審核'}}
                         ]
                     },
                     {
