@@ -158,6 +158,7 @@ import Fullscreen from './components/fullscreen'
                         meta:{icon:'ios-people',title:'用戶管理'},
                         children:[
                             {icon:'',name:'user',meta:{icon:'',title:'用戶信息'}},
+                            {icon:'',name:'identity',meta:{icon:'',title:'身份驗證'}},
                             {icon:'',name:'coupon',meta:{icon:'',title:'折扣券'}},
                             {icon:'',name:'car',meta:{icon:'',title:'用戶購物車'}},
                             {icon:'',name:'collect',meta:{icon:'',title:'用戶收藏'}},
@@ -194,8 +195,7 @@ import Fullscreen from './components/fullscreen'
                         children:[
                             {icon:'',name:'orderDistribution',meta:{icon:'',title:'訂單分配'}},
                             {icon:'',name:'orderQuery',meta:{icon:'',title:'訂單查詢'}},
-                            {icon:'',name:'orderCancel',meta:{icon:'',title:'訂單取消'}},
-                            // {icon:'',name:'returnQuery',meta:{icon:'',title:'退貨查詢'}}
+                            {icon:'',name:'orderCancel',meta:{icon:'',title:'訂單取消'}}
                         ]
                     },
                     {
@@ -263,6 +263,16 @@ import Fullscreen from './components/fullscreen'
                         ]
                     },
                     {
+                        icon:'md-globe',
+                        name:'运营管理',
+                        meta:{icon:'md-globe',title:'运营管理'},
+                        children:[
+                            {icon:'',name:'couponActivity',meta:{icon:'',title:'折扣券活动'}},
+                            {icon:'',name:'specials',meta:{icon:'',title:'特價商品區'}},
+                            // {icon:'',name:'advertisementAuditing',meta:{icon:'',title:'廣告審核'}}
+                        ]
+                    },
+                    {
                         icon:'ios-key',
                         name:'後臺賬號管理',
                         meta:{icon:'ios-key',title:'後臺賬號管理'},
@@ -291,6 +301,7 @@ import Fullscreen from './components/fullscreen'
                         meta:{icon:'ios-call',title:'客服相關'},
                         children:[
                             {icon:'',name:'waiterLetter',meta:{icon:'',title:'客服信件'}},
+                            {icon:'',name:'repairFunc',meta:{icon:'',title:'補發功能'}}
                         ]
                     },
                     {
@@ -299,6 +310,7 @@ import Fullscreen from './components/fullscreen'
                         meta:{icon:'logo-bitcoin',title:'賬務管理'},
                         children:[
                             {icon:'',name:'financeCheck',meta:{icon:'',title:'賬務核對'}},
+                            {icon:'',name:'shipmentCheck',meta:{icon:'',title:'出貨資料核對'}},
                             {icon:'',name:'invoice',meta:{icon:'',title:'發票另寄'}},
                         ]
                     }

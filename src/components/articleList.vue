@@ -137,16 +137,6 @@ export default {
                     tooltip:true,
                     minWidth:160
                 },
-                // {
-                //     title:'置頂音樂',
-                //     key:'audio',
-                //     minWidth:160
-                // },
-                // {
-                //     title:'置頂影片',
-                //     key:'video',
-                //     minWidth:160
-                // },
                 {
                     title:'文章分類',
                     key:'tag',
@@ -222,7 +212,8 @@ export default {
             files:[],
             pics:[],
             n:0,
-            id:''
+            id:'',
+            loading:false
         }
     },
     created(){

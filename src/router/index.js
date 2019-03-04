@@ -42,8 +42,8 @@ const advertisementAuditing = () => import('@/components/advertisementAuditing')
 // const memberLevel = () => import('@/components/memberLevel'); //會員分級
 // const buygoods = () => import('@/components/buygoods');
 // const freeMail = () => import('@/components/freeMail');
-// const couponActivity = () => import('@/components/couponActivity');
-// const specials = () => import('@/components/specials');
+const couponActivity = () => import('@/components/couponActivity');
+const specials = () => import('@/components/specials');
 // const birthdaygift = () => import('@/components/birthdaygift');
 // const continuousActivity = () => import('@/components/continuousActivity');
 // const signInActive = () => import('@/components/signInActive');
@@ -58,10 +58,10 @@ const communityData = () => import('@/components/communityData');
 const goodsData = () => import('@/components/goodsData');
 const articleData = () => import('@/components/articleData');
 const waiterLetter = () => import('@/components/waiterLetter');
-// const repairFunc = () => import('@/components/repairFunc');
+const repairFunc = () => import('@/components/repairFunc');
 // const userImpeach = () => import('@/components/userImpeach');
 const financeCheck = () => import('@/components/financeCheck');
-// const shipmentCheck = () => import('@/components/shipmentCheck');
+const shipmentCheck = () => import('@/components/shipmentCheck');
 const invoice = () => import('@/components/invoice');
 const menumanage = () => import('@/views/menuManage');
 const branchInventory = () => import('@/views/branchInventory');
@@ -78,6 +78,7 @@ const brand = () => import('@/views/brand');
 const areaPic = () => import('@/views/areaPic');
 const grapeRelation = () => import('@/views/grapeRelation');
 const followList = () => import('@/components/followList');
+const identity = () => import('@/components/identity');
 
 Vue.use(Router)
 
@@ -454,6 +455,41 @@ export default new Router({
           component:followList,
           meta:{
             title:'關注記錄'
+          }
+        },
+        {
+          path:'/identity',
+          component:identity,
+          meta:{
+            title:'身份驗證'
+          }
+        },
+        {
+          path:'/repairFunc',
+          component:repairFunc,
+          meta:{
+            title:"補發功能"
+          }
+        },
+        {
+          path:'/shipmentCheck',
+          component:shipmentCheck,
+          meta:{
+            title:'出貨資料核對'
+          }
+        },
+        {
+          path:'/couponActivity',
+          component:couponActivity,
+          meta:{
+            title:'折扣券活動'
+          }
+        },
+        {
+          path:'/specials',
+          component:specials,
+          meta:{
+            title:'特價商品區'
           }
         }
       ]

@@ -231,8 +231,8 @@ export default {
                     var arr = res.rows;
                     for(let i =0;i<arr.length;i++){
                         console.log(1)
-                        arr[i].discount_end = arr[i].discount_end?this.$changeTime(arr[i].discount_end):'';
-                        arr[i].discount_start = arr[i].discount_start?this.$changeTime(arr[i].discount_start):'';
+                        arr[i].discount_end = this.$changeTime(arr[i].discount_end);
+                        arr[i].discount_start = this.$changeTime(arr[i].discount_start);
                         arr[i].discount_time = arr[i].discount_time?this.$changeTime(arr[i].discount_time):'';
                         arr[i].discount_time_type =arr[i].discount_time_type ?'領卷後一天':this.Calculation(arr[i].discount_start,arr[i].discount_end)
                         arr[i].discount_scope = this.changeArr(arr[i].discount_scope);
