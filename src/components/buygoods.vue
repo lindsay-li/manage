@@ -1,10 +1,10 @@
 <template>
 <div class="coupon">
-    <div class="_title">特價商品</div>
+    <div class="_title">加買商品</div>
     <div class="content">
         <Table border  :columns="columns1" :data="data1" :loading="loading">
-            <template slot="special_type" slot-scope="{row}">
-                <div>{{row.special_type==1?'折扣值':'優惠後'}}</div>
+            <template slot="status" slot-scope="{row}">
+                <div>{{row.status==1?'激活':'默認'}}</div>
             </template>
             <template slot="action" slot-scope="{row,index}">
                 <Button size="small" type="primary" @click="edit(row)">編輯</Button>
@@ -22,52 +22,45 @@
     <div class="prop_model" v-show="propModel">
         <div class="_box">
             <div class="contant">
-                <div class="tit">特價商品活動</div>
+                <div class="tit">加買商品</div>
                 <div class="list"style="width:100%;">
                     <table style="width:100%;">
                         <tr>
-                            <td style="text-align:right">活動名稱:</td>
+                            <td style="text-align:right">消費金額:</td>
                             <td>
-                                <Input v-model="inputValue.special" type="text" placeholder="點擊輸入" style="width: 300px" />
+                                <InputNumber :min="0" v-model="inputValue.condition" style="width: 300px"></InputNumber>
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">商品ID（用#隔開）:</td>
+                            <td style="text-align:right">價格:</td>
                             <td>
-                                <Input v-model="inputValue.goods_id" type="text" placeholder="點擊輸入" style="width: 300px" />
+                                <InputNumber :min="0" v-model="inputValue.price" style="width: 300px"></InputNumber>
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">折扣券類型:</td>
+                            <td style="text-align:right">商品ID:</td>
                             <td>
-                                <Select v-model="inputValue.special_type" style="width:300px">
-                                    <Option v-for="item in discountType" :value="item.value" :key="item.value" :disabled='item.disabled'>{{ item.label }}</Option>
+                                <InputNumber :min="0" v-model="inputValue.alcohol_id" style="width: 300px"></InputNumber>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right">狀態:</td>
+                            <td>
+                                <Select v-model="inputValue.status" style="width:300px">
+                                    <Option v-for="item in statuList" :value="item.value" :key="item.value" :disabled='item.disabled'>{{ item.label }}</Option>
                                 </Select>
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">抵扣%數:</td>
+                            <td style="text-align:right">開始時間:</td>
                             <td>
-                                <!-- <Input v-model="inputValue.discount_value" type="number" placeholder="點擊輸入" style="width: 300px" /> -->
-                                <InputNumber
-                                    style="width: 300px"
-                                    :max="100"
-                                    v-model="inputValue.special_num"
-                                    :formatter="value => `${value}%`"
-                                    :parser="value => value.replace('%', '')">
-                                </InputNumber>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align:right">使用時間:</td>
-                            <td>
-                                <DatePicker v-model="inputValue.special_start" type="date" placement="bottom-end" placeholder="選擇日期" style="width: 300px"></DatePicker>
+                                <DatePicker v-model="inputValue.start_time" type="date" placement="bottom-end" placeholder="選擇日期" style="width: 300px"></DatePicker>
                             </td>
                         </tr>
                         <tr>
                             <td style="text-align:right">結束時間:</td>
                             <td>
-                                <DatePicker v-model="inputValue.special_end" type="date" placement="bottom-end" placeholder="選擇日期" style="width: 300px"></DatePicker>
+                                <DatePicker v-model="inputValue.end_time" type="date" placement="bottom-end" placeholder="選擇日期" style="width: 300px"></DatePicker>
                             </td>
                         </tr>
                     </table>
@@ -88,34 +81,34 @@ export default {
         return{
             columns1: [
                 {
-                    title: '活動名稱',
-                    key: 'special',
-                    minWidth:140
+                    title: '消費金額',
+                    key: 'condition',
+                    minWidth:120
+                },
+                {
+                    title: '價格',
+                    minWidth:120,
+                    key: 'price'
+                },
+                {
+                    title: '商品ID',
+                    minWidth:140,
+                    key: 'alcohol_id'
                 },
                 {
                     title: '開始時間',
                     minWidth:160,
-                    key: 'special_start'
+                    key: 'start_time'
                 },
                 {
                     title: '結束時間',
                     minWidth:160,
-                    key: 'special_end'
+                    key: 'end_time'
                 },
                 {
-                    title: '折扣類型',
-                    minWidth:120,
-                    slot: 'special_type'
-                },
-                {
-                    title: '優惠值(分)',
-                    key: 'special_num',
-                    minWidth:110
-                },
-                {
-                    title: '商品編號',
-                    key: 'goods_id',
-                    minWidth:140
+                    title: '狀態',
+                    minWidth:130,
+                    slot: 'status'
                 },
                 {
                     title:'操作',
@@ -129,22 +122,21 @@ export default {
             total:0,
             propModel:false,
             inputValue:{
-                special:'',
-                special_end:"",
-                special_type:"",
-                special_num:0,
-                goods_id:'',
-                special_start:''
+                condition:0,
+                end_time:"",
+                price:0,
+                status:'',
+                alcohol_id:0,
+                start_time:''
             },
-            discountType:[
+            statuList:[
                 {
-                    value:1,
-                    label:'折扣券'
+                    value:0,
+                    label:'默認'
                 },
                 {
-                    value:2,
-                    label:'優惠價',
-                    disabled:true
+                    value:1,
+                    label:'激活'
                 }
             ],
             id:''
@@ -160,15 +152,15 @@ export default {
                 rows:10
             }
             this.loading = true;
-            this.$http('alcoholSpecialService','findDatas',data)
+            this.$http('alcoholFullReductionService','findDatas',data)
             .then(res=>{
                 console.log(res)
                 this.loading = false;
                 if(res.rows){
                     var arr = res.rows;
                     for(let i =0;i<arr.length;i++){
-                        arr[i].special_end =arr[i].special_end?this.$changeTime(arr[i].special_end):"";
-                        arr[i].special_start = arr[i].special_start?this.$changeTime(arr[i].special_start):'';
+                        arr[i].end_time =arr[i].end_time?this.$changeTime(arr[i].end_time):"";
+                        arr[i].start_time = arr[i].start_time?this.$changeTime(arr[i].start_time):'';
                     }
                     this.total = res.total;
                     this.data1 = arr;
@@ -188,23 +180,23 @@ export default {
         closeModel(){
             this.propModel = false;
             this.inputValue={
-                special:'',
-                special_end:"",
-                special_type:"",
-                special_num:0,
-                goods_id:'',
-                special_start:''
+                condition:0,
+                end_time:"",
+                price:0,
+                status:'',
+                alcohol_id:0,
+                start_time:''
             }
-            this.id=''
+            this.id='';
         },
         edit(row){ //編輯
             this.inputValue={
-                special:row.special,
-                special_end:row.special_end,
-                special_type:row.special_type,
-                special_num:row.special_num,
-                goods_id:row.goods_id,
-                special_start:row.special_start
+                condition:row.condition,
+                end_time:row.end_time,
+                price:row.price,
+                status:row.status,
+                alcohol_id:row.alcohol_id,
+                start_time:row.start_time
             }
             this.propModel = true
             this.id = row.id;
@@ -212,13 +204,13 @@ export default {
         sureBtn(){ //增加
             console.log(this.inputValue)
             var value = this.inputValue;
-            value.special_start = this.$changeTime(value.special_start);
-            value.special_end = this.$changeTime(value.special_end);
+            value.start_time = this.$changeTime(value.start_time);
+            value.end_time = this.$changeTime(value.end_time);
             if(this.id){
                 value.id = this.id
             }
             var data = value;
-            this.$http('alcoholSpecialService','addOrUpdate',data)
+            this.$http('alcoholFullReductionService','addOrUpdate',data)
             .then(res=>{
                 this.propModel = false;
                 if(res.result == 'success'){
@@ -227,7 +219,6 @@ export default {
                     }else{
                         this.$Message.success('新增成功');
                     }
-                    this.product(res.data)
                     this.getList(this.current);
                     this.id = ''
                 }else{
@@ -235,42 +226,13 @@ export default {
                 }
             })
         },
-        product(data){  //關聯產品表
-            if(!data.goods_id){return}
-            var that = this;
-            var product_ids = data.goods_id.split('#');
-            var len = product_ids.length;
-            function https(n){
-                if(n < len){
-                    var datas = {
-                        id:parseInt(product_ids[n]),
-                        special:data.special,
-                        special_id:data.id,
-                        special_num:data.special_num,
-                        special_start:data.special_start,
-                        special_end:data.special_end,
-                        special_type:data.special_type
-                    }
-                    that.$http('moWineService','addOrUpdate',datas)
-                    .then(res=>{
-                        if(res.result == 'success'){
-                            https(n+1)
-                        }else{
-                            that.$Message.error(res.message);
-                        }
-                    })
-                }
-            }
-            https(0)
-            
-        },
         remove (id) {
             this.$Modal.confirm({
                 title: '警告',
                 content: '<h3>此操作將刪除數據，是否繼續？</h3>',
                 onOk: () => {
                      var data = {id:id};
-                    this.$http('alcoholSpecialService','deleteData',data)
+                    this.$http('alcoholFullReductionService','deleteData',data)
                     .then(res=>{
                         if(res.result == 'success'){
                             this.$Message.success('刪除成功');

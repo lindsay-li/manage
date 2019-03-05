@@ -1,6 +1,6 @@
 <template>
 <div class="wrappar">
-    <div class="_title">補發功能</div>
+    <div class="_title">生日禮</div>
     <div class="handle">
         <Table border  :columns="columns1" :data="data1" @on-row-click="selectChange1"  class="post">
             <template slot-scope="{ row, index }" slot="end_time">
@@ -24,14 +24,14 @@
     </div>
     <div class="page">
         <div class="_btn">
-            <div class="send" @click="openModel">新增補發</div>
+            <div class="send" @click="openModel">新增生日禮</div>
         </div>
         <Page :total="total" show-total show-elevator prev-text='上一頁' next-text='下一頁' @on-change="pageChange"/>
     </div>
     <div class="prop_model" v-show="propModel">
         <div class="_box">
             <div class="contant">
-                <div class="tit">新增補發</div>
+                <div class="tit">新增生日禮</div>
                 <div class="list"style="width:100%;">
                     <table style="width:100%;">
                         <tr>
@@ -97,6 +97,11 @@ export default {
     data(){
         return{
             columns1: [
+                {
+                    title: '用戶編號',
+                    key: 'user_id',
+                    minWidth:120
+                },
                 {
                     title: '用戶名稱',
                     key: 'name',
@@ -169,6 +174,7 @@ export default {
         getList(start){
             var data = {
                start:start,
+               discount_type:3,
                rows:10 
             }
             this.loading = true;
@@ -189,8 +195,7 @@ export default {
         },
         pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*10;
-            this.getList(this.current);
-            
+            this.getList(this.current);  
         },
         types(type){
             if(!type){return}
@@ -256,7 +261,7 @@ export default {
                 value.id = this.id
             }
             var data = value;
-            this.$http('couponService','addOrUpdate',data)
+            this.$http('couponLogService','addOrUpdate',data)
             .then(res=>{
                 this.propModel = false;
                 if(res.result == 'success'){

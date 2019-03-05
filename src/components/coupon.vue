@@ -3,6 +3,9 @@
     <div class="_title">折扣券</div>
     <div class="content">
         <Table border  :columns="columns1" :data="data1" :loading="loading">
+            <template slot="discount_type" slot-scope="{row}">
+                <div>{{discount(row.discount_type)}}</div>
+            </template>
             <template slot="action" slot-scope="{row,index}">
                 <Button size="small" type="primary" @click="edit(row)">編輯</Button>
                 <Button size="small" type="error" @click="remove(row.id)">刪除</Button>
@@ -122,7 +125,7 @@ export default {
                 {
                     title: '折扣類型',
                     minWidth:120,
-                    key: 'discount_type'
+                    slot: 'discount_type'
                 },
                 {
                     title: '最大優惠金額',
@@ -208,6 +211,10 @@ export default {
                     value:2,
                     label:'現金券',
                     disabled:true
+                },
+                {
+                    value:3,
+                    label:'生日礼'
                 }
             ],
             id:''
@@ -236,7 +243,7 @@ export default {
                         arr[i].discount_time = arr[i].discount_time?this.$changeTime(arr[i].discount_time):'';
                         arr[i].discount_time_type =arr[i].discount_time_type ?'領卷後一天':this.Calculation(arr[i].discount_start,arr[i].discount_end)
                         arr[i].discount_scope = this.changeArr(arr[i].discount_scope);
-                        arr[i].discount_type = arr[i].discount_type ==2?'現金券':'折扣卷';
+                        // arr[i].discount_type = arr[i].discount_type ==2?'現金券':'折扣卷';
                     }
                     this.total = res.total;
                     this.data1 = arr;
@@ -277,6 +284,29 @@ export default {
         },
         closeModel(){
             this.propModel = false;
+            this.inputValue={
+                discount_remark:'',
+                discount_start:"",
+                discount_end:"",
+                discount_name:'',
+                discount_explain:'',
+                discount_type:'',
+                discount_value:100,
+                discount_condition:0,
+                discount_scope:'',
+                discount_max:"",
+                discount_time:''
+            }
+            this.id = ''
+        },
+        discount(id){
+            if(!id){return ''}
+            var result = this.discountType.find(item=>item.value==id)
+            if(result){
+                return result.label
+            }else{
+                return ''
+            }
         },
         edit(row){ //編輯
             this.inputValue={

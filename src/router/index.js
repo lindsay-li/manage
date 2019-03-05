@@ -40,11 +40,11 @@ const advertisementAuditing = () => import('@/components/advertisementAuditing')
 // const userArticleHandle = () => import('@/components/userArticleHandle');
 // const goodsActivity = () => import('@/components/goodsActivity');//商品活動
 // const memberLevel = () => import('@/components/memberLevel'); //會員分級
-// const buygoods = () => import('@/components/buygoods');
+const buygoods = () => import('@/components/buygoods');
 // const freeMail = () => import('@/components/freeMail');
 const couponActivity = () => import('@/components/couponActivity');
 const specials = () => import('@/components/specials');
-// const birthdaygift = () => import('@/components/birthdaygift');
+const birthdaygift = () => import('@/components/birthdaygift');
 // const continuousActivity = () => import('@/components/continuousActivity');
 // const signInActive = () => import('@/components/signInActive');
 // const achievement = () => import('@/components/achievement');
@@ -490,6 +490,20 @@ export default new Router({
           component:specials,
           meta:{
             title:'特價商品區'
+          }
+        },
+        {
+          path:'/buygoods',
+          component:buygoods,
+          meta:{
+            title:'加買商品'
+          }
+        },
+        {
+          path:'/birthdaygift',
+          component:birthdaygift,
+          meta:{
+            title:'生日禮'
           }
         }
       ]
