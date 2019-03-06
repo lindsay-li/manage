@@ -41,7 +41,7 @@ const advertisementAuditing = () => import('@/components/advertisementAuditing')
 // const goodsActivity = () => import('@/components/goodsActivity');//商品活動
 // const memberLevel = () => import('@/components/memberLevel'); //會員分級
 const buygoods = () => import('@/components/buygoods');
-// const freeMail = () => import('@/components/freeMail');
+const freeMail = () => import('@/components/freeMail');
 const couponActivity = () => import('@/components/couponActivity');
 const specials = () => import('@/components/specials');
 const birthdaygift = () => import('@/components/birthdaygift');
@@ -504,6 +504,13 @@ export default new Router({
           component:birthdaygift,
           meta:{
             title:'生日禮'
+          }
+        },
+        {
+          path:'/freeMail',
+          component:freeMail,
+          meta:{
+            title:'免運活動'
           }
         }
       ]

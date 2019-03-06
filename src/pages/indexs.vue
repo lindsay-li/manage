@@ -268,6 +268,7 @@ import Fullscreen from './components/fullscreen'
                         meta:{icon:'md-globe',title:'运营管理'},
                         children:[
                             {icon:'',name:'buygoods',meta:{icon:'',title:'加買商品'}},
+                            {icon:'',name:'freeMail',meta:{icon:'',title:'免運活動'}},
                             {icon:'',name:'couponActivity',meta:{icon:'',title:'折扣券活动'}},
                             {icon:'',name:'specials',meta:{icon:'',title:'特價商品區'}},
                             {icon:'',name:'birthdaygift',meta:{icon:'',title:'生日禮'}},
