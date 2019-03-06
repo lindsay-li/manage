@@ -292,6 +292,7 @@ import Fullscreen from './components/fullscreen'
                             {icon:'',name:'comprehensiveData',meta:{icon:'',title:'綜合報表'}},
                             {icon:'',name:'memberData',meta:{icon:'',title:'會員數據'}},
                             {icon:'',name:'retainData',meta:{icon:'',title:'葡萄數據'}},
+                            {icon:'',name:'keepData',meta:{icon:'',title:'留存數據'}},
                             {icon:'',name:'communityData',meta:{icon:'',title:'社群數據'}},
                             {icon:'',name:'goodsData',meta:{icon:'',title:'商品數據'}},
                             {icon:'',name:'articleData',meta:{icon:'',title:'文章數據'}},
@@ -321,6 +322,7 @@ import Fullscreen from './components/fullscreen'
             console.log(this.menuList)
             var user = JSON.parse(sessionStorage.getItem('user_info'));
             this.userInfo = user.dbUser;
+            this.getMenuList(user.mList)
         },
         computed: {
           rotateIcon () {
@@ -331,6 +333,44 @@ import Fullscreen from './components/fullscreen'
             },  
         },
         methods:{
+            getMenuList(data){ //获取菜单列表
+                var arr = [];
+                for(let i =0;i<data.length;i++){
+                    if(!data[i].pid){
+                        var obj={};
+                        obj.name = data[i].m_name
+                        obj.icon = ''
+                        obj.order = data[i].m_order
+                        obj.id = data[i].id
+                        obj.meta={icon:'',title:data[i].m_name}
+                        obj.children=[]
+                        arr.push(obj)
+                    }
+                    
+                }
+
+                for(let j =0;j<arr.length;j++){
+                    for(let k =0;k<data.length;k++){
+                        if(data[k].pid && data[k].pid==arr[j].id){
+                            var obj1 = {};
+                            obj1.name = data[k].m_url
+                            obj1.icon = ''
+                            obj1.order = data[k].m_order
+                            obj1.meta={icon:'',title:data[k].m_name}
+                            arr[j].children.push(obj1)
+                        }
+                    }
+                }
+                arr.sort(function(a,b){
+                    return a.order-b.order
+                })
+                for(let o=0;o<arr.length;o++){
+                    arr[o].children.sort(function(a,b){
+                        return a.order - b.order
+                    })
+                }
+            console.log('list',arr)
+            },
             turnToPage (route) {
                 let name = '';
                 if (typeof route === 'string') name = route

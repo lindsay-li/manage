@@ -80,12 +80,12 @@ export default {
           if(res.rows){
             var rowsData = res.rows[0];
             var  inforCardData = [
-                  { title: '今日訂單數', icon: 'md-person-add', count: rowsData.ordernum?rowsData.ordernum:0, color: '#2d8cf0' },
-                  { title: '今日訂單金額', icon: 'md-locate', count: rowsData.ordermoney?rowsData.ordermoney:0, color: '#19be6b' },
-                  { title: '待出貨訂單', icon: 'md-help-circle', count: rowsData.dchnum?rowsData.dchnum:0, color: '#ff9900' },
-                  { title: '平均出貨天數', icon: 'md-share', count: rowsData.avgchday?rowsData.avgchday:0, color: '#ed3f14' },
-                  { title: '總商品數', icon: 'md-chatbubbles', count: rowsData.totalproduct?rowsData.totalproduct:0, color: '#E46CBB' },
-                  { title: '零庫存數', icon: 'md-map', count: rowsData.nokcproduct?rowsData.nokcproduct:0, color: '#9A66E4' }
+                  { title: '今日訂單數', icon: 'md-person-add', count: rowsData.ordernum?parseInt(rowsData.ordernum):0, color: '#2d8cf0' },
+                  { title: '今日訂單金額', icon: 'md-locate', count: rowsData.ordermoney?parseInt(rowsData.ordermoney):0, color: '#19be6b' },
+                  { title: '待出貨訂單', icon: 'md-help-circle', count: rowsData.dchnum?parseInt(rowsData.dchnum):0, color: '#ff9900' },
+                  { title: '平均出貨天數', icon: 'md-share', count: rowsData.avgchday?parseInt(rowsData.avgchday):0, color: '#ed3f14' },
+                  { title: '總商品數', icon: 'md-chatbubbles', count: rowsData.totalproduct?parseInt(rowsData.totalproduct):0, color: '#E46CBB' },
+                  { title: '零庫存數', icon: 'md-map', count: rowsData.nokcproduct?parseInt(rowsData.nokcproduct):0, color: '#9A66E4' }
                 ]
             this.inforCardData = inforCardData;
           }

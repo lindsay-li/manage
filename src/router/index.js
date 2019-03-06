@@ -54,6 +54,7 @@ const accountPower = () => import('@/components/accountPower');
 const comprehensiveData = () => import('@/components/comprehensiveData');
 const memberData = () => import('@/components/memberData');
 const retainData = () => import('@/components/retainData');
+const keepData = () => import('@/components/keepData');
 const communityData = () => import('@/components/communityData');
 const goodsData = () => import('@/components/goodsData');
 const articleData = () => import('@/components/articleData');
@@ -511,6 +512,13 @@ export default new Router({
           component:freeMail,
           meta:{
             title:'免運活動'
+          }
+        },
+        {
+          path:'/keepData',
+          component:keepData,
+          meta:{
+            title:'留存數據'
           }
         }
       ]

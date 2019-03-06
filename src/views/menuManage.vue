@@ -19,6 +19,10 @@
                 <Input type="text" v-model="tables.url" v-if="editIndex === scope.rowIndex" />
                 <span v-else>{{ scope.row.m_url }}</span>
             </template>
+            <template slot="m_order" slot-scope="scope">
+                <Input-number type="text" v-model="tables.m_order" v-if="editIndex === scope.rowIndex" /></Input-number>
+                <span v-else>{{ scope.row.m_order }}</span>
+            </template>
             <!-- <template slot="user" slot-scope="scope">
                 <Input type="text" v-model="tables.user" v-if="editIndex === scope.rowIndex" />
                 <span v-else>{{ scope.row.create_user }}</span>
@@ -121,7 +125,8 @@ export default {
                 code:'',
                 url:'',
                 status:'',
-                order:''
+                order:'',
+                m_order:0
             },
             options:[{
                 id: '1',
@@ -192,6 +197,15 @@ export default {
                     type: 'template',
                     template: 'urls',
                     minWidth:160
+                },
+                {
+                    title: '菜單排序',
+                    key: 'm_order',
+                    align:'center',
+                    type: 'template',
+                    template: 'm_order',
+                    headerAlign:'center',
+                    minWidth:105
                 },
                 {
                     title: '創建人',
@@ -302,7 +316,8 @@ export default {
                 name:row.m_name,
                 code:row.m_code,
                 url:row.m_url,
-                status:row.status,
+                m_order:row.m_order,
+                status:row.status=='啟用'?1:0,
             }
             this.editIndex = index;
         },
@@ -376,9 +391,10 @@ export default {
             if(table.name != row.m_name){
                 data.m_name = table.name;
             }
-            if(table.code != row.m_code){
+            // if(table.code != row.m_code){
                 data.m_code = table.code;
-            }
+            // }
+            data.m_order = table.m_order
             if(table.url != row.m_url){
                 data.m_url = table.url;
             }
