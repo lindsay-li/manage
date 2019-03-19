@@ -1,6 +1,21 @@
 <template>
 <div class="wrappar">
-    <div class="_title">用戶信息</div>
+    <!-- <div class="_title">用戶信息</div> -->
+    <div class="nav">
+        <div class="option">
+            <span>用戶名稱：</span>
+            <Input type="text" style="width:160px" v-model="searchData.user"/>
+        </div>
+        <div class="option">
+            <span>用户ID</span>
+            <Input type="text" name="time" style="width:160px" v-model="searchData.id"/>
+        </div>
+        <!-- <div class="option">
+            <span>類型：</span>
+            <Input type="text" name="time" style="width:160px"/>
+        </div> -->
+        <div class="serch" @click='search'>查詢</div>
+    </div>
     <div class="goods">
         <Table border  :columns="columns1" :data="data1" :loading="loading" class="post">
             <template slot="sex" slot-scope="{row,index}">
@@ -46,6 +61,11 @@ export default {
                     ellipsis:true,
                     tooltip:true,
                     minWidth:140
+                },
+                {
+                    title: '用戶ID',
+                    key: 'id',
+                    minWidth:90
                 },
                 {
                     title: '暱稱',
@@ -271,7 +291,7 @@ export default {
                     title:'操作',
                     slot:'action',
                     fixed:'right',
-                    minWidth:140
+                    minWidth:90
                 },
             ],
             data1: [],
@@ -282,6 +302,10 @@ export default {
             inputValue:{
                 winery:'',
                 grade:''
+            },
+            searchData:{
+                user:'',
+                id:""
             }
         }
     },
@@ -336,6 +360,36 @@ export default {
         },
         edit(row){
 
+        },
+        search(){
+            var data = {};
+            if(this.searchData.user){
+                data.user = this.searchData.user
+            }
+            if(this.searchData.id){
+                data.id = this.searchData.id
+            }
+            data.start =0
+            data.rows = 10
+            this.loading = true;
+            this.$http('userService','findDatas',data)
+            .then(res=>{
+                console.log(res)
+                this.loading = false
+                if(res.rows.length>0){
+                    var arr = res.rows
+                    for(let i =0;i<arr.length;i++){
+                        arr[i].create_date =arr[i].create_date?this.$changeTime(arr[i].create_date):'';
+                        arr[i].fb_update_date =arr[i].fb_update_date?this.$changeTime(arr[i].fb_update_date):'';
+                        arr[i].lm_update_date =arr[i].lm_update_date?this.$changeTime(arr[i].lm_update_date):'';
+                        arr[i].wx_update_date =arr[i].wx_update_date?this.$changeTime(arr[i].wx_update_date):'';
+                        arr[i].platinum =arr[i].platinum?this.$changeTime(arr[i].platinum):'';
+                        arr[i].gold =arr[i].gold?this.$changeTime(arr[i].gold):'';
+                    }
+                    this.data1 = arr;
+                    this.total = res.total;
+                }
+            })
         },
         newAdd(){
             if(!this.inputValue.grade || !this.inputValue.winery){
