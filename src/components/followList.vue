@@ -1,6 +1,13 @@
 <template>
 <div class="wrappar">
     <div class="_title">關注記錄</div>
+    <div class="nav">
+        <div class="option">
+            <span>用戶名稱：</span>
+            <Input type="text"  v-model="inputValue.tname" style="width:160px" />
+        </div>
+        <div class="serch" @click="search">查詢</div>
+    </div>
     <div class="handle">
         <Table border  :columns="columns1" :data="data1"   class="post">
             <template slot-scope="{ row, index }" slot="notice">
@@ -36,16 +43,6 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '被關注用戶ID',
-                    key: 'follow_user_id',
-                    minWidth:130
-                },
-                {
-                    title: '被關注的用戶',
-                    key: 'fname',
-                    minWidth:140
-                },
-                {
                     title: '發起關注用戶ID',
                     key: 'user_id',
                     minWidth:140
@@ -53,6 +50,16 @@ export default {
                 {
                     title: '發起關注用戶',
                     key: 'tname',
+                    minWidth:140
+                },
+                {
+                    title: '被關注用戶ID',
+                    key: 'follow_user_id',
+                    minWidth:130
+                },
+                {
+                    title: '被關注的用戶',
+                    key: 'fname',
                     minWidth:140
                 },
                 {
@@ -85,18 +92,25 @@ export default {
             loading:false,
             total:0,
             current:0,
-            id:''
+            id:'',
+            inputValue:{
+                tname:''
+            },
+            type:1,
+            obj:{}
         }
     },
     created(){
         this.getList(0)
     },
     methods:{
-        getList(start){
-            var data = {
-               start:start,
-               rows:10 
+        getList(start,obj){
+            var data = {}
+            if(obj){
+                data = obj;
             }
+            data.start = start;
+            data.rows = 10
             this.loading = true;
             this.$http('followService','findDatas',data)
             .then(res=>{
@@ -108,9 +122,29 @@ export default {
                 }
             })
         },
+        search(){ //按條件查詢
+            var obj = {};
+            if(this.inputValue.tname){
+                obj.tname = this.inputValue.tname;
+            }
+            var arr =Object.keys(obj)
+            if(arr.length>0){
+                this.obj = obj
+                this.type=2
+                this.getList(0,obj)
+            }else{
+                this.type=1
+                this.obj={}
+                this.getList(0)
+            }
+        },
         pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*10;
-            this.getList(this.current);
+            if(this.type==1){
+                this.getList(this.current);
+            }else{
+                this.getList(this.current,this.obj)
+            }
             
         },
         deletes(id){

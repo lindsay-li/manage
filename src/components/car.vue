@@ -14,6 +14,10 @@
             <!-- <Input type="text"  v-model="product_name" style="width:160px" /> -->
             <InputNumber  :min="0" v-model="inputValue.price" style="width:160px" ></InputNumber>
         </div>
+        <div class="option">
+            <span>用戶名稱：</span>
+            <Input type="text"  v-model="inputValue.user" style="width:160px" />
+        </div>
         <div class="serch" @click="search">查詢</div>
     </div>
     <div class="car">
@@ -36,7 +40,7 @@ export default {
                 },
                 {
                     title: '用戶名稱',
-                    key: 'user',
+                    key: 'USER',
                     minWidth:160
                 },
                 {
@@ -89,8 +93,11 @@ export default {
             inputValue:{
                 product_name:"",
                 product_type:"",
-                price:0
-            }
+                price:0,
+                user:''
+            },
+            type:1,
+            obj:{}
         }
     },
     created(){
@@ -98,13 +105,12 @@ export default {
     },
     methods:{
         getList(start,obj){
-            var data = {
-                start:start,
-                rows:10
-            }
+            var data = {}
             if(obj){
                 data = obj;
             }
+            data.start = start;
+            data.rows = 10
             this.loading = true;
             this.$http('shoppingTrolleyService','findDatas',data)
             .then(res=>{
@@ -130,13 +136,19 @@ export default {
             if(this.inputValue.price >0){
                 obj.price = this.inputValue.price;
             }
+            if(this.inputValue.user){
+                obj.USER = this.inputValue.user;
+            }
             var arr =Object.keys(obj)
             if(arr.length>0){
+                this.obj = obj
+                this.type=2
                 this.getList(0,obj)
             }else{
+                this.type=1
+                this.obj={}
                 this.getList(0)
             }
-            
         },
         remove (id) {
             this.$Modal.confirm({
@@ -160,7 +172,11 @@ export default {
         },
         pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*10;
-            this.getList(this.current);
+            if(this.type==1){
+                this.getList(this.current);
+            }else{
+                this.getList(this.current,this.obj)
+            }
         },
     }
 }

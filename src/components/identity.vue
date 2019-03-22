@@ -1,6 +1,17 @@
 <template>
 <div class="wrappar">
     <div class="_title">身份驗證</div>
+    <div class="nav">
+        <div class="option">
+            <span>用戶名稱：</span>
+            <Input type="text" style="width:160px" v-model="searchData.user"/>
+        </div>
+        <div class="option">
+            <span>會員編號：</span>
+            <Input type="text" name="time" style="width:160px" v-model="searchData.id"/>
+        </div>
+        <div class="serch" @click='search'>查詢</div>
+    </div>
     <div class="goods">
         <Table border  :columns="columns1" :data="data1" :loading="loading" @on-row-click="selectChange1" class="post">
             <template slot="front_card" slot-scope="{row,index}">
@@ -94,7 +105,11 @@ export default {
                 {value:2,label:'待認證'},
                 {value:3,label:'駁回'}
             ],
-            id:''
+            id:'',
+            searchData:{
+                user:'',
+                id:""
+            }
         }
     },
     created(){
@@ -125,6 +140,28 @@ export default {
         selectChange1(row){
             console.log(row)
             this.id = row.id
+        },
+        search(){
+            var data = {};
+            if(this.searchData.user){
+                data.user = this.searchData.user
+            }
+            if(this.searchData.id){
+                data.id = this.searchData.id
+            }
+            data.start =0
+            data.rows = 5
+            this.loading = true;
+            this.$http('userService','findDatas',data)
+            .then(res=>{
+                console.log(res)
+                this.loading = false
+                if(res.rows){
+                    var arr = res.rows
+                    this.data1 = arr;
+                    this.total = res.total;
+                }
+            })
         },
         revise(value){ //修改狀態
             var data = {

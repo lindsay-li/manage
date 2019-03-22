@@ -9,6 +9,10 @@
             <span>商品類型：</span>
             <Input type="text"  v-model="inputValue.product_type" style="width:160px" />
         </div>
+        <div class="option">
+            <span>用戶名稱：</span>
+            <Input type="text"  v-model="inputValue.user" style="width:160px" />
+        </div>
         <div class="serch" @click="search">查詢</div>
     </div>
     <div class="car">
@@ -80,8 +84,11 @@ export default {
             inputValue:{
                 product_name:"",
                 product_type:"",
-                price:0
-            }
+                price:0,
+                user:''
+            },
+            type:1,
+            obj:{}
         }
     },
     created(){
@@ -89,13 +96,12 @@ export default {
     },
     methods:{
         getList(start,obj){
-            var data = {
-                start:start,
-                rows:10
-            }
+            var data = {}
             if(obj){
                 data = obj;
             }
+            data.start = start;
+            data.rows = 10
             this.loading = true;
             this.$http('enshrineService','findDatas',data)
             .then(res=>{
@@ -122,10 +128,17 @@ export default {
             if(this.inputValue.product_type){
                 obj.productType = this.inputValue.product_type;
             }
+            if(this.inputValue.user){
+                obj.user = this.inputValue.user;
+            }
             var arr =Object.keys(obj)
             if(arr.length>0){
+                this.obj = obj
+                this.type=2
                 this.getList(0,obj)
             }else{
+                this.type=1
+                this.obj={}
                 this.getList(0)
             }
             
@@ -152,7 +165,12 @@ export default {
         },
         pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*10;
-            this.getList(this.current);
+            if(this.type==1){
+                this.getList(this.current);
+            }else{
+                this.getList(this.current,this.obj)
+            }
+            
         },
     }
 }

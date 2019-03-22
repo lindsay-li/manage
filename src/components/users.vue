@@ -7,7 +7,7 @@
             <Input type="text" style="width:160px" v-model="searchData.user"/>
         </div>
         <div class="option">
-            <span>用户ID</span>
+            <span>用户ID：</span>
             <Input type="text" name="time" style="width:160px" v-model="searchData.id"/>
         </div>
         <!-- <div class="option">
