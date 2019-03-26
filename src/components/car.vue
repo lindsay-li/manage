@@ -137,7 +137,7 @@ export default {
                 obj.price = this.inputValue.price;
             }
             if(this.inputValue.user){
-                obj.USER = this.inputValue.user;
+                obj.user = this.inputValue.user;
             }
             var arr =Object.keys(obj)
             if(arr.length>0){

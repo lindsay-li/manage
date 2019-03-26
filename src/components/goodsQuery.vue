@@ -3,11 +3,15 @@
     <div class="nav">
         <div class="option">
             <span>商品名稱：</span>
-            <Input type="text" style="width:160px" v-model="searchData.product_name"/>
+            <Input type="text" style="width:130px" v-model="searchData.product_name"/>
+        </div>
+        <div class="option">
+            <span>商品編號：</span>
+            <Input type="text" style="width:130px" v-model="searchData.id"/>
         </div>
         <div class="option">
             <span>年份：</span>
-            <Input type="text" name="time" style="width:160px" v-model="searchData.year"/>
+            <Input type="text" name="time" style="width:130px" v-model="searchData.year"/>
         </div>
         <!-- <div class="option">
             <span>類型：</span>
@@ -143,7 +147,7 @@
                         <td>酒精濃度</td>
                         <td>規格(ml)</td>
                         <td>狀態</td>
-                        <td>是否進口包裝</td>
+                        <td>是否進口包裝(选填)</td>
                         <td>酒莊</td>
                         <td>商品圖片</td>
                     </tr>
@@ -181,7 +185,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>次產區</td>
+                        <td>次產區(选填)</td>
                         <td>源名稱</td>
                         <td>源價(其它幣種)</td>
                         <td>市場價價(美元)</td>
@@ -442,8 +446,8 @@ export default {
             ],
             searchData:{
                 product_name:"",
-                year:''
-
+                year:'',
+                id:''
             },
             data1: [],
             createPage:false,
@@ -518,7 +522,9 @@ export default {
             uploadLoading:false,
             tableData: [],
             tableTitle: [],
-            id:''
+            id:'',
+            type:1,
+            obj:{}
         }
     },
     created(){
@@ -633,11 +639,13 @@ export default {
                 alert(JSON.stringify(arr))
             }
         },
-        getList(index){
-            var data = {
-                start:index,
-                rows:10
+        getList(start,obj){
+            var data = {}
+            if(obj){
+                data = obj;
             }
+            data.start = start;
+            data.rows = 10
             this.loading = true;
             this.$http('moWineService','findDatas',data)
             .then(res=>{
@@ -697,7 +705,11 @@ export default {
         },
         pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*10;
-            this.getList(this.current);
+            if(this.type==1){
+                this.getList(this.current);
+            }else{
+                this.getList(this.current,this.obj)
+            }
         },
         types(type){//產品狀態
             if(!type){return}
@@ -887,6 +899,7 @@ export default {
             }
         },
         search(){
+            console.log(11)
             var data = {};
             console.log(this.searchData)
             for(let key in this.searchData){
@@ -894,28 +907,19 @@ export default {
                     data[key] = this.searchData[key];
                 }
             }
-            var arr = Object.keys(data).length;
-            if(arr<=0){
-                // this.$Message.warning('請輸入查詢參數');
-                // return;
-                data.start = 0;
-                data.rows = 10;
+            if(data.id){
+                data.id = parseInt(data.id)
             }
-            this.loading = true;
-            this.$http('moWineService','findDatas',data)
-            .then(res=>{
-                console.log(res)
-                this.loading = false;
-                if(res.rows.length>0){
-                    this.total = res.total;
-                    this.data1 = res.rows;
-                }else{
-                    this.$Message.warning('暫無數據')
-                }
-            })
-            .catch(err=>{
-                this.loading = false;
-            })
+            var arr = Object.keys(data);
+            if(arr.length>0){
+                this.obj = data
+                this.type=2
+                this.getList(0,data)
+            }else{
+                this.type=1
+                this.obj={}
+                this.getList(0)
+            }
         },
         getWinery(){//獲取酒莊列表
             var data = {

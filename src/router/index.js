@@ -80,6 +80,9 @@ const areaPic = () => import('@/views/areaPic');
 const grapeRelation = () => import('@/views/grapeRelation');
 const followList = () => import('@/components/followList');
 const identity = () => import('@/components/identity');
+const membershipLevel = () => import('@/views/membershipLevel');
+const userList = () => import('@/views/userList');
+const dividendGrape = () => import('@/views/dividendGrape');
 
 Vue.use(Router)
 
@@ -519,6 +522,27 @@ export default new Router({
           component:keepData,
           meta:{
             title:'留存數據'
+          }
+        },
+        {
+          path:'/membershipLevel',
+          component:membershipLevel,
+          meta:{
+            title:'會員等級'
+          }
+        },
+        {
+          path:'/userList',
+          component:userList,
+          meta:{
+            title:'用戶清單'
+          }
+        },
+        {
+          path:'/dividendGrape',
+          component:dividendGrape,
+          meta:{
+            title:'紅利葡萄'
           }
         }
       ]

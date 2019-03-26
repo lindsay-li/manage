@@ -158,12 +158,15 @@ import Fullscreen from './components/fullscreen'
                         meta:{icon:'ios-people',title:'用戶管理'},
                         children:[
                             {icon:'',name:'user',meta:{icon:'',title:'用戶信息'}},
+                            {icon:'',name:'membershipLevel',meta:{icon:'',title:'會員等級'}},
                             {icon:'',name:'identity',meta:{icon:'',title:'身份驗證'}},
                             {icon:'',name:'coupon',meta:{icon:'',title:'折扣券'}},
                             {icon:'',name:'car',meta:{icon:'',title:'用戶購物車'}},
                             {icon:'',name:'collect',meta:{icon:'',title:'用戶收藏'}},
+                            {icon:'',name:'userList',meta:{icon:'',title:'用戶清單'}},
                             {icon:'',name:'goodsRecord',meta:{icon:'',title:'商品瀏覽記錄'}},
                             {icon:'',name:'followList',meta:{icon:'',title:'關注記錄'}},
+                            {icon:'',name:'dividendGrape',meta:{icon:'',title:'紅利葡萄'}}
                         ]
                     },
                     {

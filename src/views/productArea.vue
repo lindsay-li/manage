@@ -3,6 +3,9 @@
     <div class="_title">產區管理</div>
     <div class="goods">
         <Table border  :columns="columns1" :data="data1"  @on-selection-change="selectChange1" class="post">
+            <template slot="country_id" slot-scope="{row,index}">
+                <div>{{countrys(row.country_id)}}</div>
+            </template>
             <template slot="action" slot-scope="{row,index}">
                 <Button size="small" type="primary" @click="modify(row)">修改</Button>
                 <Button size="small" type="error" @click="remove(row.id)">刪除</Button>
@@ -28,9 +31,12 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">國家ID:</td>
+                            <td style="text-align:right">國家:</td>
                             <td>
-                                <Input v-model="inputValue.country_id"  placeholder="點擊輸入" style="width: 160px" />
+                                <!-- <Input v-model="inputValue.country_id"  placeholder="點擊輸入" style="width: 160px" /> -->
+                                <Select v-model="inputValue.country_id" style="width:160px" filterable>
+                                    <Option v-for="(item,index) in countryList" :value="item.value" :key="index">{{ item.label }}</Option>
+                                </Select>
                             </td>
                         </tr>
                     </table>
@@ -60,8 +66,8 @@ export default {
                     minWidth:180
                 },
                 {
-                    title: '國家ID',
-                    key: 'country_id',
+                    title: '國家',
+                    slot: 'country_id',
                     minWidth:110
                 },
                 {
@@ -78,10 +84,12 @@ export default {
                 country_id:'',
                 region_name:''
             },
-            t_text:'新增'
+            t_text:'新增',
+            countryList:[]
         }
     },
     created(){
+        this.getCountry()
         this.getList(0)
     },
     methods:{
@@ -99,6 +107,36 @@ export default {
                     this.total = res.total;
                 }
             })
+        },
+        getCountry(){
+            var data = {
+                start:0
+            }
+            this.$http('moCountryService','findDatas',data)
+            .then(res=>{
+                console.log(res)
+                if(res.rows){
+                    var arr = [];
+                    for(let i=0;i<res.rows.length;i++){
+                        var obj={};
+                        obj.value = res.rows[i].id;
+                        obj.label = res.rows[i].country_name;
+                        arr.push(obj)
+                    }
+                    this.countryList = arr;
+                }
+            })
+        },
+        countrys(id){
+            if(!id && id!=0){
+                return ''
+            }
+            let result = this.countryList.find(item=>item.value==id)
+            if(result){
+                return result.label
+            }else{
+                return ''
+            }
         },
         remove (id) {
             this.$Modal.confirm({

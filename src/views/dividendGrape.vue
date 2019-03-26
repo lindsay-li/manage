@@ -1,8 +1,25 @@
 <template>
 <div class="wrappar">
-    <div class="_title">酒莊管理</div>
+    <div class="_title">紅利葡萄</div>
+    <div class="nav">
+        <div class="option">
+            <span>用戶ID：</span>
+            <Input type="text"  v-model="inputValue.user_id" style="width:160px" />
+        </div>
+        <div class="option">
+            <span>用戶名稱：</span>
+            <Input type="text"  v-model="inputValue.name" style="width:160px" />
+        </div>
+        <div class="serch" @click="search">查詢</div>
+    </div>
     <div class="goods">
         <Table border  :columns="columns1" :data="data1"  class="post">
+            <template slot="num" slot-scope="{row,index}">
+                <div>{{row.status==1?'+':'-'}}{{row.num}}</div>
+            </template>
+            <template slot="state" slot-scope="{row,index}">
+                <div>{{states(row.state)}}</div>
+            </template>
             <template slot="action" slot-scope="{row,index}">
                 <Button size="small" type="error" @click="remove(row.id)">刪除</Button>
             </template>
@@ -10,36 +27,9 @@
     </div>
     <div class="page">
         <div class="_btn">
-            <div class="send" @click="openModel">新增</div>
+            <!-- <div class="send" @click="openModel">新增</div> -->
         </div>
         <Page :total="total" show-total show-elevator prev-text='上一頁' next-text='下一頁'  @on-change="pageChange"/>
-    </div>
-    <div class="prop_model" v-show="propModel">
-        <div class="_box">
-            <div class="contant">
-                <div class="tit">新增</div>
-                <div class="list">
-                    <table style="width:100%;">
-                        <tr>
-                            <td style="text-align:right">酒莊名稱:</td>
-                            <td>
-                                <Input v-model="inputValue.winery"  placeholder="點擊輸入" style="width: 160px;" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align:right">酒莊等級:</td>
-                            <td>
-                                <Input v-model="inputValue.grade"  placeholder="點擊輸入" style="width: 160px" />
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="btns">
-                    <div class="cancel" @click='closeModel'>取消</div>
-                    <div class="sure" @click="newAdd">確定</div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>        
 </template>
@@ -54,24 +44,39 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '酒莊名稱',
-                    key: 'winery',
-                    minWidth:180
+                    title: '用户ID',
+                    key: 'user_id',
+                    minWidth:110
                 },
                 {
-                    title: '酒莊等級',
-                    key: 'grade',
-                    minWidth:160
+                    title: '用户名称',
+                    key: 'name',
+                    minWidth:140
                 },
                 {
-                    title: '創建時間',
-                    key: 'time',
-                    minWidth:180
+                    title: '点数',
+                    slot: 'num',
+                    minWidth:140
                 },
                 {
-                    title: 'id',
-                    key: 'id',
+                    title: '剩余',
+                    key: 'Surplus',
+                    minWidth:140
+                },
+                {
+                    title: '状态',
+                    slot: 'state',
+                    minWidth:140
+                },
+                {
+                    title: '来源',
+                    key: 'type',
                     minWidth:90
+                },
+                {
+                    title: '更新時間',
+                    key: 'updatetime',
+                    minWidth:160
                 },
                 {
                     title:'操作',
@@ -80,36 +85,60 @@ export default {
                 }
             ],
             data1: [],
+            stateList:[{value:0,label:'使用失败、失效'},{value:1,label:'使用中'},{value:2,label:'使用完成'},],
             total:0,
             current:0,
             propModel:false,
             inputValue:{
-                winery:'',
-                grade:''
-            }
+                user_id:'',
+                name:''
+            },
+            type:1,
+            obj:{}
         }
     },
     created(){
         this.getList(0)
     },
     methods:{
-        getList(start){
-            var data = {
-                start:start,
-                rows:10
+        getList(start,obj){
+            var data = {}
+            if(obj){
+                data = obj;
             }
-            this.$http('alcoholWineryService','findDatas',data)
+            data.start = start;
+            data.rows = 10
+            this.$http('vineyardLogService','findDatas',data)
             .then(res=>{
                 console.log(res)
                 if(res.rows){
                     var arr = res.rows
                     for(let i =0;i<arr.length;i++){
-                        arr[i].time = arr[i].time?this.$changeTime(arr[i].time):""
+                        arr[i].updatetime =arr[i].updatetime?this.$changeTime(arr[i].updatetime):""
                     }
                     this.data1 = arr;
                     this.total = res.total;
                 }
             })
+        },
+        search(){ //按條件查詢
+            var obj = {};
+            if(this.inputValue.name){
+                obj.name = this.inputValue.name;
+            }
+            if(this.inputValue.user_id){
+                obj.user_id = parseInt(this.inputValue.user_id);
+            }
+            var arr =Object.keys(obj)
+            if(arr.length>0){
+                this.obj = obj
+                this.type=2
+                this.getList(0,obj)
+            }else{
+                this.type=1
+                this.obj={}
+                this.getList(0)
+            }
         },
         remove (id) {
             this.$Modal.confirm({
@@ -117,7 +146,7 @@ export default {
                 content: '<h3>此操作將刪除數據，是否繼續？</h3>',
                 onOk: () => {
                      var data = {id:id};
-                    this.$http('alcoholWineryService','deleteData',data)
+                    this.$http('vineyardLogService','deleteData',data)
                     .then(res=>{
                         if(res.result == 'success'){
                             this.$Message.success('刪除成功');
@@ -131,36 +160,26 @@ export default {
                 }
             })  
         },
-        newAdd(){
-            if(!this.inputValue.grade || !this.inputValue.winery){
-                this.$Message.warning('請輸入信息');
-                return;
+        states(id){
+            if(!id && id != 0){
+                return ''
             }
-            var data = {
-                grade:this.inputValue.grade,
-                winery:this.inputValue.winery
+            console.log(id)
+            let result = this.stateList.find(item=>item.value==id)
+            if(result){
+                return result.label
+            }else{
+                return ''
             }
-            this.$http('alcoholWineryService','addOrUpdate',data)
-            .then(res=>{
-                this.propModel = false;
-                if(res.result == 'success'){
-                    this.$Message.success('添加成功');
-                    this.getList(0);
-                }else{
-                    this.$Message.error(res.message);
-                }
-            })
         },
         pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*10;
-            this.getList(this.current);
-        },
-        openModel(){
-            this.propModel = true;
-        },
-        closeModel(){
-            this.propModel = false;
-        },
+            if(this.type==1){
+                this.getList(this.current);
+            }else{
+                this.getList(this.current,this.obj)
+            }
+        }
     }  
 }
 </script>
