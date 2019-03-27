@@ -1,21 +1,41 @@
 <template>
 <div class="wrappar">
-    <div class="_title">退貨查詢</div>
+    <div class="nav">
+        <div class="option">
+            <span>訂單編號：</span>
+            <Input type="text"  v-model="inputValue.id" style="width:70px" />
+        </div>
+        <div class="option">
+            <span>下單時間：</span>
+            <!-- <Input type="text"  v-model="inputValue.time" style="width:160px" /> -->
+            <DatePicker type="daterange" v-model="inputValue.time" placeholder="選擇時間" style="width: 190px"></DatePicker>
+        </div>
+        <div class="option">
+            <span>收件人：</span>
+            <Input type="text"  v-model="inputValue.sh_name" style="width:70px" />
+        </div>
+        <div class="serch" @click="search">查詢</div>
+    </div>
     <div class="goods">
         <Table border  :columns="columns1" :data="data1"  class="post">
             <template slot="peisong" slot-scope="{row,index}">
                 <div>
                     <p>{{row.payment==1?'貨到付款':'門店自取'}}</p>
                     <p style="margin-left:10px">{{row.delivery_num?row.delivery_num:'-'}}</p>
-                    <p style="margin-left:20px">{{types(row.type)}}</p>
+                    <!-- <p style="margin-left:20px">{{types(row.type)}}</p> -->
+                </div>
+            </template>
+            <template slot="orderstatus" slot-scope="{row,index}">
+                <div>
+                    退貨
                 </div>
             </template>
             <template slot="orders" slot-scope="{row,index}">
                 <div>
                     <p>{{row.time}}</p>
-                    <p style="margin-left:10px">{{row.status==1?'訂單正常':"訂單用戶刪除"}}</p>
+                    <!-- <p style="margin-left:10px">{{row.status==1?'訂單正常':"訂單用戶刪除"}}</p> -->
                     <!-- <p style="margin-left:20px">-</p> -->
-                    <p style="margin-left:25px">{{row.source}}</p>
+                    <p style="margin-left:15px">{{row.source}}</p>
                 </div>
             </template>
             <template slot="goods" slot-scope="{row,index}">
@@ -55,13 +75,18 @@ export default {
         return{
             columns1: [
                 {
+                    type: 'selection',
+                    width: 60,
+                    align: 'center'
+                },
+                {
                     title: '訂單編號',
                     key: 'id',
                     minWidth:120
                 },
                 {
-                    title: '負責門店id',
-                    key: 'shop_id',
+                    title: '負責門市',
+                    key: 'shop_name',
                     minWidth:120
                 },
                 {
@@ -71,7 +96,7 @@ export default {
                             return h('div', [
                                 h('p','配送方式'),
                                 h('p',{style:{marginLeft:'10px'}},'配送編號'),
-                                h('p',{style:{marginLeft:'20px'}},'出貨狀態'),
+                                // h('p',{style:{marginLeft:'20px'}},'出貨狀態'),
                             ]);
                         },
                 },
@@ -81,9 +106,9 @@ export default {
                     renderHeader:(h, params) => {
                             return h('div', [
                                 h('p','下單時間'),
-                                h('p',{style:{marginLeft:'10px'}},'訂單狀態'),
+                                // h('p',{style:{marginLeft:'10px'}},'訂單狀態'),
                                 // h('p',{style:{marginLeft:'20px'}},'取消原因'),
-                                h('p',{style:{marginLeft:'25px'}},'訂單來源'),
+                                h('p',{style:{marginLeft:'15px'}},'訂單來源'),
                             ]);
                         },
                 },
@@ -130,6 +155,11 @@ export default {
                         },
                 },
                 {
+                    title:'訂單狀態',
+                    slot:'orderstatus',
+                    width:110
+                },
+                {
                     title:'訂單備註',
                     key:'order2',
                     width:110
@@ -144,33 +174,39 @@ export default {
             grape_type:'',
             total:0,
             current:0,
-            propModel:false
+            propModel:false,
+            inputValue:{
+                id:"",
+                time:'',
+                sh_name:""
+            },
+            type:1,
+            obj:{}
         }
     },
     created(){
         this.getList(0)
     },
     methods:{
-        getList(start){
-            var data = {
-                start:start,
-                rows:5
+        getList(start,obj){
+            var data = {}
+            if(obj){
+                data = obj;
             }
+            data.start = start
+            data.rows = 5
+            data.type =7
             this.$http('orderInfoService','findDatas',data)
             .then(res=>{
                 console.log(res)
                 if(res.rows){
                     var arr = res.rows
-                    var returnData = []
                     for(let i =0;i<arr.length;i++){
-                        arr[i].time = this.$changeTime(arr[i].time)
+                        arr[i].time = arr[i].time?this.$changeTime(arr[i].time):""
                         // arr[i].update_time = this.$changeTime(arr[i].update_time)
-                        if(arr[i].type==4){
-                            returnData.push(arr[i])
-                        }
                     }
-                    this.data1 = returnData;
-                    this.total = returnData.length;
+                    this.data1 = arr;
+                    this.total = arr.length;
                 }
             })
         },
@@ -197,24 +233,41 @@ export default {
         openModel(){
             this.propModel = true;
         },
-        types(data){
-            if(!data){
-                return;
-            }
-            var str = '';
-            if(data == 1){
-                str = '待確認'
-            }else if(data==2){
-                str = '待出貨'
-            }else if(data==3){
-                str = '已完成'
-            }
-            return str
-        },
         pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*5;
-            this.getList(this.current);
+            if(this.type==1){
+                this.getList(this.current);
+            }else{
+                this.getList(this.current,this.obj)
+            }
         },
+        search(){
+            var obj = {};
+            if(this.inputValue.id){
+                obj.id = this.inputValue.id;
+            }
+            if(this.inputValue.time[0]){
+                console.log(this.inputValue.time)
+                obj.startTime = times(this.inputValue.time[0]);
+                obj.endTime = times(this.inputValue.time[1]);
+            }
+            // if(this.inputValue.phone){
+            //     obj.phone = this.inputValue.phone
+            // }
+            if(this.inputValue.sh_name){
+                obj.sh_name = this.inputValue.sh_name
+            }
+            var arr =Object.keys(obj)
+            if(arr.length>0){
+                this.obj = obj
+                this.type=2
+                this.getList(0,obj)
+            }else{
+                this.type=1
+                this.obj={}
+                this.getList(0)
+            }
+        }
     }  
 }
 </script>
@@ -226,6 +279,9 @@ export default {
 .page{
     justify-content: space-between;
 }
-
+.option{
+    margin: 0;
+    margin-right: 20px;
+}
 </style>
 

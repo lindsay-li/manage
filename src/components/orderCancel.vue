@@ -207,6 +207,8 @@ export default {
                 {value:5,label:'未取货'},
                 {value:6,label:'取消'},
                 {value:7,label:'退货'},
+                {value:8,label:'換貨'},
+                {value:9,label:'出货中'},
             ],
             id:'',
             paymentList:[

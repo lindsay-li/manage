@@ -233,8 +233,8 @@ import Fullscreen from './components/fullscreen'
                         name:'換貨處理_預設',
                         meta:{icon:'logo-pinterest',title:'換貨處理_預設'},
                         children:[
-                            {icon:'',name:'returnHandle',meta:{icon:'',title:'換貨處理'}},
-                            {icon:'',name:'returnQuery',meta:{icon:'',title:'換貨查詢'}},
+                            {icon:'',name:'barterHandle',meta:{icon:'',title:'換貨處理'}},
+                            {icon:'',name:'barterQuery',meta:{icon:'',title:'換貨查詢'}},
                         ]
                     },
                     {
@@ -242,8 +242,9 @@ import Fullscreen from './components/fullscreen'
                         name:'退貨操作',
                         meta:{icon:'md-return-right',title:'退貨操作'},
                         children:[
-                            {icon:'',name:'barterHandle',meta:{icon:'',title:'退貨處理'}},
-                            {icon:'',name:'barterQuery',meta:{icon:'',title:'退貨查詢'}},
+                            
+                            {icon:'',name:'returnHandle',meta:{icon:'',title:'退貨處理'}},
+                            {icon:'',name:'returnQuery',meta:{icon:'',title:'退貨查詢'}},
                         ]
                     },
                     {

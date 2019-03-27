@@ -9,7 +9,7 @@
         <div class="option">
             <span>下單時間：</span>
             <!-- <Input type="text"  v-model="inputValue.time" style="width:160px" /> -->
-            <DatePicker type="daterange" v-model="inputValue.time" placeholder="選擇時間" style="width: 160px"></DatePicker>
+            <DatePicker type="daterange" v-model="inputValue.time" placeholder="選擇時間" style="width: 190px"></DatePicker>
         </div>
         <div class="serch" @click="search">查詢</div>
     </div>
@@ -17,19 +17,17 @@
         <Table border  :columns="columns1" :data="data1"  class="post"  @on-row-click="selectChange1">
             <template slot="peisong" slot-scope="{row,index}">
                 <div>
-                    <!-- <p>{{row.payment==1?'貨到付款':'門店自取'}}</p> -->
+                    <p>{{row.payment==1?'貨到付款':'門市取貨'}}</p>
                     <!-- <p style="margin-left:10px">{{row.delivery_num?row.delivery_num:"-"}}</p> -->
                     <!-- <p style="margin-left:20px">{{types(row.type)}}</p> -->
-                    <p style="margin-left:20px">{{row.status==1?'訂單正常':"訂單用戶刪除"}}</p>
+                    <!-- <p style="margin-left:20px">{{row.status==1?'訂單正常':"訂單用戶刪除"}}</p> -->
                 </div>
             </template>
             <template slot="orders" slot-scope="{row,index}">
                 <div>
                     <p>{{row.time}}</p>
                     <p style="margin-left:10px">
-                        <Select v-model="row.type" @on-change="selectChange" size="small">
-                            <Option v-for="(item,index) in typeList" :value="item.value" :key="index">{{ item.label }}</Option>
-                        </Select>
+                        待分配
                     </p>
                     <!-- <p style="margin-left:20px">-</p> -->
                     <p style="margin-left:0px">{{row.update_time}}</p>
@@ -40,6 +38,13 @@
                 <div>
                     <p>{{row.title}}</p>
                     <p style="margin-left:10px">{{row.alcohol_id}}</p>
+                </div>
+            </template>
+            <template slot="shopname" slot-scope="{row,index}">
+                <div>
+                    <Select v-model="row.shop_id" @on-change="selectChange" size="small">
+                        <Option v-for="(item,index) in shopName" :value="item.value" :key="index">{{ item.label }}</Option>
+                    </Select>
                 </div>
             </template>
             <template slot="prices" slot-scope="{row,index}">
@@ -79,6 +84,11 @@ export default {
                 {
                     title: '訂單編號',
                     key: 'id',
+                    minWidth:120
+                },
+                {
+                    title: '選擇門市',
+                    slot: 'shopname',
                     minWidth:120
                 },
                 {
@@ -183,22 +193,25 @@ export default {
                 {value:6,label:'取消'},
                 // {value:7,label:'退貨'},
             ],
-            id:''
+            id:'',
+            type:1,
+            obj:{}
         }
     },
     created(){
+        this.getShopname()
         this.getList(0)
     },
     methods:{
         getList(start,obj){
-            var data = {
-                start:start,
-                type:1,
-                rows:5
-            }
+            var data = {};
             if(obj){
                 data = obj;
             }
+            data.start = start
+            data.type=1
+            data.payment=2
+            data.rows=5
             this.$http('orderInfoService','findDatas',data)
             .then(res=>{
                 console.log(res)
@@ -209,7 +222,26 @@ export default {
                         // arr[i].update_time = arr[i].update_time?this.$changeTime(arr[i].update_time):'-'
                     }
                     this.data1 = arr;
-                    this.total = res.total;
+                    this.total = arr.length;
+                }
+            })
+        },
+        getShopname(){
+            var data = {
+                start:0
+            }
+            this.$http('orderShopService','findDatas',data)
+            .then(res=>{
+                console.log(res)
+                if(res.rows){
+                    var arr = [];
+                    for(let i =0; i<res.rows.length;i++){
+                        var obj ={};
+                        obj.value = res.rows[i].id;
+                        obj.label = res.rows[i].name;
+                        arr.push(obj)
+                    }
+                    this.shopName = arr;
                 }
             })
         },
@@ -250,7 +282,11 @@ export default {
         },
         pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*5;
-            this.getList(this.current);
+            if(this.type==1){
+                this.getList(this.current);
+            }else{
+                this.getList(this.current,this.obj)
+            }
         },
         selectChange1(row){
             console.log(row)
@@ -258,7 +294,7 @@ export default {
         },
         revise(value){ //修改狀態
             var data = {
-                type:parseInt(value),
+                shop_id:parseInt(value),
                 id:this.id
             }
             this.$http('orderFormService','addOrUpdate',data)
@@ -281,18 +317,19 @@ export default {
             if(this.inputValue.id){
                 obj.id = this.inputValue.id;
             }
-            if(this.inputValue.time){
+            if(this.inputValue.time[0]){
                 obj.startTime = times(this.inputValue.time[0]);
                 obj.endTime = times(this.inputValue.time[1]);
             }
             
             var arr =Object.keys(obj)
             if(arr.length>0){
-                obj.start=0
-                obj.rows=5
-                obj.type=1
+                this.obj = obj
+                this.type=2
                 this.getList(0,obj)
             }else{
+                this.type=1
+                this.obj={}
                 this.getList(0)
             }
         }

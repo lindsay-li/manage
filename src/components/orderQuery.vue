@@ -3,13 +3,28 @@
     <!-- <div class="_title">訂單查詢</div> -->
     <div class="nav">
         <div class="option">
-            <span>订单编号：</span>
-            <Input type="text"  v-model="inputValue.id" style="width:160px" />
+            <span>訂單編號：</span>
+            <Input type="text"  v-model="inputValue.id" style="width:70px" />
         </div>
         <div class="option">
-            <span>下单时间：</span>
+            <span>下單時間：</span>
             <!-- <Input type="text"  v-model="inputValue.time" style="width:160px" /> -->
-            <DatePicker type="daterange" v-model="inputValue.time" placeholder="選擇時間" style="width: 160px"></DatePicker>
+            <DatePicker type="daterange" v-model="inputValue.time" placeholder="選擇時間" style="width: 190px"></DatePicker>
+        </div>
+        <div class="option">
+            <span>收件人：</span>
+            <Input type="text"  v-model="inputValue.sh_name" style="width:70px" />
+        </div>
+        <!-- <div class="option">
+            <span>聯繫電話：</span>
+            <Input type="text"  v-model="inputValue.phone" style="width:70px" />
+        </div> -->
+        <div class="option">
+            <span>訂單狀態</span>
+            <!-- <Input type="text"  v-model="inputValue.status" style="width:70px" /> -->
+            <Select v-model="inputValue.type"  clearable  style="width:90px">
+                <Option v-for="(item,index) in typeList" :value="item.value" :key="index">{{ item.label }}</Option>
+            </Select>
         </div>
         <div class="serch" @click="search">查詢</div>
     </div>
@@ -29,9 +44,10 @@
                 <div>
                     <p>{{row.time}}</p>
                     <p style="margin-left:10px">
-                        <Select v-model="row.type" @on-change="selectChange" size="small">
+                        <!-- <Select v-model="row.type" @on-change="selectChange" size="small">
                             <Option v-for="(item,index) in typeList" :value="item.value" :key="index">{{ item.label }}</Option>
-                        </Select>
+                        </Select> -->
+                        {{types(row.type)}}
                     </p>
                     <!-- <p style="margin-left:20px">-</p> -->
                     <p style="margin-left:0px">{{row.update_time}}</p>
@@ -59,8 +75,11 @@
                     <p>{{row.address}}</p>
                 </div>
             </template>
-            <template slot="action" slot-scope="{row,index}">
-                <Button size="small" type="error" @click="remove(row.id)">刪除</Button>
+            <template slot="actions" slot-scope="{row,index}">
+                <Select v-model="row.type" @on-change="selectChange" size="small" v-if="avgTypes(row.type)">
+                    <Option v-for="(item,index) in typeLists" :value="item.value" :key="index">{{ item.label }}</Option>
+                </Select>
+                <div v-else>已操作</div>
             </template>
         </Table>
     </div>
@@ -96,18 +115,18 @@ export default {
                                 h('p','配送方式'),
                                 h('p',{style:{marginLeft:'10px'}},'配送編號'),
                                 h('p',{style:{marginLeft:'20px'}},'出貨狀態'),
-                                // h('p',{style:{marginLeft:'25px'}},'出貨狀態时间'),
+                                // h('p',{style:{marginLeft:'25px'}},'出貨狀態時間'),
                             ]);
                         },
                 },
                 {
                     slot: 'orders',
-                    minWidth:150,
+                    minWidth:170,
                     renderHeader:(h, params) => {
                             return h('div', [
                                 h('p','下單時間'),
                                 h('p',{style:{marginLeft:'10px'}},'訂單狀態'),
-                                h('p',{style:{marginLeft:'20px'}},'订单状态日'),
+                                h('p',{style:{marginLeft:'20px'}},'訂單狀態日'),
                                 h('p',{style:{marginLeft:'25px'}},'訂單來源'),
                             ]);
                         },
@@ -155,17 +174,22 @@ export default {
                         },
                 },
                 {
-                    title:'发票类型',
+                    title:'操作',
+                    slot:'actions',
+                    width:120
+                },
+                {
+                    title:'發票類型',
                     key:'order1',
                     width:110
                 },
                 {
-                    title:'订单备注',
+                    title:'訂單備註',
                     key:'order2',
                     width:110
                 },
                 {
-                    title:'消费者备注',
+                    title:'消費者備註',
                     key:'order3',
                     width:120
                 }
@@ -175,22 +199,40 @@ export default {
             total:0,
             current:0,
             propModel:false,
-            shopName:[], //所有门店
+            shopName:[], //所有門店
             inputValue:{
                 id:"",
                 time:'',
-                type:''
+                type:'',
+                sh_name:"",
+                phone:''
             },
             typeList:[
-                {value:1,label:'待确认'},
-                {value:2,label:'待出货'},
-                {value:3,label:'已出货'},
-                {value:4,label:'已收货'},
-                {value:5,label:'未取货'},
+                {value:1,label:'待確認'},
+                {value:2,label:'待出貨'},
+                {value:3,label:'已出貨'},
+                {value:4,label:'已收貨'},
+                {value:5,label:'未取貨'},
                 {value:6,label:'取消'},
-                {value:7,label:'退货'},
+                {value:7,label:'退貨'},
+                {value:8,label:'換貨'},
+                {value:9,label:'出貨中'},
             ],
-            id:''
+            typeLists:[
+                {value:6,label:'取消'},
+                {value:7,label:'退貨'},
+                {value:8,label:'換貨'}
+            ],
+            typeListss:[
+                {value:1,label:'待確認'},
+                {value:2,label:'待出貨'},
+                {value:3,label:'已出貨'},
+                {value:4,label:'已收貨'},
+                {value:5,label:'未取貨'}
+            ],
+            id:'',
+            type:1,
+            obj:{}
         }
     },
     created(){
@@ -199,13 +241,12 @@ export default {
     },
     methods:{
         getList(start,obj){
-            var data = {
-                start:start,
-                rows:5
-            }
+            var data = {}
             if(obj){
                 data = obj;
             }
+            data.start = start
+            data.rows = 5
             this.$http('orderInfoService','findDatas',data)
             .then(res=>{
                 console.log(res)
@@ -243,21 +284,31 @@ export default {
         openModel(){
             this.propModel = true;
         },
-        types(data){
-            var str = '';
-            if(data == 1){
-                str = '待確認'
-            }else if(data==2){
-                str = '待出貨'
-            }else if(data==3){
-                str = '已完成'
+        types(id){
+            if(!id && id!=0){return ''}
+            var result = this.typeList.find(item=>item.value==id)
+            if(result){
+                return result.label
+            }else{
+                return '已取消'
             }
-            
-            return str
+        },
+        avgTypes(id){
+            if(!id && id!=0){return ''}
+            var result = this.typeListss.find(item=>item.value==id)
+            if(result){
+                return true;
+            }else{
+                return false
+            }
         },
         pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*5;
-            this.getList(this.current);
+            if(this.type==1){
+                this.getList(this.current);
+            }else{
+                this.getList(this.current,this.obj)
+            }
         },
         getShopname(){
             var data = {
@@ -316,17 +367,28 @@ export default {
             if(this.inputValue.id){
                 obj.id = this.inputValue.id;
             }
-            if(this.inputValue.time){
+            if(this.inputValue.time[0]){
+                console.log(this.inputValue.time)
                 obj.startTime = times(this.inputValue.time[0]);
                 obj.endTime = times(this.inputValue.time[1]);
             }
-            
+            // if(this.inputValue.phone){
+            //     obj.phone = this.inputValue.phone
+            // }
+            if(this.inputValue.sh_name){
+                obj.sh_name = this.inputValue.sh_name
+            }
+            if(this.inputValue.type){
+                obj.type = this.inputValue.type
+            }
             var arr =Object.keys(obj)
             if(arr.length>0){
-                obj.start=0
-                obj.rows=5
+                this.obj = obj
+                this.type=2
                 this.getList(0,obj)
             }else{
+                this.type=1
+                this.obj={}
                 this.getList(0)
             }
         }
@@ -340,6 +402,9 @@ export default {
 .page{
     justify-content: space-between;
 }
-
+.option{
+    margin: 0;
+    margin-right: 20px;
+}
 </style>
 

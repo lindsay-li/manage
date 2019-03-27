@@ -4,25 +4,26 @@
     <div class="nav">
         <div class="option">
             <span>訂單編號：</span>
-            <Input type="text"  v-model="inputValue.id" style="width:100px" />
+            <Input type="text"  v-model="inputValue.id" style="width:70px" />
         </div>
         <div class="option">
             <span>配送廠家：</span>
-            <Input type="text"  v-model="inputValue.delivery_home" style="width:120px" />
+            <Input type="text"  v-model="inputValue.delivery_home" style="width:90px" />
         </div>
         <div class="option">
             <span>商品名稱</span>
-            <Input type="text"  v-model="inputValue.title" style="width:120px" />
+            <Input type="text"  v-model="inputValue.title" style="width:90px" />
             <!-- <DatePicker type="daterange" v-model="inputValue.time" placeholder="選擇時間" style="width: 160px"></DatePicker> -->
         </div>
         <div class="option">
             <span>配送編號：</span>
-            <Input type="text"  v-model="inputValue.delivery_num" style="width:100px" />
+            <Input type="text"  v-model="inputValue.delivery_num" style="width:70px" />
         </div>
         <div class="serch" @click="search">查詢</div>
+        <Button type="primary" @click="openModelData">匯入資料</Button>
     </div>
     <div class="goods">
-        <Table border  :columns="columns1" :data="data1"  class="post"  @on-row-click="selectChange1">
+        <Table border  :columns="columns1" :data="data1"  class="post"  @on-row-click="selectChange1" @on-selection-change="clickChange">
             <template slot="peisong" slot-scope="{row,index}">
                 <div>
                     <p>{{row.payment==1?'貨到付款':'門店自取'}}</p>
@@ -74,9 +75,45 @@
     </div>
     <div class="page">
         <div class="_btn">
-            <!-- <div class="send" @click="openModel">一件發貨</div> -->
+            <div class="send" @click="openModel">一鍵出貨</div>
         </div>
         <Page :total="total" show-total show-elevator prev-text='上一頁' next-text='下一頁'  @on-change="pageChange"/>
+    </div>
+    <div class="prop_model" v-show="propModel">
+        <div class="tttt">正在出貨中...</div>
+    </div>
+    <div class="prop_model" v-show="propModel1">
+        <div class="_box">
+            <div class="contant">
+                <div class="tit">發貨信息</div>
+                <div class="list">
+                    <table style="width:100%;">
+                        <tr>
+                            <td style="text-align:right">訂單編號:</td>
+                            <td>
+                                <Input v-model="editValue.id"  placeholder="點擊輸入" style="width: 160px" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right">配送編號:</td>
+                            <td>
+                                <Input v-model="editValue.delivery_num"  placeholder="點擊輸入" style="width: 160px" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right">配送廠家:</td>
+                            <td>
+                                <Input v-model="editValue.delivery_home"  placeholder="點擊輸入" style="width: 160px;" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="btns">
+                    <div class="cancel" @click='closeModel'>取消</div>
+                    <div class="sure" @click="newAdd">確定</div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>        
 </template>
@@ -86,6 +123,11 @@ export default {
     data(){
         return{
             columns1: [
+                {
+                    type: 'selection',
+                    width: 60,
+                    align: 'center'
+                },
                 {
                     title: '負責門店',
                     key: 'shop_name',
@@ -185,6 +227,7 @@ export default {
             total:0,
             current:0,
             propModel:false,
+            propModel1:false,
             shopName:[], //所有門店
             inputValue:{
                 id:"",
@@ -193,7 +236,7 @@ export default {
                 delivery_home:""
             },
             typeList:[
-                {value:2,label:'待出貨'},
+                {value:9,label:'出貨中'},
                 {value:3,label:'已出貨'}
             ],
             id:'',
@@ -205,7 +248,10 @@ export default {
                 id:'',
                 delivery_home:'',
                 delivery_num:''
-            }
+            },
+            type:1,
+            obj:{},
+            sendData:[]  //發貨數據
         }
     },
     created(){
@@ -213,14 +259,13 @@ export default {
     },
     methods:{
         getList(start,obj){
-            var data = {
-                start:start,
-                type:3,
-                rows:5
-            }
+            var data = {}
             if(obj){
                 data = obj;
             }
+            data.start = start;
+            data.type =9
+            data.rows =5
             this.$http('orderInfoService','findDatas',data)
             .then(res=>{
                 console.log(res)
@@ -235,17 +280,24 @@ export default {
                 }
             })
         },
+        clickChange(data){
+            console.log('data',data)
+            this.sendData = data
+        },
+
         newAdd(){
             if(!this.editValue.delivery_home || !this.editValue.delivery_num){
                 this.$Message.warning('請輸入信息');
                 return;
             }
+            if(!this.editValue.id){
+                this.$Message.warning('請輸入訂單編號');
+                return
+            }
             var data = {
+                id:this.editValue.id,
                 delivery_num:this.editValue.delivery_num,
                 delivery_home:this.editValue.delivery_home
-            }
-            if(this.id){
-                data.id = this.id
             }
             this.$http('orderFormService','addOrUpdate',data)
             .then(res=>{
@@ -255,26 +307,20 @@ export default {
                     this.id = '';
                     this.editValue.delivery_num=''
                     this.editValue.delivery_home = ''
+                    this.openModel1 = false;
                     this.getList(this.current);
                 }else{
                     this.$Message.error(res.message);
                 }
             })
         },
-        types(id){
-            if(!id){return ''}
-            var result = this.typeList.find(item=>item.value==id);
-            if(result){
-                return result.label
-            }else if(id==0){
-                return '取消(用戶信件)'
-            }else{
-                return ''
-            }
-        },
         pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*5;
-            this.getList(this.current);
+            if(this.type==1){
+                this.getList(this.current);
+            }else{
+                this.getList(this.current,this.obj)
+            }
         },
         selectChange1(row){
             console.log(row)
@@ -316,14 +362,51 @@ export default {
             }
             var arr =Object.keys(obj)
             if(arr.length>0){
-                obj.start=0
-                obj.rows=5
-                obj.type=3
+                this.obj = obj
+                this.type=2
                 this.getList(0,obj)
             }else{
+                this.type=1
+                this.obj={}
                 this.getList(0)
             }
         },
+        openModelData(){
+            this.propModel1 = true;
+        },
+        closeModel(){
+            this.propModel1 = false;
+            this.editValue.delivery_home=''
+            this.editValue.delivery_num = ''
+        },
+        openModel(){
+            var that = this;
+            that.propModel = true;
+            var len = that.sendData.length;
+            console.log(len)
+            function send(n){
+                if(n<len){
+                    console.log('len')
+                    var data = {
+                        type:3,
+                        id:that.sendData[n].id
+                    }
+                    that.$http('orderFormService','addOrUpdate',data)
+                    .then(res=>{
+                        if(res.result=='success'){
+                            send(n+1)
+                        }else{
+                            that.$Message.error('出貨失敗，請檢查！');
+                        }
+                    })
+                }else{
+                    that.$Message.success('出貨成功!')
+                    that.propModel = false;
+                    that.getList(0)
+                }
+            }
+            send(0)
+        }
     }  
 }
 </script>
@@ -334,6 +417,68 @@ export default {
 .page{
     justify-content: space-between;
 }
-
+._box{
+    width: 360px;
+    height: 300px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -125px 0 0 -150px;
+    border-radius: 4px;
+    background-color: #fff;
+}
+.contant{
+    width: 90%;
+    margin: 0 auto;
+}
+.btns{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 30px;
+    position: absolute;
+    bottom: 20px;
+}
+.cancel,
+.sure{
+    width: 136px;
+    height:40px;
+    line-height: 40px; 
+}
+.sure{
+    margin-left: 20px;
+}
+.tit{
+    width: 100px;
+    height: 36px;
+    background-color: #009688;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+    line-height: 36px;
+    margin-left: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+table td{
+    height: 45px;
+}
+.option{
+    margin: 0;
+    margin-right: 20px;
+}
+.serch{
+    margin-left: 5px;
+    margin-right: 40px;
+}
+.tttt{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #fff;
+    font-size: 20px;
+}
 </style>
 
