@@ -206,7 +206,7 @@ export default {
                         // arr[i].update_time = this.$changeTime(arr[i].update_time)
                     }
                     this.data1 = arr;
-                    this.total = arr.length;
+                    this.total = res.total;
                 }
             })
         },

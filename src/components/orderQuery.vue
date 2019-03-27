@@ -372,9 +372,6 @@ export default {
                 obj.startTime = times(this.inputValue.time[0]);
                 obj.endTime = times(this.inputValue.time[1]);
             }
-            // if(this.inputValue.phone){
-            //     obj.phone = this.inputValue.phone
-            // }
             if(this.inputValue.sh_name){
                 obj.sh_name = this.inputValue.sh_name
             }

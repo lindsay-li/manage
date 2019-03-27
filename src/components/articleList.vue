@@ -3,14 +3,28 @@
     <div class="nav">
         <div class="option">
             <span>分類查看：</span>
-            <Select  style="width:160px" @on-change="selecserch" clearable>
-                <Option v-for="item in selectserch" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <Select  style="width:110px" v-model="seachValue.tag" clearable>
+                <Option v-for="item in tagList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
         </div>
+        <div class="option">
+            <span>发布時間：</span>
+            <DatePicker type="date" v-model="seachValue.time" placeholder="選擇時間" style="width: 120px"></DatePicker>
+        </div>
+        <div class="option">
+            <span>文章标题：</span>
+            <Input type="text"  v-model="seachValue.title" style="width:70px" />
+        </div>
+        <div class="serch" @click="search">查詢</div>
     </div>
     <div class="new_article">
         <Table border  :columns="columns1" :data="data1"  class="post" :loading="loading">
-            <template slot="action" slot-scope="{row,index}">
+            <template slot="tag" slot-scope="{row}">
+                <div class="actions">
+                    {{tagss(row.tag)}}
+                </div>
+            </template>
+            <template slot="action" slot-scope="{row}">
                 <div class="actions">
                     <Button size="small" type="primary" @click="edit(row)">編輯</Button>
                     <Button size="small" type="error" @click="remove(row.id)">刪除</Button>
@@ -119,27 +133,20 @@ export default {
                     minWidth:160
                 },
                 {
-                    title: '創建人id',
-                    key: 'user_id',
-                    minWidth:110
-                },
-                {
                     title: '文章內容',
                     key: 'content',
                     ellipsis:true,
                     tooltip:true,
                     minWidth:160
                 },
-                {
-                    title: '插入內文圖片',
-                    key: 'photos',
-                    ellipsis:true,
-                    tooltip:true,
-                    minWidth:160
+                 {
+                    title: '作者',
+                    key: 'user_id',
+                    minWidth:110
                 },
                 {
                     title:'文章分類',
-                    key:'tag',
+                    slot:'tag',
                     minWidth:110
                 },
                 {
@@ -161,6 +168,11 @@ export default {
                 {value:6,label:'特色'},
                 {value:7,label:'名人'},
             ],
+            seachValue:{
+                time:'',
+                tag:'',
+                title:''
+            },
             inputValue:{
                 user_id:'',
                 tag:'',
@@ -175,36 +187,6 @@ export default {
             a_article:'',
             propUpModel:false,
             contrastData:[],
-            selectserch:[
-                {
-                    value:'生活',
-                    label:'生活'
-                },
-                {
-                    value:'酒莊',
-                    label:'酒莊'
-                },
-                {
-                    value:'活動',
-                    label:'活動'
-                },
-                {
-                    value:'深度',
-                    label:'深度'
-                },
-                {
-                    value:'大師',
-                    label:'大師'
-                },
-                {
-                    value:'特色',
-                    label:'特色'
-                },
-                {
-                    value:'名人',
-                    label:'名人'
-                }
-            ],
             defaultList: [],
             imgName: '',
             visible: false,
@@ -213,7 +195,9 @@ export default {
             pics:[],
             n:0,
             id:'',
-            loading:false
+            loading:false,
+            type:1,
+            obj:{}
         }
     },
     created(){
@@ -225,11 +209,13 @@ export default {
         
     },
     methods:{
-        getList(start){
-            var data = {
-                start:start,
-                rows:10
+        getList(start,obj){
+            var data = {}
+            if(obj){
+                data = obj
             }
+            data.start = start
+            data.rows = 10
             this.loading = true;
             this.$http('articleService','findDatas',data)
             .then(res=>{
@@ -238,22 +224,57 @@ export default {
                 if(res.rows){
                     var arr = res.rows;
                     for(let i =0;i<arr.length;i++){
-                        arr[i].time = this.$changeTime(arr[i].time);
-                        arr[i].tag = this.tags[arr[i].tag-1];
+                        arr[i].time = arr[i].time?this.$changeTime(arr[i].time):"";
+                        // arr[i].tag = this.tags[arr[i].tag-1];
                         // arr[i].photos = arr[i].photos.join(',')
                     }
                     this.total = res.total;
                     this.data1 = arr;
-                    this.contrastData = arr;
+                    // this.contrastData = arr;
                 }
             })
             .catch(err=>{
                 this.loading = false;
             })
         },
+        tagss(id){
+            if(!id && id!=0){return ''}
+            var result = this.tagList.find(item=>item.value==id)
+            if(result){
+                return result.label
+            }else{
+                return '未知'
+            }
+        },
+        search(){
+            var obj = {};
+            if(this.seachValue.title){
+                obj.title = this.seachValue.title;
+            }
+            if(this.seachValue.time){
+                obj.time = times(this.seachValue.time);
+            }
+            if(this.seachValue.tag){
+                obj.tag = this.seachValue.tag
+            }
+            var arr =Object.keys(obj)
+            if(arr.length>0){
+                this.obj = obj
+                this.type=2
+                this.getList(0,obj)
+            }else{
+                this.type=1
+                this.obj={}
+                this.getList(0)
+            }
+        },
         pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*10;
-            this.getList(this.current);
+            if(this.type==1){
+                this.getList(this.current);
+            }else{
+                this.getList(this.current,this.obj)
+            }
         },
         openModel(){
             this.propUpModel = true;
@@ -328,16 +349,16 @@ export default {
             this.propUpModel = true;
             this.inputValue = {
                 user_id:row.user_id,
-                tag:"",
+                tag:row.tag,
                 title:row.title,
                 content:row.content
             }
-            for(let i =0;i<this.tagList.length;i++){
-                if(this.tagList[i].label == row.tag){
-                    this.inputValue.tag = this.tagList[i].value;
-                    break;
-                }
-            }
+            // for(let i =0;i<this.tagList.length;i++){
+            //     if(this.tagList[i].label == row.tag){
+            //         this.inputValue.tag = this.tagList[i].value;
+            //         break;
+            //     }
+            // }
             try {
                this.pics = JSON.parse(row.photos); 
             } catch (error) {

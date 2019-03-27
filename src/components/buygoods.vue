@@ -6,7 +6,7 @@
             <template slot="status" slot-scope="{row}">
                 <div>{{row.status==1?'激活':'默認'}}</div>
             </template>
-            <template slot="action" slot-scope="{row,index}">
+            <template slot="action" slot-scope="{row}">
                 <Button size="small" type="primary" @click="edit(row)">編輯</Button>
                 <Button size="small" type="error" @click="remove(row.id)">刪除</Button>
             </template>
@@ -23,7 +23,7 @@
         <div class="_box">
             <div class="contant">
                 <div class="tit">加買商品</div>
-                <div class="list"style="width:100%;">
+                <div class="list" style="width:100%;">
                     <table style="width:100%;">
                         <tr>
                             <td style="text-align:right">消費金額:</td>
