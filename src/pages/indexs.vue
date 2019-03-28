@@ -253,7 +253,7 @@ import Fullscreen from './components/fullscreen'
                         meta:{icon:'logo-buffer',title:'文章日誌'},
                         children:[
                             {icon:'',name:'articleList',meta:{icon:'',title:'文章列表'}},
-                            {icon:'',name:'articleLists',meta:{icon:'',title:'新增文章'}}
+                            {icon:'',name:'newArticle',meta:{icon:'',title:'新增文章'}}
                         ]
                     },
                     {
@@ -262,6 +262,7 @@ import Fullscreen from './components/fullscreen'
                         meta:{icon:'md-megaphone',title:'公告&廣告管理'},
                         children:[
                             {icon:'',name:'editNotice',meta:{icon:'',title:'公告通知'}},
+                            {icon:'',name:'noticeAuding',meta:{icon:'',title:'公告審核'}},
                             {icon:'',name:'advertisementEdit',meta:{icon:'',title:'廣告管理'}},
                             {icon:'',name:'advertisementAuditing',meta:{icon:'',title:'廣告審核'}}
                         ]

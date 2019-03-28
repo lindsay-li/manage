@@ -1,15 +1,20 @@
 <template>
 <div class="wrappar">
     <div class="nav">
-        <div class="_title">公告通知</div>
+        <div class="_title">公告審核</div>
     </div>
     <div class="notice">
-        <Table border  :columns="columns1" :data="data1" >
+        <Table border  :columns="columns1" :data="data1" @on-row-click="selectChange1" >
             <template slot-scope="{row,index}" slot="type">
                 <div>{{types(row.TYPE)}}</div>
             </template>
             <template slot-scope="{row,index}" slot="status">
-                <div>{{row.audit_status?'已審核':'未審核'}}</div>
+                <!-- <div>{{row.audit_status==0?'未讀':'已讀'}}</div> -->
+                <div>
+                    <Select v-model="row.audit_status"  @on-change="selectChange">
+                        <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                </div>
             </template>
             <template slot-scope="{row,index}" slot="action">
                 <Button type="error" size='small' @click="remove(row.id)">刪除</Button>
@@ -17,59 +22,8 @@
         </Table>
     </div>
     <div class="page">
-        <div class="add_goods" @click="openPropModel">新增通知</div>
+        <!-- <div class="add_goods" @click="openPropModel">新增通知</div> -->
         <Page :total="total" show-total show-elevator prev-text='上一頁' next-text='下一頁' @on-change="pageChange"/>
-    </div>
-    <div class="prop_model" v-show="propModel">
-        <div class="n_box">
-            <div class="n_content">
-                <div class="n_title">新增通知</div>
-                <table style="width:100%">
-                    <tr>
-                        <td>通知類型</td>
-                        <td>
-                            <Select v-model="inputValue.type" style="width:220px;">
-                                <Option v-for="item in noticeLists" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                            </Select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>發送對象</td>
-                        <td>
-                            <RadioGroup v-model="inputValue.status">
-                                <Radio label="全部用戶"></Radio>
-                                <Radio label='白金會員'></Radio>
-                                <Radio label='指定用戶'></Radio>
-                            </RadioGroup>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>指定用戶</td>
-                        <td style="position:relative;text-align:left;">
-                            <Input v-model="inputValue.to_user_id"  style="width: 180px;margin-left:99px" /><span style="color:#ed4014;font-size:10px;position:absolute;right:0;top:10px">注:指定用戶時填此項</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>發送時間</td>
-                        <td>
-                            <!-- <Select v-model="inputValue.status" style="width:220px;">
-                                <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                            </Select> -->
-                            <!-- <DatePicker type="date" v-model="inputValue.time" placeholder="Select date" style="width: 220px"></DatePicker> -->
-                            <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" v-model="inputValue.time" placeholder="選擇時間" style="width: 220px"></DatePicker>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="height:110px;">內容</td>
-                        <td><Input v-model="inputValue.msg" type="textarea" :rows="4" /></td>
-                    </tr>
-                </table>
-                <div class="_btns">
-                    <div class="sure" @click="sureBtn">確定</div>
-                    <div class="cancel" @click="closeModel">取消</div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>  
 </template>
@@ -120,7 +74,7 @@ export default {
                 {
                     title:'狀態',
                     slot:'status',
-                    minWidth:110,
+                    minWidth:120,
                 },
                 {
                     title:'操作',
@@ -140,17 +94,11 @@ export default {
             loading:false,
             total:0,
             current:0,
-            inputValue:{
-                msg:'',
-                type:'',
-                time:'',
-                to_user_id:'',
-                status:"全部用戶"
-            },
             statusList:[
-                {value:0,label:'未讀'},
-                {value:1,label:'已讀'}
-            ]
+                {value:0,label:'未審核'},
+                {value:1,label:'已審核'}
+            ],
+            id:''
         }
     },
     created(){
@@ -191,15 +139,6 @@ export default {
                 }
             })
         },
-        openPropModel(){
-            this.propModel = true;  
-        },
-        selectChange1(){
-
-        },
-        closeModel(){
-            this.propModel = false;
-        },
         remove(id){
             this.$Modal.confirm({
                 title: '警告',
@@ -220,43 +159,28 @@ export default {
                 }
             })  
         },
-        sureBtn(){
-            var data = {};
-            if(!this.inputValue.type){
-                this.$Message.warning('請選擇類型')
-                return
+        selectChange1(row){
+            this.id = row.id
+        },
+        revise(status){ //修改狀態
+            var data = {
+                audit_status:status,
+                id:this.id
             }
-            if(!this.inputValue.time){
-                this.$Message.warning('請選擇發送時間')
-                return
-            }
-            if(!this.inputValue.msg){
-                this.$Message.warning('請輸入內容')
-                return
-            }
-            data.msg = this.inputValue.msg;
-            data.type = this.inputValue.type;
-            // data.to_user_id = this.inputValue.to_user_id;
-            // if(this.inputValue.status || this.inputValue.status==0){
-            //     data.status = this.inputValue.status;
-            // }
-            data.time = this.$changeTime(this.inputValue.time)
             this.$http('messageLogService','addOrUpdate',data)
             .then(res=>{
-                if(res.result == 'success'){
-                    this.propModel = false;
-                    this.$Message.success('新增成功');
+                if(res.result=='success'){
+                    this.$Message.success('修改成功');
                     this.getList(this.current);
-                    this.inputValue ={
-                        msg:'',
-                        type:'',
-                        // to_user_id:1,
-                        status:""
-                    }
+                    this.id = '';
                 }else{
-                    this.$Message.error('操作失敗，請檢查')
+                    this.$Message.error('操作失敗');
                 }
             })
+        },
+        selectChange(value){
+            console.log(value)
+            this.revise(value)
         },
         pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*10;
@@ -315,7 +239,7 @@ export default {
 </script>
 <style scoped>
 .page{
-    justify-content: space-between;
+    justify-content: flex-end;
 }
 ._title{
     width: 100%;
@@ -328,54 +252,5 @@ export default {
     line-height: 36px;
     /* margin-bottom: 30px; */
 }
-.n_box{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -200px 0 0 -300px;
-    width: 600px;
-    height: 420px;
-    background-color:#fff;
-    border-radius: 4px; 
-}
-.n_content{
-    width: 90%;
-    margin: 0 auto;
-}
-.n_title{
-    width: 100%;
-    height: 36px;
-    background-color: #009688;
-    border-radius: 4px;
-    color: #fff;
-    line-height: 36px;
-    text-align: center;
-    margin: 20px 0;
-}
-table,table tr th, table tr td { border:1px solid #E0E0E0;text-align: center;font-size: 14px; }
-table{
-    border-collapse: collapse;
-    padding:2px;
-}
-table tr td:first-child{
-    width: 120px;
-}
-table tr td{
-    height: 40px;
-}
-._btns{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 25px;
-}
-._btns .sure,
-._btns .cancel{
-    width: 110px;
-    height: 32px;
-    line-height: 32px;
-}
-._btns .cancel{
-    margin-left: 20px;
-}
+
 </style>

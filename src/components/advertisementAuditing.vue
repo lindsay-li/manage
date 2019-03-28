@@ -145,9 +145,6 @@ export default {
         openPropModel(){
             this.propModel = true;  
         },
-        selectChange1(){
-
-        },
         changeTime(time){
             if(!time){return ''}
             return this.$changeTime(time)

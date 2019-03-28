@@ -11,6 +11,7 @@ import TreeTable from 'tree-table-vue'
 import i18n from '@/locale'
 import {postData} from './api/api'
 import { changeTime } from './until/tool';
+
 // Vue.use(iView,{locale});
 Vue.use(iView, {
   i18n: (key, value) => i18n.t(key, value)
@@ -18,11 +19,11 @@ Vue.use(iView, {
 // Vue.use(iView)
 Vue.use(TreeTable)
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-var Mock = require('mockjs');
-var users={
-  account:'admin',
-  password:123456
-}
+// var Mock = require('mockjs');
+// var users={
+//   account:'admin',
+//   password:123456
+// }
 // Mock.mock('http://www.bakesi.com/login','post',function(options){
 //   console.log(options.body)
 //   var option = JSON.parse(options.body)
@@ -43,8 +44,6 @@ Vue.config.productionTip = false
 Vue.prototype.$http = postData
 Vue.prototype.$changeTime = changeTime;
 // http request 拦截器
-
-
 
 
 router.beforeEach((to, from, next) => {

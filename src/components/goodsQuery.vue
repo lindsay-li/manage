@@ -26,7 +26,7 @@
     <div class="query">
         <Table border  :columns="columns1" :data="data1"   height="550" class="post" :loading="loading">
             <template slot-scope="{ row }" slot="description">
-                <Tooltip placement="bottom" max-width="370" theme="light">
+                <!-- <Tooltip placement="bottom" max-width="370" theme="light">
                     <span v-if="row.description">{{stringHanle(row.description,3)}}</span>
                     <div slot="content">
                         <div v-if="row.description&&row.description.indexOf('h4')>=0">
@@ -35,7 +35,10 @@
                         </div>
                         <div v-else>{{row.description}}</div>
                     </div>
-                </Tooltip>
+                </Tooltip> -->
+                <div class="contents" @click="openRowContent(row)">
+                    {{row.description}}
+                </div>
             </template>
             <template slot-scope="{ row}" slot="type">
                 <div v-if="row.type">{{types(row.type)}}</div>
@@ -63,6 +66,11 @@
             </template>
         </Table>
     </div>
+    <Modal :title="imageTitle" v-model="visible">
+        <div class="over" style="max-height:500px;overflow-y:scroll;">
+          {{imgName}}
+        </div>
+    </Modal>
     <div class="page">
         <div class="add_goods"  @click="openCreatePage">添加商品</div>
         <Page :total="total" show-total show-elevator prev-text='上一頁' next-text='下一頁' @on-change="pageChange"/>
@@ -74,16 +82,19 @@
             <div class="c_table">
                 <table  >
                     <tr>
-                        <td>商品名稱</td>    
+                        <td>商品名稱</td> 
+                        <td>中文名稱</td>   
                         <td>數量</td>
                         <td>售價</td>
                         <td>年份</td>
                         <td>類型</td>
-                        <td>年產量</td>
                     </tr>
                     <tr>
                         <td>
                             <Input type="text" v-model="inputValue.title" />
+                        </td>
+                        <td>
+                            <Input type="text" v-model="inputValue.source_title" />
                         </td>
                         <td>
                             <InputNumber  :min="0" v-model="inputValue.num"></InputNumber>
@@ -102,9 +113,6 @@
                             <Select v-model="inputValue.type_id" >
                                 <Option v-for="(item,index) in productType" :value="item.value" :key="index">{{ item.label }}</Option>
                             </Select>
-                        </td>
-                        <td>
-                            <InputNumber  :min="0" v-model="inputValue.annual_output"></InputNumber>
                         </td>
                     </tr>
                     <tr>
@@ -147,7 +155,7 @@
                         <td>酒精濃度</td>
                         <td>規格(ml)</td>
                         <td>狀態</td>
-                        <td>是否進口包裝(选填)</td>
+                        <td>進口包裝(選填)</td>
                         <td>酒莊</td>
                         <td>商品圖片</td>
                     </tr>
@@ -185,12 +193,12 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>次產區(选填)</td>
-                        <td>源名稱</td>
-                        <td>源價(其它幣種)</td>
-                        <td>市場價價(美元)</td>
-                        <td>源市場價(其它幣種)</td>
-                        <td>源地址</td>
+                        <td>次產區(選填)</td>
+                        <td>年產量</td>
+                        <td>口感</td>
+                        <td>葡萄種類</td>
+                        <td>國際評分</td>
+                        <td>國際獎牌</td>
                     </tr>
                     <tr >
                         <td>
@@ -199,39 +207,31 @@
                             </Select>
                         </td>
                         <td>
-                            <Input type="text" v-model="inputValue.source_title" />
+                            <InputNumber  :min="0" v-model="inputValue.annual_output"></InputNumber>
                         </td>
                         <td>
-                            <InputNumber  :min="0" v-model="inputValue.source_price"></InputNumber>
+                            <Select v-model="inputValue.texture" >
+                                <Option v-for="(item,index) in textureList" :value="item.value" :key="index">{{ item.label }}</Option>
+                            </Select>
                         </td>
                         <td>
-                            <InputNumber  :min="0" v-model="inputValue.market_price"></InputNumber>
+                            <Select v-model="inputValue.grope" >
+                                <Option v-for="(item,index) in gropeList" :value="item.value" :key="index">{{ item.label }}</Option>
+                            </Select>
                         </td>
                         <td>
-                            <InputNumber  :min="0" v-model="inputValue.source_market_price"></InputNumber>
+                            <InputNumber  :min="0" v-model="inputValue.wc_score"></InputNumber>
                         </td>
                         <td>
-                            <Input type="text" v-model="inputValue.source_url" />
+                            <InputNumber  :min="0" v-model="inputValue.jeb_score"></InputNumber>
                         </td>
                     </tr>
                     <tr>
-                        <td>源域名</td>
-                        <td>源幣種</td>
-                        <td>源語言</td>
-                        <td colspan="3">商品描述</td>
+                        <td colspan="6">商品描述</td>
                     </tr>
                     <tr >
-                        <td>
-                            <Input type="text" v-model="inputValue.source_site" />
-                        </td>
-                        <td>
-                            <Input type="text" v-model="inputValue.source_currency" />
-                        </td>
-                        <td>
-                            <Input type="text" v-model="inputValue.source_language" />
-                        </td>
-                        <td colspan="3">
-                            <Input type="textarea" v-model="inputValue.description" />
+                        <td colspan="6">
+                            <Input type="textarea" v-model="inputValue.description" :rows="6" />
                         </td>
                     </tr>
                 </table>
@@ -379,9 +379,7 @@ export default {
                 },
                 {
                     title:'商品描述',
-                    key:'description',
-                    ellipsis:true,
-                    tooltip:true,
+                    slot:'description',
                     minWidth:160
                 },
                 {
@@ -472,7 +470,12 @@ export default {
                 {value:3,label:'默認'}
             ],
             textureList:[
-                {value:0,label:'香氣'}
+                {value:0,label:'香氣'},
+                {value:1,label:'單寧'},
+                {value:2,label:'酒體'},
+                {value:3,label:'果酸'},
+                {value:4,label:'尾韻'},
+                {value:5,label:'果味'}
             ],
             countryList:[],
             wineryList:[],
@@ -505,13 +508,10 @@ export default {
                 image:0,
                 subregion_id:'',
                 source_title:'',
-                source_price:0,
-                market_price:0,
-                source_market_price:0,
-                source_url:'',
-                source_site:'',
-                source_currency:'',
-                source_language:''
+                texture:"",
+                grope:"",
+                wc_score:0,
+                jeb_score:0
             },
             files:[],
             iSimage:true,
@@ -524,7 +524,10 @@ export default {
             tableTitle: [],
             id:'',
             type:1,
-            obj:{}
+            obj:{},
+            visible:false,
+            imgName:'',
+            imageTitle:"",
         }
     },
     created(){
@@ -535,6 +538,7 @@ export default {
         this.productStyle();
         this.getBrand();
         this.getSubregion();
+        this.getgrope();
         this.getList(0);
         // var user = JSON.parse(sessionStorage.getItem('user_info'));
         // if(user){
@@ -797,14 +801,6 @@ export default {
         sureBtn(){  //新增商品信息
             var data = this.inputValue;
             console.log(data)
-            if(!data.subregion_id){
-                this.$Message.warning('次產區為必填項！')
-                return
-            }
-            if(!data.source_title){
-                this.$Message.warning('原名稱為必填項！')
-                return
-            }
             if(!data.type_id){
                 this.$Message.warning('類型為必填項！')
                 return
@@ -827,34 +823,6 @@ export default {
             }
             if(!data.price){
                 this.$Message.warning('價格(美元)為必填項！')
-                return
-            }
-            if(!data.source_price){
-                this.$Message.warning('源價(其它幣種)為必填項！')
-                return
-            }
-            if(!data.market_price){
-                this.$Message.warning('市場價(美元)為必填項！')
-                return
-            }
-            if(!data.source_market_price){
-                this.$Message.warning('源市場價(其它幣種)為必填項！')
-                return
-            }
-            if(!data.source_url){
-                this.$Message.warning('源地址為必填項！')
-                return
-            }
-            if(!data.source_site){
-                this.$Message.warning('源域名為必填項！')
-                return
-            }
-            if(!data.source_currency){
-                this.$Message.warning('源幣種為必填項！')
-                return
-            }
-            if(!data.source_language){
-                this.$Message.warning('源語言為必填項！')
                 return
             }
             var notice = '新增成功'
@@ -978,7 +946,7 @@ export default {
                         this.$Message.success(res.message);
                         this.iSimage = false;
                         // this.inputValue.image = res.data;
-                        this.setPic(res.data)//将图片上传到图片库，并获取图片id
+                        this.setPic(res.data)//將圖片上傳到圖片庫，並獲取圖片id
                     }else{
                         this.$Message.error(res.message);
                     }
@@ -1179,6 +1147,31 @@ export default {
           }else{
               return ''
           }
+      },
+      getgrope(){
+        var data = {
+            start:0
+        }
+        this.$http('moVarietalService','findDatas',data)
+        .then(res=>{
+            if(res.rows){
+                var arr = res.rows
+                var arr1 = [];
+                for(let i =0;i<arr.length;i++){
+                    var obj = {};
+                    obj.value = arr[i].id;
+                    obj.label = arr[i].varietal_name;
+                    arr1.push(obj);
+                }
+            this.gropeList = arr1;
+            }
+        })
+      },
+      openRowContent(row){
+        if(!row){return}
+        this.imgName = row.description
+        this.imageTitle = '商品描述'
+        this.visible = true
       }
     }  
 }
@@ -1277,5 +1270,12 @@ input[type="file"] {
 .pic img{
     width: 100%;
     vertical-align: middle;
+}
+.contents{
+    width: 120px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
 }
 </style>

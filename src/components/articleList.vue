@@ -8,11 +8,11 @@
             </Select>
         </div>
         <div class="option">
-            <span>发布時間：</span>
-            <DatePicker type="date" v-model="seachValue.time" placeholder="選擇時間" style="width: 120px"></DatePicker>
+            <span>發佈時間：</span>
+            <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" v-model="seachValue.time" placeholder="選擇時間" style="width: 120px"></DatePicker>
         </div>
         <div class="option">
-            <span>文章标题：</span>
+            <span>文章標題：</span>
             <Input type="text"  v-model="seachValue.title" style="width:70px" />
         </div>
         <div class="serch" @click="search">查詢</div>
@@ -24,6 +24,11 @@
                     {{tagss(row.tag)}}
                 </div>
             </template>
+            <template slot="content" slot-scope="{row}">
+                <div class="contents" @click="openRowContent(row)">
+                    {{row.content}}
+                </div>
+            </template>
             <template slot="action" slot-scope="{row}">
                 <div class="actions">
                     <Button size="small" type="primary" @click="edit(row)">編輯</Button>
@@ -32,9 +37,14 @@
             </template>
         </Table>
     </div>
+    <Modal :title="imageTitle" v-model="visible">
+        <div class="over" style="max-height:500px;overflow-y:scroll;">
+          {{imgName}}
+        </div>
+    </Modal>
     <div class="page">
         <div class="_btn">
-            <div class="send" @click="openModel">新增文章</div>
+            <!-- <div class="send" @click="openModel">新增文章</div> -->
         </div>
         <Page :total="total" show-total show-elevator prev-text='上一頁' next-text='下一頁' @on-change="pageChange"/>
     </div>
@@ -46,60 +56,56 @@
                     <span>文章標題：</span>
                     <Input v-model="inputValue.title"  style="width: 486px" />
                 </div>
+                <div class="a_tit aflex">
+                    <div class="aflex">
+                        <span>作者名稱：</span>
+                        <Input v-model="inputValue.name"  style="width: 150px;margin-left:82px" />
+                    </div>
+                    <div class="a_tit aflex">
+                        <span>推薦酒品：</span>
+                        <Input v-model="inputValue.product"  style="width: 150px;margin-left:22px" />
+                    </div>
+                </div>
+                <div class="a_tit aflex">
+                    <span>作者簡介：</span>
+                    <Input v-model="inputValue.intro" type="textarea" :rows='2' style="width: 486px" />
+                </div>
                 <div class="a_pic aflex">
                     <span>內文圖片：</span>
                     <div style="width:486px;display:flex;">
                         <div class="demo-upload-list" v-for="(item,index) in files" :key="index" >
                             <template >
                                 <img :src="item.src" />
-                                <!-- <div class="demo-upload-list-cover">
-                                    <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
-                                    <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-                                </div> -->
                             </template>
                         </div>
-                        <!-- <Upload
-                            ref="upload"
-                            :show-upload-list="false"
-                            :default-file-list="defaultList"
-                            :on-success="handleSuccess"
-                            :format="['jpg','jpeg','png']"
-                            :max-size="2048"
-                            :on-format-error="handleFormatError"
-                            :on-exceeded-size="handleMaxSize"
-                            :before-upload="handleBeforeUpload"
-                            multiple
-                            type="drag"
-                            action="//jsonplaceholder.typicode.com/posts/"
-                            style="display: inline-block;width:58px;"> -->
                             <input type="file" class="files" @change="fileChanged" ref="file" multiple="multiple" name="file" accept="image/jpg,image/jpeg,image/png,image/bmp">
-                            <div style="width: 58px;height:58px;line-height: 58px;text-align:center;border:1px dashed #888" @click="addpic">
+                            <div style="width: 58px;height:58px;line-height: 58px;text-align:center;border:1px dashed #888">
                                 <Icon type="ios-camera" size="20"></Icon>
                             </div>
-                        <!-- </Upload> -->
-                        <!-- <Modal title="View Image" v-model="visible">
-                            <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
-                        </Modal> -->
                     </div>
                 </div>
-                <!-- <div class="a_video aflex">
-                    <span>置頂音頻、視頻：</span>
-                    <Upload
-                        multiple
-                        action="//jsonplaceholder.typicode.com/posts/">
-                        <Button style="width:486px">上傳</Button>
-                    </Upload>
-                </div> -->
                 <div class="classify aflex">
-                    <span>文章分類：</span>
-                    <Select v-model="inputValue.tag" style="width:486px">
-                        <Option v-for="item in tagList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
+                    <div class="aflex">
+                        <span>文章分類：</span>
+                        <Select v-model="inputValue.tag" style="width:200px;margin-left:82px">
+                            <Option v-for="item in tagList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                        </Select>
+                    </div>
+                    
+                    <div class="a_tit aflex">
+                        <span>狀態：</span>
+                        <RadioGroup v-model="inputValue.status" style="margin-left:40px">
+                            <Radio :label="1">上架</Radio>
+                            <Radio :label='2'>下架</Radio>
+                        </RadioGroup>
+                    </div>
                 </div>
-                <div class="a_article aflex">
+                <div class="a_article aflex" style="position:relative">
+                    <Icon type="md-photos" size="30" color="#2d8cf0" style="position:absolute;top:0;left:132px;cursor:pointer;"  @click="addpic"/>
                     <span>內容：</span>
-                    <Input v-model="inputValue.content" type="textarea" :rows='5' style="width: 486px" />
+                    <Input v-model="inputValue.content" type="textarea" :rows='11' style="width: 486px" />
                 </div>
+                <div class="a_article notice">注：內文圖片為展示上傳圖片區域，在編輯文章時，在想要插入圖片的位置，點擊左邊藍色圖片圖標即可插入指定位置</div>
                 <div class="btns">
                     <div class="cancel" @click="closeModels">取消</div>
                     <div class="sure" @click="suerBtn">確定</div>
@@ -134,9 +140,8 @@ export default {
                 },
                 {
                     title: '文章內容',
-                    key: 'content',
+                    slot: 'content',
                     ellipsis:true,
-                    tooltip:true,
                     minWidth:160
                 },
                  {
@@ -175,9 +180,13 @@ export default {
             },
             inputValue:{
                 user_id:'',
+                name:'',
+                product:'',
+                intro:'',
                 tag:'',
                 title:'',
-                content:''
+                content:'',
+                status:1
             },
             userId:'',
             selectData:'',
@@ -197,7 +206,10 @@ export default {
             id:'',
             loading:false,
             type:1,
-            obj:{}
+            obj:{},
+            visible:false,
+            imgName:'',
+            imageTitle:"",
         }
     },
     created(){
@@ -206,7 +218,6 @@ export default {
         if(userinfo){
             this.userId = userinfo.dbUser.id;
         }
-        
     },
     methods:{
         getList(start,obj){
@@ -252,7 +263,7 @@ export default {
                 obj.title = this.seachValue.title;
             }
             if(this.seachValue.time){
-                obj.time = times(this.seachValue.time);
+                obj.time = this.$changeTime(this.seachValue.time);
             }
             if(this.seachValue.tag){
                 obj.tag = this.seachValue.tag
@@ -278,6 +289,12 @@ export default {
         },
         openModel(){
             this.propUpModel = true;
+        },
+        openRowContent(row){
+            if(!row){return}
+            this.imgName = row.content
+            this.imageTitle = row.title
+            this.visible = true
         },
         closeModels(){
             this.propUpModel = false;
@@ -324,6 +341,8 @@ export default {
                 data.id = this.id;
                 info = '修改成功';
             }
+            console.log(data)
+            return
             this.$http('articleService','addOrUpdate',data)
             .then(res=>{
                 this.propUpModel = false;
@@ -424,6 +443,7 @@ export default {
             if(list.length > 0) {
                 let form = new FormData();  
                 form.append('file', list[0]) 
+                this.inputValue.content += `<img src="photos[${this.files.length-1}]">`;
                 this.$http('','',form,2)
                 .then(res=>{
                     console.log(res)
@@ -461,9 +481,9 @@ export default {
     position: absolute;
     top: 50%;
     left: 50%;
-    margin: -300px 0 0 -275px;
+    margin: -360px 0 0 -275px;
     width: 720px;
-    height: 550px;
+    height: 720px;
     background-color:#fff;
     border-radius: 4px; 
 }
@@ -480,6 +500,7 @@ export default {
 .aflex{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 10px;
 }
 .btns{
@@ -538,5 +559,16 @@ export default {
 }
 input[type="file"] {
     display: none;
+}
+.contents{
+    width: 120px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.notice{
+    font-size: 12px;
+    color: #ED4014;
 }
 </style>

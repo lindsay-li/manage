@@ -30,7 +30,7 @@ const barterHandle = () => import('@/components/barterHandle');
 const barterQuery = () => import('@/components/barterQuery');
 const returnHandle = () => import('@/components/returnHandle');
 const returnQuery = () => import('@/components/returnQuery');
-// const newArticle = () => import('@/components/newArticle');
+const newArticle = () => import('@/components/newArticle');
 const articleList = () => import('@/components/articleList');
 const editNotice = () => import('@/components/editNotice');
 // const auditingNotice = () => import('@/components/auditingNotice');
@@ -83,6 +83,7 @@ const identity = () => import('@/components/identity');
 const membershipLevel = () => import('@/views/membershipLevel');
 const userList = () => import('@/views/userList');
 const dividendGrape = () => import('@/views/dividendGrape');
+const noticeAuding = () => import('@/components/noticeAuding');
 
 Vue.use(Router)
 
@@ -179,6 +180,13 @@ export default new Router({
           component:articleList,
           meta:{
             title:'文章列表'
+          }
+        },
+        {
+          path:'/newArticle',
+          component:newArticle,
+          meta:{
+            title:'新增文章'
           }
         },
         {
@@ -543,6 +551,13 @@ export default new Router({
           component:dividendGrape,
           meta:{
             title:'紅利葡萄'
+          }
+        },
+        {
+          path:'/noticeAuding',
+          component:noticeAuding,
+          meta:{
+            title:'公告審核'
           }
         }
       ]
