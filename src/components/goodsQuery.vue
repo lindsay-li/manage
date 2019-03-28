@@ -231,7 +231,7 @@
                     </tr>
                     <tr >
                         <td colspan="6">
-                            <Input type="textarea" v-model="inputValue.description" :rows="6" />
+                            <Input type="textarea" v-model="inputValue.description" :rows="3" />
                         </td>
                     </tr>
                 </table>
@@ -1197,7 +1197,7 @@ export default {
     left: 50%;
     margin: -354px 0 0 -460px;
     width: 920px;
-    height: 708px;
+    height: 680px;
     background-color:#fff;
     border-radius: 4px; 
 }
