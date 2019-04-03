@@ -35,6 +35,9 @@
                     <Button size="small" type="error" @click="remove(row.id)">刪除</Button>
                 </div>
             </template>
+            <template slot="status" slot-scope="{row}">
+                <div>{{row.status==1?'上架':'下架'}}</div>
+            </template>
         </Table>
     </div>
     <Modal :title="imageTitle" v-model="visible">
@@ -59,16 +62,16 @@
                 <div class="a_tit aflex">
                     <div class="aflex">
                         <span>作者名稱：</span>
-                        <Input v-model="inputValue.name"  style="width: 150px;margin-left:82px" />
+                        <Input v-model="inputValue.author"  style="width: 150px;margin-left:82px" />
                     </div>
                     <div class="a_tit aflex">
                         <span>推薦酒品：</span>
-                        <Input v-model="inputValue.product"  style="width: 150px;margin-left:22px" />
+                        <Input v-model="inputValue.recommend"  style="width: 150px;margin-left:22px" />
                     </div>
                 </div>
                 <div class="a_tit aflex">
                     <span>作者簡介：</span>
-                    <Input v-model="inputValue.intro" type="textarea" :rows='2' style="width: 486px" />
+                    <Input v-model="inputValue.author_introduction" type="textarea" :rows='2' style="width: 486px" />
                 </div>
                 <div class="a_pic aflex">
                     <span>內文圖片：</span>
@@ -144,15 +147,32 @@ export default {
                     ellipsis:true,
                     minWidth:160
                 },
+                {
+                    title:'推荐酒品',
+                    key:'recommend',
+                    minWidth:110
+                },
                  {
                     title: '作者',
-                    key: 'user_id',
+                    key: 'author',
                     minWidth:110
+                },
+                {
+                    title: '作者简介',
+                    key: 'author_introduction',
+                    ellipsis:true,
+                    tooltip:true,
+                    minWidth:130
                 },
                 {
                     title:'文章分類',
                     slot:'tag',
                     minWidth:110
+                },
+                {
+                    title:'状态',
+                    slot:'status',
+                    minWidth:120
                 },
                 {
                     title:'操作',
@@ -180,9 +200,9 @@ export default {
             },
             inputValue:{
                 user_id:'',
-                name:'',
-                product:'',
-                intro:'',
+                author:'',
+                recommend:'',
+                author_introduction:'',
                 tag:'',
                 title:'',
                 content:'',
@@ -300,9 +320,13 @@ export default {
             this.propUpModel = false;
             this.inputValue={
                 user_id:'',
+                author:'',
+                recommend:'',
+                author_introduction:'',
                 tag:'',
                 title:'',
-                content:''
+                content:'',
+                status:1
             }
             this.id = ''
             this.pics = []
@@ -335,7 +359,7 @@ export default {
             }
             var data = this.inputValue;
             data.user_id = this.userId;
-            data.photos = this.pics.join(',');
+            data.photos = this.pics;
             var info = '新增成功';
             if(this.id){
                 data.id = this.id;
@@ -352,9 +376,13 @@ export default {
                     this.getList(this.current);
                     this.inputValue={
                         user_id:'',
+                        author:'',
+                        recommend:'',
+                        author_introduction:'',
                         tag:'',
                         title:'',
-                        content:''
+                        content:'',
+                        status:1
                     }
                     this.pics = []
                     this.files = []
@@ -370,7 +398,11 @@ export default {
                 user_id:row.user_id,
                 tag:row.tag,
                 title:row.title,
-                content:row.content
+                content:row.content,
+                status:row.status?row.status:1,
+                author_introduction:row.author_introduction?row.author_introduction:'',
+                recommend:row.recommend?row.recommend:'',
+                author:row.author?row.author:''
             }
             // for(let i =0;i<this.tagList.length;i++){
             //     if(this.tagList[i].label == row.tag){

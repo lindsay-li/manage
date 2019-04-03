@@ -85,6 +85,7 @@ const userList = () => import('@/views/userList');
 const dividendGrape = () => import('@/views/dividendGrape');
 const noticeAuding = () => import('@/components/noticeAuding');
 const userHandle = () => import('@/components/userHandle');
+const manyDays = () => import('@/components/manyDays');
 
 Vue.use(Router)
 
@@ -566,6 +567,13 @@ export default new Router({
           component:userHandle,
           meta:{
             title:'用戶賬號操作'
+          }
+        },
+        {
+          path:'/manyDays',
+          component:manyDays,
+          meta:{
+            title:'多日活动'
           }
         }
       ]

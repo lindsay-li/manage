@@ -278,6 +278,7 @@ import Fullscreen from './components/fullscreen'
                             {icon:'',name:'couponActivity',meta:{icon:'',title:'折扣券活动'}},
                             {icon:'',name:'specials',meta:{icon:'',title:'特價商品區'}},
                             {icon:'',name:'birthdaygift',meta:{icon:'',title:'生日禮'}},
+                            {icon:'',name:'manyDays',meta:{icon:'',title:'多日活动'}},
                         ]
                     },
                     {
