@@ -54,7 +54,7 @@ export function postData(api,method,obj,type){
             })
         }else{
             service({
-                url: '/api/op/file/upload',
+                url: '/api/usr/devop/upload',
                 // url: '/op/file/upload',
                 method: 'post',
                 data:obj

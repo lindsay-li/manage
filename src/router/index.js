@@ -84,6 +84,7 @@ const membershipLevel = () => import('@/views/membershipLevel');
 const userList = () => import('@/views/userList');
 const dividendGrape = () => import('@/views/dividendGrape');
 const noticeAuding = () => import('@/components/noticeAuding');
+const userHandle = () => import('@/components/userHandle');
 
 Vue.use(Router)
 
@@ -558,6 +559,13 @@ export default new Router({
           component:noticeAuding,
           meta:{
             title:'公告審核'
+          }
+        },
+        {
+          path:'/userHandle',
+          component:userHandle,
+          meta:{
+            title:'用戶賬號操作'
           }
         }
       ]
