@@ -1,7 +1,5 @@
 .side-menu-wrapper{
   user-select: none;
-  max-height:633px;
-  overflow-y: scroll;
   .menu-collapsed{
     padding-top: 10px;
 
@@ -41,3 +39,15 @@
   padding-left: 6px;
 }
 
+@media screen and (min-width:1100px) and (max-width: 1500px){
+  .side-menu-wrapper{
+    max-height:653px;
+    overflow-y: scroll;
+  }
+}
+@media screen and (min-width:1501px) and (max-width: 1920px){
+  .side-menu-wrapper{
+    max-height:900px;
+    overflow-y: scroll;
+  }
+}

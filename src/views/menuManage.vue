@@ -1,5 +1,5 @@
 <template>
-<div class="wrapper">
+<div class="wrappar">
     <div class="_title">菜單管理</div>
     <div class="activity">
         <TreeTable border expand-key="id" :expand-type="false" :selectable="false" :columns="columns1" :data="data1" :tree-type="true" height="466px" class="post">
@@ -77,7 +77,7 @@
                             <td style="text-align:right">菜單排序:</td>
                             <td>
                                 <!-- <Input  placeholder="點擊輸入" style="width: 200px" /> -->
-                                <Input-number :value="0" v-model="menus.order" :max="10" :min="1"  style="width: 200px"></Input-number>
+                                <Input-number :value="0" v-model="menus.order" :max="50" :min="1"  style="width: 200px"></Input-number>
                             </td>
                         </tr>
                         <tr>
@@ -277,8 +277,7 @@ export default {
     methods:{
         getList(){
             var data={
-                start:0,
-                rows:60
+                start:0
             }
             this.$http('zAdminMenuService','findDatas',data)
             .then(res=>{

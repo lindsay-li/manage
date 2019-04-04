@@ -278,7 +278,8 @@ import Fullscreen from './components/fullscreen'
                             {icon:'',name:'couponActivity',meta:{icon:'',title:'折扣券活动'}},
                             {icon:'',name:'specials',meta:{icon:'',title:'特價商品區'}},
                             {icon:'',name:'birthdaygift',meta:{icon:'',title:'生日禮'}},
-                            {icon:'',name:'manyDays',meta:{icon:'',title:'多日活动'}},
+                            {icon:'',name:'manyDays',meta:{icon:'',title:'多日活動'}},
+                            {icon:'',name:'indexSeting',meta:{icon:'',title:'首頁設定'}},
                         ]
                     },
                     {
@@ -325,8 +326,8 @@ import Fullscreen from './components/fullscreen'
                         ]
                     }
                 ]
-            this.menuList =data;
-            console.log(this.menuList)
+            // this.menuList =data;
+            // console.log(this.menuList)
             var user = JSON.parse(sessionStorage.getItem('user_info'));
             this.userInfo = user.dbUser;
             this.getMenuList(user.mList)
@@ -346,10 +347,10 @@ import Fullscreen from './components/fullscreen'
                     if(!data[i].pid){
                         var obj={};
                         obj.name = data[i].m_name
-                        obj.icon = ''
+                        obj.icon = data[i].m_code
                         obj.order = data[i].m_order
                         obj.id = data[i].id
-                        obj.meta={icon:'',title:data[i].m_name}
+                        obj.meta={icon:data[i].m_code,title:data[i].m_name}
                         obj.children=[]
                         arr.push(obj)
                     }
@@ -376,16 +377,14 @@ import Fullscreen from './components/fullscreen'
                         return a.order - b.order
                     })
                 }
+            this.menuList = arr;
             console.log('list',arr)
             },
             turnToPage (route) {
                 let name = '';
                 if (typeof route === 'string') name = route
-                if(name == 'articleLists'){
-                    name = 'articleList'
-                }
-                this.childname = '/'+name;
-                this.$router.push({path:'/'+name})
+                this.childname = name;
+                this.$router.push({path:name})
             },
             fathers(data){
                 this.father = data[0];

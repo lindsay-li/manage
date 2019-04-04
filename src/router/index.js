@@ -86,6 +86,7 @@ const dividendGrape = () => import('@/views/dividendGrape');
 const noticeAuding = () => import('@/components/noticeAuding');
 const userHandle = () => import('@/components/userHandle');
 const manyDays = () => import('@/components/manyDays');
+const indexSeting = () => import('@/components/indexSeting');
 
 Vue.use(Router)
 
@@ -573,7 +574,14 @@ export default new Router({
           path:'/manyDays',
           component:manyDays,
           meta:{
-            title:'多日活动'
+            title:'多日活動'
+          }
+        },
+        {
+          path:'/indexSeting',
+          component:indexSeting,
+          meta:{
+            title:'首頁設定'
           }
         }
       ]

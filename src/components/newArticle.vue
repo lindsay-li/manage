@@ -9,7 +9,7 @@
         </div>
         <div class="option">
             <span>發佈時間：</span>
-            <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" v-model="seachValue.time" placeholder="選擇時間" style="width: 120px"></DatePicker>
+            <DatePicker type="daterange"  v-model="seachValue.time" placeholder="選擇時間" style="width: 120px"></DatePicker>
         </div>
         <div class="option">
             <span>文章標題：</span>
@@ -170,7 +170,7 @@ export default {
                     minWidth:160
                 },
                 {
-                    title:'推荐酒品',
+                    title:'推薦酒品',
                     key:'recommend',
                     minWidth:110
                 },
@@ -180,7 +180,7 @@ export default {
                     minWidth:110
                 },
                 {
-                    title: '作者简介',
+                    title: '作者簡介',
                     key: 'author_introduction',
                     ellipsis:true,
                     tooltip:true,
@@ -192,7 +192,7 @@ export default {
                     minWidth:110
                 },
                 {
-                    title:'状态',
+                    title:'狀態',
                     slot:'status',
                     minWidth:120
                 },
@@ -305,7 +305,8 @@ export default {
                 obj.title = this.seachValue.title;
             }
             if(this.seachValue.time){
-                obj.time = this.$changeTime(this.seachValue.time);
+                obj.startTime = this.$changeTime(this.seachValue.time[0]);
+                obj.endTime = this.$changeTime(this.seachValue.time[1]);
             }
             if(this.seachValue.tag){
                 obj.tag = this.seachValue.tag
@@ -381,14 +382,13 @@ export default {
             }
             var data = this.inputValue;
             data.user_id = this.userId;
-            data.photos = this.pics;
+            data.photos = JSON.stringify(this.pics);
             var info = '新增成功';
             if(this.id){
                 data.id = this.id;
                 info = '修改成功';
             }
             console.log(data)
-            return
             this.$http('articleService','addOrUpdate',data)
             .then(res=>{
                 this.propUpModel = false;
@@ -497,14 +497,15 @@ export default {
             if(list.length > 0) {
                 let form = new FormData();  
                 form.append('file', list[0]) 
-                this.inputValue.content += `<img src="photos[${this.files.length-1}]">`;
+                
                 this.$http('','',form,2)
                 .then(res=>{
                     console.log(res)
                     if(res.result=='success'){
                         this.$Message.success(res.message);
+                        this.inputValue.content +=JSON.stringify(`<img src="photos[${this.files.length-1}]"/>`);
                         this.files[this.n].status = 'finished';
-                        this.pics.push(res.data);
+                        this.pics.push('http://35.220.249.212:8072/op'+res.data);
                         this.n++;
                     }else{
                         this.$Message.error(res.message);

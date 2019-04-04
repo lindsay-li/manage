@@ -134,7 +134,7 @@ export default {
         },
         newAdd(){
             var data = {
-                path:this.pics[0]
+                path:'http://35.220.249.212:8072/op'+this.pics[0]
             }
             if(this.id){
                 data.id = this.id

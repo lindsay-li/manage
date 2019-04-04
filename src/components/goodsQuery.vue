@@ -11,31 +11,21 @@
         </div>
         <div class="option">
             <span>年份：</span>
-            <Input type="text" name="time" style="width:130px" v-model="searchData.year"/>
+            <Input type="text" name="time" style="width:130px" v-model="searchData.vintage "/>
         </div>
         <!-- <div class="option">
             <span>類型：</span>
             <Input type="text" name="time" style="width:160px"/>
         </div> -->
         <div class="serch" @click='search'>查詢</div>
-        <Upload action="" :before-upload="handleBeforeUpload" accept=".xls, .xlsx">
+        <!-- <Upload action="" :before-upload="handleBeforeUpload" accept=".xls, .xlsx">
           <Button icon="ios-cloud-upload-outline" type="primary" style="position:absolute;right:160px;top:1.5px" :loading="uploadLoading" @click="handleUploadFile">上傳excel</Button>
-        </Upload>
+        </Upload> -->
         <Button icon="md-download" type="primary" style="position:absolute;right:20px" :loading="exportLoading" @click="exportExcel">導出excel</Button>
     </div>
     <div class="query">
         <Table border  :columns="columns1" :data="data1"   height="550" class="post" :loading="loading">
             <template slot-scope="{ row }" slot="description">
-                <!-- <Tooltip placement="bottom" max-width="370" theme="light">
-                    <span v-if="row.description">{{stringHanle(row.description,3)}}</span>
-                    <div slot="content">
-                        <div v-if="row.description&&row.description.indexOf('h4')>=0">
-                            <h4>{{stringHanle(row.description,1)}}</h4>
-                            <p>{{stringHanle(row.description,2)}}</p>
-                        </div>
-                        <div v-else>{{row.description}}</div>
-                    </div>
-                </Tooltip> -->
                 <div class="contents" @click="openRowContent(row)">
                     {{row.description}}
                 </div>
@@ -157,7 +147,7 @@
                         <td>狀態</td>
                         <td>進口包裝(選填)</td>
                         <td>酒莊</td>
-                        <td>商品圖片</td>
+                        <td>英文酒莊</td>
                     </tr>
                     <tr>
                         <td>
@@ -182,14 +172,7 @@
                             </Select>
                         </td>
                         <td>
-                            <div v-if="iSimage">
-                                <input type="file" class="files" @change="fileChanged" ref="file" multiple="multiple" name="file" accept="image/jpg,image/jpeg,image/png,image/bmp">
-                                <Button icon="ios-cloud-upload-outline" @click="addpic">點擊上傳</Button>
-                            </div>
-                            <div class="pic" v-else>
-                                <img :src="files[0].src" />
-                            </div>
-                            <!-- <InputNumber  :min="0" v-model="inputValue.image"></InputNumber> -->
+                            <Input type="text" v-model="inputValue.wine" />
                         </td>
                     </tr>
                     <tr>
@@ -210,12 +193,13 @@
                             <InputNumber  :min="0" v-model="inputValue.annual_output"></InputNumber>
                         </td>
                         <td>
-                            <Select v-model="inputValue.texture" >
+                            <!-- <Select v-model="inputValue.texture" >
                                 <Option v-for="(item,index) in textureList" :value="item.value" :key="index">{{ item.label }}</Option>
-                            </Select>
+                            </Select> -->
+                            <Input type="text" v-model="inputValue.texture" />
                         </td>
                         <td>
-                            <Select v-model="inputValue.grope" >
+                            <Select v-model="grope" >
                                 <Option v-for="(item,index) in gropeList" :value="item.value" :key="index">{{ item.label }}</Option>
                             </Select>
                         </td>
@@ -227,9 +211,20 @@
                         </td>
                     </tr>
                     <tr>
+                        <td>商品圖片</td>
                         <td colspan="6">商品描述</td>
                     </tr>
                     <tr >
+                        <td>
+                            <div v-if="iSimage">
+                                <input type="file" class="files" @change="fileChanged" ref="file" multiple="multiple" name="file" accept="image/jpg,image/jpeg,image/png,image/bmp">
+                                <Button icon="ios-cloud-upload-outline" @click="addpic">點擊上傳</Button>
+                            </div>
+                            <div class="pic" v-else>
+                                <img :src="files[0].src" />
+                            </div>
+                            <!-- <InputNumber  :min="0" v-model="inputValue.image"></InputNumber> -->
+                        </td>
                         <td colspan="6">
                             <Input type="textarea" v-model="inputValue.description" :rows="3" />
                         </td>
@@ -264,7 +259,7 @@ export default {
                     minWidth:170
                 },
                 {
-                    title: '原名稱',
+                    title: '中文名稱',
                     key: 'source_title',
                     ellipsis:true,
                     tooltip:true,
@@ -281,29 +276,14 @@ export default {
                     minWidth:110
                 },
                 {
-                    title: '源價(其它幣種)',
-                    key: 'source_price',
-                    minWidth:140
-                },
-                {
-                    title: '市場價(美元)',
-                    key: 'market_price',
-                    minWidth:130
-                },
-                {
-                    title: '源市場價(其它幣種)',
-                    key: 'source_market_price',
-                    minWidth:160
-                },
-                {
                     title: '年份',
                     key: 'vintage',
-                    minWidth:170
+                    minWidth:120
                 },
                 {
                     title:'類型',
                     slot:'type_id',
-                    minWidth:120  
+                    minWidth:100  
                 },
                 {
                     title:'國家',
@@ -314,6 +294,20 @@ export default {
                     title:'年產量',
                     key:'annual_output',
                     minWidth:100
+                },
+                {
+                    title:'口感',
+                    key:'texture',
+                    ellipsis:true,
+                    tooltip:true,
+                    minWidth:110
+                },
+                {
+                    title:'葡萄品種',
+                    key:'varietal_name',
+                    ellipsis:true,
+                    tooltip:true,
+                    minWidth:130
                 },
                 {
                     title:'酒精濃度',
@@ -338,6 +332,11 @@ export default {
                 {
                     title:'酒莊',
                     slot:'winery_id',
+                    minWidth:120
+                },
+                {
+                    title:'英文酒莊',
+                    key:'wine',
                     minWidth:120
                 },
                 {
@@ -383,28 +382,14 @@ export default {
                     minWidth:160
                 },
                 {
-                    title:'源地址',
-                    key:'source_url',
-                    ellipsis:true,
-                    tooltip:true,
-                    minWidth:180
+                    title:'國際評分',
+                    key:'wc_score',
+                    minWidth:110
                 },
                 {
-                    title:'源域名',
-                    key:'source_site',
-                    ellipsis:true,
-                    tooltip:true,
-                    minWidth:180
-                },
-                {
-                    title:'源幣種',
-                    key:'source_currency',
-                    minWidth:120
-                },
-                {
-                    title:'源語言',
-                    key:'source_language',
-                    minWidth:120
+                    title:'國際獎牌',
+                    key:'jeb_score',
+                    minWidth:110
                 },
                 {
                     title:'編輯',
@@ -444,7 +429,7 @@ export default {
             ],
             searchData:{
                 product_name:"",
-                year:'',
+                vintage :'',
                 id:''
             },
             data1: [],
@@ -494,6 +479,7 @@ export default {
                 concentration:0,
                 annual_output:0,
                 winery_id:'',
+                wine:'',
                 vintage:0,
                 price:0,
                 num:0,
@@ -509,7 +495,6 @@ export default {
                 subregion_id:'',
                 source_title:'',
                 texture:"",
-                grope:"",
                 wc_score:0,
                 jeb_score:0
             },
@@ -528,6 +513,7 @@ export default {
             visible:false,
             imgName:'',
             imageTitle:"",
+            grope:"",  //葡萄品種
         }
     },
     created(){
@@ -692,21 +678,6 @@ export default {
             this.id = ''
             this.clearData()
         },
-        stringHanle(str,type){
-            if(!str){return;}
-            var strs = '';
-            if(str.indexOf('<h4>') == -1){
-                return str
-            }
-            if(type ==1){
-                strs = str.substring(str.indexOf('<h4>')+4,str.indexOf('</h4>'));
-            }else if(type==3){
-                strs = str.substring(str.indexOf('<h4>')+4,16) +'...';
-            }else{
-                strs = str.substring(str.indexOf('<p>')+3,str.indexOf('</p>'));
-            }
-            return strs;
-        },
         pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*10;
             if(this.type==1){
@@ -773,6 +744,7 @@ export default {
                 concentration:row.concentration,
                 annual_output:row.annual_output,
                 winery_id:row.winery_id,
+                wine:row.wine,
                 vintage:row.vintage,
                 price:row.price,
                 num:row.num,
@@ -787,13 +759,9 @@ export default {
                 image:row.image,
                 subregion_id:row.subregion_id,
                 source_title:row.source_title,
-                source_price:row.source_price,
-                market_price:row.market_price,
-                source_market_price:row.source_market_price,
-                source_url:row.source_url,
-                source_site:row.source_site,
-                source_currency:row.source_currency,
-                source_language:row.source_language
+                texture:row.texture,
+                wc_score:row.wc_score,
+                jeb_score:row.jeb_score
             }
             this.id = row.id
             this.createPage = true;
@@ -832,14 +800,28 @@ export default {
             }
             this.$http('moWineService','addOrUpdate',data)
             .then(res=>{
+                console.log(res)
                 if(res.result == 'success'){
+                    this.setGroup(res.data.id)
                     this.createPage = false
                     this.$Message.success(notice);
                     this.getList(this.current);
                     this.id = ''
-                    this.clearData()
+                    this.clearData();
                 }else{
                     this.$Message.error(res.message);
+                }
+            })
+        },
+        setGroup(id){
+            var data = {
+                varietal_id:parseInt(this.grope),
+                wine_id:parseInt(id)
+            }
+            this.$http('moWineVarietalService','addOrUpdate',data)
+            .then(res=>{
+                if(res.result == 'success'){
+                    this.grope="";
                 }
             })
         },
@@ -863,7 +845,13 @@ export default {
                 type:'',
                 type_id:'',
                 title:'',
-                image:0
+                image:0,
+                subregion_id:'',
+                source_title:'',
+                texture:"",
+                grope:"",
+                wc_score:0,
+                jeb_score:0
             }
         },
         search(){
@@ -967,7 +955,7 @@ export default {
       },
       setPic(url){
         var data = {
-            path:url
+            path:'http://35.220.249.212:8072/op'+url
         }
         this.$http('moPictureService','addOrUpdate',data)
         .then(res=>{
@@ -982,19 +970,18 @@ export default {
         var data = {
             start:0
         }
+        this.countryList = []
         this.$http('moCountryService','findDatas',data)
         .then(res=>{
             console.log(res)
             if(res.rows.length>0){
                 var arr = res.rows
-                var arr1 = [];
                 for(let i =0;i<arr.length;i++){
                     var obj = {};
                     obj.value = arr[i].id;
                     obj.label = arr[i].country_name;
-                    arr1.push(obj);
+                    this.countryList.push(obj);
                 }
-                this.countryList = arr1;
             }
         })
       },

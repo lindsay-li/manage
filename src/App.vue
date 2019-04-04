@@ -234,4 +234,17 @@ td .ivu-table-cell,
   max-height:300px !important;
   overflow-y: scroll !important;
 }
+
+@media screen and (max-width: 1360px){
+  .wrappar{
+    overflow-y: scroll;
+    max-height: calc(100vh - 213px);
+  }
+}
+@media screen and (max-width: 1920px){
+  .wrappar{
+    overflow-y: scroll;
+    max-height: calc(100vh - 213px);
+  }
+}
 </style>

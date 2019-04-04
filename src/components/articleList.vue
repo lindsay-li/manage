@@ -9,7 +9,7 @@
         </div>
         <div class="option">
             <span>發佈時間：</span>
-            <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" v-model="seachValue.time" placeholder="選擇時間" style="width: 120px"></DatePicker>
+            <DatePicker type="daterange" v-model="seachValue.time" placeholder="選擇時間" style="width: 120px"></DatePicker>
         </div>
         <div class="option">
             <span>文章標題：</span>
@@ -283,7 +283,8 @@ export default {
                 obj.title = this.seachValue.title;
             }
             if(this.seachValue.time){
-                obj.time = this.$changeTime(this.seachValue.time);
+                obj.startTime = this.$changeTime(this.seachValue.time[0]);
+                obj.endTime = this.$changeTime(this.seachValue.time[1]);
             }
             if(this.seachValue.tag){
                 obj.tag = this.seachValue.tag
@@ -421,39 +422,6 @@ export default {
                 this.files.push(obj)
             }
             this.id = row.id;
-        },
-        selecserch(val){
-            if(!val){
-                this.getList(0)
-                return
-            }
-            var datas = {
-                start:0
-            }
-            this.loading = true;
-            this.$http('articleService','findDatas',datas)
-            .then(res=>{
-                this.loading = false;
-                if(res.rows){
-                    var arr = res.rows;
-                    for(let i =0;i<arr.length;i++){
-                        arr[i].time = this.$changeTime(arr[i].time);
-                        arr[i].tag = this.tags[arr[i].tag-1];
-                    }
-                    var data = this.contrastData;
-                    var arr2 = [];
-                    for(let i =0;i<data.length;i++){
-                        if(val == data[i].tag){
-                            arr2.push(data[i]);
-                        }
-                    }
-                    this.data1 = arr2;
-                }
-            })
-            .catch(err=>{
-                this.loading = false;
-            })
-            
         },
         addpic(){
             this.$refs.file.click();
