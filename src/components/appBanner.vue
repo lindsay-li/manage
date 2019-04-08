@@ -97,7 +97,7 @@ export default {
                 {
                     title:'操作',
                     slot:'action',
-                    width:140
+                    minWidth:150
                 }
             ],
             data1: [],
