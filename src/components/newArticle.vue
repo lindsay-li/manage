@@ -151,6 +151,11 @@ export default {
                     align:'center'
                 },
                 {
+                    title: 'ID',
+                    key: 'id',
+                    minWidth:90
+                },
+                {
                     title: '發佈時間',
                     key: 'time',
                     minWidth:160,

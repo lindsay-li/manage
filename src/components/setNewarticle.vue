@@ -9,7 +9,7 @@
         </div>
         <div class="option">
             <span>發佈時間：</span>
-            <DatePicker type="daterange" v-model="seachValue.time" placeholder="選擇時間" style="width: 120px"></DatePicker>
+            <DatePicker type="daterange"  v-model="seachValue.time" placeholder="選擇時間" style="width: 120px"></DatePicker>
         </div>
         <div class="option">
             <span>文章標題：</span>
@@ -29,14 +29,14 @@
                     {{row.content}}
                 </div>
             </template>
+            <template slot="status" slot-scope="{row}">
+                <div>{{row.status==1?'上架':'下架'}}</div>
+            </template>
             <template slot="action" slot-scope="{row}">
                 <div class="actions">
                     <Button size="small" type="primary" @click="edit(row)">編輯</Button>
                     <Button size="small" type="error" @click="remove(row.id)">刪除</Button>
                 </div>
-            </template>
-            <template slot="status" slot-scope="{row}">
-                <div>{{row.status==1?'上架':'下架'}}</div>
             </template>
         </Table>
     </div>
@@ -47,7 +47,7 @@
     </Modal>
     <div class="page">
         <div class="_btn">
-            <!-- <div class="send" @click="openModel">新增文章</div> -->
+            <div class="send" @click="openModel">新增文章</div>
         </div>
         <Page :total="total" show-total show-elevator prev-text='上一頁' next-text='下一頁' @on-change="pageChange"/>
     </div>
@@ -79,12 +79,34 @@
                         <div class="demo-upload-list" v-for="(item,index) in files" :key="index" >
                             <template >
                                 <img :src="item.src" />
+                                <!-- <div class="demo-upload-list-cover">
+                                    <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
+                                    <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+                                </div> -->
                             </template>
                         </div>
+                        <!-- <Upload
+                            ref="upload"
+                            :show-upload-list="false"
+                            :default-file-list="defaultList"
+                            :on-success="handleSuccess"
+                            :format="['jpg','jpeg','png']"
+                            :max-size="2048"
+                            :on-format-error="handleFormatError"
+                            :on-exceeded-size="handleMaxSize"
+                            :before-upload="handleBeforeUpload"
+                            multiple
+                            type="drag"
+                            action="//jsonplaceholder.typicode.com/posts/"
+                            style="display: inline-block;width:58px;"> -->
                             <input type="file" class="files" @change="fileChanged" ref="file" multiple="multiple" name="file" accept="image/jpg,image/jpeg,image/png,image/bmp">
                             <div style="width: 58px;height:58px;line-height: 58px;text-align:center;border:1px dashed #888">
                                 <Icon type="ios-camera" size="20"></Icon>
                             </div>
+                        <!-- </Upload> -->
+                        <!-- <Modal title="View Image" v-model="visible">
+                            <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
+                        </Modal> -->
                     </div>
                 </div>
                 <div class="classify aflex">
@@ -129,11 +151,6 @@ export default {
                     align:'center'
                 },
                 {
-                    title: 'ID',
-                    key: 'id',
-                    minWidth:90
-                },
-                {
                     title: '發佈時間',
                     key: 'time',
                     minWidth:160,
@@ -153,7 +170,7 @@ export default {
                     minWidth:160
                 },
                 {
-                    title:'推荐酒品',
+                    title:'推薦酒品',
                     key:'recommend',
                     minWidth:110
                 },
@@ -163,7 +180,7 @@ export default {
                     minWidth:110
                 },
                 {
-                    title: '作者简介',
+                    title: '作者簡介',
                     key: 'author_introduction',
                     ellipsis:true,
                     tooltip:true,
@@ -175,7 +192,7 @@ export default {
                     minWidth:110
                 },
                 {
-                    title:'状态',
+                    title:'狀態',
                     slot:'status',
                     minWidth:120
                 },
@@ -251,7 +268,7 @@ export default {
                 data = obj
             }
             data.start = start
-            data.rows = 10
+            // data.rows = 10
             this.loading = true;
             this.$http('articleService','findDatas',data)
             .then(res=>{
@@ -259,11 +276,20 @@ export default {
                 this.loading = false;
                 if(res.rows){
                     var arr = res.rows;
+                    var newarr = [];
                     for(let i =0;i<arr.length;i++){
                         arr[i].time = arr[i].time?this.$changeTime(arr[i].time):"";
                         // arr[i].tag = this.tags[arr[i].tag-1];
                         // arr[i].photos = arr[i].photos.join(',')
+                        if(arr[i].sort_time){
+                            arr[i].sort_time = arr[i].sort_time.getTime();
+                            newarr.push(arr[i])
+                        }
                     }
+                    newarr.sort(function(a,b){
+                        return a.sort_time - b.sort_time
+                    })
+                    this.data1 = newarr.slice(0,5);
                     this.total = res.total;
                     this.data1 = arr;
                     // this.contrastData = arr;
@@ -372,7 +398,6 @@ export default {
                 info = '修改成功';
             }
             console.log(data)
-            return
             this.$http('articleService','addOrUpdate',data)
             .then(res=>{
                 this.propUpModel = false;
@@ -428,6 +453,39 @@ export default {
             }
             this.id = row.id;
         },
+        selecserch(val){
+            if(!val){
+                this.getList(0)
+                return
+            }
+            var datas = {
+                start:0
+            }
+            this.loading = true;
+            this.$http('articleService','findDatas',datas)
+            .then(res=>{
+                this.loading = false;
+                if(res.rows){
+                    var arr = res.rows;
+                    for(let i =0;i<arr.length;i++){
+                        arr[i].time = this.$changeTime(arr[i].time);
+                        arr[i].tag = this.tags[arr[i].tag-1];
+                    }
+                    var data = this.contrastData;
+                    var arr2 = [];
+                    for(let i =0;i<data.length;i++){
+                        if(val == data[i].tag){
+                            arr2.push(data[i]);
+                        }
+                    }
+                    this.data1 = arr2;
+                }
+            })
+            .catch(err=>{
+                this.loading = false;
+            })
+            
+        },
         addpic(){
             this.$refs.file.click();
         },
@@ -448,14 +506,15 @@ export default {
             if(list.length > 0) {
                 let form = new FormData();  
                 form.append('file', list[0]) 
-                this.inputValue.content += `<img src="photos[${this.files.length-1}]">`;
+                
                 this.$http('','',form,2)
                 .then(res=>{
                     console.log(res)
                     if(res.result=='success'){
                         this.$Message.success(res.message);
+                        this.inputValue.content +=JSON.stringify(`<img src="photos[${this.files.length-1}]"/>`);
                         this.files[this.n].status = 'finished';
-                        this.pics.push(res.data);
+                        this.pics.push('http://35.220.249.212:8072/op'+res.data);
                         this.n++;
                     }else{
                         this.$Message.error(res.message);
