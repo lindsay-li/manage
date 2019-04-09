@@ -261,6 +261,7 @@ export default {
                     var arr = res.rows;
                     for(let i =0;i<arr.length;i++){
                         arr[i].time = arr[i].time?this.$changeTime(arr[i].time):"";
+                        arr[i].content = this.htmlDecodeByRegExp(arr[i].content);
                         // arr[i].tag = this.tags[arr[i].tag-1];
                         // arr[i].photos = arr[i].photos.join(',')
                     }
@@ -357,6 +358,18 @@ export default {
                 onCancel: () => {
                 }
             })
+        },
+        htmlDecodeByRegExp(str){  
+            var s = "";
+            if(str.length == 0) return "";
+            s = str.replace(/&amp;/g,"&");
+            s = s.replace(/&lt;/g,"<");
+            s = s.replace(/&gt;/g,">");
+            s = s.replace(/&nbsp;/g," ");
+            s = s.replace(/&#39;/g,"\'");
+            s = s.replace(/&quot;/g,"\"");
+            s = s.replace(/&sc;/g,"src")
+            return s;  
         },
         suerBtn(){
             if(!this.inputValue.title){

@@ -1,8 +1,11 @@
 <template>
 <div class="coupon">
-    <div class="_title">多日活动</div>
+    <div class="_title">多日活動</div>
     <div class="content">
         <Table border  :columns="columns1" :data="data1" :loading="loading">
+            <template slot="status" slot-scope="{row,index}">
+                <div>{{getstatus(row.status)}}</div>
+            </template>
             <template slot="action" slot-scope="{row,index}">
                 <Button size="small" type="primary" @click="edit(row)">編輯</Button>
                 <Button size="small" type="error" @click="remove(row.id)">刪除</Button>
@@ -19,77 +22,48 @@
     <div class="prop_model" v-show="propModel">
         <div class="_box">
             <div class="contant">
-                <div class="tit">添加折扣活動</div>
+                <div class="tit">添加多日活動</div>
                 <div class="list"style="width:100%;">
                     <table style="width:100%;">
                         <tr>
-                            <td style="text-align:right">折扣券類型:</td>
+                            <td style="text-align:right">活動名稱:</td>
                             <td>
-                                <Select v-model="inputValue.discount_type" style="width:300px">
-                                    <Option v-for="item in discountType" :value="item.value" :key="item.value" :disabled='item.disabled'>{{ item.label }}</Option>
-                                </Select>
+                                <Input v-model="inputValue.name" type="text" placeholder="點擊輸入" style="width: 300px" />
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">抵扣%數:</td>
+                            <td style="text-align:right">開始時間:</td>
                             <td>
-                                <!-- <Input v-model="inputValue.discount_value" type="number" placeholder="點擊輸入" style="width: 300px" /> -->
-                                <InputNumber
-                                    style="width: 300px"
-                                    :max="100"
-                                    v-model="inputValue.discount_value"
-                                    :formatter="value => `${value}%`"
-                                    :parser="value => value.replace('%', '')">
-                                </InputNumber>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align:right">最大優惠金額:</td>
-                            <td>
-                                <Input v-model="inputValue.discount_max" type="text" placeholder="點擊輸入" style="width: 300px" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align:right">使用時間:</td>
-                            <td>
-                                <DatePicker v-model="inputValue.discount_start" type="date" placement="bottom-end" placeholder="選擇日期" style="width: 300px"></DatePicker>
+                                <DatePicker v-model="inputValue.start_time" type="date" placement="bottom-end" placeholder="選擇日期" style="width: 300px"></DatePicker>
                             </td>
                         </tr>
                         <tr>
                             <td style="text-align:right">結束時間:</td>
                             <td>
-                                <DatePicker v-model="inputValue.discount_end" type="date" placement="bottom-end" placeholder="選擇日期" style="width: 300px"></DatePicker>
+                                <DatePicker v-model="inputValue.end_time" type="date" placement="bottom-end" placeholder="選擇日期" style="width: 300px"></DatePicker>
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right">使用門檻:</td>
+                            <td style="text-align:right">紅利點數:</td>
                             <td>
-                                <Input v-model="inputValue.discount_condition" type="text" placeholder="點擊輸入" style="width: 300px" />
+                                <Input v-model="inputValue.nums" type="text" placeholder="點擊輸入" style="width: 300px" />
                             </td>
                         </tr>
                         
                         <tr>
-                            <td style="text-align:right">可用範圍:</td>
+                            <td style="text-align:right">獎勵折扣券:</td>
                             <td>
-                                <Input v-model="inputValue.discount_scope"  type="text" placeholder="點擊輸入" style="width: 300px" />
+                                <!-- <Input v-model="inputValue.coupon_log"  type="text" placeholder="點擊輸入" style="width: 300px" /> -->
+                                <Select v-model="inputValue.coupon_log" style="width:300px">
+                                    <Option v-for="item in coupon_list" :value="item.value" :key="item.value" >{{ item.label }}</Option>
+                                </Select>
                             </td>
                         </tr>
+                        
                         <tr>
-                            <td style="text-align:right">活動名稱:</td>
+                            <td style="text-align:right">活動描述:</td>
                             <td>
-                                <Input v-model="inputValue.discount_name" type="text" placeholder="點擊輸入" style="width: 300px" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align:right">活動說明:</td>
-                            <td>
-                                <Input v-model="inputValue.discount_explain"  type="textarea" placeholder="點擊輸入" style="width: 300px" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align:right">注意事項:</td>
-                            <td>
-                                <Input v-model="inputValue.discount_remark"  type="textarea" placeholder="點擊輸入" style="width: 300px" />
+                                <Input v-model="inputValue.describe"  type="textarea" placeholder="點擊輸入" style="width: 300px" />
                             </td>
                         </tr>
                     </table>
@@ -111,69 +85,47 @@ export default {
             columns1: [
                 {
                     title: '活動名稱',
-                    key: 'discount_name',
+                    key: 'name',
                     minWidth:140
-                },
-                {
-                    title: '折扣值',
-                    minWidth:140,
-                    key: 'discount_value'
-                },
-                {
-                    title: '折扣類型',
-                    minWidth:120,
-                    key: 'discount_type'
-                },
-                {
-                    title: '最大優惠金額',
-                    key: 'discount_max',
-                    minWidth:140
-                },
-                {
-                    title: '使用時間',
-                    key: 'discount_time_type',
-                    minWidth:120
                 },
                 {
                     title: '開始時間',
-                    key: 'discount_start',
-                    minWidth:150
+                    minWidth:160,
+                    key: 'start_time'
                 },
                 {
                     title: '結束時間',
-                    key: 'discount_end',
-                    minWidth:150
+                    minWidth:160,
+                    key: 'end_time'
                 },
                 {
-                    title: '使用範圍',
-                    key: 'discount_scope',
-                    ellipsis:true,
-                    tooltip:true,
+                    title: '紅利點數',
+                    key: 'nums',
                     minWidth:120
                 },
                 {
-                    title: '使用門檻',
-                    key: 'discount_condition',
-                    minWidth:120
-                },
-                {
-                    title: '注意事項',
-                    key: 'discount_remark',
-                    minWidth:140,
-                    ellipsis:true,
-                    tooltip:true
-                },
-                {
-                    title: '創建時間',
-                    key: 'discount_time',
-                    minWidth:150
-                },
-                {
-                    title: '活動說明',
-                    key: 'discount_explain',
+                    title: '獎勵折扣券',
+                    key: 'discount_name',
                     ellipsis:true,
                     tooltip:true,
                     minWidth:140
+                },
+                {
+                    title: '獎勵折扣券ID',
+                    key: 'coupon_log',
+                    minWidth:140
+                },
+                {
+                    title: '活動描述',
+                    key: 'describe',
+                    ellipsis:true,
+                    tooltip:true,
+                    minWidth:150
+                },
+                {
+                    title: '狀態',
+                    slot: 'status',
+                    minWidth:120
                 },
                 {
                     title:'操作',
@@ -187,33 +139,19 @@ export default {
             total:0,
             propModel:false,
             inputValue:{
-                discount_remark:'',
-                discount_start:"",
-                discount_end:"",
-                discount_name:'',
-                discount_explain:'',
-                discount_type:'',
-                discount_value:100,
-                discount_condition:0,
-                discount_scope:'',
-                discount_max:"",
-                discount_time:''
+                coupon_log:'',
+                start_time:"",
+                end_time:"",
+                name:'',
+                nums:'',
+                describe:""
             },
-            discountType:[
-                {
-                    value:1,
-                    label:'折扣券'
-                },
-                {
-                    value:2,
-                    label:'現金券',
-                    disabled:true
-                }
-            ],
-            id:''
+            id:'',
+            coupon_list:[]
         }
     },
     created(){
+        this.getcoupon();
         this.getList(0);
     },
     methods:{
@@ -223,7 +161,7 @@ export default {
                 rows:10
             }
             this.loading = true;
-            this.$http('couponLogService','findDatas',data)
+            this.$http('dayActivitiesService','findDatas',data)
             .then(res=>{
                 console.log(res)
                 this.loading = false;
@@ -231,12 +169,8 @@ export default {
                     var arr = res.rows;
                     for(let i =0;i<arr.length;i++){
                         console.log(1)
-                        arr[i].discount_end = this.$changeTime(arr[i].discount_end);
-                        arr[i].discount_start = this.$changeTime(arr[i].discount_start);
-                        arr[i].discount_time = arr[i].discount_time?this.$changeTime(arr[i].discount_time):'';
-                        arr[i].discount_time_type =arr[i].discount_time_type ?'領卷後一天':this.Calculation(arr[i].discount_start,arr[i].discount_end)
-                        arr[i].discount_scope = this.changeArr(arr[i].discount_scope);
-                        arr[i].discount_type = arr[i].discount_type ==2?'現金券':'折扣卷';
+                        arr[i].start_time = this.$changeTime(arr[i].start_time);
+                        arr[i].end_time = this.$changeTime(arr[i].end_time);
                     }
                     this.total = res.total;
                     this.data1 = arr;
@@ -246,31 +180,38 @@ export default {
                 this.loading = false;
             })
         },
+         getcoupon(){
+            var data = {
+                start:0
+            }
+            this.$http('couponLogService','findDatas',data)
+            .then(res=>{
+                console.log(res)
+                if(res.rows){
+                    var arr = res.rows;
+                    this.coupon_list = [];
+                    for(let i =0;i<arr.length;i++){
+                        var obj = {};
+                        obj.label = arr[i].discount_name;
+                        obj.value = arr[i].id;
+                        this.coupon_list.push(obj)
+                    }
+                }
+            })
+        },
+        getstatus(id){
+            if(!id && id !=0){return ''}
+            if(id==0){
+                return '未開始'
+            }else if(id ==1){
+                return '進行中'
+            }else if(id==2){
+                return '已結束'
+            }
+        },
         pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*10;
             this.getList(this.current);
-        },
-        Calculation(start,end){
-            var start = new Date(start).getTime();
-            var end = new Date(end).getTime();
-            var num = end -start;
-            
-            var newdate = parseInt(num / (1000*60*60*24));
-            return newdate;
-        },
-        changeArr(data){
-
-            if(data){
-                var str ='';
-                try{
-                    var obj = JSON.parse(data);
-                    str = `終端:${obj.terminal.join(',')},國家id:${obj.country.join(',')}，酒莊id:${obj.winery.join(',')}，產品類型id:${obj.product_type.join(',')}`
-                }catch(err){
-                    console.log(err)
-                    str = data;
-                }
-                return str;
-            }
         },
         openModel(){
             this.propModel = true;
@@ -280,17 +221,12 @@ export default {
         },
         edit(row){ //編輯
             this.inputValue={
-                discount_remark:row.discount_remark,
-                discount_start:row.discount_start,
-                discount_end:row.discount_end,
-                discount_name:row.discount_name,
-                discount_explain:row.discount_explain,
-                discount_type:row.discount_type,
-                discount_value:row.discount_value,
-                discount_condition:row.discount_condition,
-                discount_scope:row.discount_scope,
-                discount_max:row.discount_max,
-                discount_time:row.discount_time
+                coupon_log:row.coupon_log,
+                start_time:row.start_time,
+                end_time:row.end_time,
+                name:row.name,
+                nums:row.nums,
+                describe:row.describe
             }
             this.propModel = true
             this.id = row.id;
@@ -298,16 +234,15 @@ export default {
         sureBtn(){ //增加
             console.log(this.inputValue)
             var value = this.inputValue;
-            value.discount_condition = parseInt(value.discount_condition);
-            value.discount_max = parseInt(value.discount_max);
-            value.discount_start = this.$changeTime(value.discount_start);
-            value.discount_end = this.$changeTime(value.discount_end);
-            value.discount_time = this.$changeTime(new Date());
+            value.nums = parseInt(value.nums);
+            value.start_time = this.$changeTime(value.start_time);
+            value.end_time = this.$changeTime(value.end_time);
+            value.status = 0;
             if(this.id){
                 value.id = this.id
             }
             var data = value;
-            this.$http('couponLogService','addOrUpdate',data)
+            this.$http('dayActivitiesService','addOrUpdate',data)
             .then(res=>{
                 this.propModel = false;
                 if(res.result == 'success'){
@@ -317,7 +252,15 @@ export default {
                         this.$Message.success('新增成功');
                     }
                     this.getList(this.current);
-                    this.id = ''
+                    this.id = '';
+                    this.inputValue={
+                        coupon_log:'',
+                        start_time:'',
+                        end_time:'',
+                        name:'',
+                        nums:'',
+                        describe:''
+                    }
                 }else{
                     this.$Message.error(res.message);
                 }
@@ -329,7 +272,7 @@ export default {
                 content: '<h3>此操作將刪除數據，是否繼續？</h3>',
                 onOk: () => {
                      var data = {id:id};
-                    this.$http('couponLogService','deleteData',data)
+                    this.$http('dayActivitiesService','deleteData',data)
                     .then(res=>{
                         if(res.result == 'success'){
                             this.$Message.success('刪除成功');
@@ -366,11 +309,11 @@ export default {
 }
 ._box{
     width: 600px;
-    height: 680px;
+    height: 460px;
     position: absolute;
     top: 50%;
     left: 50%;
-    margin: -340px 0 0 -300px;
+    margin: -230px 0 0 -300px;
     border-radius: 4px;
     background-color: #fff;
 }

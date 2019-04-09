@@ -10,6 +10,10 @@
             <span>用户ID：</span>
             <Input type="text" name="time" style="width:160px" v-model="searchData.id"/>
         </div>
+        <div class="option">
+            <span>手機號碼：</span>
+            <Input type="text"  style="width:160px" v-model="searchData.phone"/>
+        </div>
         <!-- <div class="option">
             <span>類型：</span>
             <Input type="text" name="time" style="width:160px"/>
@@ -305,7 +309,8 @@ export default {
             },
             searchData:{
                 user:'',
-                id:""
+                id:"",
+                phone:''
             }
         }
     },
@@ -368,6 +373,9 @@ export default {
             }
             if(this.searchData.id){
                 data.id = this.searchData.id
+            }
+            if(this.searchData.phone){
+                data.phone = this.searchData.phone
             }
             data.start =0
             data.rows = 10

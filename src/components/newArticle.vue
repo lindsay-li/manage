@@ -285,6 +285,7 @@ export default {
                         arr[i].time = arr[i].time?this.$changeTime(arr[i].time):"";
                         // arr[i].tag = this.tags[arr[i].tag-1];
                         // arr[i].photos = arr[i].photos.join(',')
+                        arr[i].content = this.htmlDecodeByRegExp(arr[i].content);
                     }
                     this.total = res.total;
                     this.data1 = arr;
@@ -380,6 +381,30 @@ export default {
                 }
             })
         },
+        HTMLEncode(str){ 
+          var s = "";
+          if(str.length == 0) return "";
+          s = str.replace(/&/g,"&amp;");
+          s = s.replace(/</g,"&lt;");
+          s = s.replace(/>/g,"&gt;");
+          s = s.replace(/ /g,"&nbsp;");
+          s = s.replace(/\'/g,"&#39;");
+          s = s.replace(/\"/g,"&quot;");
+          s = s.replace(/src/g,"&sc;");
+          return s;  
+        },
+        htmlDecodeByRegExp(str){  
+            var s = "";
+            if(str.length == 0) return "";
+            s = str.replace(/&amp;/g,"&");
+            s = s.replace(/&lt;/g,"<");
+            s = s.replace(/&gt;/g,">");
+            s = s.replace(/&nbsp;/g," ");
+            s = s.replace(/&#39;/g,"\'");
+            s = s.replace(/&quot;/g,"\"");
+            s = s.replace(/&sc;/g,"src")
+            return s;  
+        },
         suerBtn(){
             if(!this.inputValue.title){
                 this.$Message.error('請填寫文章標題')
@@ -388,6 +413,7 @@ export default {
             var data = this.inputValue;
             data.user_id = this.userId;
             data.photos = JSON.stringify(this.pics);
+            data.content = this.HTMLEncode(data.content)
             var info = '新增成功';
             if(this.id){
                 data.id = this.id;
@@ -508,7 +534,7 @@ export default {
                     console.log(res)
                     if(res.result=='success'){
                         this.$Message.success(res.message);
-                        this.inputValue.content +=JSON.stringify(`<img src="photos[${this.files.length-1}]"/>`);
+                        this.inputValue.content +=`<img src="photos[${this.files.length-1}]"/>`;
                         this.files[this.n].status = 'finished';
                         this.pics.push('http://35.220.249.212:8072/op'+res.data);
                         this.n++;
