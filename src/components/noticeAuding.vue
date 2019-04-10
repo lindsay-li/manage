@@ -1,7 +1,13 @@
 <template>
 <div class="wrappar">
+    <div class="_title" style="margin-bottom:20px;">公告審核</div>
     <div class="nav">
-        <div class="_title">公告審核</div>
+        <div class="option">
+            <span>狀態：</span>
+            <Select v-model="seach_status"  @on-change="selectChange_seach" style="width:160px;">
+                <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+        </div>
     </div>
     <div class="notice">
         <Table border  :columns="columns1" :data="data1" @on-row-click="selectChange1" >
@@ -98,33 +104,21 @@ export default {
                 {value:0,label:'未審核'},
                 {value:1,label:'已審核'}
             ],
-            id:''
+            id:'',
+            seach_status:''
         }
     },
     created(){
         this.getList(0);
-        this.noticeList = [
-            {value:1,label:'文章被留言'},
-            {value:2,label:'文章留言被評論'},
-            {value:3,label:'酒被評價'},
-            {value:4,label:'評價被評論'},
-            {value:5,label:'新增關注'},
-            {value:6,label:'訂單創建'},
-            {value:7,label:'訂單確認'},
-            {value:8,label:'訂單取消'},
-            {value:9,label:'訂單發貨'},
-            {value:10,label:'訂單完成'},
-            {value:11,label:'活動消息'},
-            {value:12,label:'商品促銷消息'},
-            {value:13,label:'一些系統通知'},
-            ]
     },
     methods:{
-        getList(start){
-            var data = {
-               start:start,
-               rows:10 
+        getList(start,obj){
+            var data = {};
+            if(obj || obj===0){
+                data.audit_status = obj;
             }
+            data.start = start;
+            data.rows = 10
             this.loading = true;
             this.$http('messageLogService','findDatas',data)
             .then(res=>{
@@ -182,9 +176,17 @@ export default {
             console.log(value)
             this.revise(value)
         },
+        selectChange_seach(value){
+            this.getList(0,value);
+        },
         pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*10;
-            this.getList(this.current);
+            if(this.seach_status){
+                this.getList(this.current,this.seach_status);
+            }else{
+                this.getList(this.current)
+            }
+            
         },
         types(type){
             if(!type){return}

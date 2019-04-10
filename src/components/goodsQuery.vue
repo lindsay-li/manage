@@ -65,6 +65,51 @@
         <div class="add_goods"  @click="openCreatePage">添加商品</div>
         <Page :total="total" show-total show-elevator prev-text='上一頁' next-text='下一頁' @on-change="pageChange"/>
     </div>
+    <div class="create_model" style="z-index:1000" v-show="texturePropmodel">
+        <div class="create-box">
+            <div style="width:100%;height:30px;"></div>
+            <div class="c_table" style="display:flex;justify-content:center">
+                <table>
+                    <tr>
+                        <td>香氣</td>
+                        <td>單寧</td>
+                        <td>酒</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <InputNumber  :min="0" v-model="texture_data.input1"></InputNumber>
+                        </td>
+                        <td>
+                            <InputNumber  :min="0" v-model="texture_data.input2"></InputNumber>
+                        </td>
+                        <td>
+                            <InputNumber  :min="0" v-model="texture_data.input3"></InputNumber>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>果酸</td>
+                        <td>尾韻</td>
+                        <td>果味</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <InputNumber  :min="0" v-model="texture_data.input4"></InputNumber>
+                        </td>
+                        <td>
+                            <InputNumber  :min="0" v-model="texture_data.input5"></InputNumber>
+                        </td>
+                        <td>
+                            <InputNumber  :min="0" v-model="texture_data.input6"></InputNumber>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="c_btns">
+                <div class="cancel" @click='closeTexture'>取消</div>
+                <div class="sure" @click="sureBtnTexture">確定</div>
+            </div>
+        </div>
+    </div>
     <!-- 創建商品彈窗 -->
     <div class="create_model" v-show="createPage">
         <div class="create_box">
@@ -73,7 +118,7 @@
                 <table  >
                     <tr>
                         <td>商品名稱</td> 
-                        <td>中文名稱</td>   
+                        <td>英文名稱</td>   
                         <td>數量</td>
                         <td>售價</td>
                         <td>年份</td>
@@ -84,7 +129,7 @@
                             <Input type="text" v-model="inputValue.title" />
                         </td>
                         <td>
-                            <Input type="text" v-model="inputValue.source_title" />
+                            <Input type="text" v-model="inputValue.wine" />
                         </td>
                         <td>
                             <InputNumber  :min="0" v-model="inputValue.num"></InputNumber>
@@ -121,7 +166,7 @@
                             <InputNumber   v-model="inputValue.temperature_high"></InputNumber>
                         </td>
                         <td>
-                            <Select v-model="inputValue.brand_id" >
+                            <Select v-model="inputValue.brand_id" style="width:130px;">
                                 <Option v-for="(item,index) in brandList" :value="item.value" :key="index">{{ item.label }}</Option>
                             </Select>
                         </td>
@@ -147,7 +192,7 @@
                         <td>狀態</td>
                         <td>進口包裝(選填)</td>
                         <td>酒莊</td>
-                        <td>英文酒莊</td>
+                        <td>年產量</td>
                     </tr>
                     <tr>
                         <td>
@@ -162,7 +207,7 @@
                             </Select>
                         </td>
                         <td>
-                            <Select v-model="inputValue.import" >
+                            <Select v-model="inputValue.import" style="width:130px">
                                 <Option v-for="(item,index) in imports" :value="item.value" :key="index">{{ item.label }}</Option>
                             </Select>
                         </td>
@@ -172,13 +217,12 @@
                             </Select>
                         </td>
                         <td>
-                            <Input type="text" v-model="inputValue.wine" />
+                            <InputNumber  :min="0" v-model="inputValue.annual_output"></InputNumber>
                         </td>
                     </tr>
                     <tr>
                         <td>次產區(選填)</td>
-                        <td>年產量</td>
-                        <td>口感</td>
+                        <td colspan="2">口感</td>
                         <td>葡萄種類</td>
                         <td>國際評分</td>
                         <td>國際獎牌</td>
@@ -189,14 +233,12 @@
                                 <Option v-for="(item,index) in subregionList" :value="item.value" :key="index">{{ item.label }}</Option>
                             </Select>
                         </td>
-                        <td>
-                            <InputNumber  :min="0" v-model="inputValue.annual_output"></InputNumber>
-                        </td>
-                        <td>
-                            <!-- <Select v-model="inputValue.texture" >
-                                <Option v-for="(item,index) in textureList" :value="item.value" :key="index">{{ item.label }}</Option>
-                            </Select> -->
-                            <Input type="text" v-model="inputValue.texture" />
+                        <td colspan="2">
+                            <Button type="primary"  @click="openTextrue"  style="width:120px">填寫</Button>
+                            <!-- <div class="textrue" @click="openTextrue"> -->
+                                <!-- <span v-for="(value,key) in inputValue.textrue">{{key}}:{{value}}</span> -->
+                                <!-- {{JSON.stringify(inputValue.textrue)}} -->
+                            <!-- </div> -->
                         </td>
                         <td>
                             <Select v-model="grope" >
@@ -212,7 +254,8 @@
                     </tr>
                     <tr>
                         <td>商品圖片</td>
-                        <td colspan="6">商品描述</td>
+                        <td colspan="2">品牌特色</td>
+                        <td colspan="3">商品描述</td>
                     </tr>
                     <tr >
                         <td>
@@ -225,7 +268,10 @@
                             </div>
                             <!-- <InputNumber  :min="0" v-model="inputValue.image"></InputNumber> -->
                         </td>
-                        <td colspan="6">
+                        <td colspan="2">
+                            <Input type="textarea" v-model="inputValue.brand_feature" :rows="3" />
+                        </td>
+                        <td colspan="3">
                             <Input type="textarea" v-model="inputValue.description" :rows="3" />
                         </td>
                     </tr>
@@ -259,8 +305,8 @@ export default {
                     minWidth:170
                 },
                 {
-                    title: '中文名稱',
-                    key: 'source_title',
+                    title: '英文名稱',
+                    key: 'wine',
                     ellipsis:true,
                     tooltip:true,
                     minWidth:170
@@ -271,7 +317,7 @@ export default {
                     minWidth:90
                 },
                 {
-                    title: '售價(美元)',
+                    title: '售價(台幣)',
                     key: 'price',
                     minWidth:110
                 },
@@ -332,11 +378,6 @@ export default {
                 {
                     title:'酒莊',
                     slot:'winery_id',
-                    minWidth:120
-                },
-                {
-                    title:'英文酒莊',
-                    key:'wine',
                     minWidth:120
                 },
                 {
@@ -493,10 +534,10 @@ export default {
                 title:'',
                 image:0,
                 subregion_id:'',
-                source_title:'',
                 texture:"",
                 wc_score:0,
-                jeb_score:0
+                jeb_score:0,
+                brand_feature:''
             },
             files:[],
             iSimage:true,
@@ -514,6 +555,15 @@ export default {
             imgName:'',
             imageTitle:"",
             grope:"",  //葡萄品種
+            texture_data:{
+                input1:0,
+                input2:0,
+                input3:0,
+                input4:0,
+                input5:0,
+                input6:0,
+            },
+            texturePropmodel:false
         }
     },
     created(){
@@ -628,6 +678,25 @@ export default {
                 this.columns1 = tableTitle
                 alert(JSON.stringify(arr))
             }
+        },
+        closeTexture(){
+            this.texturePropmodel = false;
+        },
+        openTextrue(){
+            this.texturePropmodel = true;
+        },
+        sureBtnTexture(){
+            let newObj = {
+                '香氣' : this.texture_data.input1,
+                '單寧' : this.texture_data.input2,
+                '酒' : this.texture_data.input3,
+                '果酸' : this.texture_data.input4,
+                '尾韻' : this.texture_data.input5,
+                '果味' : this.texture_data.input6
+            };
+            this.$set(this.inputValue,'texture',JSON.stringify(newObj))
+            // alert(this.inputValue.texture)
+            this.texturePropmodel = false;
         },
         getList(start,obj){
             var data = {}
@@ -758,10 +827,19 @@ export default {
                 title:row.title,
                 image:row.image,
                 subregion_id:row.subregion_id,
-                source_title:row.source_title,
                 texture:row.texture,
                 wc_score:row.wc_score,
-                jeb_score:row.jeb_score
+                jeb_score:row.jeb_score,
+                brand_feature:row.brand_feature
+            }
+            var textrue = JSON.parse(this.inputValue.texture)
+            this.texture_data = {
+                input1:texture['香氣'],
+                input2:texture['單寧'],
+                input3:texture['酒'],
+                input4:texture['果酸'],
+                input5:texture['尾韻'],
+                input6:texture['果味']
             }
             this.id = row.id
             this.createPage = true;
@@ -793,6 +871,7 @@ export default {
                 this.$Message.warning('價格(美元)為必填項！')
                 return
             }
+            // data.texture = JSON.stringify(data.texture)
             var notice = '新增成功'
             if(this.id){
                 data.id = this.id
@@ -808,6 +887,14 @@ export default {
                     this.getList(this.current);
                     this.id = ''
                     this.clearData();
+                    this.texture_data = {
+                        input1:0,
+                        input2:0,
+                        input3:0,
+                        input4:0,
+                        input5:0,
+                        input6:0
+                    }
                 }else{
                     this.$Message.error(res.message);
                 }
@@ -847,12 +934,13 @@ export default {
                 title:'',
                 image:0,
                 subregion_id:'',
-                source_title:'',
                 texture:"",
                 grope:"",
                 wc_score:0,
-                jeb_score:0
+                jeb_score:0,
+                brand_feature:''
             }
+            this.files = []
         },
         search(){
             console.log(11)
@@ -1184,7 +1272,17 @@ export default {
     left: 50%;
     margin: -354px 0 0 -460px;
     width: 920px;
-    height: 680px;
+    height: 690px;
+    background-color:#fff;
+    border-radius: 4px; 
+}
+.create-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -160px 0 0 -230px;
+    width: 460px;
+    height: 320px;
     background-color:#fff;
     border-radius: 4px; 
 }
@@ -1264,5 +1362,13 @@ input[type="file"] {
     text-overflow:ellipsis;
     white-space: nowrap;
     cursor: pointer;
+}
+.textrue{
+    width: 260px;
+    height:40px;
+    cursor:pointer;
+    /* overflow:hidden; */
+    /* text-overflow:ellipsis; */
+    /* white-space:nowrap; */
 }
 </style>

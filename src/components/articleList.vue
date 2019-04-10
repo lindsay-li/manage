@@ -35,6 +35,11 @@
                     <Button size="small" type="error" @click="remove(row.id)">刪除</Button>
                 </div>
             </template>
+            <template slot="index_img" slot-scope="{row}">
+                <div class="index_img">
+                    <img :src="row.index_img" />
+                </div>
+            </template>
             <template slot="status" slot-scope="{row}">
                 <div>{{row.status==1?'上架':'下架'}}</div>
             </template>
@@ -173,6 +178,11 @@ export default {
                     title:'文章分類',
                     slot:'tag',
                     minWidth:110
+                },
+                {
+                    title:'封面圖片',
+                    slot:'index_img',
+                    minWidth:120
                 },
                 {
                     title:'状态',
@@ -588,5 +598,11 @@ input[type="file"] {
 .notice{
     font-size: 12px;
     color: #ED4014;
+}
+.index_img{
+    height: 40px;
+}
+.index_img img{
+    height: 100%;
 }
 </style>

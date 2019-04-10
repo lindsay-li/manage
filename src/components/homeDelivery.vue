@@ -280,7 +280,7 @@ export default {
                         key:key_arr,
                         data:data,
                         autoWidth: true,
-                        filename: '宅配訂單確定'
+                        filename: '訂單確定'
                     }
                     excel.export_array_to_excel(params)
                     this.exportLoading = false

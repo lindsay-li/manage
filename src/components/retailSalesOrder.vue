@@ -20,7 +20,7 @@
             <Input type="text"  v-model="inputValue.delivery_num" style="width:70px" />
         </div>
         <div class="serch" @click="search">查詢</div>
-        <Button icon="md-download" type="primary" style="position:absolute;right:20px" :loading="exportLoading" @click="exportExcel">導出excel</Button>
+        <!-- <Button icon="md-download" type="primary" style="position:absolute;right:20px" :loading="exportLoading" @click="exportExcel">導出excel</Button> -->
     </div>
     <div class="goods">
         <Table border  :columns="columns1" :data="data1"  class="post"  @on-row-click="selectChange1" @on-selection-change="clickChange">
@@ -257,20 +257,20 @@ export default {
         this.getList(0)
     },
     methods:{
-        exportExcel () {
-            var formdata = {start:0,type:2}
-            this.$http('orderInfoService','findDatas',formdata)
-            .then(res=>{
-                if(res.rows){
+        exportExcel (data) {
+            // var formdata = {start:0,type:2}
+            // this.$http('orderInfoService','findDatas',formdata)
+            // .then(res=>{
+                if(!!data){
                     this.exportLoading = true
                     var title_arr = ['負責門店','訂單編號','配送方式','配送廠家','配送編號','下單時間','訂單來源','商品名稱','商品編號','數量','商品單價','折扣金額','銷售金額(折扣後)','收件人','收件人地址','發票類型','訂單狀態','訂單備註','消費者備註'];
                     var key_arr = ['shop_name','id','payments','delivery_home','delivery_num','time','source','title','alcohol_id','num','origin_price','discounts_money','total_price','sh_name','address','','typess','',''];
-                    for(let i =0;i<res.rows.length;i++){
-                        res.rows[i].typess = '待出貨'
-                        if(res.rows[i].payment==1){
-                            res.rows[i].payments = '活到付款'
+                    for(let i =0;i<data.length;i++){
+                        data[i].typess = '出貨中'
+                        if(data[i].payment==1){
+                            data[i].payments = '活到付款'
                         }else{
-                            res.rows[i].payments = '門市自取'
+                            data[i].payments = '門市自取'
                         }
                     }
                     const params = {
@@ -278,16 +278,16 @@ export default {
                         title:title_arr,
                         // key: ['category1', 'category2', 'category3'],
                         key:key_arr,
-                        data: res.rows,
+                        data:data,
                         autoWidth: true,
-                        filename: '宅配訂單確定'
+                        filename: '訂單確定'
                     }
                     excel.export_array_to_excel(params)
                     this.exportLoading = false
                 }else{
                     this.$Message.info('表格數據不能為空！')
                 }
-            })
+            // })
         },
         getList(start,obj){
             var data = {}
@@ -345,6 +345,10 @@ export default {
             var that = this;
             that.propModel = true;
             var len = that.sendData.length;
+            if(len==0){
+                that.$Message.error('請選擇訂單！');
+                return
+            }
             console.log(len)
             function send(n){
                 if(n<len){
@@ -362,8 +366,10 @@ export default {
                         }
                     })
                 }else{
+                    that.exportExcel(that.sendData);
                     that.$Message.success('備貨成功!')
                     that.propModel = false;
+                    that.sendData = [];
                     that.getList(0)
                 }
             }

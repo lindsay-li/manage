@@ -4,6 +4,7 @@
     <div class="goods">
         <Table border  :columns="columns1" :data="data1"  class="post">
             <template slot="action" slot-scope="{row,index}">
+                <Button size="small" type="primary" @click="edit(row)">編輯</Button>
                 <Button size="small" type="error" @click="remove(row.id)">刪除</Button>
             </template>
         </Table>
@@ -24,6 +25,12 @@
                             <td style="text-align:right">酒莊名稱:</td>
                             <td>
                                 <Input v-model="inputValue.winery"  placeholder="點擊輸入" style="width: 160px;" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right">英文名稱:</td>
+                            <td>
+                                <Input v-model="inputValue.chateau"  placeholder="點擊輸入" style="width: 160px;" />
                             </td>
                         </tr>
                         <tr>
@@ -56,17 +63,22 @@ export default {
                 {
                     title: '酒莊名稱',
                     key: 'winery',
-                    minWidth:180
+                    minWidth:160
+                },
+                {
+                    title: '酒莊英文名稱',
+                    key: 'chateau',
+                    minWidth:160
                 },
                 {
                     title: '酒莊等級',
                     key: 'grade',
-                    minWidth:160
+                    minWidth:130
                 },
                 {
                     title: '創建時間',
                     key: 'time',
-                    minWidth:180
+                    minWidth:160
                 },
                 {
                     title: 'id',
@@ -76,7 +88,7 @@ export default {
                 {
                     title:'操作',
                     slot:'action',
-                    width:90
+                    width:150
                 }
             ],
             data1: [],
@@ -85,8 +97,10 @@ export default {
             propModel:false,
             inputValue:{
                 winery:'',
-                grade:''
-            }
+                grade:'',
+                chateau:''
+            },
+            id:''
         }
     },
     created(){
@@ -111,6 +125,15 @@ export default {
                 }
             })
         },
+        edit(row){
+            this.inputValue = {
+                winery:row.winery,
+                grade:row.grade,
+                chateau:row.chateau
+            }
+            this.id = row.id;
+            this.propModel = true;
+        },
         remove (id) {
             this.$Modal.confirm({
                 title: '警告',
@@ -132,20 +155,32 @@ export default {
             })  
         },
         newAdd(){
-            if(!this.inputValue.grade || !this.inputValue.winery){
+            if(!this.inputValue.grade || !this.inputValue.winery || !this.inputValue.chateau){
                 this.$Message.warning('請輸入信息');
                 return;
             }
             var data = {
                 grade:this.inputValue.grade,
-                winery:this.inputValue.winery
+                winery:this.inputValue.winery,
+                chateau:this.inputValue.chateau
+            }
+            var text = '添加成功'
+            if(this.id){
+                data.id = this.id;
+                text = '修改成功'
             }
             this.$http('alcoholWineryService','addOrUpdate',data)
             .then(res=>{
                 this.propModel = false;
                 if(res.result == 'success'){
-                    this.$Message.success('添加成功');
+                    this.$Message.success(text);
                     this.getList(0);
+                    this.inputValue={
+                        winery:'',
+                        grade:'',
+                        chateau:''
+                    }
+                    this.id = ''
                 }else{
                     this.$Message.error(res.message);
                 }
@@ -160,6 +195,12 @@ export default {
         },
         closeModel(){
             this.propModel = false;
+             this.inputValue={
+                winery:'',
+                grade:'',
+                chateau:''
+            }
+            this.id = ''
         },
     }  
 }

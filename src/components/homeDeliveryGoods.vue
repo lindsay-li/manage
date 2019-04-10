@@ -22,7 +22,7 @@
         <div class="serch" @click="search">查詢</div>
         <!-- <Button type="primary" @click="openModelData">匯入資料</Button> -->
         <Upload action="" :before-upload="handleBeforeUpload" accept=".xls, .xlsx">
-          <Button icon="ios-cloud-upload-outline" type="primary" style="position:absolute;right:160px;top:1.5px" :loading="uploadLoading" @click="handleUploadFile">上傳excel</Button>
+          <Button icon="ios-cloud-upload-outline" type="primary" style="position:absolute;right:60px;top:1.5px" :loading="uploadLoading" @click="handleUploadFile">匯入資料</Button>
         </Upload>
     </div>
     <div class="goods">
@@ -78,7 +78,7 @@
     </div>
     <div class="page">
         <div class="_btn">
-            <div class="send" @click="openModel">一鍵出貨</div>
+            <!-- <div class="send" @click="openModel">一鍵出貨</div> -->
         </div>
         <Page :total="total" show-total show-elevator prev-text='上一頁' next-text='下一頁'  @on-change="pageChange"/>
     </div>
@@ -389,14 +389,17 @@ export default {
         openModel(){
             var that = this;
             that.propModel = true;
-            var len = that.sendData.length;
+            // var len = that.sendData.length;
+            var len = that.tableData.length;
             console.log(len)
             function send(n){
                 if(n<len){
                     console.log('len')
                     var data = {
                         type:3,
-                        id:that.sendData[n].id
+                        id:that.tableData[n]['訂單編號'],
+                        delivery_num:that.tableData[n]['配送編號'],
+                        delivery_home:that.tableData[n]['配送廠家']
                     }
                     that.$http('orderFormService','addOrUpdate',data)
                     .then(res=>{
@@ -455,7 +458,8 @@ export default {
                 this.tableTitle = tableTitle
                 this.uploadLoading = false
                 this.loading = false
-                var arr = [];
+                this.openModel();
+                // var arr = [];
                 console.log(header)
                 console.log(results)
                 // for(let i =0;i<this.columns1.length;i++){
@@ -467,17 +471,9 @@ export default {
                 //         }
                 //     }
                 // }
-                for(let y =0;y<results.length;y++){
-                    for(let i =0;i<this.columns1.length;i++){
-                        if(this.columns1[i].title == Object.keys(results[y])[0]){
-                            var obj ={};
-                            var keys = this.columns1[i].key?this.columns1[i].key:this.columns1[i].slot
-                            obj[keys] = results[y][this.columns1[i].title]
-                            arr.push(obj)
-                        }
-                    }
-                    
-                }
+                // for(let y =0;y<results.length;y++){
+                //     results[y]['']
+                // }
 
                 // this.data1 = results
                 // this.columns1 = tableTitle

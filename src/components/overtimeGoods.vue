@@ -20,7 +20,10 @@
             <Input type="text"  v-model="inputValue.delivery_num" style="width:70px" />
         </div>
         <div class="serch" @click="search">查詢</div>
-        <Button type="primary" @click="openModelData">匯入資料</Button>
+        <!-- <Button type="primary" @click="openModelData">匯入資料</Button> -->
+        <Upload action="" :before-upload="handleBeforeUpload" accept=".xls, .xlsx">
+          <Button icon="ios-cloud-upload-outline" type="primary" style="position:absolute;right:60px;top:1.5px" :loading="uploadLoading" @click="handleUploadFile">匯入資料</Button>
+        </Upload>
     </div>
     <div class="goods">
         <Table border  :columns="columns1" :data="data1"  class="post"  @on-row-click="selectChange1" @on-selection-change="clickChange">
@@ -75,7 +78,7 @@
     </div>
     <div class="page">
         <div class="_btn">
-            <div class="send" @click="openModel">一鍵出貨</div>
+            <!-- <div class="send" @click="openModel">一鍵出貨</div> -->
         </div>
         <Page :total="total" show-total show-elevator prev-text='上一頁' next-text='下一頁'  @on-change="pageChange"/>
     </div>
@@ -119,6 +122,7 @@
 </template>
 <script>
 import {times} from '../until/tool.js'
+import excel from '../until/excel.js'
 export default {
     data(){
         return{
@@ -251,7 +255,10 @@ export default {
             },
             type:1,
             obj:{},
-            sendData:[]  //發貨數據
+            sendData:[],  //發貨數據
+            uploadLoading:false,
+            tableData:[],
+            tableTitle:[],
         }
     },
     created(){
@@ -382,14 +389,17 @@ export default {
         openModel(){
             var that = this;
             that.propModel = true;
-            var len = that.sendData.length;
+            // var len = that.sendData.length;
+            var len = that.tableData.length;
             console.log(len)
             function send(n){
                 if(n<len){
                     console.log('len')
                     var data = {
                         type:3,
-                        id:that.sendData[n].id
+                        id:that.tableData[n]['訂單編號'],
+                        delivery_num:that.tableData[n]['配送編號'],
+                        delivery_home:that.tableData[n]['配送廠家']
                     }
                     that.$http('orderFormService','addOrUpdate',data)
                     .then(res=>{
@@ -406,7 +416,70 @@ export default {
                 }
             }
             send(0)
-        }
+        },
+        handleUploadFile(){
+            this.tableData = []
+            this.tableTitle = []
+        },
+        handleBeforeUpload (file) {
+            const fileExt = file.name.split('.').pop().toLocaleLowerCase()
+            if (fileExt === 'xlsx' || fileExt === 'xls') {
+                this.readFile(file)
+                // this.file = file
+            } else {
+                this.$Notice.warning({
+                title: '文件類型錯誤',
+                desc: '文件：' + file.name + '不是EXCEL文件，請選擇後綴為.xlsx或者.xls的EXCEL文件。'
+                })
+            }
+            return false
+        },
+        // 讀取文件
+        readFile (file) {
+            const reader = new FileReader()
+            reader.readAsArrayBuffer(file)
+            reader.onloadstart = e => {
+                this.uploadLoading = true
+                this.loading = true
+                // this.showProgress = true
+            }
+            reader.onprogress = e => {
+                // this.progressPercent = Math.round(e.loaded / e.total * 100)
+            }
+            reader.onerror = e => {
+                this.$Message.error('文件讀取出錯')
+            }
+            reader.onload = e => {
+                this.$Message.info('文件讀取成功')
+                const data = e.target.result
+                const { header, results } = excel.read(data, 'array')
+                const tableTitle = header.map(item => { return { title: item, key: item } })
+                this.tableData = results
+                this.tableTitle = tableTitle
+                this.uploadLoading = false
+                this.loading = false
+                this.openModel();
+                // var arr = [];
+                console.log(header)
+                console.log(results)
+                // for(let i =0;i<this.columns1.length;i++){
+                //     for(let y =0;y<results.length;y++){
+                //         if(this.columns1[i].title == Object.keys(results[y])[0]){
+                //             var obj ={};
+                //             var keys = this.columns1[i].key?this.columns1[i].key:this.columns1[i].slot
+                //             obj[keys] = results[y][this.columns1[i].title]
+                //         }
+                //     }
+                // }
+                // for(let y =0;y<results.length;y++){
+                //     results[y]['']
+                // }
+
+                // this.data1 = results
+                // this.columns1 = tableTitle
+                // alert(JSON.stringify(arr))
+            }
+        },
     }  
 }
 </script>

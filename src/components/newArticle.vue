@@ -32,6 +32,11 @@
             <template slot="status" slot-scope="{row}">
                 <div>{{row.status==1?'上架':'下架'}}</div>
             </template>
+            <template slot="index_img" slot-scope="{row}">
+                <div class="index_img">
+                    <img :src="row.index_img" />
+                </div>
+            </template>
             <template slot="action" slot-scope="{row}">
                 <div class="actions">
                     <Button size="small" type="primary" @click="edit(row)">編輯</Button>
@@ -65,7 +70,7 @@
                         <Input v-model="inputValue.author"  style="width: 150px;margin-left:82px" />
                     </div>
                     <div class="a_tit aflex">
-                        <span>推薦酒品：</span>
+                        <span>推薦酒品ID：</span>
                         <Input v-model="inputValue.recommend"  style="width: 150px;margin-left:22px" />
                     </div>
                 </div>
@@ -74,39 +79,15 @@
                     <Input v-model="inputValue.author_introduction" type="textarea" :rows='2' style="width: 486px" />
                 </div>
                 <div class="a_pic aflex">
-                    <span>內文圖片：</span>
+                    <span>封面圖片：</span>
                     <div style="width:486px;display:flex;">
-                        <div class="demo-upload-list" v-for="(item,index) in files" :key="index" >
-                            <template >
-                                <img :src="item.src" />
-                                <!-- <div class="demo-upload-list-cover">
-                                    <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
-                                    <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-                                </div> -->
-                            </template>
+                        <div class="demo-upload-list" v-show="inputValue.index_img" >
+                            <img :src="inputValue.index_img" />
                         </div>
-                        <!-- <Upload
-                            ref="upload"
-                            :show-upload-list="false"
-                            :default-file-list="defaultList"
-                            :on-success="handleSuccess"
-                            :format="['jpg','jpeg','png']"
-                            :max-size="2048"
-                            :on-format-error="handleFormatError"
-                            :on-exceeded-size="handleMaxSize"
-                            :before-upload="handleBeforeUpload"
-                            multiple
-                            type="drag"
-                            action="//jsonplaceholder.typicode.com/posts/"
-                            style="display: inline-block;width:58px;"> -->
-                            <input type="file" class="files" @change="fileChanged" ref="file" multiple="multiple" name="file" accept="image/jpg,image/jpeg,image/png,image/bmp">
-                            <div style="width: 58px;height:58px;line-height: 58px;text-align:center;border:1px dashed #888">
+                            <input type="file" class="files" @change="fileChanges" ref="filed"  name="filed" accept="image/jpg,image/jpeg,image/png,image/bmp">
+                            <div style="width: 58px;height:58px;line-height: 58px;text-align:center;border:1px dashed #888;cursor:pointer" @click="addIndexPic">
                                 <Icon type="ios-camera" size="20"></Icon>
                             </div>
-                        <!-- </Upload> -->
-                        <!-- <Modal title="View Image" v-model="visible">
-                            <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
-                        </Modal> -->
                     </div>
                 </div>
                 <div class="classify aflex">
@@ -125,10 +106,24 @@
                         </RadioGroup>
                     </div>
                 </div>
+                <div class="a_pic aflex">
+                    <span>內文圖片：</span>
+                    <div style="width:486px;display:flex;">
+                        <div class="demo-upload-list" v-for="(item,index) in files" :key="index" >
+                            <template >
+                                <img :src="item.src" />
+                            </template>
+                        </div>
+                            <input type="file" class="files" @change="fileChanged" ref="file" multiple="multiple" name="file" accept="image/jpg,image/jpeg,image/png,image/bmp">
+                            <div style="width: 58px;height:58px;line-height: 58px;text-align:center;border:1px dashed #888">
+                                <Icon type="ios-camera" size="20"></Icon>
+                            </div>
+                    </div>
+                </div>
                 <div class="a_article aflex" style="position:relative">
                     <Icon type="md-photos" size="30" color="#2d8cf0" style="position:absolute;top:0;left:132px;cursor:pointer;"  @click="addpic"/>
                     <span>內容：</span>
-                    <Input v-model="inputValue.content" type="textarea" :rows='11' style="width: 486px" />
+                    <Input v-model="inputValue.content" type="textarea" :rows='9' style="width: 486px" />
                 </div>
                 <div class="a_article notice">注：內文圖片為展示上傳圖片區域，在編輯文章時，在想要插入圖片的位置，點擊左邊藍色圖片圖標即可插入指定位置</div>
                 <div class="btns">
@@ -197,6 +192,11 @@ export default {
                     minWidth:110
                 },
                 {
+                    title:'封面圖片',
+                    slot:'index_img',
+                    minWidth:120
+                },
+                {
                     title:'狀態',
                     slot:'status',
                     minWidth:120
@@ -233,7 +233,8 @@ export default {
                 tag:'',
                 title:'',
                 content:'',
-                status:1
+                status:1,
+                index_img:""
             },
             userId:'',
             selectData:'',
@@ -355,7 +356,8 @@ export default {
                 tag:'',
                 title:'',
                 content:'',
-                status:1
+                status:1,
+                index_img:''
             }
             this.id = ''
             this.pics = []
@@ -435,7 +437,8 @@ export default {
                         tag:'',
                         title:'',
                         content:'',
-                        status:1
+                        status:1,
+                        index_img:''
                     }
                     this.pics = []
                     this.files = []
@@ -455,7 +458,8 @@ export default {
                 status:row.status?row.status:1,
                 author_introduction:row.author_introduction?row.author_introduction:'',
                 recommend:row.recommend?row.recommend:'',
-                author:row.author?row.author:''
+                author:row.author?row.author:'',
+                index_img:row.index_img
             }
             // for(let i =0;i<this.tagList.length;i++){
             //     if(this.tagList[i].label == row.tag){
@@ -510,6 +514,39 @@ export default {
         },
         addpic(){
             this.$refs.file.click();
+        },
+        addIndexPic(){
+            this.$refs.filed.click();
+        },
+        fileChanges(e){
+            const list = this.$refs.filed.files
+            for (let i = 0; i < list.length; i++) {
+                if (!this.isContain(list[i])) {
+                    const item = {
+                        name: list[i].name,
+                        size: list[i].size,
+                        file: list[i],
+                    }
+                    this.html5Reader(list[i], item);
+                    // this.files.push(item);
+                }
+            }
+            console.log(this.files)
+            if(list.length > 0) {
+                let form = new FormData();  
+                form.append('file', list[0]) 
+                this.$http('','',form,2)
+                .then(res=>{
+                    console.log(res)
+                    if(res.result=='success'){
+                        this.$Message.success(res.message);
+                        this.inputValue.index_img = 'http://35.220.249.212:8072/op'+res.data;
+                    }else{
+                        this.$Message.error(res.message);
+                    }
+                })
+            }
+            this.$refs.filed.value = '';
         },
         fileChanged(e){
             const list = this.$refs.file.files
@@ -567,15 +604,15 @@ export default {
     position: absolute;
     top: 50%;
     left: 50%;
-    margin: -360px 0 0 -275px;
+    margin: -370px 0 0 -275px;
     width: 720px;
-    height: 720px;
+    height: 740px;
     background-color:#fff;
     border-radius: 4px; 
 }
 .a_content{
     width: 90%;
-    margin: 30px auto 0;
+    margin: 10px auto 0;
 }
 .a_title{
     width: 100%;
@@ -656,5 +693,11 @@ input[type="file"] {
 .notice{
     font-size: 12px;
     color: #ED4014;
+}
+.index_img{
+    height: 40px;
+}
+.index_img img{
+    height: 100%;
 }
 </style>
