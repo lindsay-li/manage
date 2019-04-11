@@ -202,13 +202,14 @@ export default {
             typeList:[
                 {value:1,label:'待确认'},
                 {value:2,label:'待出货'},
+                {value:9,label:'出货中'},
                 {value:3,label:'已出货'},
                 {value:4,label:'已收货'},
                 {value:5,label:'未取货'},
                 {value:6,label:'取消'},
                 {value:7,label:'退货'},
                 {value:8,label:'換貨'},
-                {value:9,label:'出货中'},
+                {value:10,label:'已退貨'},
             ],
             id:'',
             paymentList:[

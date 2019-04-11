@@ -17,7 +17,7 @@
         <div class="serch" @click="search">查詢</div>
     </div>
     <div class="goods">
-        <Table border  :columns="columns1" :data="data1"  class="post">
+        <Table border  :columns="columns1" :data="data1"  class="post"  @on-selection-change="clickChange">
             <template slot="peisong" slot-scope="{row,index}">
                 <div>
                     <p>{{row.payment==1?'貨到付款':'門店自取'}}</p>
@@ -27,7 +27,7 @@
             </template>
             <template slot="orderstatus" slot-scope="{row,index}">
                 <div>
-                    退貨
+                    申請退貨
                 </div>
             </template>
             <template slot="orders" slot-scope="{row,index}">
@@ -63,7 +63,7 @@
     </div>
     <div class="page">
         <div class="_btn">
-            <!-- <div class="send" @click="openModel">新增</div> -->
+            <div class="send" @click="openModel">確認退貨</div>
         </div>
         <Page :total="total" show-total show-elevator prev-text='上一頁' next-text='下一頁'  @on-change="pageChange"/>
     </div>
@@ -181,7 +181,8 @@ export default {
                 sh_name:""
             },
             type:1,
-            obj:{}
+            obj:{},
+            sendData:[]
         }
     },
     created(){
@@ -230,8 +231,38 @@ export default {
                 }
             })  
         },
+        clickChange(data){
+            console.log('data',data)
+            this.sendData = data
+        },
         openModel(){
-            this.propModel = true;
+            // this.propModel = true;
+            var that = this;
+            that.propModel = true;
+            var len = that.sendData.length;
+            console.log(len)
+            function send(n){
+                if(n<len){
+                    console.log('len')
+                    var data = {
+                        type:10,
+                        id:that.sendData[n].id,
+                    }
+                    that.$http('orderFormService','addOrUpdate',data)
+                    .then(res=>{
+                        if(res.result=='success'){
+                            send(n+1)
+                        }else{
+                            that.$Message.error('操作失敗，請檢查！');
+                        }
+                    })
+                }else{
+                    that.$Message.success('退貨成功!')
+                    that.propModel = false;
+                    that.getList(0)
+                }
+            }
+            send(0)
         },
         pageChange(index){ //切換頁數
             this.current = index==1?0:(index-1)*5;

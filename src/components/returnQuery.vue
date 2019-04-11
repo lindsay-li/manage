@@ -27,7 +27,7 @@
             </template>
             <template slot="orderstatus" slot-scope="{row,index}">
                 <div>
-                    退貨
+                    已退貨
                 </div>
             </template>
             <template slot="orders" slot-scope="{row,index}">
@@ -195,7 +195,7 @@ export default {
             }
             data.start = start
             data.rows = 5
-            data.type =7
+            data.type =10
             this.$http('orderInfoService','findDatas',data)
             .then(res=>{
                 console.log(res)

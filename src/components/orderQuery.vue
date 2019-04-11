@@ -210,17 +210,18 @@ export default {
             typeList:[
                 {value:1,label:'待確認'},
                 {value:2,label:'待出貨'},
+                {value:9,label:'出貨中'},
                 {value:3,label:'已出貨'},
                 {value:4,label:'已收貨'},
                 {value:5,label:'未取貨'},
                 {value:6,label:'取消'},
-                {value:7,label:'退貨'},
+                {value:7,label:'申請退貨'},
                 {value:8,label:'換貨'},
-                {value:9,label:'出貨中'},
+                {value:10,label:'已退貨'},
             ],
             typeLists:[
                 {value:6,label:'取消'},
-                {value:7,label:'退貨'},
+                {value:10,label:'已退貨'},
                 {value:8,label:'換貨'}
             ],
             typeListss:[
